@@ -36,5 +36,12 @@ namespace GoFit.Controllers
             ModelState.Remove("Password");
             return View();
         }
+
+        [Authorize]
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
 	}
 }
