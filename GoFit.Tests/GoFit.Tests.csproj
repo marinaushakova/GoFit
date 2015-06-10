@@ -87,8 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
-    <Content Include="create_blank_tables.sql" />
-    <Content Include="drop_create_gofitdb.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
