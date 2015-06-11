@@ -45,6 +45,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -167,8 +169,32 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\exercise.cs">
+      <DependentUpon>Workout.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\Workout.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Workout.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\workout.cs">
+      <DependentUpon>Workout.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Workout.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Workout.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Workout1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Workout.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\workout_exercise.cs">
+      <DependentUpon>Workout.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -185,6 +211,23 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\Workout.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Workout.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Workout.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Workout.edmx</DependentUpon>
+      <LastGenOutput>Workout.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Workout.edmx.diagram">
+      <DependentUpon>Workout.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\Workout.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Workout.edmx</DependentUpon>
+      <LastGenOutput>Workout1.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -233,6 +276,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

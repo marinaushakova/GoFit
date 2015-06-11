@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GoFit.Models;
 
 namespace GoFit.Controllers
 {
@@ -11,6 +12,7 @@ namespace GoFit.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
+            Wor
             return View();
         }
     }
