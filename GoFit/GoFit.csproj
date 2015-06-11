@@ -177,6 +177,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="DB\create_blank_tables.sql" />
     <Content Include="DB\drop_create_gofitdb.sql" />
+    <Content Include="DB\gofitdb_full_script.sql" />
+    <Content Include="DB\seeddata.sql" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

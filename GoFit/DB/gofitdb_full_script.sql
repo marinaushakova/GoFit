@@ -1,3 +1,118 @@
+/** DROP/CREATE DB **/
+
+USE [master]
+GO
+
+/****** Object:  Database [gofitdb]    Script Date: 06/10/2015 08:57:14 ******/
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'gofitdb')
+DROP DATABASE [gofitdb]
+GO
+
+USE [master]
+GO
+
+/****** Object:  Database [gofitdb]    Script Date: 06/10/2015 08:57:14 ******/
+CREATE DATABASE [gofitdb] ON  PRIMARY 
+( NAME = N'gofitdb', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\gofitdb.mdf' , SIZE = 2048KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'gofitdb_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\gofitdb_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+GO
+
+ALTER DATABASE [gofitdb] SET COMPATIBILITY_LEVEL = 100
+GO
+
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [gofitdb].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+
+ALTER DATABASE [gofitdb] SET ANSI_NULL_DEFAULT OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET ANSI_NULLS OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET ANSI_PADDING OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET ANSI_WARNINGS OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET ARITHABORT OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET AUTO_CLOSE OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET AUTO_CREATE_STATISTICS ON 
+GO
+
+ALTER DATABASE [gofitdb] SET AUTO_SHRINK OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET AUTO_UPDATE_STATISTICS ON 
+GO
+
+ALTER DATABASE [gofitdb] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET CURSOR_DEFAULT  GLOBAL 
+GO
+
+ALTER DATABASE [gofitdb] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET NUMERIC_ROUNDABORT OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET QUOTED_IDENTIFIER OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET RECURSIVE_TRIGGERS OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET  DISABLE_BROKER 
+GO
+
+ALTER DATABASE [gofitdb] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET TRUSTWORTHY OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET PARAMETERIZATION SIMPLE 
+GO
+
+ALTER DATABASE [gofitdb] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET HONOR_BROKER_PRIORITY OFF 
+GO
+
+ALTER DATABASE [gofitdb] SET  READ_WRITE 
+GO
+
+ALTER DATABASE [gofitdb] SET RECOVERY FULL 
+GO
+
+ALTER DATABASE [gofitdb] SET  MULTI_USER 
+GO
+
+ALTER DATABASE [gofitdb] SET PAGE_VERIFY CHECKSUM  
+GO
+
+ALTER DATABASE [gofitdb] SET DB_CHAINING OFF 
+GO
+
+/** DROP/CREATE EMPTY TABLES **/
+
 
 USE gofitdb
 GO
@@ -1268,4 +1383,87 @@ GO
 ALTER TABLE  [dbo].[workout_exercise]
  ADD DEFAULT getdate() FOR [timestamp]
 GO
+
+/** ADD DATA **/
+
+use gofitdb;
+
+DELETE FROM workout_exercise;
+DELETE FROM workout;
+DELETE FROM exercise;
+DELETE FROM [user];
+DELETE FROM category;
+DELETE FROM type;
+
+INSERT INTO type([name],[measure]) VALUES('distance', 'miles');
+INSERT INTO type([name],[measure]) VALUES('quantity', 'unit');
+INSERT INTO type([name],[measure]) VALUES('duration', 'seconds');
+INSERT INTO type([name],[measure]) VALUES('duration', 'minutes');
+INSERT INTO type([name],[measure]) VALUES('duration', 'hours');
+
+INSERT INTO category([name], [description]) VALUES('endurance', 'Endurance workouts help keep your heart, lungs, and circulatory system healthy.');
+INSERT INTO category([name], [description]) VALUES('strength', 'Strength workouts build muscle size and power');
+INSERT INTO category([name], [description]) VALUES('flexibility', 'Flexibility workouts stretch your muscles and help protect you body from exercise incurred injuries');
+
+INSERT INTO [user]([username],[password],[fname],[lname],[is_male],[is_admin]) VALUES('admin', 'admin', 'Bob', 'Jones', 1, 1);
+INSERT INTO [user]([username],[password],[fname],[lname],[is_male],[is_admin]) VALUES('admin2', 'admin2', 'Jane', 'Forsythe', 0, 1);
+
+INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('hunts', 'hunts', 'Sharon', 'Hunt', 0, 0);
+INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('SharonArmstrong', 'SharonArmstrong', 'Sharon', 'Armstrong', 0, 0);
+INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('dunnj', 'dunnj', 'Joseph', 'Dunn', 1, 0);
+INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('AnneBailey', 'AnneBailey', 'Anne', 'Bailey', 0, 0);
+INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('FrankSmith', 'FrankSmith', 'Frank', 'Smith', 1, 0);
+INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('DorothyMoreno', 'DorothyMoreno', 'Dorothy', 'Moreno', 0, 0);
+INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('CharlesDavis', 'CharlesDavis', 'Charles', 'Davis', 1, 0);
+
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=bJ3Ogh5mFE4', 'Standard push-ups', 'Standard Push-ups');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=pUJnPMjYLxU', 'An easier variation of the standard push-up', 'Knee Down Push-ups');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=Ir8IrbYcM8w', 'Pull-ups', 'Pull-ups');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=_71FpEaq-fQ', 'Chin-ups', 'Chin-ups');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=COKYKgQ8KR0', 'Lunge', 'Lunge');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=7mDWDlzFobQ', 'Walking lunge', 'Walking Lunge');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=y7Iug7eC0dk', 'Jumping lunge', 'Jumping Lunge');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=UOGvtqv856A', 'Mountain climber plank', 'Mountain Climber Plank');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=NXr4Fw8q60o', 'Side plank', 'Side Plank');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=HJLE_VQ3Knc', 'Oblique V-up', 'Oblique V-up');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=jDwoBqPH0jk', 'Sit-up', 'Sit-up');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=MKmrqcoCZ-M', 'Stomach crunch', 'Stomach Crunch');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=e7m205ZIxBE', 'Running', 'Running');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=9PxkxHxGRvU', 'T-Pose', 'T-Pose');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=i4XOoQUtaCU', 'W-Pose', 'W-Pose');
+
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Upper Body Builder 1', 'Works out your back and chest', 2, 1, GETDATE());
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Leg Workout 1', 'Works out your legs and lower back', 2, 1, GETDATE());
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Running Core Workout', 'Build endurance and core strength', 1, 1, GETDATE());
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Endurance Endurance Endurance', 'Build endurance and core strength', 1, 1, GETDATE());
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Sprints', 'Build endurance and leg strength', 1, 1, GETDATE());
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Running Core Workout', 'Build endurance and core strength', 1, 1, GETDATE());
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Ab Workout', 'Build core strength', 2, 1, GETDATE());
+
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (1, 2, 1, 20);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (1, 1, 2, 20);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (1, 3, 3, 10);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (1, 4, 4, 10);
 
