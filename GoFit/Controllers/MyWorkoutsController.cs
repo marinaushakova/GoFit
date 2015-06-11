@@ -6,12 +6,15 @@ using System.Web.Mvc;
 
 namespace GoFit.Controllers
 {
-    public class HomeController : Controller
+    public class MyWorkoutsController : Controller
     {
-        [AllowAnonymous]
+        //
+        // GET: /MyWorkouts/
+        [Authorize]
         public ActionResult Index()
         {
-            return View();
+            ActionResult view = View("MyWorkouts");
+            return view;
         }
-    }
+	}
 }

@@ -30,7 +30,7 @@ namespace GoFit.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("MyProfile", "Home");
+                    return RedirectToAction("Index", "MyProfile");
                 }
             }
             ModelState.Remove("Password");
