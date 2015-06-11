@@ -1388,13 +1388,6 @@ GO
 
 use gofitdb;
 
-DELETE FROM workout_exercise;
-DELETE FROM workout;
-DELETE FROM exercise;
-DELETE FROM [user];
-DELETE FROM category;
-DELETE FROM type;
-
 INSERT INTO type([name],[measure]) VALUES('distance', 'miles');
 INSERT INTO type([name],[measure]) VALUES('quantity', 'unit');
 INSERT INTO type([name],[measure]) VALUES('duration', 'seconds');
@@ -1441,7 +1434,7 @@ VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=jDwoBqPH0jk', 'Sit-up'
 INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
 VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=MKmrqcoCZ-M', 'Stomach crunch', 'Stomach Crunch');
 INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
-VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=e7m205ZIxBE', 'Running', 'Running');
+VALUES (1, 1, GETDATE(), 'https://www.youtube.com/watch?v=e7m205ZIxBE', 'Running', 'Running');
 INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
 VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=9PxkxHxGRvU', 'T-Pose', 'T-Pose');
 INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
@@ -1458,7 +1451,7 @@ VALUES('Endurance Endurance Endurance', 'Build endurance and core strength', 1, 
 INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
 VALUES('Sprints', 'Build endurance and leg strength', 1, 1, GETDATE());
 INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
-VALUES('Running Core Workout', 'Build endurance and core strength', 1, 1, GETDATE());
+VALUES('Running Upper Body Workout', 'Build endurance and upper body strength', 1, 1, GETDATE());
 INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
 VALUES('Ab Workout', 'Build core strength', 2, 1, GETDATE());
 
@@ -1466,4 +1459,40 @@ INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) value
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (1, 1, 2, 20);
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (1, 3, 3, 10);
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (1, 4, 4, 10);
+
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (2, 5, 1, 10);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (2, 6, 2, 10);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (2, 7, 3, 10);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (2, 12, 4, 40);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (2, 5, 5, 10);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (2, 6, 6, 10);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (2, 7, 7, 10);
+
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (3, 13, 1, .5);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (3, 12, 2, 20);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (3, 13, 3, .5);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (3, 12, 4, 20);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (3, 11, 5, 10);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (3, 10, 6, 10);
+
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (4, 13, 1, 1);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (4, 14, 2, 20);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (4, 15, 3, 20);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (4, 8, 4, 10);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (4, 9, 5, 10);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (4, 13, 6, 2);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (4, 14, 7, 20);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (4, 15, 8, 20);
+
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (5, 13, 1, .25);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (5, 13, 2, .25);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (5, 13, 3, .25);
+
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (6, 3, 1, 10);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (6, 13, 2, 2);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (6, 1, 3, 30);
+
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (7, 10, 1, 20);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (7, 11, 2, 20);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (7, 12, 3, 20);
 
