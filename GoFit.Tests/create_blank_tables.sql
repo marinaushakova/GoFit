@@ -115,13 +115,14 @@ GO
 CREATE TABLE 
 [dbo].[exercise]
 (
-   [id] int IDENTITY(3, 1)  NOT NULL,
+   [id] int IDENTITY(1, 1)  NOT NULL,
    [type_id] int  NOT NULL,
    [created_by_user_id] int  NOT NULL,
    [created_at] datetime2(0)  NOT NULL,
    [link] nvarchar(255)  NULL,
    [description] nvarchar(max)  NULL,
-   [timestamp] datetime  NOT NULL
+   [timestamp] datetime  NOT NULL,
+   [name] nvarchar(50)  NOT NULL
 )
 GO
 BEGIN TRY
@@ -182,7 +183,7 @@ GO
 CREATE TABLE 
 [dbo].[type]
 (
-   [id] int IDENTITY(4, 1)  NOT NULL,
+   [id] int IDENTITY(1, 1)  NOT NULL,
    [name] nvarchar(45)  NOT NULL,
    [measure] nvarchar(45)  NOT NULL,
    [timestamp] datetime  NOT NULL
@@ -246,12 +247,12 @@ GO
 CREATE TABLE 
 [dbo].[user]
 (
-   [id] int IDENTITY(4, 1)  NOT NULL,
+   [id] int IDENTITY(1, 1)  NOT NULL,
    [username] nvarchar(45)  NOT NULL,
    [password] nvarchar(45)  NOT NULL,
-   [fname] nvarchar(45)  NOT NULL,
-   [lname] nvarchar(45)  NOT NULL,
-   [is_male] smallint  NOT NULL,
+   [fname] nvarchar(45)  NULL,
+   [lname] nvarchar(45)  NULL,
+   [is_male] smallint  NULL,
 
    /*
    *   SSMA informational messages:
@@ -1211,6 +1212,18 @@ GO
 
 USE gofitdb
 GO
+ALTER TABLE  [dbo].[user]
+ ADD DEFAULT NULL FOR [fname]
+GO
+
+ALTER TABLE  [dbo].[user]
+ ADD DEFAULT NULL FOR [lname]
+GO
+
+ALTER TABLE  [dbo].[user]
+ ADD DEFAULT NULL FOR [is_male]
+GO
+
 ALTER TABLE  [dbo].[user]
  ADD DEFAULT 0 FOR [is_admin]
 GO
