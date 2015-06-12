@@ -1,12 +1,5 @@
 use gofitdb;
 
-DELETE FROM workout_exercise;
-DELETE FROM workout;
-DELETE FROM exercise;
-DELETE FROM [user];
-DELETE FROM category;
-DELETE FROM type;
-
 INSERT INTO type([name],[measure]) VALUES('distance', 'miles');
 INSERT INTO type([name],[measure]) VALUES('quantity', 'unit');
 INSERT INTO type([name],[measure]) VALUES('duration', 'seconds');
