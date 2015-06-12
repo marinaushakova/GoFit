@@ -12,7 +12,6 @@ namespace GoFit.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            Wor
             return View();
         }
     }
