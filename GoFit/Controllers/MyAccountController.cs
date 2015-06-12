@@ -36,6 +36,10 @@ namespace GoFit.Controllers
                         return RedirectToAction("Index", "MyProfile");
                     }
                 }
+                else
+                {
+                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                }
                 ModelState.Remove("Password");
             }
 
