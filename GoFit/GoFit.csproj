@@ -169,18 +169,51 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\category.cs">
+      <DependentUpon>GoFitModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\exercise.cs">
-      <DependentUpon>Workout.tt</DependentUpon>
+      <DependentUpon>GoFitModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GoFitModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GoFitModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GoFitModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GoFitModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GoFitModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GoFitModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\type.cs">
+      <DependentUpon>GoFitModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\user.cs">
+      <DependentUpon>GoFitModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\user_favorite_exercise.cs">
+      <DependentUpon>GoFitModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\user_favorite_workout.cs">
+      <DependentUpon>GoFitModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\user_workout.cs">
+      <DependentUpon>GoFitModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Workout.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Workout.Context.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\workout.cs">
-      <DependentUpon>Workout.tt</DependentUpon>
+      <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Workout.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -193,7 +226,7 @@
       <DependentUpon>Workout.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\workout_exercise.cs">
-      <DependentUpon>Workout.tt</DependentUpon>
+      <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -227,6 +260,23 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Workout.edmx</DependentUpon>
       <LastGenOutput>Workout1.cs</LastGenOutput>
+    </Content>
+    <EntityDeploy Include="Models\GoFitModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GoFitModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\GoFitModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GoFitModel.edmx</DependentUpon>
+      <LastGenOutput>GoFitModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\GoFitModel.edmx.diagram">
+      <DependentUpon>GoFitModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\GoFitModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GoFitModel.edmx</DependentUpon>
+      <LastGenOutput>GoFitModel.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

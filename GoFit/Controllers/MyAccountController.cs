@@ -20,20 +20,25 @@ namespace GoFit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(Login login, string ReturnUrl = "")
         {
-            if (login.Username.Equals("user") && login.Password.Equals("password"))
+            using (masterEntities dbEntities = new masterEntities())
             {
-                FormsAuthentication.SetAuthCookie("user", login.RememberMe);
+                var user = dbEntities.users.Where(a => a.username.Equals(login.Username) && a.password.Equals(login.Password)).FirstOrDefault();
+                if (user != null)
+                {
+                    FormsAuthentication.SetAuthCookie(user.username, login.RememberMe);
 
-                if (Url.IsLocalUrl(ReturnUrl))
-                {
-                    return Redirect(ReturnUrl);
+                    if (Url.IsLocalUrl(ReturnUrl))
+                    {
+                        return Redirect(ReturnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "MyProfile");
+                    }
                 }
-                else
-                {
-                    return RedirectToAction("Index", "MyProfile");
-                }
+                ModelState.Remove("Password");
             }
-            ModelState.Remove("Password");
+
             return View();
         }
 

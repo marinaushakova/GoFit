@@ -12,27 +12,32 @@ namespace GoFit.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class workout
+    public partial class user
     {
-        public workout()
+        public user()
         {
+            this.exercises = new HashSet<exercise>();
+            this.user_favorite_exercise = new HashSet<user_favorite_exercise>();
             this.user_favorite_workout = new HashSet<user_favorite_workout>();
             this.user_workout = new HashSet<user_workout>();
-            this.workout_exercise = new HashSet<workout_exercise>();
+            this.workouts = new HashSet<workout>();
         }
     
         public int id { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public int category_id { get; set; }
-        public int created_by_user_id { get; set; }
-        public System.DateTime created_at { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
+        public string fname { get; set; }
+        public string lname { get; set; }
+        public Nullable<short> is_male { get; set; }
+        public short is_admin { get; set; }
+        public Nullable<int> weight { get; set; }
+        public Nullable<decimal> height { get; set; }
         public System.DateTime timestamp { get; set; }
     
-        public virtual category category { get; set; }
-        public virtual user user { get; set; }
+        public virtual ICollection<exercise> exercises { get; set; }
+        public virtual ICollection<user_favorite_exercise> user_favorite_exercise { get; set; }
         public virtual ICollection<user_favorite_workout> user_favorite_workout { get; set; }
         public virtual ICollection<user_workout> user_workout { get; set; }
-        public virtual ICollection<workout_exercise> workout_exercise { get; set; }
+        public virtual ICollection<workout> workouts { get; set; }
     }
 }

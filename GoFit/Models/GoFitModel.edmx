@@ -1,0 +1,772 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="gofitdbModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="exercise">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type_id" Type="int" Nullable="false" />
+          <Property Name="created_by_user_id" Type="int" Nullable="false" />
+          <Property Name="created_at" Type="datetime2" Precision="0" Nullable="false" />
+          <Property Name="link" Type="nvarchar" MaxLength="255" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="measure" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="fname" Type="nvarchar" MaxLength="45" />
+          <Property Name="lname" Type="nvarchar" MaxLength="45" />
+          <Property Name="is_male" Type="smallint" />
+          <Property Name="is_admin" Type="smallint" Nullable="false" />
+          <Property Name="weight" Type="int" />
+          <Property Name="height" Type="decimal" Precision="3" Scale="1" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_favorite_exercise">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_id" Type="int" Nullable="false" />
+          <Property Name="Exercise_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_favorite_workout">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="workout_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_workout">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="workout_id" Type="int" Nullable="false" />
+          <Property Name="number_of_ex_completed" Type="int" Nullable="false" />
+          <Property Name="date_started" Type="date" />
+          <Property Name="date_finished" Type="date" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="workout">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="category_id" Type="int" Nullable="false" />
+          <Property Name="created_by_user_id" Type="int" Nullable="false" />
+          <Property Name="created_at" Type="datetime2" Precision="0" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="workout_exercise">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="workout_id" Type="int" Nullable="false" />
+          <Property Name="exercise_id" Type="int" Nullable="false" />
+          <Property Name="position" Type="int" Nullable="false" />
+          <Property Name="duration" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="exercise$fk_Exercise_Type1">
+          <End Role="type" Type="Self.type" Multiplicity="1" />
+          <End Role="exercise" Type="Self.exercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="type">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="exercise">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="exercise$fk_Exercise_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="exercise" Type="Self.exercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="exercise">
+              <PropertyRef Name="created_by_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_favorite_exercise$fk_User_Favorite_Exercise_Exercise1">
+          <End Role="exercise" Type="Self.exercise" Multiplicity="1" />
+          <End Role="user_favorite_exercise" Type="Self.user_favorite_exercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="exercise">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_favorite_exercise">
+              <PropertyRef Name="Exercise_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_favorite_exercise$fk_User_Favorite_Exercise_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="user_favorite_exercise" Type="Self.user_favorite_exercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_favorite_exercise">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_favorite_workout$fk_User_Favorite_Workout_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="user_favorite_workout" Type="Self.user_favorite_workout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_favorite_workout">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_favorite_workout$fk_User_Favorite_Workout_Workout1">
+          <End Role="workout" Type="Self.workout" Multiplicity="1" />
+          <End Role="user_favorite_workout" Type="Self.user_favorite_workout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="workout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_favorite_workout">
+              <PropertyRef Name="workout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_workout$fk_User_has_Workout_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="user_workout" Type="Self.user_workout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_workout">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_workout$fk_User_has_Workout_Workout1">
+          <End Role="workout" Type="Self.workout" Multiplicity="1" />
+          <End Role="user_workout" Type="Self.user_workout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="workout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_workout">
+              <PropertyRef Name="workout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="workout$fk_Workout_Category1">
+          <End Role="category" Type="Self.category" Multiplicity="1" />
+          <End Role="workout" Type="Self.workout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="workout">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="workout$fk_Workout_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="workout" Type="Self.workout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="workout">
+              <PropertyRef Name="created_by_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="workout_exercise$fk_Workout_has_Exercise_Exercise1">
+          <End Role="exercise" Type="Self.exercise" Multiplicity="1" />
+          <End Role="workout_exercise" Type="Self.workout_exercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="exercise">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="workout_exercise">
+              <PropertyRef Name="exercise_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="workout_exercise$fk_Workout_has_Exercise_Workout1">
+          <End Role="workout" Type="Self.workout" Multiplicity="1" />
+          <End Role="workout_exercise" Type="Self.workout_exercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="workout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="workout_exercise">
+              <PropertyRef Name="workout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="gofitdbModel1StoreContainer">
+          <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="exercise" EntityType="Self.exercise" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="type" EntityType="Self.type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_favorite_exercise" EntityType="Self.user_favorite_exercise" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_favorite_workout" EntityType="Self.user_favorite_workout" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_workout" EntityType="Self.user_workout" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="workout" EntityType="Self.workout" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="workout_exercise" EntityType="Self.workout_exercise" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="exercise$fk_Exercise_Type1" Association="Self.exercise$fk_Exercise_Type1">
+            <End Role="type" EntitySet="type" />
+            <End Role="exercise" EntitySet="exercise" />
+          </AssociationSet>
+          <AssociationSet Name="exercise$fk_Exercise_User1" Association="Self.exercise$fk_Exercise_User1">
+            <End Role="user" EntitySet="user" />
+            <End Role="exercise" EntitySet="exercise" />
+          </AssociationSet>
+          <AssociationSet Name="user_favorite_exercise$fk_User_Favorite_Exercise_Exercise1" Association="Self.user_favorite_exercise$fk_User_Favorite_Exercise_Exercise1">
+            <End Role="exercise" EntitySet="exercise" />
+            <End Role="user_favorite_exercise" EntitySet="user_favorite_exercise" />
+          </AssociationSet>
+          <AssociationSet Name="user_favorite_exercise$fk_User_Favorite_Exercise_User1" Association="Self.user_favorite_exercise$fk_User_Favorite_Exercise_User1">
+            <End Role="user" EntitySet="user" />
+            <End Role="user_favorite_exercise" EntitySet="user_favorite_exercise" />
+          </AssociationSet>
+          <AssociationSet Name="user_favorite_workout$fk_User_Favorite_Workout_User1" Association="Self.user_favorite_workout$fk_User_Favorite_Workout_User1">
+            <End Role="user" EntitySet="user" />
+            <End Role="user_favorite_workout" EntitySet="user_favorite_workout" />
+          </AssociationSet>
+          <AssociationSet Name="user_favorite_workout$fk_User_Favorite_Workout_Workout1" Association="Self.user_favorite_workout$fk_User_Favorite_Workout_Workout1">
+            <End Role="workout" EntitySet="workout" />
+            <End Role="user_favorite_workout" EntitySet="user_favorite_workout" />
+          </AssociationSet>
+          <AssociationSet Name="user_workout$fk_User_has_Workout_User1" Association="Self.user_workout$fk_User_has_Workout_User1">
+            <End Role="user" EntitySet="user" />
+            <End Role="user_workout" EntitySet="user_workout" />
+          </AssociationSet>
+          <AssociationSet Name="user_workout$fk_User_has_Workout_Workout1" Association="Self.user_workout$fk_User_has_Workout_Workout1">
+            <End Role="workout" EntitySet="workout" />
+            <End Role="user_workout" EntitySet="user_workout" />
+          </AssociationSet>
+          <AssociationSet Name="workout$fk_Workout_Category1" Association="Self.workout$fk_Workout_Category1">
+            <End Role="category" EntitySet="category" />
+            <End Role="workout" EntitySet="workout" />
+          </AssociationSet>
+          <AssociationSet Name="workout$fk_Workout_User1" Association="Self.workout$fk_Workout_User1">
+            <End Role="user" EntitySet="user" />
+            <End Role="workout" EntitySet="workout" />
+          </AssociationSet>
+          <AssociationSet Name="workout_exercise$fk_Workout_has_Exercise_Exercise1" Association="Self.workout_exercise$fk_Workout_has_Exercise_Exercise1">
+            <End Role="exercise" EntitySet="exercise" />
+            <End Role="workout_exercise" EntitySet="workout_exercise" />
+          </AssociationSet>
+          <AssociationSet Name="workout_exercise$fk_Workout_has_Exercise_Workout1" Association="Self.workout_exercise$fk_Workout_has_Exercise_Workout1">
+            <End Role="workout" EntitySet="workout" />
+            <End Role="workout_exercise" EntitySet="workout_exercise" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="gofitdbModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="workouts" Relationship="Self.workout_fk_Workout_Category1" FromRole="category" ToRole="workout" />
+        </EntityType>
+        <EntityType Name="exercise">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type_id" Type="Int32" Nullable="false" />
+          <Property Name="created_by_user_id" Type="Int32" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="type" Relationship="Self.exercise_fk_Exercise_Type1" FromRole="exercise" ToRole="type" />
+          <NavigationProperty Name="user" Relationship="Self.exercise_fk_Exercise_User1" FromRole="exercise" ToRole="user" />
+          <NavigationProperty Name="user_favorite_exercise" Relationship="Self.user_favorite_exercise_fk_User_Favorite_Exercise_Exercise1" FromRole="exercise" ToRole="user_favorite_exercise" />
+          <NavigationProperty Name="workout_exercise" Relationship="Self.workout_exercise_fk_Workout_has_Exercise_Exercise1" FromRole="exercise" ToRole="workout_exercise" />
+        </EntityType>
+        <EntityType Name="type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="measure" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="exercises" Relationship="Self.exercise_fk_Exercise_Type1" FromRole="type" ToRole="exercise" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fname" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="lname" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="is_male" Type="Int16" />
+          <Property Name="is_admin" Type="Int16" Nullable="false" />
+          <Property Name="weight" Type="Int32" />
+          <Property Name="height" Type="Decimal" Precision="3" Scale="1" />
+          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="exercises" Relationship="Self.exercise_fk_Exercise_User1" FromRole="user" ToRole="exercise" />
+          <NavigationProperty Name="user_favorite_exercise" Relationship="Self.user_favorite_exercise_fk_User_Favorite_Exercise_User1" FromRole="user" ToRole="user_favorite_exercise" />
+          <NavigationProperty Name="user_favorite_workout" Relationship="Self.user_favorite_workout_fk_User_Favorite_Workout_User1" FromRole="user" ToRole="user_favorite_workout" />
+          <NavigationProperty Name="user_workout" Relationship="Self.user_workout_fk_User_has_Workout_User1" FromRole="user" ToRole="user_workout" />
+          <NavigationProperty Name="workouts" Relationship="Self.workout_fk_Workout_User1" FromRole="user" ToRole="workout" />
+        </EntityType>
+        <EntityType Name="user_favorite_exercise">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_id" Type="Int32" Nullable="false" />
+          <Property Name="Exercise_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="exercise" Relationship="Self.user_favorite_exercise_fk_User_Favorite_Exercise_Exercise1" FromRole="user_favorite_exercise" ToRole="exercise" />
+          <NavigationProperty Name="user" Relationship="Self.user_favorite_exercise_fk_User_Favorite_Exercise_User1" FromRole="user_favorite_exercise" ToRole="user" />
+        </EntityType>
+        <EntityType Name="user_favorite_workout">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="workout_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="Self.user_favorite_workout_fk_User_Favorite_Workout_User1" FromRole="user_favorite_workout" ToRole="user" />
+          <NavigationProperty Name="workout" Relationship="Self.user_favorite_workout_fk_User_Favorite_Workout_Workout1" FromRole="user_favorite_workout" ToRole="workout" />
+        </EntityType>
+        <EntityType Name="user_workout">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="workout_id" Type="Int32" Nullable="false" />
+          <Property Name="number_of_ex_completed" Type="Int32" Nullable="false" />
+          <Property Name="date_started" Type="DateTime" Precision="0" />
+          <Property Name="date_finished" Type="DateTime" Precision="0" />
+          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="user" Relationship="Self.user_workout_fk_User_has_Workout_User1" FromRole="user_workout" ToRole="user" />
+          <NavigationProperty Name="workout" Relationship="Self.user_workout_fk_User_has_Workout_Workout1" FromRole="user_workout" ToRole="workout" />
+        </EntityType>
+        <EntityType Name="workout">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="category_id" Type="Int32" Nullable="false" />
+          <Property Name="created_by_user_id" Type="Int32" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="category" Relationship="Self.workout_fk_Workout_Category1" FromRole="workout" ToRole="category" />
+          <NavigationProperty Name="user" Relationship="Self.workout_fk_Workout_User1" FromRole="workout" ToRole="user" />
+          <NavigationProperty Name="user_favorite_workout" Relationship="Self.user_favorite_workout_fk_User_Favorite_Workout_Workout1" FromRole="workout" ToRole="user_favorite_workout" />
+          <NavigationProperty Name="user_workout" Relationship="Self.user_workout_fk_User_has_Workout_Workout1" FromRole="workout" ToRole="user_workout" />
+          <NavigationProperty Name="workout_exercise" Relationship="Self.workout_exercise_fk_Workout_has_Exercise_Workout1" FromRole="workout" ToRole="workout_exercise" />
+        </EntityType>
+        <EntityType Name="workout_exercise">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="workout_id" Type="Int32" Nullable="false" />
+          <Property Name="exercise_id" Type="Int32" Nullable="false" />
+          <Property Name="position" Type="Int32" Nullable="false" />
+          <Property Name="duration" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="exercise" Relationship="Self.workout_exercise_fk_Workout_has_Exercise_Exercise1" FromRole="workout_exercise" ToRole="exercise" />
+          <NavigationProperty Name="workout" Relationship="Self.workout_exercise_fk_Workout_has_Exercise_Workout1" FromRole="workout_exercise" ToRole="workout" />
+        </EntityType>
+        <Association Name="workout_fk_Workout_Category1">
+          <End Role="category" Type="Self.category" Multiplicity="1" />
+          <End Role="workout" Type="Self.workout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="workout">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="exercise_fk_Exercise_Type1">
+          <End Role="type" Type="Self.type" Multiplicity="1" />
+          <End Role="exercise" Type="Self.exercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="type">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="exercise">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="exercise_fk_Exercise_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="exercise" Type="Self.exercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="exercise">
+              <PropertyRef Name="created_by_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_favorite_exercise_fk_User_Favorite_Exercise_Exercise1">
+          <End Role="exercise" Type="Self.exercise" Multiplicity="1" />
+          <End Role="user_favorite_exercise" Type="Self.user_favorite_exercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="exercise">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_favorite_exercise">
+              <PropertyRef Name="Exercise_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="workout_exercise_fk_Workout_has_Exercise_Exercise1">
+          <End Role="exercise" Type="Self.exercise" Multiplicity="1" />
+          <End Role="workout_exercise" Type="Self.workout_exercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="exercise">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="workout_exercise">
+              <PropertyRef Name="exercise_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_favorite_exercise_fk_User_Favorite_Exercise_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="user_favorite_exercise" Type="Self.user_favorite_exercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_favorite_exercise">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_favorite_workout_fk_User_Favorite_Workout_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="user_favorite_workout" Type="Self.user_favorite_workout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_favorite_workout">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_workout_fk_User_has_Workout_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="user_workout" Type="Self.user_workout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_workout">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="workout_fk_Workout_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="workout" Type="Self.workout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="workout">
+              <PropertyRef Name="created_by_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_favorite_workout_fk_User_Favorite_Workout_Workout1">
+          <End Role="workout" Type="Self.workout" Multiplicity="1" />
+          <End Role="user_favorite_workout" Type="Self.user_favorite_workout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="workout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_favorite_workout">
+              <PropertyRef Name="workout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_workout_fk_User_has_Workout_Workout1">
+          <End Role="workout" Type="Self.workout" Multiplicity="1" />
+          <End Role="user_workout" Type="Self.user_workout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="workout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_workout">
+              <PropertyRef Name="workout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="workout_exercise_fk_Workout_has_Exercise_Workout1">
+          <End Role="workout" Type="Self.workout" Multiplicity="1" />
+          <End Role="workout_exercise" Type="Self.workout_exercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="workout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="workout_exercise">
+              <PropertyRef Name="workout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="masterEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="categories" EntityType="Self.category" />
+          <EntitySet Name="exercises" EntityType="Self.exercise" />
+          <EntitySet Name="types" EntityType="Self.type" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <EntitySet Name="user_favorite_exercise" EntityType="Self.user_favorite_exercise" />
+          <EntitySet Name="user_favorite_workout" EntityType="Self.user_favorite_workout" />
+          <EntitySet Name="user_workout" EntityType="Self.user_workout" />
+          <EntitySet Name="workouts" EntityType="Self.workout" />
+          <EntitySet Name="workout_exercise" EntityType="Self.workout_exercise" />
+          <AssociationSet Name="workout_fk_Workout_Category1" Association="Self.workout_fk_Workout_Category1">
+            <End Role="category" EntitySet="categories" />
+            <End Role="workout" EntitySet="workouts" />
+          </AssociationSet>
+          <AssociationSet Name="exercise_fk_Exercise_Type1" Association="Self.exercise_fk_Exercise_Type1">
+            <End Role="type" EntitySet="types" />
+            <End Role="exercise" EntitySet="exercises" />
+          </AssociationSet>
+          <AssociationSet Name="exercise_fk_Exercise_User1" Association="Self.exercise_fk_Exercise_User1">
+            <End Role="user" EntitySet="users" />
+            <End Role="exercise" EntitySet="exercises" />
+          </AssociationSet>
+          <AssociationSet Name="user_favorite_exercise_fk_User_Favorite_Exercise_Exercise1" Association="Self.user_favorite_exercise_fk_User_Favorite_Exercise_Exercise1">
+            <End Role="exercise" EntitySet="exercises" />
+            <End Role="user_favorite_exercise" EntitySet="user_favorite_exercise" />
+          </AssociationSet>
+          <AssociationSet Name="workout_exercise_fk_Workout_has_Exercise_Exercise1" Association="Self.workout_exercise_fk_Workout_has_Exercise_Exercise1">
+            <End Role="exercise" EntitySet="exercises" />
+            <End Role="workout_exercise" EntitySet="workout_exercise" />
+          </AssociationSet>
+          <AssociationSet Name="user_favorite_exercise_fk_User_Favorite_Exercise_User1" Association="Self.user_favorite_exercise_fk_User_Favorite_Exercise_User1">
+            <End Role="user" EntitySet="users" />
+            <End Role="user_favorite_exercise" EntitySet="user_favorite_exercise" />
+          </AssociationSet>
+          <AssociationSet Name="user_favorite_workout_fk_User_Favorite_Workout_User1" Association="Self.user_favorite_workout_fk_User_Favorite_Workout_User1">
+            <End Role="user" EntitySet="users" />
+            <End Role="user_favorite_workout" EntitySet="user_favorite_workout" />
+          </AssociationSet>
+          <AssociationSet Name="user_workout_fk_User_has_Workout_User1" Association="Self.user_workout_fk_User_has_Workout_User1">
+            <End Role="user" EntitySet="users" />
+            <End Role="user_workout" EntitySet="user_workout" />
+          </AssociationSet>
+          <AssociationSet Name="workout_fk_Workout_User1" Association="Self.workout_fk_Workout_User1">
+            <End Role="user" EntitySet="users" />
+            <End Role="workout" EntitySet="workouts" />
+          </AssociationSet>
+          <AssociationSet Name="user_favorite_workout_fk_User_Favorite_Workout_Workout1" Association="Self.user_favorite_workout_fk_User_Favorite_Workout_Workout1">
+            <End Role="workout" EntitySet="workouts" />
+            <End Role="user_favorite_workout" EntitySet="user_favorite_workout" />
+          </AssociationSet>
+          <AssociationSet Name="user_workout_fk_User_has_Workout_Workout1" Association="Self.user_workout_fk_User_has_Workout_Workout1">
+            <End Role="workout" EntitySet="workouts" />
+            <End Role="user_workout" EntitySet="user_workout" />
+          </AssociationSet>
+          <AssociationSet Name="workout_exercise_fk_Workout_has_Exercise_Workout1" Association="Self.workout_exercise_fk_Workout_has_Exercise_Workout1">
+            <End Role="workout" EntitySet="workouts" />
+            <End Role="workout_exercise" EntitySet="workout_exercise" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="gofitdbModel1StoreContainer" CdmEntityContainer="masterEntities">
+          <EntitySetMapping Name="categories">
+            <EntityTypeMapping TypeName="gofitdbModel1.category">
+              <MappingFragment StoreEntitySet="category">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="exercises">
+            <EntityTypeMapping TypeName="gofitdbModel1.exercise">
+              <MappingFragment StoreEntitySet="exercise">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="created_by_user_id" ColumnName="created_by_user_id" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="types">
+            <EntityTypeMapping TypeName="gofitdbModel1.type">
+              <MappingFragment StoreEntitySet="type">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="measure" ColumnName="measure" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="gofitdbModel1.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="fname" ColumnName="fname" />
+                <ScalarProperty Name="lname" ColumnName="lname" />
+                <ScalarProperty Name="is_male" ColumnName="is_male" />
+                <ScalarProperty Name="is_admin" ColumnName="is_admin" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="height" ColumnName="height" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_favorite_exercise">
+            <EntityTypeMapping TypeName="gofitdbModel1.user_favorite_exercise">
+              <MappingFragment StoreEntitySet="user_favorite_exercise">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="User_id" ColumnName="User_id" />
+                <ScalarProperty Name="Exercise_id" ColumnName="Exercise_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_favorite_workout">
+            <EntityTypeMapping TypeName="gofitdbModel1.user_favorite_workout">
+              <MappingFragment StoreEntitySet="user_favorite_workout">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="workout_id" ColumnName="workout_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_workout">
+            <EntityTypeMapping TypeName="gofitdbModel1.user_workout">
+              <MappingFragment StoreEntitySet="user_workout">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="workout_id" ColumnName="workout_id" />
+                <ScalarProperty Name="number_of_ex_completed" ColumnName="number_of_ex_completed" />
+                <ScalarProperty Name="date_started" ColumnName="date_started" />
+                <ScalarProperty Name="date_finished" ColumnName="date_finished" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="workouts">
+            <EntityTypeMapping TypeName="gofitdbModel1.workout">
+              <MappingFragment StoreEntitySet="workout">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="created_by_user_id" ColumnName="created_by_user_id" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="workout_exercise">
+            <EntityTypeMapping TypeName="gofitdbModel1.workout_exercise">
+              <MappingFragment StoreEntitySet="workout_exercise">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="workout_id" ColumnName="workout_id" />
+                <ScalarProperty Name="exercise_id" ColumnName="exercise_id" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
