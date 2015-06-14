@@ -23,7 +23,8 @@ namespace GoFit.Controllers
         public ActionResult Index()
         {
             var workouts = from w in db.workouts select w;
-            return View(workouts.ToList());
+            var view = View("Workouts", workouts.ToList());
+            return view;
         }
     }
 }
