@@ -159,6 +159,25 @@ namespace GoFit.Tests.Controllers
         }
 
         /// <summary>
+        /// Tests the search functionality of the Index controller action
+        /// </summary>
+        [TestMethod]
+        public void TestIndexSearch()
+        {
+            HomeController controller = new HomeController();
+            ViewResult result = controller.Index(null, "Workout", null, null, null) as ViewResult;
+            Assert.IsNotNull(result);
+            var workouts = (List<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 4);
+
+            result = controller.Index(null, "Workout", "str", null, null) as ViewResult;
+            workouts = (List<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 2);
+        }
+
+        /* Private Test Helpers */
+
+        /// <summary>
         /// Helper method to determin if a workout list is sorted in a certain order on a certain property
         /// </summary>
         /// <param name="workouts">The workout list to check</param>
