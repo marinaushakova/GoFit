@@ -27,6 +27,11 @@ namespace GoFit.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(user.username, login.RememberMe);
 
+                    if (user.is_admin == 1)
+                    {
+                        return RedirectToAction("Index", "AdminHome");
+                    }
+
                     if (Url.IsLocalUrl(ReturnUrl))
                     {
                         return Redirect(ReturnUrl);

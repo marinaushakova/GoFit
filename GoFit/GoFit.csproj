@@ -207,23 +207,8 @@
     <Compile Include="Models\user_workout.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Workout.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Workout.Context.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\workout.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Workout.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Workout.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Workout1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Workout.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\workout_exercise.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
@@ -244,23 +229,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\Workout.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Workout.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Workout.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Workout.edmx</DependentUpon>
-      <LastGenOutput>Workout.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\Workout.edmx.diagram">
-      <DependentUpon>Workout.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\Workout.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Workout.edmx</DependentUpon>
-      <LastGenOutput>Workout1.cs</LastGenOutput>
-    </Content>
     <EntityDeploy Include="Models\GoFitModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>GoFitModel.Designer.cs</LastGenOutput>
