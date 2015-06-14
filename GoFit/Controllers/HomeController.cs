@@ -19,11 +19,21 @@ namespace GoFit.Controllers
         /// GET: /home/
         /// </summary>
         /// <param name="sortBy">String parameter telling the controller how to sore the workouts</param>
+        /// <param name="search">The workout name to search for</param>
+        /// <param name="categorySearch">The workout category to search for</param>
         /// <returns>A list of workouts from the DB</returns>
         [AllowAnonymous]
-        public ActionResult Index(string sortBy)
+        public ActionResult Index(string sortBy, string nameSearch, string categorySearch, DateTime? dateAddedSeach, string usernameSearch)
         {
-            var workouts = this.sortResults(sortBy);
+            var workouts = from w in db.workouts select w;
+
+            if (!String.IsNullOrEmpty(nameSearch)) workouts = workouts.Where(w => w.name.Contains(nameSearch));
+            if (!String.IsNullOrEmpty(categorySearch)) workouts = workouts.Where(w => w.category.name.Contains(categorySearch));
+            if (dateAddedSeach != null) workouts = workouts.Where(w => w.created_at.Equals(dateAddedSeach));
+            if (!String.IsNullOrEmpty(usernameSearch)) workouts = workouts.Where(w => w.user.username.Contains(usernameSearch));
+
+
+            workouts = this.sortResults(workouts, sortBy);
             var view = View("Index", workouts.ToList());
             return view;
         }
@@ -31,12 +41,11 @@ namespace GoFit.Controllers
         /// <summary>
         /// Private helper method set and return the sorted workouts
         /// </summary>
+        /// <param name="workouts">The base workout query result</param>
         /// <param name="sortBy">Indicates the sort order</param>
         /// <returns>The sorted workouts</returns>
-        private IQueryable<workout> sortResults(string sortBy)
+        private IQueryable<workout> sortResults(IQueryable<workout> workouts, string sortBy)
         {
-            var workouts = from w in db.workouts select w;
-
             ViewBag.NameSortParam = (String.IsNullOrEmpty(sortBy)) ? "name_desc" : "";
             ViewBag.DateSortParam = (sortBy == "date") ? "date_desc" : "date";
             ViewBag.CategorySortParam = (sortBy == "category") ? "category_desc" : "category";

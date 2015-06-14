@@ -15,6 +15,18 @@
             <h2 class="panel-title">Workouts</h2>
         </div>
         <div class="panel-body">
+            <div class="search_bar">
+                @using (Html.BeginForm())
+                {
+                    <div class="search_name">
+                        <input id="NameSearch" name="NameSearch" type="text" placeholder="Name..." />
+                        <input id="CategorySearch" name="CategorySearch" type="text" placeholder="Category..." />
+                        <input id="DateAddedSearch" name="DateAddedSearch" type="date" placeholder="Date Added..." />
+                        <input id="UsernameSearch" name="UsernameSearch" type="text" placeholder="Username..." />
+                        <input class="btn btn-primary" type="submit" value="Search"/>
+                    </div>
+                }
+            </div>
             <table class="workout_list table">
                 <thead>
                     <tr>

@@ -23,7 +23,7 @@ namespace GoFit.Tests.Controllers
         public void TestIndexViewRetrieval()
         {
             HomeController controller = new HomeController();
-            ViewResult result = controller.Index("") as ViewResult;
+            ViewResult result = controller.Index("", null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
             Assert.AreEqual("Index", result.ViewName);
             var workouts = (List<workout>) result.ViewData.Model;
@@ -39,7 +39,7 @@ namespace GoFit.Tests.Controllers
         {
             HomeController controller = new HomeController();
             string sortBy = "name";
-            ViewResult result = controller.Index(sortBy) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (List<workout>)result.ViewData.Model;
             var isSortedAsc = this.isSorted(workouts, "name", "asc");
@@ -55,7 +55,7 @@ namespace GoFit.Tests.Controllers
         {
             HomeController controller = new HomeController();
             string sortBy = "name_desc";
-            ViewResult result = controller.Index(sortBy) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (List<workout>)result.ViewData.Model;
             var isSortedDesc = this.isSorted(workouts, "name", "desc");
@@ -71,7 +71,7 @@ namespace GoFit.Tests.Controllers
         {
             HomeController controller = new HomeController();
             string sortBy = "category";
-            ViewResult result = controller.Index(sortBy) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (List<workout>)result.ViewData.Model;
             var isSortedAsc = this.isSorted(workouts, "category", "asc");
@@ -87,7 +87,7 @@ namespace GoFit.Tests.Controllers
         {
             HomeController controller = new HomeController();
             string sortBy = "category_desc";
-            ViewResult result = controller.Index(sortBy) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (List<workout>)result.ViewData.Model;
             var isSortedDesc = this.isSorted(workouts, "category", "desc");
@@ -103,7 +103,7 @@ namespace GoFit.Tests.Controllers
         {
             HomeController controller = new HomeController();
             string sortBy = "date";
-            ViewResult result = controller.Index(sortBy) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (List<workout>)result.ViewData.Model;
             var isSortedAsc = this.isSorted(workouts, "dateCreated", "asc");
@@ -119,7 +119,7 @@ namespace GoFit.Tests.Controllers
         {
             HomeController controller = new HomeController();
             string sortBy = "date_desc";
-            ViewResult result = controller.Index(sortBy) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (List<workout>)result.ViewData.Model;
             var isSortedDesc = this.isSorted(workouts, "dateCreated", "desc");
@@ -135,7 +135,7 @@ namespace GoFit.Tests.Controllers
         {
             HomeController controller = new HomeController();
             string sortBy = "user";
-            ViewResult result = controller.Index(sortBy) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (List<workout>)result.ViewData.Model;
             var isSortedAsc = this.isSorted(workouts, "username", "asc");
@@ -151,7 +151,7 @@ namespace GoFit.Tests.Controllers
         {
             HomeController controller = new HomeController();
             string sortBy = "user_desc";
-            ViewResult result = controller.Index(sortBy) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (List<workout>)result.ViewData.Model;
             var isSortedDesc = this.isSorted(workouts, "username", "desc");
