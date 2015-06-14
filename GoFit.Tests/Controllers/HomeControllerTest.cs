@@ -24,7 +24,7 @@ namespace GoFit.Tests.Controllers
             HomeController controller = new HomeController();
             ViewResult result = controller.Index() as ViewResult;
             Assert.IsNotNull(result);
-            Assert.AreEqual("Workouts", result.ViewName);
+            Assert.AreEqual("Index", result.ViewName);
             var workouts = (List<GoFit.Models.workout>) result.ViewData.Model;
             Assert.IsTrue(workouts.Count > 0);
         }
