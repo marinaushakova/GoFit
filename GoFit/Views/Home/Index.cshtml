@@ -18,10 +18,10 @@
             <table class="workout_list table">
                 <thead>
                     <tr>
-                        <th>Workout Name</th>
-                        <th>Category</th>
-                        <th>Date Added</th>
-                        <th>Username</th>
+                        <th>@Html.ActionLink("Workout Name", "Index", new {sortBy = ViewBag.NameSortParam})</th>
+                        <th>@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam })</th>
+                        <th>@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam })</th>
+                        <th>@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UserSortParam })</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
