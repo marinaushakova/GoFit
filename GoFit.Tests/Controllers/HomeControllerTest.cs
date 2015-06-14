@@ -26,6 +26,7 @@ namespace GoFit.Tests.Controllers
             Assert.IsNotNull(result);
             Assert.AreEqual("Workouts", result.ViewName);
             var workouts = (List<GoFit.Models.workout>) result.ViewData.Model;
+            Assert.IsTrue(workouts.Count > 0);
         }
     }
 }
