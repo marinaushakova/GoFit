@@ -27,7 +27,18 @@ namespace GoFit.Controllers
         {
             var workouts = from w in db.workouts select w;
 
-            if (!String.IsNullOrEmpty(nameSearch)) workouts = workouts.Where(w => w.name.Contains(nameSearch));
+            if (!String.IsNullOrEmpty(nameSearch))
+            {
+                workouts = workouts.Where(w => w.name.Contains(nameSearch));
+                ViewBag.NameSearchParam = nameSearch;
+            }
+            else if (!String.IsNullOrEmpty(ViewBag.NameSearchParam))
+            {
+                string nameSearchParam = ViewBag.NameSearchParam;
+                workouts = workouts.Where(w => w.name.Contains(nameSearchParam));
+            }
+            else ViewBag.NameSearchParam = null;
+
             if (!String.IsNullOrEmpty(categorySearch)) workouts = workouts.Where(w => w.category.name.Contains(categorySearch));
             if (dateAddedSeach != null) workouts = workouts.Where(w => w.created_at.Equals(dateAddedSeach));
             if (!String.IsNullOrEmpty(usernameSearch)) workouts = workouts.Where(w => w.user.username.Contains(usernameSearch));
