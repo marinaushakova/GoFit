@@ -7,12 +7,23 @@ using GoFit.Models;
 
 namespace GoFit.Controllers
 {
+    /// <summary>
+    /// Defines the home page functionality
+    /// </summary>
     public class HomeController : Controller
     {
+        private masterEntities db = new masterEntities();
+
+        /// <summary>
+        /// Returns a list of workouts from the DB
+        /// GET: /home/
+        /// </summary>
+        /// <returns>A list of workouts from the DB</returns>
         [AllowAnonymous]
         public ActionResult Index()
         {
-            return View();
+            var workouts = from w in db.workouts select w;
+            return View(workouts.ToList());
         }
     }
 }

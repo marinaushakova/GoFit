@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<GoFit.Models.workout>
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -8,5 +10,34 @@
 </div>
 
 <div class="row">
-
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="panel-title">Workouts</h2>
+        </div>
+        <div class="panel-body">
+            <table class="workout_list table">
+                <thead>
+                    <tr>
+                        <th>Workout Name</th>
+                        <th>Category</th>
+                        <th>Date Added</th>
+                        <th>Username</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var workout in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => workout.name)</td>
+                            <td>@Html.DisplayFor(modelItem => workout.category.name)</td>
+                            <td>@Html.DisplayFor(modelItem => workout.created_at)</td>
+                            <td>@Html.DisplayFor(modelItem => workout.user.username)</td>
+                            <td>Details</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
