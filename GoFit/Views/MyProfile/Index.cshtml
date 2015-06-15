@@ -1,0 +1,72 @@
+﻿@model GoFit.Models.user
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>MyProfile</h2>
+
+<h3>Welcome @(Request.IsAuthenticated ? HttpContext.Current.User.Identity.Name : "Guest") </h3>
+
+<div>
+    
+	<hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            Username:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.username)
+        </dd>
+
+        <dt>
+            First Name:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fname)
+        </dd>
+
+        <dt>
+            Last Name:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lname)
+        </dd>
+
+        <dt>
+            Gender: 
+        </dt>
+
+        @{
+            var gender = Model.is_male == 1 ? "Male" : "Female";
+        }
+
+        <dd>
+            @gender
+        </dd>
+
+        <dt>
+            Weight:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.weight)
+        </dd>
+
+        <dt>
+            Height:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.height)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit My Profile", "Edit", new { id = Model.id })
+</p>
