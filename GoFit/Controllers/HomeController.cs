@@ -23,7 +23,7 @@ namespace GoFit.Controllers
         /// <param name="categorySearch">The workout category to search for</param>
         /// <returns>A list of workouts from the DB</returns>
         [AllowAnonymous]
-        public ActionResult Index(string sortBy, string nameSearch, string categorySearch, DateTime? dateAddedSeach, string usernameSearch)
+        public ActionResult Index(string sortBy, string nameSearch, string categorySearch, DateTime? dateAddedSearch, string usernameSearch)
         {
             var workouts = from w in db.workouts select w;
 
@@ -32,16 +32,23 @@ namespace GoFit.Controllers
                 workouts = workouts.Where(w => w.name.Contains(nameSearch));
                 ViewBag.NameSearchParam = nameSearch;
             }
-            else if (!String.IsNullOrEmpty(ViewBag.NameSearchParam))
+            if (!String.IsNullOrEmpty(categorySearch))
             {
-                string nameSearchParam = ViewBag.NameSearchParam;
-                workouts = workouts.Where(w => w.name.Contains(nameSearchParam));
+                workouts = workouts.Where(w => w.category.name.Contains(categorySearch));
+                ViewBag.CategorySearchParam = categorySearch;
             }
-            else ViewBag.NameSearchParam = null;
-
-            if (!String.IsNullOrEmpty(categorySearch)) workouts = workouts.Where(w => w.category.name.Contains(categorySearch));
-            if (dateAddedSeach != null) workouts = workouts.Where(w => w.created_at.Equals(dateAddedSeach));
-            if (!String.IsNullOrEmpty(usernameSearch)) workouts = workouts.Where(w => w.user.username.Contains(usernameSearch));
+            if (dateAddedSearch != null)
+            {
+                workouts = workouts.Where(w => 
+                    w.created_at.Year == dateAddedSearch.Value.Year &&
+                    w.created_at.Month == dateAddedSearch.Value.Month &&
+                    w.created_at.Day == dateAddedSearch.Value.Day);
+            }
+            if (!String.IsNullOrEmpty(usernameSearch))
+            {
+                workouts = workouts.Where(w => w.user.username.Contains(usernameSearch));
+                ViewBag.UsernameSearchParam = usernameSearch;
+            }
 
 
             workouts = this.sortResults(workouts, sortBy);

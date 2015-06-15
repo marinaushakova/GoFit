@@ -19,16 +19,10 @@
                 @using (Html.BeginForm())
                 {
                     <div class="search_name">
-                        @if (!String.IsNullOrEmpty(ViewBag.NameSearchParam)) { 
-                            <input id="NameSearch" name="NameSearch" type="text" value="@ViewBag.NameSearchParam" /> 
-                        }
-                        else
-                        {
-                            <input id="NameSearch" name="NameSearch" type="text" placeholder="Name..." />
-                        }
-                        <input id="CategorySearch" name="CategorySearch" type="text" placeholder="Category..." />
+                        <input id="NameSearch" name="NameSearch" type="text" value="@ViewBag.NameSearchParam" placeholder="Workout name..."/> 
+                        <input id="CategorySearch" name="CategorySearch" type="text" value="@ViewBag.CategorySearchParam" placeholder="Category..." />
                         <input id="DateAddedSearch" name="DateAddedSearch" type="date" placeholder="Date Added..." />
-                        <input id="UsernameSearch" name="UsernameSearch" type="text" placeholder="Username..." />
+                        <input id="UsernameSearch" name="UsernameSearch" type="text" value="@ViewBag.UsernameSearchParam" placeholder="Username..." />
                         <input class="btn btn-primary" type="submit" value="Search"/>
                     </div>
                 }
