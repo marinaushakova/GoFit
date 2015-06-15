@@ -11,6 +11,7 @@ namespace GoFit.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class user
     {
@@ -24,11 +25,17 @@ namespace GoFit.Models
         }
     
         public int id { get; set; }
+        [Required(ErrorMessage = "Username reqired", AllowEmptyStrings = false)]
         public string username { get; set; }
+        [Required(ErrorMessage = "Password reqired", AllowEmptyStrings = false)]
+        [DataType(System.ComponentModel.DataAnnotations.DataType.Password)]
         public string password { get; set; }
+        [Required(ErrorMessage = "First name reqired", AllowEmptyStrings = false)]
         public string fname { get; set; }
+        [Required(ErrorMessage = "Last name reqired", AllowEmptyStrings = false)]
         public string lname { get; set; }
         public Nullable<short> is_male { get; set; }
+        [Required(ErrorMessage = "Role reqired", AllowEmptyStrings = false)]
         public short is_admin { get; set; }
         public Nullable<int> weight { get; set; }
         public Nullable<decimal> height { get; set; }
