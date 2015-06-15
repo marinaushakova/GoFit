@@ -16,13 +16,20 @@ namespace GoFit.Tests.Controllers
     [TestClass]
     public class HomeControllerTest
     {
+        private HomeController controller;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            controller = new HomeController();
+        }
+
         /// <summary>
         /// Tests the Home controller Index method
         /// </summary>
         [TestMethod]
         public void TestIndexViewRetrieval()
         {
-            HomeController controller = new HomeController();
             ViewResult result = controller.Index("", null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
             Assert.AreEqual("Index", result.ViewName);
@@ -37,7 +44,6 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestIndexSortByNameAsc()
         {
-            HomeController controller = new HomeController();
             string sortBy = "name";
             ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
@@ -53,7 +59,6 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestIndexSortByNameDesc()
         {
-            HomeController controller = new HomeController();
             string sortBy = "name_desc";
             ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
@@ -69,7 +74,6 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestIndexSortByCategoryAsc()
         {
-            HomeController controller = new HomeController();
             string sortBy = "category";
             ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
@@ -85,7 +89,6 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestIndexSortByCategoryDesc()
         {
-            HomeController controller = new HomeController();
             string sortBy = "category_desc";
             ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
@@ -101,7 +104,6 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestIndexSortByDateCreatedAsc()
         {
-            HomeController controller = new HomeController();
             string sortBy = "date";
             ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
@@ -117,7 +119,6 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestIndexSortByDateCreatedDesc()
         {
-            HomeController controller = new HomeController();
             string sortBy = "date_desc";
             ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
@@ -133,7 +134,6 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestIndexSortByUserAsc()
         {
-            HomeController controller = new HomeController();
             string sortBy = "user";
             ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
@@ -149,7 +149,6 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestIndexSortByUserDesc()
         {
-            HomeController controller = new HomeController();
             string sortBy = "user_desc";
             ViewResult result = controller.Index(sortBy, null, null, null, null) as ViewResult;
             Assert.IsNotNull(result);
@@ -164,7 +163,6 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestIndexSearch()
         {
-            HomeController controller = new HomeController();
             ViewResult result = controller.Index(null, "Workout", null, null, null) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (List<workout>)result.ViewData.Model;
