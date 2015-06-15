@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<GoFit.Models.workout>
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -8,5 +10,52 @@
 </div>
 
 <div class="row">
-
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="panel-title">Workouts</h2>
+        </div>
+        <div class="panel-body">
+            <div class="search_bar">
+                @using (Html.BeginForm())
+                {
+                    <div class="search_name">
+                        @if (!String.IsNullOrEmpty(ViewBag.NameSearchParam)) { 
+                            <input id="NameSearch" name="NameSearch" type="text" value="@ViewBag.NameSearchParam" /> 
+                        }
+                        else
+                        {
+                            <input id="NameSearch" name="NameSearch" type="text" placeholder="Name..." />
+                        }
+                        <input id="CategorySearch" name="CategorySearch" type="text" placeholder="Category..." />
+                        <input id="DateAddedSearch" name="DateAddedSearch" type="date" placeholder="Date Added..." />
+                        <input id="UsernameSearch" name="UsernameSearch" type="text" placeholder="Username..." />
+                        <input class="btn btn-primary" type="submit" value="Search"/>
+                    </div>
+                }
+            </div>
+            <table class="workout_list table">
+                <thead>
+                    <tr>
+                        <th>@Html.ActionLink("Workout Name", "Index", new {sortBy = ViewBag.NameSortParam})</th>
+                        <th>@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam })</th>
+                        <th>@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam })</th>
+                        <th>@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UserSortParam })</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var workout in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => workout.name)</td>
+                            <td>@Html.DisplayFor(modelItem => workout.category.name)</td>
+                            <td>@Html.DisplayFor(modelItem => workout.created_at)</td>
+                            <td>@Html.DisplayFor(modelItem => workout.user.username)</td>
+                            <td>Details</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
