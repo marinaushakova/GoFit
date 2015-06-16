@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using GoFit.Models;
+using PagedList;
 
 namespace GoFit.Controllers
 {
@@ -23,9 +24,24 @@ namespace GoFit.Controllers
         /// <param name="categorySearch">The workout category to search for</param>
         /// <returns>A list of workouts from the DB</returns>
         [AllowAnonymous]
-        public ActionResult Index(string sortBy, string nameSearch, string categorySearch, DateTime? dateAddedSearch, string usernameSearch)
+        public ActionResult Index(string sortBy)
         {
             var workouts = from w in db.workouts select w;
+
+            string nameSearch = null;
+            string categorySearch = null;
+            string dateAddedSearch = null;
+            string usernameSearch = null;
+
+            var searchParams = (Request != null && Request.Form != null) ? Request.Form : null;
+
+            if (searchParams != null)
+            {
+                nameSearch = searchParams["Name"];
+                categorySearch = searchParams["Category"];
+                dateAddedSearch = searchParams["DateAdded"];
+                usernameSearch = searchParams["Username"];
+            }
 
             if (!String.IsNullOrEmpty(nameSearch))
             {
@@ -37,12 +53,17 @@ namespace GoFit.Controllers
                 workouts = workouts.Where(w => w.category.name.Contains(categorySearch));
                 ViewBag.CategorySearchParam = categorySearch;
             }
-            if (dateAddedSearch != null)
+            if (!String.IsNullOrEmpty(dateAddedSearch))
             {
-                workouts = workouts.Where(w => 
-                    w.created_at.Year == dateAddedSearch.Value.Year &&
-                    w.created_at.Month == dateAddedSearch.Value.Month &&
-                    w.created_at.Day == dateAddedSearch.Value.Day);
+                string[] dateArrayString = dateAddedSearch.Split('-');
+                int year = Convert.ToInt16(dateArrayString[0]);
+                int month = Convert.ToInt16(dateArrayString[1]);
+                int day = Convert.ToInt16(dateArrayString[2]);
+
+                workouts = workouts.Where(w =>
+                    w.created_at.Year == year &&
+                    w.created_at.Month == month &&
+                    w.created_at.Day == day);
             }
             if (!String.IsNullOrEmpty(usernameSearch))
             {
