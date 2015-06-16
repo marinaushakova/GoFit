@@ -4,37 +4,46 @@
     ViewBag.Title = "My Workouts";
 }
 
-<h2>My Workouts</h2>
-
+<h2 class="h2">My Workouts</h2>
+<br>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <input class="btn btn-primary" type="button" value="Create New Workout" onclick="location.href='@Url.Action("Create", "MyWorkouts" )'" />
 </p>
+<br>
+<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="panel-title">All My Workouts</h2>
+        </div>
 
-<table class="workout_list table">
-    <thead>
-        <tr>
-            <th>@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.NameSortParam })</th>
-            <th>@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam })</th>
-            <th>@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam })</th>
-            <th>@Html.ActionLink("Added by user", "Index", new { sortBy = ViewBag.UserSortParam })</th>
-            <th>&nbsp;</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user_workout in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => user_workout.workout.name)</td>
-                <td>@Html.DisplayFor(modelItem => user_workout.workout.category.name)</td>
-                <td>@Html.DisplayFor(modelItem => user_workout.workout.created_at)</td>
-                <td>@Html.DisplayFor(modelItem => user_workout.workout.user.username)</td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = user_workout.id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = user_workout.id })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+        <div class="panel-body">
+                        <table class="workout_list table">
+                <thead>
+                    <tr>
+                        <th>@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.NameSortParam })</th>
+                        <th>@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam })</th>
+                        <th>@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam })</th>
+                        <th>@Html.ActionLink("Added by user", "Index", new { sortBy = ViewBag.UserSortParam })</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user_workout in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => user_workout.workout.name)</td>
+                            <td>@Html.DisplayFor(modelItem => user_workout.workout.category.name)</td>
+                            <td>@Html.DisplayFor(modelItem => user_workout.workout.created_at)</td>
+                            <td>@Html.DisplayFor(modelItem => user_workout.workout.user.username)</td>
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = user_workout.id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = user_workout.id })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
