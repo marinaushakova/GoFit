@@ -17,10 +17,63 @@
         </div>
 
         <div class="panel-body">
-            @Html.ActionLink("All", "Index", new { filterString = "" }) | 
-            @Html.ActionLink("In Progress", "Index", new { filterString = "in_progress" }) | 
-            @Html.ActionLink("Not Started", "Index", new { filterString = "not_started" }) | 
-            @Html.ActionLink("Completed", "Index", new { filterString = "completed" })
+            
+            @if (ViewBag.FilterParam == "")
+            {
+                @Html.Label("All ") 
+            }
+            else
+            {
+                @Html.ActionLink("All", "Index", new { filterString = "" }) 
+            }
+            | 
+            @if (ViewBag.FilterParam == "in_progress")
+            {
+                @Html.Label("In Progress ")
+            }
+            else
+            {
+                @Html.ActionLink("In Progress", "Index", new { filterString = "in_progress" }) 
+            }
+            |
+            @if (ViewBag.FilterParam == "not_started")
+            {
+                @Html.Label("Not Started ")
+            }
+            else
+            {
+                @Html.ActionLink("Not Started", "Index", new { filterString = "not_started" })
+            }
+            | 
+            @if (ViewBag.FilterParam == "completed")
+            {
+                @Html.Label("Completed ")
+            }
+            else
+            {
+                @Html.ActionLink("Completed", "Index", new { filterString = "completed" })
+            }
+            <br />
+
+            <div class="search_bar">
+                @using (Html.BeginForm())
+                {
+                    <div class="search_name">
+                        @if (!String.IsNullOrEmpty(ViewBag.NameSearchParam))
+                        {
+                            <input id="NameSearch" name="NameSearch" type="text" value="@ViewBag.NameSearchParam" />
+                        }
+                        else
+                        {
+                            <input id="NameSearch" name="NameSearch" type="text" placeholder="Name..." />
+                        }
+                        <input id="CategorySearch" name="CategorySearch" type="text" placeholder="Category..." />
+                        <input id="DateAddedSearch" name="DateAddedSearch" type="date" placeholder="Date Added..." />
+                        <input id="UsernameSearch" name="UsernameSearch" type="text" placeholder="Username..." />
+                        <input class="btn btn-primary" type="submit" value="Search" />
+                    </div>
+                }
+            </div>
             <table class="workout_list table">
                 <thead>
                     <tr>
