@@ -285,6 +285,7 @@
     <Content Include="Views\MyWorkouts\MyWorkouts.cshtml" />
     <Content Include="Views\MyProfile\Index.cshtml" />
     <Content Include="Views\MyProfile\Edit.cshtml" />
+    <Content Include="Views\MyWorkouts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

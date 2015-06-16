@@ -1,0 +1,40 @@
+﻿@model IEnumerable<GoFit.Models.user_workout>
+
+@{
+    ViewBag.Title = "My Workouts";
+}
+
+<h2>My Workouts</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table class="workout_list table">
+    <thead>
+        <tr>
+            <th>@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.NameSortParam })</th>
+            <th>@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam })</th>
+            <th>@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam })</th>
+            <th>@Html.ActionLink("Added by user", "Index", new { sortBy = ViewBag.UserSortParam })</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user_workout in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => user_workout.workout.name)</td>
+                <td>@Html.DisplayFor(modelItem => user_workout.workout.category.name)</td>
+                <td>@Html.DisplayFor(modelItem => user_workout.workout.created_at)</td>
+                <td>@Html.DisplayFor(modelItem => user_workout.workout.user.username)</td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = user_workout.id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = user_workout.id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
