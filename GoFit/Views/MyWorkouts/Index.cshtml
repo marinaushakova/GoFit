@@ -24,10 +24,10 @@
             <table class="workout_list table">
                 <thead>
                     <tr>
-                        <th>@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.NameSortParam })</th>
-                        <th>@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam })</th>
-                        <th>@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam })</th>
-                        <th>@Html.ActionLink("Added by user", "Index", new { sortBy = ViewBag.UserSortParam })</th>
+                        <th>@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.NameSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th>@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam, filterString = ViewBag.FilterParam })</th>
+                        <th>@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th>@Html.ActionLink("Added by user", "Index", new { sortBy = ViewBag.UserSortParam, filterString = ViewBag.FilterParam })</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
