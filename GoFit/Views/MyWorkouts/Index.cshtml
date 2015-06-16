@@ -13,11 +13,15 @@
 <div class="row">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h2 class="panel-title">All My Workouts</h2>
+            <h2 class="panel-title">My Workouts</h2>
         </div>
 
         <div class="panel-body">
-                        <table class="workout_list table">
+            @Html.ActionLink("All", "Index", new { filterString = "" }) | 
+            @Html.ActionLink("In Progress", "Index", new { filterString = "in_progress" }) | 
+            @Html.ActionLink("Not Started", "Index", new { filterString = "not_started" }) | 
+            @Html.ActionLink("Completed", "Index", new { filterString = "completed" })
+            <table class="workout_list table">
                 <thead>
                     <tr>
                         <th>@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.NameSortParam })</th>
@@ -46,4 +50,5 @@
         </div>
     </div>
 </div>
+
 
