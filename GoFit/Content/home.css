@@ -1,0 +1,6 @@
+﻿div.search_inputs {
+    width: 100%;
+}
+div.search_inputs > div {
+    margin-top: 5px;
+}

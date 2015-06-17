@@ -14,23 +14,32 @@
         <div class="panel-heading">
             <h2 class="panel-title">Workouts</h2>
         </div>
-        <div class="panel-body">
+        <div class="panel-body container-fluid">
             <div class="search_bar">
-                @using (Html.BeginForm())
-                {
-                    <div class="search_name">
-                        <input id="NameSearch" name="Name" type="text" value="@ViewBag.NameSearchParam" placeholder="Workout name..." /> 
-                        <input id="CategorySearch" name="Category" type="text" value="@ViewBag.CategorySearchParam" placeholder="Category..." />
-                        <input id="DateAddedSearch" name="DateAdded" type="date" placeholder="Date Added..." />
-                        <input id="UsernameSearch" name="Username" type="text" value="@ViewBag.UsernameSearchParam" placeholder="Username..." />
-                        <input class="btn btn-primary" type="submit" value="Search"/>
+                <form action="/" method="post" class="form-inline">
+                    <div class="search_inputs form-group row">
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <input class="" id="NameSearch" name="Name" type="text" value="@ViewBag.NameSearchParam" placeholder="Workout name..." />
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <input class="" id="CategorySearch" name="Category" type="text" value="@ViewBag.CategorySearchParam" placeholder="Category..." />
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <input class="" id="DateAddedSearch" name="DateAdded" type="date" placeholder="Date Added..." />
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <input class="" id="UsernameSearch" name="Username" type="text" value="@ViewBag.UsernameSearchParam" placeholder="Username..." />
+                        </div>
+                        <div class="col-lg-2 col-md-1 col-sm-12 col-xs-12">
+                            <input class="btn btn-primary" type="submit" value="Search" />
+                        </div>
                     </div>
-                }
+                </form>
             </div>
             <table class="workout_list table">
                 <thead>
                     <tr>
-                        <th>@Html.ActionLink("Workout Name", "Index", new {sortBy = ViewBag.NameSortParam})</th>
+                        <th>@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.NameSortParam })</th>
                         <th>@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam })</th>
                         <th>@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam })</th>
                         <th>@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UserSortParam })</th>
