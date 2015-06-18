@@ -30,10 +30,29 @@ div.exercise_list,
 div.workout_detail {
     margin-top: 20px;
 }
-h2.workout_detail_header {
-    margin-top: 8px;
+div.workout_detail_header {
+    
+}
+div.workout_detail_header {
+    margin: 10px;
+    margin-top: 5px;
+    padding: 5px;
+    font-size: 1.4em;
+    font-weight: bold;
+    display: block;
+    white-space: nowrap;
+    text-overflow: hidden;
+    background-color: #5CB85C;
+    color: #FFF;
+    border-radius: 4px;
+    max-width: 100%;
 }
 
 div.exercise_list .did_exercise_chkbx {
     float: right;
+}
+table {
+    display: block;
+    overflow: auto;
+    height: 300px;
 }
