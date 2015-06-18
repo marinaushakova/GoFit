@@ -61,6 +61,12 @@ namespace GoFit.Controllers
             return view;
         }
 
+        [AllowAnonymous]
+        public ActionResult Details(int? id)
+        {
+            return View();
+        }
+
         /// <summary>
         /// Private helper method to perform a new search or maintain a previous search through 
         /// pagination and filter changes
