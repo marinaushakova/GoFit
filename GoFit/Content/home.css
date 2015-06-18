@@ -14,8 +14,14 @@ table.workout_list {
     height: 250px;
 }
 
-table .workout_name_cell,
-table .workout_category_cell,
-table .workout_user_cell {
- 
+div.button_bar {
+    margin: 10px 5px;
+}
+div.workout_prop {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+div.workout_label > h4 > span {
+    margin-right: 20px;
 }

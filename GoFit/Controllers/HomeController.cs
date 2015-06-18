@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using GoFit.Models;
 using PagedList;
+using System.Net;
 
 namespace GoFit.Controllers
 {
@@ -64,7 +65,10 @@ namespace GoFit.Controllers
         [AllowAnonymous]
         public ActionResult Details(int? id)
         {
-            return View();
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            workout workout = db.workouts.Find(id);
+            if (workout == null) return HttpNotFound();
+            return View(workout);
         }
 
         /// <summary>

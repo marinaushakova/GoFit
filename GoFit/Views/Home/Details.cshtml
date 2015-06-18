@@ -1,8 +1,37 @@
-﻿
+﻿@model GoFit.Models.workout
+
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Workout";
     //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-4">
+            <h2><span class="label label-success">@Model.name</span></h2>
+            <div class="row">
+                <div class="col-md-4 col-sm-12 workout_label"><h4><span class="label label-default">Description</span></h4></div>
+                <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(model => model.description)</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-12 workout_label"><h4><span class="label label-default">Created By</span></h4></div>
+                <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(model => model.user.username)</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-12"><h4><span class="label label-default">Category</span></h4></div>
+                <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(model => model.category.name)</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-12"><h4><span class="label label-default">Created At</span></h4></div>
+                <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(model => model.created_at)</div>
+            </div>
+        </div>
+        <div class="col-xs-8">
+
+        </div>
+    </div>
+    <div class="row button_bar">
+        <a href="/" class="btn btn-primary">Back</a>
+    </div>
+</div>
 
