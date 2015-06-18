@@ -41,7 +41,7 @@ div.workout_detail_header {
     font-weight: bold;
     display: block;
     white-space: nowrap;
-    text-overflow: hidden;
+    text-overflow: ellipsis;
     background-color: #5CB85C;
     color: #FFF;
     border-radius: 4px;
