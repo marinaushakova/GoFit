@@ -62,7 +62,7 @@
                 </tbody>
             </table>
             <div class="pagination_container">
-                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
                 @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
             </div>
         </div>
