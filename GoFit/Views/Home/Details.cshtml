@@ -46,8 +46,18 @@
                                 {
                                     <tr class="row">
                                         <td class="col-xs-4">@Html.DisplayFor(modelItem => exercise.exercise.name)</td>
-                                        <td class="col-xs-4">@Html.DisplayFor(modelItem => exercise.duration)</td>
-                                        @*<td class="col-xs-4">@Convert.ToInt16(@exercise.duration)</td>*@
+                                        @*<td class="col-xs-4">@Html.DisplayFor(modelItem => exercise.duration)</td>*@
+                                        <td class="col-xs-4">
+                                            @Convert.ToInt16(@exercise.duration)&nbsp;
+                                            @if (@exercise.exercise.type.measure == "unit")
+                                            {
+                                                <span>reps</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@exercise.exercise.type.measure</span>
+                                            }
+                                        </td>
                                         <td class="col-xs-4"><input class="did_exercise_chkbx" type="checkbox" /></td>
                                     </tr>
                                 }
@@ -60,6 +70,7 @@
     </div>
     <div class="row button_bar">
         <a href="/" class="btn btn-primary">Back</a>
+        <a href="/" class="btn btn-primary">Add to My Workouts</a>
     </div>
 </div>
 
