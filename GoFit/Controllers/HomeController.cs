@@ -42,6 +42,8 @@ namespace GoFit.Controllers
         /// pagination and filter changes
         /// </summary>
         /// <param name="workouts">The base workout query result</param>
+        /// <param name="sortBy">The passed sort string if it exists, else null</param>
+        /// <param name="page">The passed page param if it exists, else null</param>
         /// <returns>The searched workouts</returns>
         private IQueryable<workout> doSearch(IQueryable<workout> workouts, string sortBy, int? page)
         {
