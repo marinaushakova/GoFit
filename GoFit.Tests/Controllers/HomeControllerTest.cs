@@ -272,6 +272,160 @@ namespace GoFit.Tests.Controllers
                     created_at = Convert.ToDateTime("2015-06-14"),
                     category = category2,
                     user = user1
+                },
+                new workout { 
+                    name = "workout3",
+                    description = "desc3",
+                    created_at = Convert.ToDateTime("2015-06-13"),
+                    category = category2,
+                    user = user1
+                },
+                new workout { 
+                    name = "workout4",
+                    description = "desc4",
+                    created_at = Convert.ToDateTime("2015-06-12"),
+                    category = category2,
+                    user = user1
+                },
+                new workout { 
+                    name = "workout5",
+                    description = "desc5",
+                    created_at = Convert.ToDateTime("2015-06-15"),
+                    category = category2,
+                    user = user1
+                },
+                new workout { 
+                    name = "workout6",
+                    description = "desc6",
+                    created_at = Convert.ToDateTime("2015-06-14"),
+                    category = category2,
+                    user = user1
+                },
+                new workout { 
+                    name = "workout7",
+                    description = "desc7",
+                    created_at = Convert.ToDateTime("2015-06-13"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    name = "workout8",
+                    description = "desc8",
+                    created_at = Convert.ToDateTime("2015-06-12"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    name = "workout9",
+                    description = "desc9",
+                    created_at = Convert.ToDateTime("2015-06-15"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    name = "workout10",
+                    description = "desc10",
+                    created_at = Convert.ToDateTime("2015-06-14"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    name = "workout11",
+                    description = "desc11",
+                    created_at = Convert.ToDateTime("2015-06-13"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    name = "workout12",
+                    description = "desc12",
+                    created_at = Convert.ToDateTime("2015-06-12"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    name = "workout13",
+                    description = "desc13",
+                    created_at = Convert.ToDateTime("2015-06-15"),
+                    category = category1,
+                    user = user1
+                },
+                new workout { 
+                    name = "workout14",
+                    description = "desc14",
+                    created_at = Convert.ToDateTime("2015-06-14"),
+                    category = category1,
+                    user = user1
+                },
+                new workout { 
+                    name = "workout15",
+                    description = "desc15",
+                    created_at = Convert.ToDateTime("2015-06-13"),
+                    category = category1,
+                    user = user1
+                },
+                new workout { 
+                    name = "workout16",
+                    description = "desc16",
+                    created_at = Convert.ToDateTime("2015-06-12"),
+                    category = category2,
+                    user = user2
+                },
+                new workout { 
+                    name = "workout17",
+                    description = "desc17",
+                    created_at = Convert.ToDateTime("2015-06-15"),
+                    category = category2,
+                    user = user2
+                },
+                new workout { 
+                    name = "workout18",
+                    description = "desc18",
+                    created_at = Convert.ToDateTime("2015-06-14"),
+                    category = category2,
+                    user = user2
+                },
+                new workout { 
+                    name = "workout19",
+                    description = "desc19",
+                    created_at = Convert.ToDateTime("2015-06-13"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    name = "workout20",
+                    description = "desc20",
+                    created_at = Convert.ToDateTime("2015-06-12"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    name = "workout21",
+                    description = "desc21",
+                    created_at = Convert.ToDateTime("2015-06-15"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    name = "workout22",
+                    description = "desc22",
+                    created_at = Convert.ToDateTime("2015-06-14"),
+                    category = category2,
+                    user = user1
+                },
+                new workout { 
+                    name = "workout23",
+                    description = "desc23",
+                    created_at = Convert.ToDateTime("2015-06-13"),
+                    category = category2,
+                    user = user1
+                },
+                new workout { 
+                    name = "workout24",
+                    description = "desc24",
+                    created_at = Convert.ToDateTime("2015-06-12"),
+                    category = category2,
+                    user = user1
                 }
             }.AsQueryable();
 
