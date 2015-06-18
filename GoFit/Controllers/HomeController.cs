@@ -13,9 +13,25 @@ namespace GoFit.Controllers
     /// </summary>
     public class HomeController : Controller
     {
-        private masterEntities db = new masterEntities();
+        private masterEntities db;
         private const int PAGE_SIZE = 2;
 
+        /// <summary>
+        /// Constructor to create the default db context
+        /// </summary>
+        public HomeController()
+        {
+            db = new masterEntities();
+        }
+
+        /// <summary>
+        /// Constructor to allow a passed in db context
+        /// </summary>
+        /// <param name="context">The context to use</param>
+        public HomeController(masterEntities context)
+        {
+            db = context;
+        }
 
         /// <summary>
         /// Returns a list of workouts from the DB

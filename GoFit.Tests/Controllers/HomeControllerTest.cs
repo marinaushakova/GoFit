@@ -8,6 +8,8 @@ using GoFit;
 using GoFit.Controllers;
 using GoFit.Models;
 using PagedList;
+using Moq;
+using System.Data.Entity;
 
 namespace GoFit.Tests.Controllers
 {
@@ -23,8 +25,9 @@ namespace GoFit.Tests.Controllers
         [TestInitialize]
         public void Initialize()
         {
-            controller = new HomeController();
             search = new WorkoutSearch();
+            var mockContext = getWorkoutContext();
+            controller = new HomeController(mockContext.Object);
         }
 
         /// <summary>
@@ -168,6 +171,7 @@ namespace GoFit.Tests.Controllers
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;
             Assert.IsTrue(workouts.Count == 2);
+            search.name = null;
         }
 
         /* Private Test Helpers */
@@ -215,6 +219,71 @@ namespace GoFit.Tests.Controllers
                 }
             }
             return true;
+        }
+
+        /// <summary>
+        /// Sets up the mock context and gives it test data
+        /// </summary>
+        /// <returns>The mock context</returns>
+        private Mock<masterEntities> getWorkoutContext()
+        {
+            category category1 = new category
+            {
+                id = 1,
+                name = "endurance",
+                description = "Endurance workouts help"
+            };
+            category category2 = new category
+            {
+                id = 2,
+                name = "strength",
+                description = "Strength workouts build"
+            };
+            category category3 = new category
+            {
+                id = 3,
+                name = "flexibility",
+                description = "Flexibility workouts stretch"
+            };
+
+            user user1 = new user
+            {
+                id = 1,
+                username = "admin"
+            };
+            user user2 = new user
+            {
+                id = 2,
+                username = "bob"
+            };
+
+            var workouts = new List<workout>
+            {
+                new workout { 
+                    name = "workout1",
+                    description = "desc1",
+                    created_at = Convert.ToDateTime("2015-06-15"),
+                    category = category2,
+                    user = user1
+                },
+                new workout { 
+                    name = "workout2",
+                    description = "desc2",
+                    created_at = Convert.ToDateTime("2015-06-14"),
+                    category = category2,
+                    user = user1
+                }
+            }.AsQueryable();
+
+            var workoutMockset = new Mock<DbSet<workout>>();
+            workoutMockset.As<IQueryable<workout>>().Setup(m => m.Provider).Returns(workouts.Provider);
+            workoutMockset.As<IQueryable<workout>>().Setup(m => m.Expression).Returns(workouts.Expression);
+            workoutMockset.As<IQueryable<workout>>().Setup(m => m.ElementType).Returns(workouts.ElementType);
+            workoutMockset.As<IQueryable<workout>>().Setup(m => m.GetEnumerator()).Returns(workouts.GetEnumerator);
+
+            var mockContext = new Mock<masterEntities>();
+            mockContext.Setup(c => c.workouts).Returns(workoutMockset.Object);
+            return mockContext;
         }
     }
 }
