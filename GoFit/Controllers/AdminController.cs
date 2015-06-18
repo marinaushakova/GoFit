@@ -13,5 +13,25 @@ namespace GoFit.Controllers
         {
             return View();
         }
+
+        public ActionResult Workouts()
+        {
+            return View();
+        }
+
+        public ActionResult Exercises()
+        {
+            return View();
+        }
+
+        public ActionResult Categories()
+        {
+            return View();
+        }
+
+        public ActionResult Types()
+        {
+            return View();
+        }
     }
 }
