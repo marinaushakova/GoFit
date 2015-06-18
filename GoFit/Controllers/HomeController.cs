@@ -14,7 +14,7 @@ namespace GoFit.Controllers
     public class HomeController : Controller
     {
         private masterEntities db = new masterEntities();
-        private const int PAGE_SIZE = 4;
+        private const int PAGE_SIZE = 2;
 
 
         /// <summary>
@@ -44,11 +44,19 @@ namespace GoFit.Controllers
                 usernameSearch = searchParams["Username"];
             }
 
+            if (page != null)
+            {
+                nameSearch = Session["NameSearchParam"] as String;
+            }
+
             if (!String.IsNullOrEmpty(nameSearch))
             {
                 workouts = workouts.Where(w => w.name.Contains(nameSearch));
-                ViewBag.NameSearchParam = nameSearch;
+                Session["NameSearchParam"] = nameSearch;
+
             }
+            else Session["NameSearchParam"] = "";
+
             if (!String.IsNullOrEmpty(categorySearch))
             {
                 workouts = workouts.Where(w => w.category.name.Contains(categorySearch));
@@ -72,7 +80,14 @@ namespace GoFit.Controllers
                 ViewBag.UsernameSearchParam = usernameSearch;
             }
 
-
+            if (!String.IsNullOrEmpty(sortBy))
+            {
+                Session["SortBy"] = sortBy;
+            }
+            else
+            {
+                sortBy = Session["SortBy"] as String;
+            }
             workouts = this.sortResults(workouts, sortBy);
             int pageNumber = (page ?? 1);
             var view = View("Index", workouts.ToPagedList(pageNumber, PAGE_SIZE));
@@ -87,13 +102,16 @@ namespace GoFit.Controllers
         /// <returns>The sorted workouts</returns>
         private IQueryable<workout> sortResults(IQueryable<workout> workouts, string sortBy)
         {
-            ViewBag.NameSortParam = (String.IsNullOrEmpty(sortBy)) ? "name_desc" : "";
+            ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
             ViewBag.DateSortParam = (sortBy == "date") ? "date_desc" : "date";
             ViewBag.CategorySortParam = (sortBy == "category") ? "category_desc" : "category";
             ViewBag.UserSortParam = (sortBy == "user") ? "user_desc" : "user";
 
             switch (sortBy)
             {
+                case "name":
+                    workouts = workouts.OrderBy(w => w.name);
+                    break;
                 case "name_desc":
                     workouts = workouts.OrderByDescending(w => w.name);
                     break;
@@ -116,7 +134,7 @@ namespace GoFit.Controllers
                     workouts = workouts.OrderByDescending(w => w.user.username);
                     break;
                 default:
-                    workouts = workouts.OrderBy(w => w.name);
+                    workouts = workouts.OrderByDescending(w => w.name);
                     break;
             }
 
