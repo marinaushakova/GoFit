@@ -7,8 +7,8 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xs-4">
-            <h2><span class="label label-success">@Model.name</span></h2>
+        <div class="col-md-4 col-xs-12 workout_detail well">
+            <h2 class="workout_detail_header"><span class="label label-success">@Model.name</span></h2>
             <div class="row">
                 <div class="col-md-4 col-sm-12 workout_label"><h4><span class="label label-default">Description</span></h4></div>
                 <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(model => model.description)</div>
@@ -26,8 +26,36 @@
                 <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(model => model.created_at)</div>
             </div>
         </div>
-        <div class="col-xs-8">
-
+        <div class="col-md-8 col-xs-12 exercise_list">
+            <div class="">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h2>Exercises</h2>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-xs-4">Exercise</th>
+                                    <th class="col-xs-4">Duration</th>
+                                    <th class="col-xs-4"><span class="did_exercise_chkbx">Complete</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var exercise in Model.workout_exercise)
+                                {
+                                    <tr class="row">
+                                        <td class="col-xs-4">@Html.DisplayFor(modelItem => exercise.exercise.name)</td>
+                                        <td class="col-xs-4">@Html.DisplayFor(modelItem => exercise.duration)</td>
+                                        @*<td class="col-xs-4">@Convert.ToInt16(@exercise.duration)</td>*@
+                                        <td class="col-xs-4"><input class="did_exercise_chkbx" type="checkbox" /></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div> 
+            </div>
         </div>
     </div>
     <div class="row button_bar">

@@ -25,3 +25,15 @@ div.workout_prop {
 div.workout_label > h4 > span {
     margin-right: 20px;
 }
+
+div.exercise_list,
+div.workout_detail {
+    margin-top: 20px;
+}
+h2.workout_detail_header {
+    margin-top: 8px;
+}
+
+div.exercise_list .did_exercise_chkbx {
+    float: right;
+}
