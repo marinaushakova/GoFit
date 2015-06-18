@@ -160,6 +160,16 @@ namespace GoFit.Tests.Controllers
             Assert.IsTrue(isSortedDesc);
         }
 
+        [TestMethod]
+        public void TestIndexSearchByWorkoutName()
+        {
+            search.name = "wo";
+            ViewResult result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 2);
+        }
+
         /* Private Test Helpers */
 
         /// <summary>
