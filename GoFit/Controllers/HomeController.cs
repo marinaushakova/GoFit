@@ -25,11 +25,11 @@ namespace GoFit.Controllers
         /// <param name="page">The request page in the list of workouts</param>
         /// <returns>A list of workouts from the DB</returns>
         [AllowAnonymous]
-        public ActionResult Index(string sortBy, int? page)
+        public ActionResult Index(string sortBy, int? page, WorkoutSearch workoutSearch)
         {
             var workouts = from w in db.workouts select w;
 
-            workouts = this.doSearch(workouts, sortBy, page);
+            workouts = this.doSearch(workouts, workoutSearch, sortBy, page);
             workouts = this.doSort(workouts, sortBy);
 
             int pageNumber = (page ?? 1);
@@ -45,47 +45,20 @@ namespace GoFit.Controllers
         /// <param name="sortBy">The passed sort string if it exists, else null</param>
         /// <param name="page">The passed page param if it exists, else null</param>
         /// <returns>The searched workouts</returns>
-        private IQueryable<workout> doSearch(IQueryable<workout> workouts, string sortBy, int? page)
+        private IQueryable<workout> doSearch(IQueryable<workout> workouts, WorkoutSearch search, string sortBy, int? page)
         {
-            string nameSearch = null;
-            string categorySearch = null;
-            string dateAddedSearch = null;
-            string usernameSearch = null;
-
-            if (Request != null && Request.Form != null)
-            {
-                var searchParams = Request.Form;
-                nameSearch = searchParams["Name"];
-                categorySearch = searchParams["Category"];
-                dateAddedSearch = searchParams["DateAdded"];
-                usernameSearch = searchParams["Username"];
-            } 
-
             if (page != null || !String.IsNullOrEmpty(sortBy))
             {
-                nameSearch = Session["NameSearchParam"] as String;
-                categorySearch = Session["CategorySearchParam"] as String;
-                usernameSearch = Session["UserSearchParam"] as String;
+                search = setSearchFromSession(search);
             }
+            else setSessionFromSearch(search);
 
-            if (!String.IsNullOrEmpty(nameSearch))
+            if (!String.IsNullOrEmpty(search.name)) workouts = workouts.Where(w => w.name.Contains(search.name));
+            if (!String.IsNullOrEmpty(search.category)) workouts = workouts.Where(w => w.category.name.Contains(search.category));
+            if (!String.IsNullOrEmpty(search.username)) workouts = workouts.Where(w => w.user.username.Contains(search.username));
+            if (!String.IsNullOrEmpty(search.dateAdded))
             {
-                workouts = workouts.Where(w => w.name.Contains(nameSearch));
-                Session["NameSearchParam"] = nameSearch;
-
-            }
-            else Session["NameSearchParam"] = "";
-
-            if (!String.IsNullOrEmpty(categorySearch))
-            {
-                workouts = workouts.Where(w => w.category.name.Contains(categorySearch));
-                Session["CategorySearchParam"] = categorySearch;
-            }
-            else Session["CategorySearchParam"] = "";
-
-            if (!String.IsNullOrEmpty(dateAddedSearch))
-            {
-                string[] dateArrayString = dateAddedSearch.Split('-');
+                string[] dateArrayString = search.dateAdded.Split('-');
                 int year = Convert.ToInt16(dateArrayString[0]);
                 int month = Convert.ToInt16(dateArrayString[1]);
                 int day = Convert.ToInt16(dateArrayString[2]);
@@ -95,14 +68,6 @@ namespace GoFit.Controllers
                     w.created_at.Month == month &&
                     w.created_at.Day == day);
             }
-
-
-            if (!String.IsNullOrEmpty(usernameSearch))
-            {
-                workouts = workouts.Where(w => w.user.username.Contains(usernameSearch));
-                Session["UsernameSearchParam"] = usernameSearch;
-            }
-            else Session["UsernameSearchParam"] = "";
 
             return workouts;
         }
@@ -161,6 +126,49 @@ namespace GoFit.Controllers
             }
 
             return workouts;
+        }
+
+        /// <summary>
+        /// Sets the WorkoutSearch object with the stored session search variables if they exist
+        /// </summary>
+        /// <param name="search">The WorkoutSearch object to set</param>
+        /// <returns>The WorkoutSearch object set with the session search variables if the session exists, else the passed in WorkoutSearch object</returns>
+        private WorkoutSearch setSearchFromSession(WorkoutSearch search)
+        {
+            if (Session != null)
+            {
+                search.name = Session["NameSearchParam"] as String;
+                search.category = Session["CategorySearchParam"] as String;
+                search.username = Session["UserSearchParam"] as String;
+            }
+            return search;
+        }
+
+        /// <summary>
+        /// Sets the session search parameters based on the current search values
+        /// </summary>
+        /// <param name="search">The WorkoutSearch object containing the values to set in the session</param>
+        private void setSessionFromSearch(WorkoutSearch search)
+        {
+            if (Session != null)
+            {
+                if (!String.IsNullOrEmpty(search.name)) Session["NameSearchParam"] = search.name;
+                else Session["NameSearchParam"] = "";
+
+                if (!String.IsNullOrEmpty(search.category)) Session["CategorySearchParam"] = search.category;
+                else Session["CategorySearchParam"] = "";
+
+                if (!String.IsNullOrEmpty(search.dateAdded))
+                {
+                    string[] dateArrayString = search.dateAdded.Split('-');
+                    int year = Convert.ToInt16(dateArrayString[0]);
+                    int month = Convert.ToInt16(dateArrayString[1]);
+                    int day = Convert.ToInt16(dateArrayString[2]);
+                }
+
+                if (!String.IsNullOrEmpty(search.username)) Session["UsernameSearchParam"] = search.username;
+                else Session["UsernameSearchParam"] = "";
+            }
         }
     }
 }

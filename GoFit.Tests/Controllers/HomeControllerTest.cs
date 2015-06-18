@@ -31,7 +31,8 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestIndexViewRetrieval()
         {
-            ViewResult result = controller.Index("", null) as ViewResult;
+            WorkoutSearch search = new WorkoutSearch();
+            ViewResult result = controller.Index("", null, search) as ViewResult;
             Assert.IsNotNull(result);
             Assert.AreEqual("Index", result.ViewName);
             var workouts = (List<workout>) result.ViewData.Model;
