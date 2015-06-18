@@ -47,6 +47,8 @@ namespace GoFit.Controllers
             if (page != null)
             {
                 nameSearch = Session["NameSearchParam"] as String;
+                categorySearch = Session["CategorySearchParam"] as String;
+                usernameSearch = Session["UserSearchParam"] as String;
             }
 
             if (!String.IsNullOrEmpty(nameSearch))
@@ -60,8 +62,10 @@ namespace GoFit.Controllers
             if (!String.IsNullOrEmpty(categorySearch))
             {
                 workouts = workouts.Where(w => w.category.name.Contains(categorySearch));
-                ViewBag.CategorySearchParam = categorySearch;
+                Session["CategorySearchParam"] = nameSearch;
             }
+            else Session["CategorySearchParam"] = "";
+
             if (!String.IsNullOrEmpty(dateAddedSearch))
             {
                 string[] dateArrayString = dateAddedSearch.Split('-');
@@ -74,11 +78,14 @@ namespace GoFit.Controllers
                     w.created_at.Month == month &&
                     w.created_at.Day == day);
             }
+
+
             if (!String.IsNullOrEmpty(usernameSearch))
             {
                 workouts = workouts.Where(w => w.user.username.Contains(usernameSearch));
-                ViewBag.UsernameSearchParam = usernameSearch;
+                Session["UsernameSearchParam"] = nameSearch;
             }
+            else Session["UsernameSearchParam"] = "";
 
             if (!String.IsNullOrEmpty(sortBy))
             {
