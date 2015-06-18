@@ -14,7 +14,7 @@ namespace GoFit.Controllers
     public class HomeController : Controller
     {
         private masterEntities db;
-        private const int PAGE_SIZE = 2;
+        private const int PAGE_SIZE = 10;
 
         /// <summary>
         /// Constructor to create the default db context
