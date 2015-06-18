@@ -30,7 +30,7 @@ namespace GoFit.Controllers
             var workouts = from w in db.workouts select w;
 
             workouts = this.doSearch(workouts, sortBy, page);
-            workouts = this.sortResults(workouts, sortBy);
+            workouts = this.doSort(workouts, sortBy);
 
             int pageNumber = (page ?? 1);
             var view = View("Index", workouts.ToPagedList(pageNumber, PAGE_SIZE));
@@ -113,7 +113,7 @@ namespace GoFit.Controllers
         /// <param name="workouts">The base workout query result</param>
         /// <param name="sortBy">Indicates the sort order</param>
         /// <returns>The sorted workouts</returns>
-        private IQueryable<workout> sortResults(IQueryable<workout> workouts, string sortBy)
+        private IQueryable<workout> doSort(IQueryable<workout> workouts, string sortBy)
         {
             if (!String.IsNullOrEmpty(sortBy))
             {
