@@ -40,7 +40,7 @@ namespace GoFit.Tests.Controllers
             Assert.IsNotNull(result);
             Assert.AreEqual("Index", result.ViewName);
             var workouts = (PagedList<workout>) result.ViewData.Model;
-            Assert.IsTrue(workouts.Count > 0);
+            Assert.IsTrue(workouts.Count > 23);
         }
 
         /// <summary>

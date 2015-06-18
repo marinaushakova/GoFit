@@ -14,7 +14,7 @@ namespace GoFit.Controllers
     public class HomeController : Controller
     {
         private masterEntities db;
-        private const int PAGE_SIZE = 2;
+        private int pageSize = 2;
 
         /// <summary>
         /// Constructor to create the default db context
@@ -34,6 +34,11 @@ namespace GoFit.Controllers
         }
 
         /// <summary>
+        /// Getter/setter for the pageSize instance variable
+        /// </summary>
+        public string pageSize { get; set; }
+
+        /// <summary>
         /// Returns a list of workouts from the DB
         /// GET: /home/
         /// </summary>
@@ -49,7 +54,7 @@ namespace GoFit.Controllers
             workouts = this.doSort(workouts, sortBy);
 
             int pageNumber = (page ?? 1);
-            var view = View("Index", workouts.ToPagedList(pageNumber, PAGE_SIZE));
+            var view = View("Index", workouts.ToPagedList(pageNumber, pageSize));
             return view;
         }
 
