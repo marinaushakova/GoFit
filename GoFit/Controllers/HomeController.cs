@@ -87,14 +87,6 @@ namespace GoFit.Controllers
             }
             else Session["UsernameSearchParam"] = "";
 
-            if (!String.IsNullOrEmpty(sortBy))
-            {
-                Session["SortBy"] = sortBy;
-            }
-            else
-            {
-                sortBy = Session["SortBy"] as String;
-            }
             workouts = this.sortResults(workouts, sortBy);
             int pageNumber = (page ?? 1);
             var view = View("Index", workouts.ToPagedList(pageNumber, PAGE_SIZE));
@@ -109,6 +101,15 @@ namespace GoFit.Controllers
         /// <returns>The sorted workouts</returns>
         private IQueryable<workout> sortResults(IQueryable<workout> workouts, string sortBy)
         {
+            if (!String.IsNullOrEmpty(sortBy))
+            {
+                Session["SortBy"] = sortBy;
+            }
+            else
+            {
+                sortBy = Session["SortBy"] as String;
+            }
+
             ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
             ViewBag.DateSortParam = (sortBy == "date") ? "date_desc" : "date";
             ViewBag.CategorySortParam = (sortBy == "category") ? "category_desc" : "category";
