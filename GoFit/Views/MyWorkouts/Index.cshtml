@@ -1,0 +1,107 @@
+﻿@model IEnumerable<GoFit.Models.user_workout>
+
+@{
+    ViewBag.Title = "My Workouts";
+}
+
+<h2 class="h2">My Workouts</h2>
+<br>
+<p>
+    <input class="btn btn-primary" type="button" value="Create New Workout" onclick="location.href='@Url.Action("Create", "MyWorkouts" )'" />
+</p>
+<br>
+<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="panel-title">My Workouts</h2>
+        </div>
+
+        <div class="panel-body">
+            
+            @if (ViewBag.FilterParam == "")
+            {
+                @Html.Label("All ") 
+            }
+            else
+            {
+                @Html.ActionLink("All", "Index", new { filterString = "" }) 
+            }
+            | 
+            @if (ViewBag.FilterParam == "in_progress")
+            {
+                @Html.Label("In Progress ")
+            }
+            else
+            {
+                @Html.ActionLink("In Progress", "Index", new { filterString = "in_progress" }) 
+            }
+            |
+            @if (ViewBag.FilterParam == "not_started")
+            {
+                @Html.Label("Not Started ")
+            }
+            else
+            {
+                @Html.ActionLink("Not Started", "Index", new { filterString = "not_started" })
+            }
+            | 
+            @if (ViewBag.FilterParam == "completed")
+            {
+                @Html.Label("Completed ")
+            }
+            else
+            {
+                @Html.ActionLink("Completed", "Index", new { filterString = "completed" })
+            }
+            <br />
+
+            <div class="search_bar">
+                @using (Html.BeginForm())
+                {
+                    <div class="search_name">
+                        @if (!String.IsNullOrEmpty(ViewBag.NameSearchParam))
+                        {
+                            <input id="NameSearch" name="NameSearch" type="text" value="@ViewBag.NameSearchParam" />
+                        }
+                        else
+                        {
+                            <input id="NameSearch" name="NameSearch" type="text" placeholder="Name..." />
+                        }
+                        <input id="CategorySearch" name="CategorySearch" type="text" placeholder="Category..." />
+                        <input id="DateAddedSearch" name="DateAddedSearch" type="date" placeholder="Date Added..." />
+                        <input id="UsernameSearch" name="UsernameSearch" type="text" placeholder="Username..." />
+                        <input class="btn btn-primary" type="submit" value="Search" />
+                    </div>
+                }
+            </div>
+            <table class="workout_list table">
+                <thead>
+                    <tr>
+                        <th>@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.NameSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th>@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam, filterString = ViewBag.FilterParam })</th>
+                        <th>@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th>@Html.ActionLink("Added by user", "Index", new { sortBy = ViewBag.UserSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user_workout in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => user_workout.workout.name)</td>
+                            <td>@Html.DisplayFor(modelItem => user_workout.workout.category.name)</td>
+                            <td>@Html.DisplayFor(modelItem => user_workout.workout.created_at)</td>
+                            <td>@Html.DisplayFor(modelItem => user_workout.workout.user.username)</td>
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = user_workout.id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = user_workout.id })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
