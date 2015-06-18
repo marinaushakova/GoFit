@@ -4,3 +4,18 @@
 div.search_inputs > div {
     margin-top: 5px;
 }
+
+div.pagination_container {
+    text-align: center;
+}
+
+table.workout_list {
+    table-layout: fixed;
+    height: 250px;
+}
+
+table .workout_name_cell,
+table .workout_category_cell,
+table .workout_user_cell {
+ 
+}

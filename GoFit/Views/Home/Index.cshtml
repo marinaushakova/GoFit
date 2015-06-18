@@ -1,4 +1,6 @@
-﻿@model IEnumerable<GoFit.Models.workout>
+﻿@*@model IEnumerable<GoFit.Models.workout>*@
+@model PagedList.IPagedList<GoFit.Models.workout>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Home Page";
@@ -36,29 +38,33 @@
                     </div>
                 </form>
             </div>
-            <table class="workout_list table">
+            <table class="workout_list table container-fluid">
                 <thead>
-                    <tr>
-                        <th>@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.NameSortParam })</th>
-                        <th>@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam })</th>
-                        <th>@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam })</th>
-                        <th>@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UserSortParam })</th>
-                        <th>&nbsp;</th>
+                    <tr class="row">
+                        <th class="col-xs-3">@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.NameSortParam })</th>
+                        <th class="col-xs-3">@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam })</th>
+                        <th class="col-xs-2">@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam })</th>
+                        <th class="col-xs-3">@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UserSortParam })</th>
+                        <th class="col-xs-1">&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var workout in Model)
                     {
-                        <tr>
-                            <td>@Html.DisplayFor(modelItem => workout.name)</td>
-                            <td>@Html.DisplayFor(modelItem => workout.category.name)</td>
-                            <td>@Html.DisplayFor(modelItem => workout.created_at)</td>
-                            <td>@Html.DisplayFor(modelItem => workout.user.username)</td>
-                            <td>Details</td>
+                        <tr class="row">
+                            <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => workout.name)</td>
+                            <td class="workout_category_cell col-xs-3">@Html.DisplayFor(modelItem => workout.category.name)</td>
+                            <td class="workout_created_cell col-xs-2">@Html.DisplayFor(modelItem => workout.created_at)</td>
+                            <td class="workout_user_cell col-xs-3">@Html.DisplayFor(modelItem => workout.user.username)</td>
+                            <td class="workout_details_cell col-xs-1">Details</td>
                         </tr>
                     }
                 </tbody>
             </table>
+            <div class="pagination_container">
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+            </div>
         </div>
     </div>
 </div>

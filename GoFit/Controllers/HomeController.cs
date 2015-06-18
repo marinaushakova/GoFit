@@ -14,17 +14,18 @@ namespace GoFit.Controllers
     public class HomeController : Controller
     {
         private masterEntities db = new masterEntities();
+        private const int PAGE_SIZE = 4;
+
 
         /// <summary>
         /// Returns a list of workouts from the DB
         /// GET: /home/
         /// </summary>
         /// <param name="sortBy">String parameter telling the controller how to sore the workouts</param>
-        /// <param name="search">The workout name to search for</param>
-        /// <param name="categorySearch">The workout category to search for</param>
+        /// <param name="page">The request page in the list of workouts</param>
         /// <returns>A list of workouts from the DB</returns>
         [AllowAnonymous]
-        public ActionResult Index(string sortBy)
+        public ActionResult Index(string sortBy, int? page)
         {
             var workouts = from w in db.workouts select w;
 
@@ -73,7 +74,8 @@ namespace GoFit.Controllers
 
 
             workouts = this.sortResults(workouts, sortBy);
-            var view = View("Index", workouts.ToList());
+            int pageNumber = (page ?? 1);
+            var view = View("Index", workouts.ToPagedList(pageNumber, PAGE_SIZE));
             return view;
         }
 
