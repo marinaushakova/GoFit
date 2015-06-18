@@ -29,7 +29,7 @@ namespace GoFit.Controllers
         {
             var workouts = from w in db.workouts select w;
 
-            workouts = this.doSearch(workouts, page);
+            workouts = this.doSearch(workouts, sortBy, page);
             workouts = this.sortResults(workouts, sortBy);
 
             int pageNumber = (page ?? 1);
@@ -43,7 +43,7 @@ namespace GoFit.Controllers
         /// </summary>
         /// <param name="workouts">The base workout query result</param>
         /// <returns>The searched workouts</returns>
-        private IQueryable<workout> doSearch(IQueryable<workout> workouts, int? page)
+        private IQueryable<workout> doSearch(IQueryable<workout> workouts, string sortBy, int? page)
         {
             string nameSearch = null;
             string categorySearch = null;
@@ -59,7 +59,7 @@ namespace GoFit.Controllers
                 usernameSearch = searchParams["Username"];
             } 
 
-            if (page != null)
+            if (page != null || !String.IsNullOrEmpty(sortBy))
             {
                 nameSearch = Session["NameSearchParam"] as String;
                 categorySearch = Session["CategorySearchParam"] as String;
