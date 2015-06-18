@@ -29,20 +29,35 @@ namespace GoFit.Controllers
         {
             var workouts = from w in db.workouts select w;
 
+            workouts = this.doSearch(workouts, page);
+            workouts = this.sortResults(workouts, sortBy);
+
+            int pageNumber = (page ?? 1);
+            var view = View("Index", workouts.ToPagedList(pageNumber, PAGE_SIZE));
+            return view;
+        }
+
+        /// <summary>
+        /// Private helper method to perform a new search or maintain a previous search through 
+        /// pagination and filter changes
+        /// </summary>
+        /// <param name="workouts">The base workout query result</param>
+        /// <returns>The searched workouts</returns>
+        private IQueryable<workout> doSearch(IQueryable<workout> workouts, int? page)
+        {
             string nameSearch = null;
             string categorySearch = null;
             string dateAddedSearch = null;
             string usernameSearch = null;
 
-            var searchParams = (Request != null && Request.Form != null) ? Request.Form : null;
-
-            if (searchParams != null)
+            if (Request != null && Request.Form != null)
             {
+                var searchParams = Request.Form;
                 nameSearch = searchParams["Name"];
                 categorySearch = searchParams["Category"];
                 dateAddedSearch = searchParams["DateAdded"];
                 usernameSearch = searchParams["Username"];
-            }
+            } 
 
             if (page != null)
             {
@@ -62,7 +77,7 @@ namespace GoFit.Controllers
             if (!String.IsNullOrEmpty(categorySearch))
             {
                 workouts = workouts.Where(w => w.category.name.Contains(categorySearch));
-                Session["CategorySearchParam"] = nameSearch;
+                Session["CategorySearchParam"] = categorySearch;
             }
             else Session["CategorySearchParam"] = "";
 
@@ -83,14 +98,11 @@ namespace GoFit.Controllers
             if (!String.IsNullOrEmpty(usernameSearch))
             {
                 workouts = workouts.Where(w => w.user.username.Contains(usernameSearch));
-                Session["UsernameSearchParam"] = nameSearch;
+                Session["UsernameSearchParam"] = usernameSearch;
             }
             else Session["UsernameSearchParam"] = "";
 
-            workouts = this.sortResults(workouts, sortBy);
-            int pageNumber = (page ?? 1);
-            var view = View("Index", workouts.ToPagedList(pageNumber, PAGE_SIZE));
-            return view;
+            return workouts;
         }
 
         /// <summary>
