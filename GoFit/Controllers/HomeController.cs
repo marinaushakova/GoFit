@@ -14,7 +14,7 @@ namespace GoFit.Controllers
     public class HomeController : Controller
     {
         private masterEntities db;
-        private int pageSize = 2;
+        private const int PAGE_SIZE = 2;
 
         /// <summary>
         /// Constructor to create the default db context
@@ -22,6 +22,7 @@ namespace GoFit.Controllers
         public HomeController()
         {
             db = new masterEntities();
+            pageSize = PAGE_SIZE;
         }
 
         /// <summary>
@@ -31,12 +32,14 @@ namespace GoFit.Controllers
         public HomeController(masterEntities context)
         {
             db = context;
+            pageSize = PAGE_SIZE;
         }
 
         /// <summary>
-        /// Getter/setter for the pageSize instance variable
+        /// Getter/setter for the pageSize instance variable.
+        /// Should only be changed for testing purposes
         /// </summary>
-        public string pageSize { get; set; }
+        public int pageSize { get; set; }
 
         /// <summary>
         /// Returns a list of workouts from the DB

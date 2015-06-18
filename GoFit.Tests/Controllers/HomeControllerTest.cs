@@ -28,6 +28,7 @@ namespace GoFit.Tests.Controllers
             search = new WorkoutSearch();
             var mockContext = getWorkoutContext();
             controller = new HomeController(mockContext.Object);
+            controller.pageSize = 10;
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace GoFit.Tests.Controllers
             Assert.IsNotNull(result);
             Assert.AreEqual("Index", result.ViewName);
             var workouts = (PagedList<workout>) result.ViewData.Model;
-            Assert.IsTrue(workouts.Count > 23);
+            Assert.IsTrue(workouts.Count == 10);
         }
 
         /// <summary>
@@ -163,15 +164,98 @@ namespace GoFit.Tests.Controllers
             Assert.IsTrue(isSortedDesc);
         }
 
+        /// <summary>
+        /// Tests that searching for "1" returns all workouts with "1" in their name 
+        /// and the same for search string "2"
+        /// </summary>
         [TestMethod]
         public void TestIndexSearchByWorkoutName()
         {
-            search.name = "wo";
+            controller.pageSize = 50;
+            search.name = "1";
             ViewResult result = controller.Index("", null, search) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;
-            Assert.IsTrue(workouts.Count == 2);
-            search.name = null;
+            Assert.IsTrue(workouts.Count == 12);
+            search.name = "2";
+            result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 7);
+        }
+
+        [TestMethod]
+        public void TestIndexSearchByCategoryName()
+        {
+            controller.pageSize = 50;
+            search.category = "strength";
+            ViewResult result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 12);
+            search.category = "endurance";
+            result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 12);
+        }
+
+        [TestMethod]
+        public void TestIndexSearchByDateAdded()
+        {
+            controller.pageSize = 50;
+            search.dateAdded = "2015-06-15";
+            ViewResult result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 6);
+            search.dateAdded = "2015-06-14";
+            result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 6);
+        }
+
+        [TestMethod]
+        public void TestIndexSearchByUsername()
+        {
+            controller.pageSize = 50;
+            search.username = "admin";
+            ViewResult result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 12);
+            search.username = "bob";
+            result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 12);
+        }
+
+        [TestMethod]
+        public void TestIndexSearchCategoryAndSortUserDesc()
+        {
+            controller.pageSize = 12;
+            search.category = "strength";
+            ViewResult result = controller.Index("user_desc", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 12);
+            var isSortedDesc = this.isSorted(workouts, "username", "desc");
+            Assert.IsTrue(isSortedDesc);
+        }
+
+        [TestMethod]
+        public void TestIndexSearchByNameSortByDateAddedAsc()
+        {
+            controller.pageSize = 20;
+            search.name = "2";
+            ViewResult result = controller.Index("date", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 7);
+            var isSortedAsc = this.isSorted(workouts, "dateCreated", "asc");
+            Assert.IsTrue(isSortedAsc);
         }
 
         /* Private Test Helpers */
