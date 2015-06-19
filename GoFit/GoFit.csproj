@@ -217,6 +217,7 @@
     <Compile Include="Models\workout.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\WorkoutSearch.cs" />
     <Compile Include="Models\workout_exercise.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
@@ -300,6 +301,7 @@
     <Content Include="Views\Admin\Exercises.cshtml" />
     <Content Include="Views\Admin\Categories.cshtml" />
     <Content Include="Views\Admin\Types.cshtml" />
+    <Content Include="Views\Home\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

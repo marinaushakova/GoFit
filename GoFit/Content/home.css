@@ -14,8 +14,45 @@ table.workout_list {
     height: 250px;
 }
 
-table .workout_name_cell,
-table .workout_category_cell,
-table .workout_user_cell {
- 
+div.button_bar {
+    margin: 10px 5px;
+}
+div.workout_prop {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+div.workout_label > h4 > span {
+    margin-right: 20px;
+}
+
+div.exercise_list,
+div.workout_detail {
+    margin-top: 20px;
+}
+div.workout_detail_header {
+    
+}
+div.workout_detail_header {
+    margin: 10px;
+    margin-top: 5px;
+    padding: 5px;
+    font-size: 1.4em;
+    font-weight: bold;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: #5CB85C;
+    color: #FFF;
+    border-radius: 4px;
+    max-width: 100%;
+}
+
+div.exercise_list .did_exercise_chkbx {
+    float: right;
+}
+table {
+    display: block;
+    overflow: auto;
+    height: 300px;
 }

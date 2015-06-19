@@ -1,0 +1,87 @@
+﻿@model GoFit.Models.workout
+
+@{
+    ViewBag.Title = "Workout";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 col-xs-12 workout_detail well">
+            <div class="row">
+                <div class="workout_detail_header">@Model.name</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-12 workout_label"><h4><span class="label label-default">Description</span></h4></div>
+                <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(model => model.description)</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-12 workout_label"><h4><span class="label label-default">Created By</span></h4></div>
+                <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(model => model.user.username)</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-12"><h4><span class="label label-default">Category</span></h4></div>
+                <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(model => model.category.name)</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-12"><h4><span class="label label-default">Created At</span></h4></div>
+                <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(model => model.created_at)</div>
+            </div>
+        </div>
+        <div class="col-md-8 col-xs-12 exercise_list">
+            <div class="">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3>Exercises</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-xs-4">Exercise</th>
+                                    <th class="col-xs-4">Duration</th>
+                                    <th class="col-xs-4">
+                                        @*@if (@ViewBag.isMyWorkout == true)
+                                        {*@
+                                            <span class="did_exercise_chkbx">Complete</span>
+                                        @* } *@
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var exercise in Model.workout_exercise)
+                                {
+                                    <tr class="row">
+                                        <td class="col-xs-4">@Html.DisplayFor(modelItem => exercise.exercise.name)</td>
+                                        <td class="col-xs-4">
+                                            @Convert.ToInt16(@exercise.duration)&nbsp;
+                                            @if (@exercise.exercise.type.measure == "unit")
+                                            {
+                                                <span>reps</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@exercise.exercise.type.measure</span>
+                                            }
+                                        </td>
+                                        <td class="col-xs-4">
+                                            @*@if (@ViewBag.isMyWorkout == true)
+                                            {*@
+                                                <input class="did_exercise_chkbx" type="checkbox" />
+                                            @* } *@
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+    <div class="row button_bar">
+        <a href="/" class="btn btn-primary">Back</a>
+        <a href="/" class="btn btn-primary">Add to My Workouts</a>
+    </div>
+</div>
+

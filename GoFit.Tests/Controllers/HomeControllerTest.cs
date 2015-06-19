@@ -7,7 +7,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GoFit;
 using GoFit.Controllers;
 using GoFit.Models;
-using System.Web.SessionState;
+using PagedList;
+using Moq;
+using System.Data.Entity;
 
 namespace GoFit.Tests.Controllers
 {
@@ -18,11 +20,15 @@ namespace GoFit.Tests.Controllers
     public class HomeControllerTest
     {
         private HomeController controller;
+        private WorkoutSearch search;
 
         [TestInitialize]
         public void Initialize()
         {
-            controller = new HomeController();
+            search = new WorkoutSearch();
+            var mockContext = getWorkoutContext();
+            controller = new HomeController(mockContext.Object);
+            controller.pageSize = 10;
         }
 
         /// <summary>
@@ -31,11 +37,11 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestIndexViewRetrieval()
         {
-            ViewResult result = controller.Index("", null) as ViewResult;
+            ViewResult result = controller.Index("", null, search) as ViewResult;
             Assert.IsNotNull(result);
             Assert.AreEqual("Index", result.ViewName);
-            var workouts = (List<workout>) result.ViewData.Model;
-            Assert.IsTrue(workouts.Count > 0);
+            var workouts = (PagedList<workout>) result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 10);
         }
 
         /// <summary>
@@ -46,9 +52,9 @@ namespace GoFit.Tests.Controllers
         public void TestIndexSortByNameAsc()
         {
             string sortBy = "name";
-            ViewResult result = controller.Index(sortBy, null) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
-            var workouts = (List<workout>)result.ViewData.Model;
+            var workouts = (PagedList<workout>)result.ViewData.Model;
             var isSortedAsc = this.isSorted(workouts, "name", "asc");
             Assert.IsTrue(isSortedAsc);
         }
@@ -61,9 +67,9 @@ namespace GoFit.Tests.Controllers
         public void TestIndexSortByNameDesc()
         {
             string sortBy = "name_desc";
-            ViewResult result = controller.Index(sortBy, null) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
-            var workouts = (List<workout>)result.ViewData.Model;
+            var workouts = (PagedList<workout>)result.ViewData.Model;
             var isSortedDesc = this.isSorted(workouts, "name", "desc");
             Assert.IsTrue(isSortedDesc);
         }
@@ -76,9 +82,9 @@ namespace GoFit.Tests.Controllers
         public void TestIndexSortByCategoryAsc()
         {
             string sortBy = "category";
-            ViewResult result = controller.Index(sortBy, null) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
-            var workouts = (List<workout>)result.ViewData.Model;
+            var workouts = (PagedList<workout>)result.ViewData.Model;
             var isSortedAsc = this.isSorted(workouts, "category", "asc");
             Assert.IsTrue(isSortedAsc);
         }
@@ -91,9 +97,9 @@ namespace GoFit.Tests.Controllers
         public void TestIndexSortByCategoryDesc()
         {
             string sortBy = "category_desc";
-            ViewResult result = controller.Index(sortBy, null) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
-            var workouts = (List<workout>)result.ViewData.Model;
+            var workouts = (PagedList<workout>)result.ViewData.Model;
             var isSortedDesc = this.isSorted(workouts, "category", "desc");
             Assert.IsTrue(isSortedDesc);
         }
@@ -106,9 +112,9 @@ namespace GoFit.Tests.Controllers
         public void TestIndexSortByDateCreatedAsc()
         {
             string sortBy = "date";
-            ViewResult result = controller.Index(sortBy, null) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
-            var workouts = (List<workout>)result.ViewData.Model;
+            var workouts = (PagedList<workout>)result.ViewData.Model;
             var isSortedAsc = this.isSorted(workouts, "dateCreated", "asc");
             Assert.IsTrue(isSortedAsc);
         }
@@ -121,9 +127,9 @@ namespace GoFit.Tests.Controllers
         public void TestIndexSortByDateCreatedDesc()
         {
             string sortBy = "date_desc";
-            ViewResult result = controller.Index(sortBy, null) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
-            var workouts = (List<workout>)result.ViewData.Model;
+            var workouts = (PagedList<workout>)result.ViewData.Model;
             var isSortedDesc = this.isSorted(workouts, "dateCreated", "desc");
             Assert.IsTrue(isSortedDesc);
         }
@@ -136,9 +142,9 @@ namespace GoFit.Tests.Controllers
         public void TestIndexSortByUserAsc()
         {
             string sortBy = "user";
-            ViewResult result = controller.Index(sortBy, null) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
-            var workouts = (List<workout>)result.ViewData.Model;
+            var workouts = (PagedList<workout>)result.ViewData.Model;
             var isSortedAsc = this.isSorted(workouts, "username", "asc");
             Assert.IsTrue(isSortedAsc);
         }
@@ -151,12 +157,115 @@ namespace GoFit.Tests.Controllers
         public void TestIndexSortByUserDesc()
         {
             string sortBy = "user_desc";
-            ViewResult result = controller.Index(sortBy, null) as ViewResult;
+            ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
-            var workouts = (List<workout>)result.ViewData.Model;
+            var workouts = (PagedList<workout>)result.ViewData.Model;
             var isSortedDesc = this.isSorted(workouts, "username", "desc");
             Assert.IsTrue(isSortedDesc);
         }
+
+        /// <summary>
+        /// Tests that searching for "1" returns all workouts with "1" in their name 
+        /// and the same for search string "2"
+        /// </summary>
+        [TestMethod]
+        public void TestIndexSearchByWorkoutName()
+        {
+            controller.pageSize = 50;
+            search.name = "1";
+            ViewResult result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 12);
+            search.name = "2";
+            result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 7);
+        }
+
+        [TestMethod]
+        public void TestIndexSearchByCategoryName()
+        {
+            controller.pageSize = 50;
+            search.category = "strength";
+            ViewResult result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 12);
+            search.category = "endurance";
+            result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 12);
+        }
+
+        [TestMethod]
+        public void TestIndexSearchByDateAdded()
+        {
+            controller.pageSize = 50;
+            search.dateAdded = "2015-06-15";
+            ViewResult result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 6);
+            search.dateAdded = "2015-06-14";
+            result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 6);
+        }
+
+        [TestMethod]
+        public void TestIndexSearchByUsername()
+        {
+            controller.pageSize = 50;
+            search.username = "admin";
+            ViewResult result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 12);
+            search.username = "bob";
+            result = controller.Index("", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 12);
+        }
+
+        [TestMethod]
+        public void TestIndexSearchCategoryAndSortUserDesc()
+        {
+            controller.pageSize = 12;
+            search.category = "strength";
+            ViewResult result = controller.Index("user_desc", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 12);
+            var isSortedDesc = this.isSorted(workouts, "username", "desc");
+            Assert.IsTrue(isSortedDesc);
+        }
+
+        [TestMethod]
+        public void TestIndexSearchByNameSortByDateAddedAsc()
+        {
+            controller.pageSize = 20;
+            search.name = "2";
+            ViewResult result = controller.Index("date", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var workouts = (PagedList<workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 7);
+            var isSortedAsc = this.isSorted(workouts, "dateCreated", "asc");
+            Assert.IsTrue(isSortedAsc);
+        }
+
+        [TestMethod]
+        public void TestDetailsForWorkout1()
+        {
+            //ViewResult result = controller.Details(1) as ViewResult;
+            //Assert.IsNotNull(result);
+            //workout workout1 = (workout)result.ViewData.Model;
+            //Assert.AreEqual("workout1", workout1.name, "Name is workout1");
+        } 
 
         /* Private Test Helpers */
 
@@ -167,7 +276,7 @@ namespace GoFit.Tests.Controllers
         /// <param name="propName">The workout property that the list should be sorted by</param>
         /// <param name="order">One of "asc" or "desc". Tells the method to check if the list is in ascending or descending order</param>
         /// <returns>True if the list is sorted on the given property in the given order, false otherwise</returns>
-        private bool isSorted(List<workout> workouts, string propName, string order)
+        private bool isSorted(PagedList<workout> workouts, string propName, string order)
         {
             int limit = (workouts.Count > 10) ? 11 : workouts.Count;
             for (int i = 1; i < limit; i++)
@@ -203,6 +312,266 @@ namespace GoFit.Tests.Controllers
                 }
             }
             return true;
+        }
+
+        /// <summary>
+        /// Sets up the mock context and gives it test data
+        /// </summary>
+        /// <returns>The mock context</returns>
+        private Mock<masterEntities> getWorkoutContext()
+        {
+            category category1 = new category
+            {
+                id = 1,
+                name = "endurance",
+                description = "Endurance workouts help"
+            };
+            category category2 = new category
+            {
+                id = 2,
+                name = "strength",
+                description = "Strength workouts build"
+            };
+            category category3 = new category
+            {
+                id = 3,
+                name = "flexibility",
+                description = "Flexibility workouts stretch"
+            };
+
+            user user1 = new user
+            {
+                id = 1,
+                username = "admin"
+            };
+            user user2 = new user
+            {
+                id = 2,
+                username = "bob"
+            };
+
+            var workouts = new List<workout>
+            {
+                new workout { 
+                    id = 1,
+                    name = "workout1",
+                    description = "desc1",
+                    created_at = Convert.ToDateTime("2015-06-15"),
+                    category = category2,
+                    user = user1
+                },
+                new workout { 
+                    id = 2,
+                    name = "workout2",
+                    description = "desc2",
+                    created_at = Convert.ToDateTime("2015-06-14"),
+                    category = category2,
+                    user = user1
+                },
+                new workout { 
+                    id = 3,
+                    name = "workout3",
+                    description = "desc3",
+                    created_at = Convert.ToDateTime("2015-06-13"),
+                    category = category2,
+                    user = user1
+                },
+                new workout { 
+                    id = 4,
+                    name = "workout4",
+                    description = "desc4",
+                    created_at = Convert.ToDateTime("2015-06-12"),
+                    category = category2,
+                    user = user1
+                },
+                new workout { 
+                    id = 5,
+                    name = "workout5",
+                    description = "desc5",
+                    created_at = Convert.ToDateTime("2015-06-15"),
+                    category = category2,
+                    user = user1
+                },
+                new workout { 
+                    id = 6,
+                    name = "workout6",
+                    description = "desc6",
+                    created_at = Convert.ToDateTime("2015-06-14"),
+                    category = category2,
+                    user = user1
+                },
+                new workout { 
+                    id = 7,
+                    name = "workout7",
+                    description = "desc7",
+                    created_at = Convert.ToDateTime("2015-06-13"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    id = 8,
+                    name = "workout8",
+                    description = "desc8",
+                    created_at = Convert.ToDateTime("2015-06-12"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    id = 9,
+                    name = "workout9",
+                    description = "desc9",
+                    created_at = Convert.ToDateTime("2015-06-15"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    id = 10,
+                    name = "workout10",
+                    description = "desc10",
+                    created_at = Convert.ToDateTime("2015-06-14"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    id = 11,
+                    name = "workout11",
+                    description = "desc11",
+                    created_at = Convert.ToDateTime("2015-06-13"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    id = 12,
+                    name = "workout12",
+                    description = "desc12",
+                    created_at = Convert.ToDateTime("2015-06-12"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    id = 13,
+                    name = "workout13",
+                    description = "desc13",
+                    created_at = Convert.ToDateTime("2015-06-15"),
+                    category = category1,
+                    user = user1
+                },
+                new workout { 
+                    id = 14,
+                    name = "workout14",
+                    description = "desc14",
+                    created_at = Convert.ToDateTime("2015-06-14"),
+                    category = category1,
+                    user = user1
+                },
+                new workout { 
+                    id = 15,
+                    name = "workout15",
+                    description = "desc15",
+                    created_at = Convert.ToDateTime("2015-06-13"),
+                    category = category1,
+                    user = user1
+                },
+                new workout { 
+                    id = 16,
+                    name = "workout16",
+                    description = "desc16",
+                    created_at = Convert.ToDateTime("2015-06-12"),
+                    category = category2,
+                    user = user2
+                },
+                new workout { 
+                    id = 17,
+                    name = "workout17",
+                    description = "desc17",
+                    created_at = Convert.ToDateTime("2015-06-15"),
+                    category = category2,
+                    user = user2
+                },
+                new workout { 
+                    id = 18,
+                    name = "workout18",
+                    description = "desc18",
+                    created_at = Convert.ToDateTime("2015-06-14"),
+                    category = category2,
+                    user = user2
+                },
+                new workout { 
+                    id = 19,
+                    name = "workout19",
+                    description = "desc19",
+                    created_at = Convert.ToDateTime("2015-06-13"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    id = 20,
+                    name = "workout20",
+                    description = "desc20",
+                    created_at = Convert.ToDateTime("2015-06-12"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    id = 21,
+                    name = "workout21",
+                    description = "desc21",
+                    created_at = Convert.ToDateTime("2015-06-15"),
+                    category = category1,
+                    user = user2
+                },
+                new workout { 
+                    id = 22,
+                    name = "workout22",
+                    description = "desc22",
+                    created_at = Convert.ToDateTime("2015-06-14"),
+                    category = category2,
+                    user = user1
+                },
+                new workout { 
+                    id = 23,
+                    name = "workout23",
+                    description = "desc23",
+                    created_at = Convert.ToDateTime("2015-06-13"),
+                    category = category2,
+                    user = user1
+                },
+                new workout { 
+                    id = 24,
+                    name = "workout24",
+                    description = "desc24",
+                    created_at = Convert.ToDateTime("2015-06-12"),
+                    category = category2,
+                    user = user1
+                }
+            }.AsQueryable();
+
+            var user_workouts = new List<user_workout>
+            {
+                new user_workout { 
+                    user_id = 2,
+                    workout_id = 1,
+                    id = 1
+                }
+            }.AsQueryable();
+
+            var workoutMockset = new Mock<DbSet<workout>>();
+            workoutMockset.As<IQueryable<workout>>().Setup(m => m.Provider).Returns(workouts.Provider);
+            workoutMockset.As<IQueryable<workout>>().Setup(m => m.Expression).Returns(workouts.Expression);
+            workoutMockset.As<IQueryable<workout>>().Setup(m => m.ElementType).Returns(workouts.ElementType);
+            workoutMockset.As<IQueryable<workout>>().Setup(m => m.GetEnumerator()).Returns(workouts.GetEnumerator);
+
+            var userWorkoutMockset = new Mock<DbSet<user_workout>>();
+            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.Provider).Returns(user_workouts.Provider);
+            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.Expression).Returns(user_workouts.Expression);
+            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.ElementType).Returns(user_workouts.ElementType);
+            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.GetEnumerator()).Returns(user_workouts.GetEnumerator);
+           
+            var mockContext = new Mock<masterEntities>();
+            mockContext.Setup(c => c.workouts).Returns(workoutMockset.Object);
+            mockContext.Setup(c => c.user_workout).Returns(userWorkoutMockset.Object);
+            mockContext.Object.workouts.Find(1);
+            return mockContext;
         }
     }
 }
