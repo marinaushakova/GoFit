@@ -15,10 +15,16 @@ namespace GoFit.Controllers
         private masterEntities db = new masterEntities();
 
         // GET: AdminWorkouts
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            var workouts = db.workouts.Include(w => w.category).Include(w => w.user);
-            return View(workouts.ToList());
+            var workouts = from w in db.workouts select w;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                workouts = workouts.Where(s => s.name.Contains(searchString));
+            }
+
+            return View(workouts);
         }
 
         // GET: AdminWorkouts/Details/5
