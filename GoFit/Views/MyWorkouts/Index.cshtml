@@ -91,7 +91,7 @@
                     @foreach (var user_workout in Model)
                     {
                         <tr class="row">
-                            <td class="workout_name_cell col-xs-3">@Html.ActionLink(user_workout.workout.name, "Details", new { id = user_workout.id })</td>
+                            <td class="workout_name_cell col-xs-3">@Html.ActionLink(user_workout.workout.name, "../Home/Details", new { id = user_workout.id })</td>
                             <td class="workout_category_cell col-xs-3">@Html.DisplayFor(modelItem => user_workout.workout.category.name)</td>
                             <td class="workout_created_cell col-xs-3">@Html.DisplayFor(modelItem => user_workout.workout.created_at)</td>
                             <td class="workout_user_cell col-xs-3">@Html.DisplayFor(modelItem => user_workout.workout.user.username)</td>
