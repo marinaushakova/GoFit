@@ -43,7 +43,7 @@ namespace GoFit.Controllers
 
                     if (user.is_admin == 1)
                     {
-                        return RedirectToAction("Index", "AdminHome");
+                        return RedirectToAction("Index", "Admin");
                     }
 
                     if (Url.IsLocalUrl(ReturnUrl))
