@@ -67,14 +67,14 @@ namespace GoFit.Controllers
         {
             workout workout;
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            user_workout myworkout = db.user_workout.Find(id);
+            
+            user_workout myworkout = db.user_workout.Where(w => w.workout_id == id) as user_workout;
             if (myworkout == null) workout = db.workouts.Find(id);
             else
             {
                 workout = myworkout.workout;
                 ViewBag.isMyWorkout = true;
             }
-           
             if (workout == null) return HttpNotFound();
             return View(workout);
         }
@@ -110,7 +110,6 @@ namespace GoFit.Controllers
                     w.created_at.Month == month &&
                     w.created_at.Day == day);
             }
-
             return workouts;
         }
 

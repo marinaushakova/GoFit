@@ -258,6 +258,15 @@ namespace GoFit.Tests.Controllers
             Assert.IsTrue(isSortedAsc);
         }
 
+        [TestMethod]
+        public void TestDetailsForWorkout1()
+        {
+            //ViewResult result = controller.Details(1) as ViewResult;
+            //Assert.IsNotNull(result);
+            //workout workout1 = (workout)result.ViewData.Model;
+            //Assert.AreEqual("workout1", workout1.name, "Name is workout1");
+        } 
+
         /* Private Test Helpers */
 
         /// <summary>
@@ -344,6 +353,7 @@ namespace GoFit.Tests.Controllers
             var workouts = new List<workout>
             {
                 new workout { 
+                    id = 1,
                     name = "workout1",
                     description = "desc1",
                     created_at = Convert.ToDateTime("2015-06-15"),
@@ -351,6 +361,7 @@ namespace GoFit.Tests.Controllers
                     user = user1
                 },
                 new workout { 
+                    id = 2,
                     name = "workout2",
                     description = "desc2",
                     created_at = Convert.ToDateTime("2015-06-14"),
@@ -358,6 +369,7 @@ namespace GoFit.Tests.Controllers
                     user = user1
                 },
                 new workout { 
+                    id = 3,
                     name = "workout3",
                     description = "desc3",
                     created_at = Convert.ToDateTime("2015-06-13"),
@@ -365,6 +377,7 @@ namespace GoFit.Tests.Controllers
                     user = user1
                 },
                 new workout { 
+                    id = 4,
                     name = "workout4",
                     description = "desc4",
                     created_at = Convert.ToDateTime("2015-06-12"),
@@ -372,6 +385,7 @@ namespace GoFit.Tests.Controllers
                     user = user1
                 },
                 new workout { 
+                    id = 5,
                     name = "workout5",
                     description = "desc5",
                     created_at = Convert.ToDateTime("2015-06-15"),
@@ -379,6 +393,7 @@ namespace GoFit.Tests.Controllers
                     user = user1
                 },
                 new workout { 
+                    id = 6,
                     name = "workout6",
                     description = "desc6",
                     created_at = Convert.ToDateTime("2015-06-14"),
@@ -386,6 +401,7 @@ namespace GoFit.Tests.Controllers
                     user = user1
                 },
                 new workout { 
+                    id = 7,
                     name = "workout7",
                     description = "desc7",
                     created_at = Convert.ToDateTime("2015-06-13"),
@@ -393,6 +409,7 @@ namespace GoFit.Tests.Controllers
                     user = user2
                 },
                 new workout { 
+                    id = 8,
                     name = "workout8",
                     description = "desc8",
                     created_at = Convert.ToDateTime("2015-06-12"),
@@ -400,6 +417,7 @@ namespace GoFit.Tests.Controllers
                     user = user2
                 },
                 new workout { 
+                    id = 9,
                     name = "workout9",
                     description = "desc9",
                     created_at = Convert.ToDateTime("2015-06-15"),
@@ -407,6 +425,7 @@ namespace GoFit.Tests.Controllers
                     user = user2
                 },
                 new workout { 
+                    id = 10,
                     name = "workout10",
                     description = "desc10",
                     created_at = Convert.ToDateTime("2015-06-14"),
@@ -414,6 +433,7 @@ namespace GoFit.Tests.Controllers
                     user = user2
                 },
                 new workout { 
+                    id = 11,
                     name = "workout11",
                     description = "desc11",
                     created_at = Convert.ToDateTime("2015-06-13"),
@@ -421,6 +441,7 @@ namespace GoFit.Tests.Controllers
                     user = user2
                 },
                 new workout { 
+                    id = 12,
                     name = "workout12",
                     description = "desc12",
                     created_at = Convert.ToDateTime("2015-06-12"),
@@ -428,6 +449,7 @@ namespace GoFit.Tests.Controllers
                     user = user2
                 },
                 new workout { 
+                    id = 13,
                     name = "workout13",
                     description = "desc13",
                     created_at = Convert.ToDateTime("2015-06-15"),
@@ -435,6 +457,7 @@ namespace GoFit.Tests.Controllers
                     user = user1
                 },
                 new workout { 
+                    id = 14,
                     name = "workout14",
                     description = "desc14",
                     created_at = Convert.ToDateTime("2015-06-14"),
@@ -442,6 +465,7 @@ namespace GoFit.Tests.Controllers
                     user = user1
                 },
                 new workout { 
+                    id = 15,
                     name = "workout15",
                     description = "desc15",
                     created_at = Convert.ToDateTime("2015-06-13"),
@@ -449,6 +473,7 @@ namespace GoFit.Tests.Controllers
                     user = user1
                 },
                 new workout { 
+                    id = 16,
                     name = "workout16",
                     description = "desc16",
                     created_at = Convert.ToDateTime("2015-06-12"),
@@ -456,6 +481,7 @@ namespace GoFit.Tests.Controllers
                     user = user2
                 },
                 new workout { 
+                    id = 17,
                     name = "workout17",
                     description = "desc17",
                     created_at = Convert.ToDateTime("2015-06-15"),
@@ -463,6 +489,7 @@ namespace GoFit.Tests.Controllers
                     user = user2
                 },
                 new workout { 
+                    id = 18,
                     name = "workout18",
                     description = "desc18",
                     created_at = Convert.ToDateTime("2015-06-14"),
@@ -470,6 +497,7 @@ namespace GoFit.Tests.Controllers
                     user = user2
                 },
                 new workout { 
+                    id = 19,
                     name = "workout19",
                     description = "desc19",
                     created_at = Convert.ToDateTime("2015-06-13"),
@@ -477,6 +505,7 @@ namespace GoFit.Tests.Controllers
                     user = user2
                 },
                 new workout { 
+                    id = 20,
                     name = "workout20",
                     description = "desc20",
                     created_at = Convert.ToDateTime("2015-06-12"),
@@ -484,6 +513,7 @@ namespace GoFit.Tests.Controllers
                     user = user2
                 },
                 new workout { 
+                    id = 21,
                     name = "workout21",
                     description = "desc21",
                     created_at = Convert.ToDateTime("2015-06-15"),
@@ -491,6 +521,7 @@ namespace GoFit.Tests.Controllers
                     user = user2
                 },
                 new workout { 
+                    id = 22,
                     name = "workout22",
                     description = "desc22",
                     created_at = Convert.ToDateTime("2015-06-14"),
@@ -498,6 +529,7 @@ namespace GoFit.Tests.Controllers
                     user = user1
                 },
                 new workout { 
+                    id = 23,
                     name = "workout23",
                     description = "desc23",
                     created_at = Convert.ToDateTime("2015-06-13"),
@@ -505,11 +537,21 @@ namespace GoFit.Tests.Controllers
                     user = user1
                 },
                 new workout { 
+                    id = 24,
                     name = "workout24",
                     description = "desc24",
                     created_at = Convert.ToDateTime("2015-06-12"),
                     category = category2,
                     user = user1
+                }
+            }.AsQueryable();
+
+            var user_workouts = new List<user_workout>
+            {
+                new user_workout { 
+                    user_id = 2,
+                    workout_id = 1,
+                    id = 1
                 }
             }.AsQueryable();
 
@@ -519,8 +561,16 @@ namespace GoFit.Tests.Controllers
             workoutMockset.As<IQueryable<workout>>().Setup(m => m.ElementType).Returns(workouts.ElementType);
             workoutMockset.As<IQueryable<workout>>().Setup(m => m.GetEnumerator()).Returns(workouts.GetEnumerator);
 
+            var userWorkoutMockset = new Mock<DbSet<user_workout>>();
+            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.Provider).Returns(user_workouts.Provider);
+            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.Expression).Returns(user_workouts.Expression);
+            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.ElementType).Returns(user_workouts.ElementType);
+            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.GetEnumerator()).Returns(user_workouts.GetEnumerator);
+           
             var mockContext = new Mock<masterEntities>();
             mockContext.Setup(c => c.workouts).Returns(workoutMockset.Object);
+            mockContext.Setup(c => c.user_workout).Returns(userWorkoutMockset.Object);
+            mockContext.Object.workouts.Find(1);
             return mockContext;
         }
     }
