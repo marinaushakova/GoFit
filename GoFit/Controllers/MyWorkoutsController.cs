@@ -4,14 +4,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace GoFit.Controllers
 {
+    /// <summary>
+    /// Defines MyWorkouts page funtionality
+    /// </summary>
     public class MyWorkoutsController : Controller
     {
 
-        private masterEntities db = new masterEntities();
+        private masterEntities db;
         private int currUserId;
+        private const int PAGE_SIZE = 10;
+
+        /// <summary>
+        /// Getter/setter for the pageSize instance variable
+        /// </summary>
+        public int pageSize { get; set; }
+
+        /// <summary>
+        /// Constructor to create the default db context
+        /// </summary>
+        public MyWorkoutsController()
+        {
+            db = new masterEntities();
+            pageSize = PAGE_SIZE;
+        }
 
         //
         // GET: /MyWorkouts/
@@ -19,12 +38,28 @@ namespace GoFit.Controllers
         /// Returns the list of My Workouts for currently logged in user
         /// </summary>
         /// <param name="filterString">Parameter is used to filter my workouts list</param>
+        /// <param name="sortBy">String parameter telling the controller how to sort the workouts</param>
+        /// <param name="page">The request page in the list of workouts</param>
+        /// <param name="workoutSearch">Search parameter</param>
         /// <returns>A list of users workouts from DB</returns>
         [Authorize]
-        public ActionResult Index(string filterString, string sortBy, string nameSearch, string categorySearch, DateTime? dateAddedSeach, string usernameSearch)
+        public ActionResult Index(string filterString, string sortBy, int? page, WorkoutSearch workoutSearch)
         {
             currUserId = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
             var user_workouts = from w in db.user_workout where w.user_id == currUserId select w;
+
+            user_workouts = this.doFilter(user_workouts, filterString);
+            user_workouts = this.doSearch(user_workouts, workoutSearch, filterString, sortBy, page);
+            user_workouts = this.doSort(user_workouts, sortBy);
+
+            int pageNumber = (page ?? 1);
+            var view = View("Index", user_workouts.ToPagedList(pageNumber, pageSize));
+            return view;
+        }
+
+
+        private IQueryable<user_workout> doFilter(IQueryable<user_workout> user_workouts, String filterString)
+        {
 
             if (!String.IsNullOrEmpty(filterString))
             {
@@ -52,27 +87,43 @@ namespace GoFit.Controllers
                 default:
                     break;
             }
-            
-            if (!String.IsNullOrEmpty(nameSearch))
+
+            return user_workouts;
+        }
+
+
+        /// <summary>
+        /// Private helper method to perform a new search or maintain a previous search through 
+        /// pagination and filter changes
+        /// </summary>
+        /// <param name="workouts">The base workout query result</param>
+        /// <param name="sortBy">The passed sort string if it exists, else null</param>
+        /// <param name="page">The passed page param if it exists, else null</param>
+        /// <returns>The searched workouts</returns>
+        private IQueryable<user_workout> doSearch(IQueryable<user_workout> user_workouts, WorkoutSearch search, String filterString, string sortBy, int? page)
+        {
+            if (page != null || !String.IsNullOrEmpty(sortBy) || !String.IsNullOrEmpty(filterString))
             {
-                user_workouts = user_workouts.Where(w => w.workout.name.Contains(nameSearch));
-                ViewBag.NameSearchParam = nameSearch;
+                search = setSearchFromSession(search);
             }
-            else if (!String.IsNullOrEmpty(ViewBag.NameSearchParam))
+            else setSessionFromSearch(search);
+
+            if (!String.IsNullOrEmpty(search.name)) user_workouts = user_workouts.Where(w => w.workout.name.Contains(search.name));
+            if (!String.IsNullOrEmpty(search.category)) user_workouts = user_workouts.Where(w => w.workout.category.name.Contains(search.category));
+            if (!String.IsNullOrEmpty(search.username)) user_workouts = user_workouts.Where(w => w.workout.user.username.Contains(search.username));
+            if (!String.IsNullOrEmpty(search.dateAdded))
             {
-                string nameSearchParam = ViewBag.NameSearchParam;
-                user_workouts = user_workouts.Where(w => w.workout.name.Contains(nameSearchParam));
+                string[] dateArrayString = search.dateAdded.Split('-');
+                int year = Convert.ToInt16(dateArrayString[0]);
+                int month = Convert.ToInt16(dateArrayString[1]);
+                int day = Convert.ToInt16(dateArrayString[2]);
+
+                user_workouts = user_workouts.Where(w =>
+                    w.workout.created_at.Year == year &&
+                    w.workout.created_at.Month == month &&
+                    w.workout.created_at.Day == day);
             }
-            else ViewBag.NameSearchParam = null;
-
-            if (!String.IsNullOrEmpty(categorySearch)) user_workouts = user_workouts.Where(w => w.workout.category.name.Contains(categorySearch));
-            if (dateAddedSeach != null) user_workouts = user_workouts.Where(w => w.workout.created_at.Equals(dateAddedSeach));
-            if (!String.IsNullOrEmpty(usernameSearch)) user_workouts = user_workouts.Where(w => w.workout.user.username.Contains(usernameSearch));
-
-            user_workouts = this.sortResults(user_workouts, sortBy);
-
-            ActionResult view = View("Index", user_workouts.ToList());
-            return view;
+            return user_workouts;
         }
 
         /// <summary>
@@ -81,9 +132,18 @@ namespace GoFit.Controllers
         /// <param name="workouts">The base workout query result</param>
         /// <param name="sortBy">Indicates the sort order</param>
         /// <returns>The sorted workouts</returns>
-        private IQueryable<user_workout> sortResults(IQueryable<user_workout> user_workouts, string sortBy)
+        private IQueryable<user_workout> doSort(IQueryable<user_workout> user_workouts, string sortBy)
         {
-            ViewBag.NameSortParam = (String.IsNullOrEmpty(sortBy)) ? "name_desc" : "";
+            if (!String.IsNullOrEmpty(sortBy))
+            {
+                setSessionFromSort(sortBy);
+            }
+            else
+            {
+                sortBy = setSortFromSession(sortBy);
+            }
+
+            ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
             ViewBag.DateSortParam = (sortBy == "date") ? "date_desc" : "date";
             ViewBag.CategorySortParam = (sortBy == "category") ? "category_desc" : "category";
             ViewBag.UserSortParam = (sortBy == "user") ? "user_desc" : "user";
@@ -118,5 +178,73 @@ namespace GoFit.Controllers
 
             return user_workouts;
         }
+
+        /// <summary>
+        /// Sets the WorkoutSearch object with the stored session search variables if they exist
+        /// </summary>
+        /// <param name="search">The WorkoutSearch object to set</param>
+        /// <returns>The WorkoutSearch object set with the session search variables if the session exists, else the passed in WorkoutSearch object</returns>
+        private WorkoutSearch setSearchFromSession(WorkoutSearch search)
+        {
+            if (Session != null)
+            {
+                search.name = Session["NameSearchParam"] as String;
+                search.category = Session["CategorySearchParam"] as String;
+                search.username = Session["UserSearchParam"] as String;
+            }
+            return search;
+        }
+
+        /// <summary>
+        /// Sets the session search parameters based on the current search values
+        /// </summary>
+        /// <param name="search">The WorkoutSearch object containing the values to set in the session</param>
+        private void setSessionFromSearch(WorkoutSearch search)
+        {
+            if (Session != null)
+            {
+                if (!String.IsNullOrEmpty(search.name)) Session["NameSearchParam"] = search.name;
+                else Session["NameSearchParam"] = "";
+
+                if (!String.IsNullOrEmpty(search.category)) Session["CategorySearchParam"] = search.category;
+                else Session["CategorySearchParam"] = "";
+
+                if (!String.IsNullOrEmpty(search.dateAdded))
+                {
+                    string[] dateArrayString = search.dateAdded.Split('-');
+                    int year = Convert.ToInt16(dateArrayString[0]);
+                    int month = Convert.ToInt16(dateArrayString[1]);
+                    int day = Convert.ToInt16(dateArrayString[2]);
+                }
+
+                if (!String.IsNullOrEmpty(search.username)) Session["UsernameSearchParam"] = search.username;
+                else Session["UsernameSearchParam"] = "";
+            }
+        }
+
+        /// <summary>
+        /// Sets the sortBy param to the session sort value if the session exists. 
+        /// If the session does not exist the passed in sortBy param is returned. 
+        /// </summary>
+        /// <param name="sortBy">The current sort filter</param>
+        /// <returns>The sort parameter set from the session else the original sort param</returns>
+        private string setSortFromSession(string sortBy)
+        {
+            if (Session != null)
+            {
+                sortBy = Session["SortBy"] as String;
+            }
+            return sortBy;
+        }
+
+        /// <summary>
+        /// Sets the session if it exists from the passed in sortBy string
+        /// </summary>
+        /// <param name="sortBy">The current sort filter</param>
+        private void setSessionFromSort(string sortBy)
+        {
+            if (Session != null) Session["SortBy"] = sortBy;
+        }
+
 	}
 }

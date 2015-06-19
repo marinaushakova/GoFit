@@ -1,4 +1,5 @@
-﻿@model IEnumerable<GoFit.Models.user_workout>
+﻿@model PagedList.IPagedList<GoFit.Models.user_workout>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "My Workouts";
@@ -17,23 +18,23 @@
         </div>
 
         <div class="panel-body">
-            
+
             @if (ViewBag.FilterParam == "")
             {
-                @Html.Label("All ") 
+                @Html.Label("All ")
             }
             else
             {
-                @Html.ActionLink("All", "Index", new { filterString = "" }) 
+                @Html.ActionLink("All", "Index", new { filterString = "" })
             }
-            | 
+            |
             @if (ViewBag.FilterParam == "in_progress")
             {
                 @Html.Label("In Progress ")
             }
             else
             {
-                @Html.ActionLink("In Progress", "Index", new { filterString = "in_progress" }) 
+                @Html.ActionLink("In Progress", "Index", new { filterString = "in_progress" })
             }
             |
             @if (ViewBag.FilterParam == "not_started")
@@ -44,7 +45,7 @@
             {
                 @Html.ActionLink("Not Started", "Index", new { filterString = "not_started" })
             }
-            | 
+            |
             @if (ViewBag.FilterParam == "completed")
             {
                 @Html.Label("Completed ")
@@ -56,50 +57,55 @@
             <br />
 
             <div class="search_bar">
-                @using (Html.BeginForm())
-                {
-                    <div class="search_name">
-                        @if (!String.IsNullOrEmpty(ViewBag.NameSearchParam))
-                        {
-                            <input id="NameSearch" name="NameSearch" type="text" value="@ViewBag.NameSearchParam" />
-                        }
-                        else
-                        {
-                            <input id="NameSearch" name="NameSearch" type="text" placeholder="Name..." />
-                        }
-                        <input id="CategorySearch" name="CategorySearch" type="text" placeholder="Category..." />
-                        <input id="DateAddedSearch" name="DateAddedSearch" type="date" placeholder="Date Added..." />
-                        <input id="UsernameSearch" name="UsernameSearch" type="text" placeholder="Username..." />
-                        <input class="btn btn-primary" type="submit" value="Search" />
+                <form action="/MyWorkouts" method="post" class="form-inline">
+                    <div class="search_inputs form-group row">
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <input class="" id="NameSearch" name="Name" type="text" value="@Session["NameSearchParam"]" placeholder="Workout name..." />
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <input class="" id="CategorySearch" name="Category" type="text" value="@Session["CategorySearchParam"]" placeholder="Category..." />
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <input class="" id="DateAddedSearch" name="DateAdded" type="date" placeholder="Date Added..." />
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <input class="" id="UsernameSearch" name="Username" type="text" value="@Session["UsernameSearchParam"]" placeholder="Username..." />
+                        </div>
+                        <div class="col-lg-2 col-md-1 col-sm-12 col-xs-12">
+                            <input class="btn btn-primary" type="submit" value="Search" />
+                        </div>
                     </div>
-                }
+                </form>
             </div>
-            <table class="workout_list table">
+            <table class="workout_list table container-fluid">
                 <thead>
-                    <tr>
-                        <th>@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.NameSortParam, filterString = ViewBag.FilterParam })</th>
-                        <th>@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam, filterString = ViewBag.FilterParam })</th>
-                        <th>@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam, filterString = ViewBag.FilterParam })</th>
-                        <th>@Html.ActionLink("Added by user", "Index", new { sortBy = ViewBag.UserSortParam, filterString = ViewBag.FilterParam })</th>
-                        <th>&nbsp;</th>
+                    <tr class="row">
+                        <th class="col-xs-3">@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.NameSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-3">@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-2">@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-3">@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UserSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-1">&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var user_workout in Model)
                     {
-                        <tr>
-                            <td>@Html.DisplayFor(modelItem => user_workout.workout.name)</td>
-                            <td>@Html.DisplayFor(modelItem => user_workout.workout.category.name)</td>
-                            <td>@Html.DisplayFor(modelItem => user_workout.workout.created_at)</td>
-                            <td>@Html.DisplayFor(modelItem => user_workout.workout.user.username)</td>
-                            <td>
-                                @Html.ActionLink("Details", "Details", new { id = user_workout.id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = user_workout.id })
-                            </td>
+                        <tr class="row">
+                            <td class="workout_name_cell col-xs-3">@Html.ActionLink(user_workout.workout.name, "Details", new { id = user_workout.id })</td>
+                            <td class="workout_category_cell col-xs-3">@Html.DisplayFor(modelItem => user_workout.workout.category.name)</td>
+                            <td class="workout_created_cell col-xs-3">@Html.DisplayFor(modelItem => user_workout.workout.created_at)</td>
+                            <td class="workout_user_cell col-xs-3">@Html.DisplayFor(modelItem => user_workout.workout.user.username)</td>
+                            <td>@Html.ActionLink("Delete", "Delete", new { id = user_workout.id })</td>
                         </tr>
                     }
                 </tbody>
             </table>
+            <div class="pagination_container">
+                @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+            </div>
+  
+
         </div>
     </div>
 </div>
