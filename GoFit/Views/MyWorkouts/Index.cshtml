@@ -8,7 +8,7 @@
 <h2 class="h2">My Workouts</h2>
 <br>
 <p>
-    <input class="btn btn-primary" type="button" value="Create New Workout" onclick="location.href='@Url.Action("Create", "MyWorkouts" )'" />
+    <input class="btn btn-primary" type="button" value="Create New Workout" onclick="location.href='@Url.Action("Create", "Home" )'" />
 </p>
 <br>
 <div class="row">
@@ -25,7 +25,7 @@
             }
             else
             {
-                @Html.ActionLink("All", "Index", new { filterString = "" })
+                 @Html.ActionLink("All", "Index", new { filterString = "" })
             }
             |
             @if (ViewBag.FilterParam == "in_progress")

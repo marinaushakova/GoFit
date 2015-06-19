@@ -79,6 +79,19 @@ namespace GoFit.Controllers
             return View(workout);
         }
 
+        [Authorize]
+        public ActionResult Create()
+        {
+            var query = db.categories.Select(c => new { c.id, c.name });
+            ViewBag.categories = new SelectList(query.AsEnumerable(), "id", "name");
+            
+            workout workout = new workout();
+
+
+
+            return View(workout);
+        }
+
         /// <summary>
         /// Private helper method to perform a new search or maintain a previous search through 
         /// pagination and filter changes
