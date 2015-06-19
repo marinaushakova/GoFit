@@ -167,7 +167,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AdminCategoriesController.cs" />
+    <Compile Include="Controllers\AdminExercisesController.cs" />
+    <Compile Include="Controllers\AdminTypesController.cs" />
+    <Compile Include="Controllers\AdminWorkoutsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\MyProfileController.cs" />
@@ -296,12 +299,27 @@
     <Content Include="Views\MyProfile\Index.cshtml" />
     <Content Include="Views\MyProfile\Edit.cshtml" />
     <Content Include="Views\MyWorkouts\Index.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\Workouts.cshtml" />
-    <Content Include="Views\Admin\Exercises.cshtml" />
-    <Content Include="Views\Admin\Categories.cshtml" />
-    <Content Include="Views\Admin\Types.cshtml" />
     <Content Include="Views\Home\Details.cshtml" />
+    <Content Include="Views\AdminWorkouts\Create.cshtml" />
+    <Content Include="Views\AdminWorkouts\Delete.cshtml" />
+    <Content Include="Views\AdminWorkouts\Details.cshtml" />
+    <Content Include="Views\AdminWorkouts\Edit.cshtml" />
+    <Content Include="Views\AdminWorkouts\Index.cshtml" />
+    <Content Include="Views\AdminExercises\Create.cshtml" />
+    <Content Include="Views\AdminExercises\Delete.cshtml" />
+    <Content Include="Views\AdminExercises\Details.cshtml" />
+    <Content Include="Views\AdminExercises\Edit.cshtml" />
+    <Content Include="Views\AdminExercises\Index.cshtml" />
+    <Content Include="Views\AdminTypes\Create.cshtml" />
+    <Content Include="Views\AdminTypes\Delete.cshtml" />
+    <Content Include="Views\AdminTypes\Details.cshtml" />
+    <Content Include="Views\AdminTypes\Edit.cshtml" />
+    <Content Include="Views\AdminTypes\Index.cshtml" />
+    <Content Include="Views\AdminCategories\Create.cshtml" />
+    <Content Include="Views\AdminCategories\Delete.cshtml" />
+    <Content Include="Views\AdminCategories\Details.cshtml" />
+    <Content Include="Views\AdminCategories\Edit.cshtml" />
+    <Content Include="Views\AdminCategories\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
