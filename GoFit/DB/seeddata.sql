@@ -100,6 +100,52 @@ VALUES('Running Upper Body Workout', 'Build endurance and upper body strength', 
 INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
 VALUES('Ab Workout', 'Build core strength', 2, 1, GETDATE());
 
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout8', 'Some really long description. Some really long description. Some really long description. Some really long description. Some really long description. Some really long description. Some really long description. Some really long description. Some really long description. ', 2, 1, GETDATE());
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout9', 'desc9', 3, 3, '2015-06-12');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout10', 'desc10', 3, 3, '2015-06-12');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout11', 'desc11', 1, 3, '2015-06-12');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout12', 'desc12', 3, 1, '2015-06-12');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout13', 'desc13', 2, 2, '2015-06-12');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout14', 'desc14', 2, 2, '2015-06-12');
+
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout15', 'desc15', 2, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout16', 'desc16', 3, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout17', 'desc17', 2, 2, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout18', 'desc18', 2, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout19', 'desc19', 3, 2, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout20', 'desc20', 1, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout21', 'desc21', 1, 2, '2015-06-13');
+
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout22', 'desc22', 3, 2, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout23', 'desc23', 2, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout24', 'desc24', 2, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout25', 'desc25', 3, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout26', 'desc26', 3, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout27', 'desc27', 3, 2, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout28', 'desc28', 3, 3, '2015-06-14');
+
+
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (1, 2, 1, 20);
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (1, 1, 2, 20);
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (1, 3, 3, 10);
