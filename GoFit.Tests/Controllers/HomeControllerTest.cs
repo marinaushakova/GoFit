@@ -10,6 +10,7 @@ using GoFit.Models;
 using PagedList;
 using Moq;
 using System.Data.Entity;
+using GoFit.Tests.MockContexts;
 
 namespace GoFit.Tests.Controllers
 {
@@ -261,10 +262,10 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestDetailsForWorkout1()
         {
-            //ViewResult result = controller.Details(1) as ViewResult;
-            //Assert.IsNotNull(result);
-            //workout workout1 = (workout)result.ViewData.Model;
-            //Assert.AreEqual("workout1", workout1.name, "Name is workout1");
+            ViewResult result = controller.Details(1) as ViewResult;
+            Assert.IsNotNull(result);
+            workout workout1 = (workout)result.ViewData.Model;
+            Assert.AreEqual("workout1", workout1.name, "Name is workout1");
         } 
 
         /* Private Test Helpers */
@@ -555,13 +556,13 @@ namespace GoFit.Tests.Controllers
                 }
             }.AsQueryable();
 
-            var workoutMockset = new Mock<DbSet<workout>>();
+            var workoutMockset = new Mock<DbSetOverrideFind<workout>>() { CallBase = true };
             workoutMockset.As<IQueryable<workout>>().Setup(m => m.Provider).Returns(workouts.Provider);
             workoutMockset.As<IQueryable<workout>>().Setup(m => m.Expression).Returns(workouts.Expression);
             workoutMockset.As<IQueryable<workout>>().Setup(m => m.ElementType).Returns(workouts.ElementType);
             workoutMockset.As<IQueryable<workout>>().Setup(m => m.GetEnumerator()).Returns(workouts.GetEnumerator);
 
-            var userWorkoutMockset = new Mock<DbSet<user_workout>>();
+            var userWorkoutMockset = new Mock<DbSet<user_workout>>() { CallBase = true };
             userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.Provider).Returns(user_workouts.Provider);
             userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.Expression).Returns(user_workouts.Expression);
             userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.ElementType).Returns(user_workouts.ElementType);
@@ -570,7 +571,6 @@ namespace GoFit.Tests.Controllers
             var mockContext = new Mock<masterEntities>();
             mockContext.Setup(c => c.workouts).Returns(workoutMockset.Object);
             mockContext.Setup(c => c.user_workout).Returns(userWorkoutMockset.Object);
-            mockContext.Object.workouts.Find(1);
             return mockContext;
         }
     }
