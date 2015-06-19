@@ -265,7 +265,16 @@ namespace GoFit.Tests.Controllers
             ViewResult result = controller.Details(1) as ViewResult;
             Assert.IsNotNull(result);
             workout workout1 = (workout)result.ViewData.Model;
-            Assert.AreEqual("workout1", workout1.name, "Name is workout1");
+            Assert.AreEqual("workout1", workout1.name, "Name was not 'workout1'");
+        }
+
+        [TestMethod]
+        public void TestDetailsForWorkout24()
+        {
+            ViewResult result = controller.Details(24) as ViewResult;
+            Assert.IsNotNull(result);
+            workout workout24 = (workout)result.ViewData.Model;
+            Assert.AreEqual("desc24", workout24.description, "description was not 'desc24'");
         } 
 
         /* Private Test Helpers */
