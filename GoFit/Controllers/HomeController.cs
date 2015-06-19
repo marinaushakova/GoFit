@@ -65,8 +65,16 @@ namespace GoFit.Controllers
         [AllowAnonymous]
         public ActionResult Details(int? id)
         {
+            workout workout;
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            workout workout = db.workouts.Find(id);
+            user_workout myworkout = db.user_workout.Find(id);
+            if (myworkout == null) workout = db.workouts.Find(id);
+            else
+            {
+                workout = myworkout.workout;
+                ViewBag.isMyWorkout = true;
+            }
+           
             if (workout == null) return HttpNotFound();
             return View(workout);
         }
