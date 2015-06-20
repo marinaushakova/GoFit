@@ -57,6 +57,37 @@ namespace GoFit.Controllers
             return view;
         }
 
+        [Authorize]
+        public ActionResult AddToMyWorkouts(int workoutId)
+        {
+            user_workout userWorkout = new user_workout();
+            int userID = getUserId();
+            if (userID == -1)
+            {
+                return View();
+            }
+            userWorkout.user_id = userID;
+            userWorkout.workout_id = workoutId;
+            userWorkout.number_of_ex_completed = 0;
+
+            // TODO: Validate user_workout object
+            db.user_workout.Add(userWorkout);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", "Home", new { workoutId = workoutId });
+        }
+
+        /// <summary>
+        /// Gets the id of the current user else returns -1
+        /// </summary>
+        /// <returns>The id of the current logged in user else -1</returns>
+        private int getUserId()
+        {
+            user user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
+            int userId = -1;
+            if (user != null) userId = user.id;
+            return userId;
+        }
 
         private IQueryable<user_workout> doFilter(IQueryable<user_workout> user_workouts, String filterString)
         {
