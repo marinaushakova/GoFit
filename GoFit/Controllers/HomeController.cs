@@ -63,6 +63,7 @@ namespace GoFit.Controllers
             return view;
         }
 
+
         [AllowAnonymous]
         public ActionResult Details(int? id)
         {
@@ -80,6 +81,10 @@ namespace GoFit.Controllers
             return View(workout);
         }
 
+        /// <summary>
+        /// Returns a list of categories to populate combobox on Create new workout page
+        /// </summary>
+        /// <returns>Create workout view</returns>
         [Authorize]
         public ActionResult Create()
         {
@@ -89,6 +94,11 @@ namespace GoFit.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Adds new workout to the database
+        /// </summary>
+        /// <param name="workout">Workout being added to the database</param>
+        /// <returns>AddExerciseToWorkout view if success, create workout view if not</returns>
         [HttpPost]
         [Authorize]
         public ActionResult Create(workout workout)
@@ -108,6 +118,11 @@ namespace GoFit.Controllers
 
         }
 
+        /// <summary>
+        /// Returns an add exercise to current workout view
+        /// </summary>
+        /// <param name="id">workout id</param>
+        /// <returns>AddExerciseToWorkout view </returns>
         [HttpGet]
         [Authorize]
         public ActionResult AddExerciseToWorkout(int? id)
@@ -122,6 +137,11 @@ namespace GoFit.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Adds exercise to current workout
+        /// </summary>
+        /// <param name="w_ex">workout_exercise object being added to db</param>
+        /// <returns>AddExerciseToWorkout</returns>
         [HttpPost]
         [Authorize]
         public ActionResult AddExerciseToWorkout(workout_exercise w_ex)
@@ -141,13 +161,25 @@ namespace GoFit.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
+        /// <summary>
+        /// Gets measure for given exercise
+        /// </summary>
+        /// <param name="ex_id">Exercise id</param>
+        /// <returns>Measure name to be used in javascript on AddExerciseToWorkout page</returns>
         [HttpGet]
+        [Authorize]
         public ActionResult GetMeasure(int ex_id)
         {
             var measure = db.exercises.Find(ex_id).type.measure;
             return Json(measure, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// Gets list of exercises that are in given workout
+        /// </summary>
+        /// <param name="id">workout id</param>
+        /// <returns>List of exercises of workout with passed id</returns>
+        [Authorize]
         public ViewResult ExerciseList(int id)
         {
             var exerciseList = db.workout_exercise.Where(m => m.workout_id == id).ToList();
