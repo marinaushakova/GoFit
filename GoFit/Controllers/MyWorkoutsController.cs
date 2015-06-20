@@ -71,6 +71,7 @@ namespace GoFit.Controllers
             userWorkout.number_of_ex_completed = 0;
 
             // TODO: Validate user_workout object
+            // TODO: Add error handling
             db.user_workout.Add(userWorkout);
             db.SaveChanges();
 

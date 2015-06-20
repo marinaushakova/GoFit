@@ -83,7 +83,13 @@
         <a href="/" class="btn btn-primary">Back</a>
         @if (@ViewBag.isMyWorkout != true) 
         {
-            <a href="/" class="btn btn-primary">Add to My Workouts</a>
+            @*<a href="/" class="btn btn-primary">Add to My Workouts</a>*@
+            @Html.ActionLink(
+                "Add to My Workouts", 
+                "AddToMyWorkouts", 
+                "MyWorkouts",
+                new { workoutId = @Model.id }, 
+                new { @class = "btn btn-primary" })
         }
     </div>
 </div>
