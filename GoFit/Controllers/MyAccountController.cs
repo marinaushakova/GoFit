@@ -10,21 +10,6 @@ namespace GoFit.Controllers
 {
     public class MyAccountController : Controller
     {
-        /*
-        // GET: /MyProfile/
-        [Authorize]
-        public ActionResult Index()
-        {
-           // ActionResult view = View("MyProfile");
-
-            using (masterEntities dbEntities = new masterEntities())
-            {
-                var user = dbEntities.users.Where(a => a.username.Equals(System.Web.HttpContext.Current.User)).FirstOrDefault();
-            }
-            var view = View("Index", User);
-            return view;
-        }*/
-
         public ActionResult Login()
         {
             return View();
@@ -43,7 +28,7 @@ namespace GoFit.Controllers
 
                     if (user.is_admin == 1)
                     {
-                        return RedirectToAction("Index", "Admin");
+                        return RedirectToAction("Index", "AdminHome");
                     }
 
                     if (Url.IsLocalUrl(ReturnUrl))
