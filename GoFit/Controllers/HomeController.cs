@@ -76,7 +76,10 @@ namespace GoFit.Controllers
             if (workoutId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             int? userId = getUserId();
-            user_workout myworkout = db.user_workout.Where(w => w.workout_id == workoutId) as user_workout;
+            user_workout myworkout = db.user_workout.Where(w => 
+                w.workout_id == workoutId && 
+                w.user_id == userId) as user_workout;
+
             if (myworkout == null) workout = db.workouts.Find(workoutId);
             else
             {
