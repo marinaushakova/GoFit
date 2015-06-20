@@ -10,6 +10,7 @@ using GoFit.Models;
 using PagedList;
 using Moq;
 using System.Data.Entity;
+using GoFit.Tests.MockContexts;
 
 namespace GoFit.Tests.Controllers
 {
@@ -26,7 +27,7 @@ namespace GoFit.Tests.Controllers
         public void Initialize()
         {
             search = new WorkoutSearch();
-            var mockContext = getWorkoutContext();
+            var mockContext = getDbContext();
             controller = new HomeController(mockContext.Object);
             controller.pageSize = 10;
         }
@@ -261,10 +262,19 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestDetailsForWorkout1()
         {
-            //ViewResult result = controller.Details(1) as ViewResult;
-            //Assert.IsNotNull(result);
-            //workout workout1 = (workout)result.ViewData.Model;
-            //Assert.AreEqual("workout1", workout1.name, "Name is workout1");
+            ViewResult result = controller.Details(1) as ViewResult;
+            Assert.IsNotNull(result);
+            workout workout1 = (workout)result.ViewData.Model;
+            Assert.AreEqual("workout1", workout1.name, "Name was not 'workout1'");
+        }
+
+        [TestMethod]
+        public void TestDetailsForWorkout24()
+        {
+            ViewResult result = controller.Details(24) as ViewResult;
+            Assert.IsNotNull(result);
+            workout workout24 = (workout)result.ViewData.Model;
+            Assert.AreEqual("desc24", workout24.description, "description was not 'desc24'");
         } 
 
         /* Private Test Helpers */
@@ -318,7 +328,44 @@ namespace GoFit.Tests.Controllers
         /// Sets up the mock context and gives it test data
         /// </summary>
         /// <returns>The mock context</returns>
-        private Mock<masterEntities> getWorkoutContext()
+        private Mock<masterEntities> getDbContext()
+        {
+
+            var user_workouts = new List<user_workout>
+            {
+                new user_workout { 
+                    user_id = 2,
+                    workout_id = 1,
+                    id = 1
+                }
+            }.AsQueryable();
+
+            var workouts = getSeedWorkouts();
+
+            var workoutMockset = new Mock<DbSetOverrideFind<workout>>() { CallBase = true };
+            workoutMockset.As<IQueryable<workout>>().Setup(m => m.Provider).Returns(workouts.Provider);
+            workoutMockset.As<IQueryable<workout>>().Setup(m => m.Expression).Returns(workouts.Expression);
+            workoutMockset.As<IQueryable<workout>>().Setup(m => m.ElementType).Returns(workouts.ElementType);
+            workoutMockset.As<IQueryable<workout>>().Setup(m => m.GetEnumerator()).Returns(workouts.GetEnumerator);
+
+            var userWorkoutMockset = new Mock<DbSet<user_workout>>() { CallBase = true };
+            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.Provider).Returns(user_workouts.Provider);
+            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.Expression).Returns(user_workouts.Expression);
+            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.ElementType).Returns(user_workouts.ElementType);
+            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.GetEnumerator()).Returns(user_workouts.GetEnumerator);
+           
+            var mockContext = new Mock<masterEntities>();
+            mockContext.Setup(c => c.workouts).Returns(workoutMockset.Object);
+            mockContext.Setup(c => c.user_workout).Returns(userWorkoutMockset.Object);
+            return mockContext;
+        }
+
+        /// <summary>
+        /// Gets the fake db workouts collection with its associated 
+        /// entities declared inline
+        /// </summary>
+        /// <returns>An queryable list of workouts</returns>
+        private IQueryable<workout> getSeedWorkouts()
         {
             category category1 = new category
             {
@@ -546,32 +593,7 @@ namespace GoFit.Tests.Controllers
                 }
             }.AsQueryable();
 
-            var user_workouts = new List<user_workout>
-            {
-                new user_workout { 
-                    user_id = 2,
-                    workout_id = 1,
-                    id = 1
-                }
-            }.AsQueryable();
-
-            var workoutMockset = new Mock<DbSet<workout>>();
-            workoutMockset.As<IQueryable<workout>>().Setup(m => m.Provider).Returns(workouts.Provider);
-            workoutMockset.As<IQueryable<workout>>().Setup(m => m.Expression).Returns(workouts.Expression);
-            workoutMockset.As<IQueryable<workout>>().Setup(m => m.ElementType).Returns(workouts.ElementType);
-            workoutMockset.As<IQueryable<workout>>().Setup(m => m.GetEnumerator()).Returns(workouts.GetEnumerator);
-
-            var userWorkoutMockset = new Mock<DbSet<user_workout>>();
-            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.Provider).Returns(user_workouts.Provider);
-            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.Expression).Returns(user_workouts.Expression);
-            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.ElementType).Returns(user_workouts.ElementType);
-            userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.GetEnumerator()).Returns(user_workouts.GetEnumerator);
-           
-            var mockContext = new Mock<masterEntities>();
-            mockContext.Setup(c => c.workouts).Returns(workoutMockset.Object);
-            mockContext.Setup(c => c.user_workout).Returns(userWorkoutMockset.Object);
-            mockContext.Object.workouts.Find(1);
-            return mockContext;
+            return workouts;
         }
     }
 }

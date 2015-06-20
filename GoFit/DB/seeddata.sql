@@ -52,6 +52,39 @@ VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=9PxkxHxGRvU', 'T-Pose'
 INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
 VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=i4XOoQUtaCU', 'W-Pose', 'W-Pose');
 
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 2, '2015-06-15', 'https://www.youtube.com/watch?v=xKy-l9Pf0cQ', 'O-Pose', 'O-Pose');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 2, '2015-06-15', 'https://www.youtube.com/watch?v=JY9SlansmJ4', 'Y-Pose', 'Y-Pose');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 2, '2015-06-15', 'https://www.youtube.com/watch?v=wmVMcHeqoZc', 'I-Pose', 'I-Pose');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 2, '2015-06-15', 'https://www.youtube.com/watch?v=Aa6zdmje-c4', 'Cobra stretch', 'Cobra stretch');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 2, '2015-06-12', 'https://www.youtube.com/watch?v=ZiNXOE5EsZw', 'Cat Stretch', 'Cat Stretch');
+
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 2, '2015-06-13', 'https://www.youtube.com/watch?v=7rRWy7-Gokg', 'Reverse Crunch', 'Reverse Crunch');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 2, '2015-06-13', 'https://www.youtube.com/watch?v=FrFyUbxs1uQ', 'Side Crunch', 'Side Crunch');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 2, '2015-06-13', 'https://www.youtube.com/watch?v=5laCNeFnKdE', 'One-sided Crunch', 'One-sided Crunch');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 2, '2015-06-13', 'https://www.youtube.com/watch?v=VSp0z7Mp5IU', 'Inchworm ', 'Inchworm');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 2, '2015-06-12', 'https://www.youtube.com/watch?v=ihG0E_4_tCM', 'Scissor Lifts', 'Scissor Lifts');
+
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 2, '2015-06-10', 'https://www.youtube.com/watch?v=rXAbcneAr3I', 'Glute Bridge March', 'Glute Bridge March');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 2, '2015-06-10', 'https://www.youtube.com/watch?v=HPnFTmjjDDA', 'Hollow Rock', 'Hollow Rock');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 2, '2015-06-10', 'https://www.youtube.com/watch?v=XMxHTNPPgxM', 'Plank', 'Plank');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 2, '2015-06-10', 'https://www.youtube.com/watch?v=jGQ8_IMPQOY', 'Squat ', 'Squat ');
+INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
+VALUES (2, 2, '2015-06-12', 'https://www.youtube.com/watch?v=U4s4mEQ5VqU', 'Squat Jump', 'Squat Jump');
+
 INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
 VALUES('Upper Body Builder 1', 'Works out your back and chest', 2, 1, GETDATE());
 INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
@@ -66,6 +99,52 @@ INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[cre
 VALUES('Running Upper Body Workout', 'Build endurance and upper body strength', 1, 1, GETDATE());
 INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
 VALUES('Ab Workout', 'Build core strength', 2, 1, GETDATE());
+
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout8', 'Some really long description. Some really long description. Some really long description. Some really long description. Some really long description. Some really long description. Some really long description. Some really long description. Some really long description. ', 2, 1, GETDATE());
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout9', 'desc9', 3, 3, '2015-06-12');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout10', 'desc10', 3, 3, '2015-06-12');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout11', 'desc11', 1, 3, '2015-06-12');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout12', 'desc12', 3, 1, '2015-06-12');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout13', 'desc13', 2, 2, '2015-06-12');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout14', 'desc14', 2, 2, '2015-06-12');
+
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout15', 'desc15', 2, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout16', 'desc16', 3, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout17', 'desc17', 2, 2, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout18', 'desc18', 2, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout19', 'desc19', 3, 2, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout20', 'desc20', 1, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout21', 'desc21', 1, 2, '2015-06-13');
+
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout22', 'desc22', 3, 2, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout23', 'desc23', 2, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout24', 'desc24', 2, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout25', 'desc25', 3, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout26', 'desc26', 3, 3, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout27', 'desc27', 3, 2, '2015-06-13');
+INSERT INTO workout([name],[description],[category_id],[created_by_user_id],[created_at])
+VALUES('Workout28', 'desc28', 3, 3, '2015-06-14');
+
 
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (1, 2, 1, 20);
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (1, 1, 2, 20);
