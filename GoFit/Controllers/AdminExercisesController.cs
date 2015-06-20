@@ -10,7 +10,7 @@ using GoFit.Models;
 
 namespace GoFit.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Users="admin, admin2")]
     public class AdminExercisesController : Controller
     {
         private masterEntities db = new masterEntities();
