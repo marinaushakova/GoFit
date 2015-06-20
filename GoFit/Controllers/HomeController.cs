@@ -63,7 +63,12 @@ namespace GoFit.Controllers
             return view;
         }
 
-
+        /// <summary>
+        /// Gets the view for a single workout, showing its exercise content and allowing user
+        /// to mark their progress on the workout if they have added it to their workouts
+        /// </summary>
+        /// <param name="id">The workout id</param>
+        /// <returns>The workout's view</returns>
         [AllowAnonymous]
         public ActionResult Details(int? id)
         {
