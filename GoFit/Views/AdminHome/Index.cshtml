@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>GoFit Administrator Home</h2>
+
+<div>
+    @Html.ActionLink("List Categories", "Index", "AdminCategories")<br />
+    @Html.ActionLink("List Exercises", "Index", "AdminExercises")<br />
+    @Html.ActionLink("List Types", "Index", "AdminTypes")<br />
+    @Html.ActionLink("List Workouts", "Index", "AdminWorkouts")
+</div>
+
