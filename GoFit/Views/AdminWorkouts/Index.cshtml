@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<GoFit.Models.workout>
+@*model PagedList.IPagedList<GoFit.Models.workout>
+    @using PagedList.Mvc;*@
 
 @{
     ViewBag.Title = "Admin Workouts";
@@ -10,55 +12,35 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.created_at)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.timestamp)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.category.name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.user.username)
-        </th>
-        <th></th>
+<table class="workout_list table container-fluid">
+    <tr class="row">
+        <th class="col-xs-3">@Html.DisplayNameFor(model => model.name)</th>
+        <th class="col-xs-3">@Html.DisplayNameFor(model => model.description)</th>
+        <th class="col-xs-3">@Html.DisplayNameFor(model => model.created_at)</th>
+        <th class="col-xs-3">@Html.DisplayNameFor(model => model.timestamp)</th>
+        <th class="col-xs-3">@Html.DisplayNameFor(model => model.category.name)</th>
+        <th class="col-xs-3">@Html.DisplayNameFor(model => model.user.username)</th>
+        <th class="col-xs-3"></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.created_at)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.timestamp)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.category.name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.user.username)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+    <tr class="row">
+        <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.name)</td>
+        <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.description)</td>
+        <td class="workout_created_cell col-xs-3">@Html.DisplayFor(modelItem => item.created_at)</td>
+        <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.timestamp)</td>
+        <td class="workout_category_cell col-xs-3">@Html.DisplayFor(modelItem => item.category.name)</td>
+        <td class="workout_user_cell col-xs-3">@Html.DisplayFor(modelItem => item.user.username)</td>
+        <td class="workout_name_cell col-xs-3">
+            @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.id })
         </td>
     </tr>
 }
 
 </table>
+@*<div class="pagination_container">
+        @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>*@

@@ -10,6 +10,7 @@ using GoFit.Models;
 
 namespace GoFit.Controllers
 {
+    [Authorize]
     public class AdminWorkoutsController : Controller
     {
         private masterEntities db = new masterEntities();
