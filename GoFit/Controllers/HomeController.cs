@@ -101,23 +101,51 @@ namespace GoFit.Controllers
                 db.workouts.Add(workout);
                 db.SaveChanges();
 
-                return RedirectToAction("AddExerciseToWorkout", new { w_id = workout.id });
+                return RedirectToAction("AddExerciseToWorkout", new { id = workout.id });
             }
 
             return View();
 
         }
 
-        public ActionResult AddExerciseToWorkout(int? w_id)
+        [HttpGet]
+        [Authorize]
+        public ActionResult AddExerciseToWorkout(int? id)
         {
             
-            if (w_id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            workout workout = db.workouts.Find(w_id);
-
-            ViewBag.Exercises = from ex in db.exercises select ex;
-            ViewBag.WorkoutExwercises = from w_ex in db.workout_exercise where (w_ex.workout_id == w_id) select w_ex;
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            ViewBag.Workout = db.workouts.Find(id);
+            Session["workout_id"] = id;
+            var query = db.exercises.Select(ex => new { ex.id, ex.name });
+            ViewBag.Exercises = new SelectList(query.AsEnumerable(), "id", "name");
 
             return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult AddExerciseToWorkout(workout_exercise w_ex)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                w_ex.workout_id = (int)Session["workout_id"];
+                w_ex.timestamp = DateTime.Now;
+                w_ex.position = db.workout_exercise.Where(m => m.workout_id == w_ex.workout_id).Count() + 1;
+                db.workout_exercise.Add(w_ex);
+                db.SaveChanges();
+
+                return RedirectToAction("AddExerciseToWorkout", new { id = w_ex.workout_id });
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
+        [HttpGet]
+        public ActionResult GetMeasure(int ex_id)
+        {
+            var measure = db.exercises.Find(ex_id).type.measure;
+            return Json(measure, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
