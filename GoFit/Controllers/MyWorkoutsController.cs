@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
+using System.Net;
 
 namespace GoFit.Controllers
 {
@@ -67,20 +68,29 @@ namespace GoFit.Controllers
             }
             userWorkout.user_id = userID;
             userWorkout.number_of_ex_completed = 0;
+            // Not sure why the timestamp is automatically set to an invalid value
+            // This is a temporary workaround
+            userWorkout.timestamp = DateTime.Now;
 
             if (ModelState.IsValid)
             {
                 // TODO: Validate user_workout object
                 // TODO: Add error handling
-                db.user_workout.Add(userWorkout);
-                db.SaveChanges();
+                try
+                {
+                    db.user_workout.Add(userWorkout);
+                    db.SaveChanges();
+                    return RedirectToAction("Details", "Home", new { workoutId = userWorkout.workout_id });
+                }
+                catch (Exception ex) 
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add this workout to user MyWorkouts page " + ex.ToString());
+                }
             }
             else
             {
-                return View();
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add this workout to user MyWorkouts page");
             }
-
-            return RedirectToAction("Details", "Home", new { workoutId = userWorkout.id });
         }
 
         /// <summary>

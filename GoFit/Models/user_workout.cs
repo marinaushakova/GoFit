@@ -20,6 +20,7 @@ namespace GoFit.Models
         public int user_id { get; set; }
         [Required(ErrorMessage = "No workout_id given")]
         public int workout_id { get; set; }
+        [Required(ErrorMessage = "No number_of_ex_completed specified")]
         public int number_of_ex_completed { get; set; }
         public Nullable<System.DateTime> date_started { get; set; }
         public Nullable<System.DateTime> date_finished { get; set; }
