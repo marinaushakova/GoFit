@@ -84,7 +84,7 @@ namespace GoFit.Controllers
                 }
                 catch (Exception ex) 
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add this workout to user MyWorkouts page " + ex.ToString());
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add this workout to user MyWorkouts page");
                 }
             }
             else

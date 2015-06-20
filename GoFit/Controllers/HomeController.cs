@@ -78,7 +78,7 @@ namespace GoFit.Controllers
             int? userId = getUserId();
             user_workout myworkout = db.user_workout.Where(w => 
                 w.workout_id == workoutId && 
-                w.user_id == userId) as user_workout;
+                w.user_id == userId).FirstOrDefault();
 
             if (myworkout == null) workout = db.workouts.Find(workoutId);
             else
