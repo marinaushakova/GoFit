@@ -67,16 +67,17 @@ namespace GoFit.Controllers
         /// Gets the view for a single workout, showing its exercise content and allowing user
         /// to mark their progress on the workout if they have added it to their workouts
         /// </summary>
-        /// <param name="id">The workout id</param>
+        /// <param name="workoutId">The workout id</param>
         /// <returns>The workout's view</returns>
         [AllowAnonymous]
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? workoutId)
         {
             workout workout;
-            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            
-            user_workout myworkout = db.user_workout.Where(w => w.workout_id == id) as user_workout;
-            if (myworkout == null) workout = db.workouts.Find(id);
+            if (workoutId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+
+            user_workout myworkout = db.user_workout.Where(w => w.workout_id == workoutId) as user_workout;
+            if (myworkout == null) workout = db.workouts.Find(workoutId);
             else
             {
                 workout = myworkout.workout;
