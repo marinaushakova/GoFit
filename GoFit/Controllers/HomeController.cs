@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using GoFit.Models;
 using PagedList;
 using System.Net;
+using System.Data.Entity;
 
 namespace GoFit.Controllers
 {
@@ -83,13 +84,40 @@ namespace GoFit.Controllers
         public ActionResult Create()
         {
             var query = db.categories.Select(c => new { c.id, c.name });
-            ViewBag.categories = new SelectList(query.AsEnumerable(), "id", "name");
+            ViewBag.Categories = new SelectList(query.AsEnumerable(), "id", "name");
             
-            workout workout = new workout();
+            return View();
+        }
 
+        [HttpPost]
+        [Authorize]
+        public ActionResult Create(workout workout)
+        {
+            if (ModelState.IsValid)
+            {
+                workout.timestamp = DateTime.Now;
+                workout.created_at = DateTime.Now;
+                workout.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
+                db.workouts.Add(workout);
+                db.SaveChanges();
 
+                return RedirectToAction("AddExerciseToWorkout", new { w_id = workout.id });
+            }
 
-            return View(workout);
+            return View();
+
+        }
+
+        public ActionResult AddExerciseToWorkout(int? w_id)
+        {
+            
+            if (w_id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            workout workout = db.workouts.Find(w_id);
+
+            ViewBag.Exercises = from ex in db.exercises select ex;
+            ViewBag.WorkoutExwercises = from w_ex in db.workout_exercise where (w_ex.workout_id == w_id) select w_ex;
+
+            return View();
         }
 
         /// <summary>

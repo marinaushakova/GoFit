@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Create Workout</h2>
 
 
 @using (Html.BeginForm()) 
@@ -17,7 +17,7 @@
         @Html.ValidationSummary(true)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.name, new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Workout Name:</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.name)
                 @Html.ValidationMessageFor(model => model.name)
@@ -25,48 +25,24 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.description, new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Description:</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.description)
+                @Html.TextAreaFor(model => model.description)
                 @Html.ValidationMessageFor(model => model.description)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.category_id, "category_id", new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Category:</label>
             <div class="col-md-10">
-                @Html.DropDownList("Categories", (IEnumerable<SelectListItem>)ViewBag.Categories)
+                @Html.DropDownListFor(model => model.category_id, (IEnumerable<SelectListItem>)ViewBag.Categories)
                 @Html.ValidationMessageFor(model => model.category_id)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.created_by_user_id, "created_by_user_id", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @HttpContext.Current.User.Identity.Name
-                @Html.ValidationMessageFor(model => model.created_by_user_id)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.created_at, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.created_at)
-                @Html.ValidationMessageFor(model => model.created_at)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.timestamp, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.timestamp)
-                @Html.ValidationMessageFor(model => model.timestamp)
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Add Exercises" class="btn btn-default" />
             </div>
         </div>
     </div>
