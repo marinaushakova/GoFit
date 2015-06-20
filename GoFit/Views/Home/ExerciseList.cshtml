@@ -1,0 +1,33 @@
+﻿@model IEnumerable<GoFit.Models.workout_exercise>
+
+
+<div class="panel-body">
+    <table class="table table-striped">
+        <thead>
+            <tr class="row">
+                <th class="col-xs-4">Exercise</th>
+                <th class="col-xs-4">Duration</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var exercise in Model)
+            {
+                <tr class="row">
+                    <td class="col-xs-4">@Html.DisplayFor(modelItem => exercise.exercise.name)</td>
+                    <td class="col-xs-4">
+                        @Convert.ToInt16(@exercise.duration)&nbsp;
+                        @if (@exercise.exercise.type.measure == "unit")
+                        {
+                            <span>reps</span>
+                        }
+                        else
+                        {
+                            <span>@exercise.exercise.type.measure</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

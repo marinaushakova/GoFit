@@ -148,6 +148,12 @@ namespace GoFit.Controllers
             return Json(measure, JsonRequestBehavior.AllowGet);
         }
 
+        public ViewResult ExerciseList(int id)
+        {
+            var exerciseList = db.workout_exercise.Where(m => m.workout_id == id).ToList();
+            return View(exerciseList); 
+        }
+
         /// <summary>
         /// Private helper method to perform a new search or maintain a previous search through 
         /// pagination and filter changes
