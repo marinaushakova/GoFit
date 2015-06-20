@@ -58,16 +58,14 @@ namespace GoFit.Controllers
         }
 
         [Authorize]
-        public ActionResult AddToMyWorkouts(int workoutId)
+        public ActionResult AddToMyWorkouts(user_workout userWorkout)
         {
-            user_workout userWorkout = new user_workout();
             int userID = getUserId();
             if (userID == -1)
             {
                 return View();
             }
             userWorkout.user_id = userID;
-            userWorkout.workout_id = workoutId;
             userWorkout.number_of_ex_completed = 0;
 
             // TODO: Validate user_workout object
@@ -75,7 +73,7 @@ namespace GoFit.Controllers
             db.user_workout.Add(userWorkout);
             db.SaveChanges();
 
-            return RedirectToAction("Details", "Home", new { workoutId = workoutId });
+            return RedirectToAction("Details", "Home", new { workoutId = userWorkout.id });
         }
 
         /// <summary>
