@@ -2,20 +2,13 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
-
-    @using (Html.BeginForm())
-    {
-    <p> 
-        Name: @Html.TextBox("SearchString") <br />
-        <input type="submit" value="Filter" />
-    </p>
-    }
 </p>
 <table class="table">
     <tr>
