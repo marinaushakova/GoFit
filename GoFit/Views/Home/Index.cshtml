@@ -52,7 +52,7 @@
                     @foreach (var workout in Model)
                     {
                         <tr class="row">
-                            <td class="workout_name_cell col-xs-3">@Html.ActionLink(workout.name, "Details", new { id = workout.id })</td>
+                            <td class="workout_name_cell col-xs-3">@Html.ActionLink(workout.name, "Details", new { workoutId = workout.id })</td>
                             <td class="workout_category_cell col-xs-3">@Html.DisplayFor(modelItem => workout.category.name)</td>
                             <td class="workout_created_cell col-xs-3">@Html.DisplayFor(modelItem => workout.created_at)</td>
                             <td class="workout_user_cell col-xs-3">@Html.DisplayFor(modelItem => workout.user.username)</td>

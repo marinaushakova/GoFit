@@ -201,7 +201,9 @@ namespace GoFit.Controllers
         /// <returns>The id of the current logged in user</returns>
         private int? getUserId()
         {
-            int? userId = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
+            user user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
+            int? userId = null;
+            if (user != null) userId = user.id;
             return userId;
         }
 
