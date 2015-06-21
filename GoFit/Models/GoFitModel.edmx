@@ -353,7 +353,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="username" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="fname" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
           <Property Name="lname" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
           <Property Name="is_male" Type="Int16" />

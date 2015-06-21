@@ -30,9 +30,7 @@ namespace GoFit.Models
         [Required(ErrorMessage = "Password reqired", AllowEmptyStrings = false)]
         [DataType(System.ComponentModel.DataAnnotations.DataType.Password)]
         public string password { get; set; }
-        [Required(ErrorMessage = "First name reqired", AllowEmptyStrings = false)]
         public string fname { get; set; }
-        [Required(ErrorMessage = "Last name reqired", AllowEmptyStrings = false)]
         public string lname { get; set; }
         public Nullable<short> is_male { get; set; }
         [Required(ErrorMessage = "Role reqired", AllowEmptyStrings = false)]
