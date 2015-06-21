@@ -54,13 +54,14 @@
                                     <tr class="row">
                                         <td class="col-xs-4">@Html.DisplayFor(modelItem => exercise.exercise.name)</td>
                                         <td class="col-xs-4">
-                                            @Convert.ToInt16(@exercise.duration)&nbsp;
                                             @if (@exercise.exercise.type.measure == "unit")
                                             {
+                                                <span>@Convert.ToInt16(@exercise.duration)</span>
                                                 <span>reps</span>
                                             }
                                             else
                                             {
+                                                <span>@exercise.duration</span>
                                                 <span>@exercise.exercise.type.measure</span>
                                             }
                                         </td>
