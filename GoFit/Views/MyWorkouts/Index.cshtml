@@ -81,10 +81,10 @@
                 <thead>
                     <tr class="row">
                         <th class="col-xs-3">@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.NameSortParam, filterString = ViewBag.FilterParam })</th>
-                        <th class="col-xs-3">@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam, filterString = ViewBag.FilterParam })</th>
-                        <th class="col-xs-2">@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam, filterString = ViewBag.FilterParam })</th>
-                        <th class="col-xs-3">@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UserSortParam, filterString = ViewBag.FilterParam })</th>
-                        <th class="col-xs-1">&nbsp;</th>
+                        <th class="col-xs-2">@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-3">@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-2">@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UserSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-3">&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,10 +92,10 @@
                     {
                         <tr class="row">
                             <td class="workout_name_cell col-xs-3">@Html.ActionLink(user_workout.workout.name, "../Home/Details", new { workoutId = user_workout.workout.id })</td>
-                            <td class="workout_category_cell col-xs-3">@Html.DisplayFor(modelItem => user_workout.workout.category.name)</td>
+                            <td class="workout_category_cell col-xs-2">@Html.DisplayFor(modelItem => user_workout.workout.category.name)</td>
                             <td class="workout_created_cell col-xs-3">@Html.DisplayFor(modelItem => user_workout.workout.created_at)</td>
-                            <td class="workout_user_cell col-xs-3">@Html.DisplayFor(modelItem => user_workout.workout.user.username)</td>
-                            <td>@Html.ActionLink("Delete", "Delete", new { id = user_workout.id })</td>
+                            <td class="workout_user_cell col-xs-2">@Html.DisplayFor(modelItem => user_workout.workout.user.username)</td>
+                            <td class ="workout_user_cell col-xs-3">@Html.ActionLink("Remove from My Workouts", "DeleteFromMyWorkouts", new { userWorkout_id = user_workout.id })</td>
                         </tr>
                     }
                 </tbody>

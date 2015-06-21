@@ -36,6 +36,24 @@ namespace GoFit.Controllers
             {
                 string hashedPassword = HashPassword(login.Username, login.Password);
                 var user = db.users.Where(a => a.username.Equals(login.Username) && a.password.Equals(hashedPassword)).FirstOrDefault();
+                /*
+                string role;
+                if (user.is_admin == 1)
+                {
+                    role = "admin";
+                }
+                else
+                {
+                    role = "regular_user";
+                }
+
+                //if (!Roles.RoleExists(role))
+                //    Roles.CreateRole(role);
+
+                if (!Roles.IsUserInRole(user.username, role))
+                    Roles.AddUserToRole(user.username, role);
+                */
+                
                 ModelState.Remove("Password");
                 if (user != null)
                 {

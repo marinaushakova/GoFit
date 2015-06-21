@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace GoFit.Controllers
 {
-    [Authorize(Users="admin, admin2")]
+    [Authorize(Users = "admin, admin2")]
     public class AdminHomeController : Controller
     {
         // GET: AdminHome

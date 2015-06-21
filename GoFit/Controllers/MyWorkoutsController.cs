@@ -93,6 +93,30 @@ namespace GoFit.Controllers
             }
         }
 
+        // POST: AdminTypes/Delete/5
+        [Authorize]
+        public ActionResult DeleteFromMyWorkouts(int? userWorkout_id)
+        {
+            int userID = getUserId();
+            if (userID == -1)
+            {
+                return View();
+            }
+            try
+            {
+                user_workout user_workout = db.user_workout.Find(userWorkout_id);
+                db.user_workout.Remove(user_workout);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add this workout to user MyWorkouts page");
+            }
+            
+        }
+
+
         /// <summary>
         /// Gets the id of the current user else returns -1
         /// </summary>
