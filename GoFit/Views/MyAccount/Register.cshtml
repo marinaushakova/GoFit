@@ -65,7 +65,7 @@
          });
                 }
 
-                @Html.DropDownListFor(model => model.is_male, listItems)
+                @Html.DropDownListFor(model => model.is_male, listItems, "--Select gender--")
                 @Html.ValidationMessageFor(model => model.is_male)
             </div>
         </div>

@@ -42,7 +42,11 @@
         </dt>
 
         @{
-            var gender = Model.is_male == 1 ? "Male" : "Female";
+            var gender = "";
+            if (Model.is_male != null)
+            {
+                gender = Model.is_male == 1 ? "Male" : "Female";
+            }
         }
 
         <dd>
