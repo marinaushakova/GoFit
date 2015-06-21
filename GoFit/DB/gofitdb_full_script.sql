@@ -364,7 +364,7 @@ CREATE TABLE
 (
    [id] int IDENTITY(1, 1)  NOT NULL,
    [username] nvarchar(45)  NOT NULL,
-   [password] nvarchar(45)  NOT NULL,
+   [password] nvarchar(200)  NOT NULL,
    [fname] nvarchar(45)  NULL,
    [lname] nvarchar(45)  NULL,
    [is_male] smallint  NULL,
