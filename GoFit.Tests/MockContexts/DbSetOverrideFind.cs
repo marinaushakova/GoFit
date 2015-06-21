@@ -8,6 +8,11 @@ using GoFit.Models;
 
 namespace GoFit.Tests.MockContexts
 {
+    /// <summary>
+    /// Overrides the DbSet type Find method so that Moq can call find without the 
+    /// mock entity objects having primary keys
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to override Find for</typeparam>
     public class DbSetOverrideFind<TEntity> : DbSet<workout>
     {
         public override workout Find(params object[] keyValues)
