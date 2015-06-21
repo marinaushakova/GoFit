@@ -26,12 +26,15 @@ namespace GoFit.Models
     
         public int id { get; set; }
         [Required(ErrorMessage = "Username reqired", AllowEmptyStrings = false)]
+        [StringLength(25, MinimumLength = 5, ErrorMessage = "Username must be between 5 and 25 characters")]
         public string username { get; set; }
         [Required(ErrorMessage = "Password reqired", AllowEmptyStrings = false)]
         [DataType(System.ComponentModel.DataAnnotations.DataType.Password)]
+        [StringLength(200, MinimumLength = 5, ErrorMessage = "Password must be between 5 and 25 characters")]
         public string password { get; set; }
         public string fname { get; set; }
         public string lname { get; set; }
+        
         public Nullable<short> is_male { get; set; }
         [Required(ErrorMessage = "Role reqired", AllowEmptyStrings = false)]
         public short is_admin { get; set; }
@@ -44,5 +47,7 @@ namespace GoFit.Models
         public virtual ICollection<user_favorite_workout> user_favorite_workout { get; set; }
         public virtual ICollection<user_workout> user_workout { get; set; }
         public virtual ICollection<workout> workouts { get; set; }
+
+        //private Nullable<short> is_male = null;
     }
 }
