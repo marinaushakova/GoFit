@@ -19,7 +19,7 @@ namespace GoFit.Tests.MockSetupHelpers
         /// Sets up the mock context and gives it test data
         /// </summary>
         /// <returns>The mock context</returns>
-        private Mock<masterEntities> getDbContext()
+        public static Mock<masterEntities> getDbContext()
         {
 
             var user_workouts = new List<user_workout>

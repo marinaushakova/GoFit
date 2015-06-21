@@ -100,7 +100,7 @@
   <ItemGroup>
     <Compile Include="Controllers\MyWorkoutsControllerTest.cs" />
     <Compile Include="MockContexts\DbSetOverrideFind.cs" />
-    <Compile Include="MockSetupHelpers\DbContextHelpers.cs" />
+    <Compile Include="SetupHelpers\DbContextHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>

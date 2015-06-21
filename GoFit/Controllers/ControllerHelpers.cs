@@ -7,7 +7,11 @@ using System.Web;
 
 namespace GoFit.Controllers
 {
-    public static class ControllerHelpers
+    /// <summary>
+    /// Class to provide common helper methods to the various controllers. 
+    /// Also allows override of helpers as needing for testing purposes
+    /// </summary>
+    public class ControllerHelpers
     {
         /// <summary>
         /// Gets the id of the current user else returns -1
