@@ -1398,16 +1398,16 @@ INSERT INTO category([name], [description]) VALUES('endurance', 'Endurance worko
 INSERT INTO category([name], [description]) VALUES('strength', 'Strength workouts build muscle size and power');
 INSERT INTO category([name], [description]) VALUES('flexibility', 'Flexibility workouts stretch your muscles and help protect you body from exercise incurred injuries');
 
-INSERT INTO [user]([username],[password],[fname],[lname],[is_male],[is_admin]) VALUES('admin', 'admin', 'Bob', 'Jones', 1, 1);
-INSERT INTO [user]([username],[password],[fname],[lname],[is_male],[is_admin]) VALUES('admin2', 'admin2', 'Jane', 'Forsythe', 0, 1);
+INSERT INTO [user]([username],[password],[fname],[lname],[is_male],[is_admin]) VALUES('admin', '3c1c88f0b0fec9b5f539c3d6b0577bd138bd157d604125a53e60e35cf940a5fe', 'Bob', 'Jones', 1, 1);
+INSERT INTO [user]([username],[password],[fname],[lname],[is_male],[is_admin]) VALUES('admin2', 'cf312ac87c1b48968a08cb1b2809a5d0223668ad334ac322ca7f7ab3bce08929', 'Jane', 'Forsythe', 0, 1);
 
-INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('hunts', 'hunts', 'Sharon', 'Hunt', 0, 0);
-INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('SharonArmstrong', 'SharonArmstrong', 'Sharon', 'Armstrong', 0, 0);
-INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('dunnj', 'dunnj', 'Joseph', 'Dunn', 1, 0);
-INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('AnneBailey', 'AnneBailey', 'Anne', 'Bailey', 0, 0);
-INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('FrankSmith', 'FrankSmith', 'Frank', 'Smith', 1, 0);
-INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('DorothyMoreno', 'DorothyMoreno', 'Dorothy', 'Moreno', 0, 0);
-INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('CharlesDavis', 'CharlesDavis', 'Charles', 'Davis', 1, 0);
+INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('hunts', '5faf9c3e4b1fe468cb6fc9e7cc3bd1eb93f3cad399d45e9a358a14c2c7b483d6', 'Sharon', 'Hunt', 0, 0);
+INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('SharonArmstrong', 'b78ca34b54a6da5d0b8d95a584276450f3c6dbdaafa0d6b4c26bdf893f234573', 'Sharon', 'Armstrong', 0, 0);
+INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('dunnj', 'c98f2f0ce893c007f05c4c2904a5f66e72dd2ea2b8824d3927a3a763be4fb235', 'Joseph', 'Dunn', 1, 0);
+INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('AnneBailey', '46bab764e7e864db5484015e720e5170a6b9f32fb2ab5b1af3cbe7b32dcc9659', 'Anne', 'Bailey', 0, 0);
+INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('FrankSmith', '4f01f4fcf95a540b2623301119fd13a914c91a669cae2df5beb284bed4bc166e', 'Frank', 'Smith', 1, 0);
+INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('DorothyMoreno', '2acf57de58e9bc67475e872727864dd07c11268e652cdd5649de9d7a94c0ec71', 'Dorothy', 'Moreno', 0, 0);
+INSERT INTO [user] (username, password, fname, lname, is_male, is_admin) values ('CharlesDavis', '9ddc3eb834f671e17f1bac2f0b19ae4b1f3befec7134cd95ccc6f57c7864f575', 'Charles', 'Davis', 1, 0);
 
 INSERT INTO exercise([type_id], [created_by_user_id], [created_at], [link], [description], [name]) 
 VALUES (2, 1, GETDATE(), 'https://www.youtube.com/watch?v=bJ3Ogh5mFE4', 'Standard push-ups', 'Standard Push-ups');
