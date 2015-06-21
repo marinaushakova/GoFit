@@ -172,6 +172,7 @@
     <Compile Include="Controllers\AdminHomeController.cs" />
     <Compile Include="Controllers\AdminTypesController.cs" />
     <Compile Include="Controllers\AdminWorkoutsController.cs" />
+    <Compile Include="Controllers\ControllerHelpers.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\MyProfileController.cs" />
@@ -325,7 +326,7 @@
     <Content Include="Views\AdminWorkouts\Index.cshtml" />
     <Content Include="Views\AdminHome\Index.cshtml" />
     <Content Include="Views\MyAccount\Register.cshtml" />
-	<Content Include="Views\Home\AddExerciseToWorkout.cshtml" />
+    <Content Include="Views\Home\AddExerciseToWorkout.cshtml" />
     <Content Include="Views\Home\ExerciseList.cshtml" />
   </ItemGroup>
   <ItemGroup>

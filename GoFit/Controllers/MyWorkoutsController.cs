@@ -61,7 +61,7 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult AddToMyWorkouts(user_workout userWorkout)
         {
-            int userID = getUserId();
+            int userID = ControllerHelpers.getUserId(db, User);
             if (userID == -1)
             {
                 return View();
@@ -97,7 +97,7 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult DeleteFromMyWorkouts(int? userWorkout_id)
         {
-            int userID = getUserId();
+            int userID = ControllerHelpers.getUserId(db, User);
             if (userID == -1)
             {
                 return View();
@@ -114,19 +114,6 @@ namespace GoFit.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add this workout to user MyWorkouts page");
             }
             
-        }
-
-
-        /// <summary>
-        /// Gets the id of the current user else returns -1
-        /// </summary>
-        /// <returns>The id of the current logged in user else -1</returns>
-        private int getUserId()
-        {
-            user user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
-            int userId = -1;
-            if (user != null) userId = user.id;
-            return userId;
         }
 
         private IQueryable<user_workout> doFilter(IQueryable<user_workout> user_workouts, String filterString)

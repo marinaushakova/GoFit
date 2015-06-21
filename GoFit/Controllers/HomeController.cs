@@ -75,7 +75,7 @@ namespace GoFit.Controllers
             workout workout;
             if (workoutId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            int? userId = getUserId();
+            int userId = ControllerHelpers.getUserId(db, User);
             user_workout myworkout = db.user_workout.Where(w => 
                 w.workout_id == workoutId && 
                 w.user_id == userId).FirstOrDefault();
@@ -193,21 +193,6 @@ namespace GoFit.Controllers
         {
             var exerciseList = db.workout_exercise.Where(m => m.workout_id == id).ToList();
             return View(exerciseList); 
-        }
-
-        /// <summary>
-        /// Gets the id of the current user
-        /// </summary>
-        /// <returns>The id of the current logged in user</returns>
-        private int? getUserId()
-        {
-            int? userId = null;
-            if (User != null)
-            {
-                user userObject = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
-                if (userObject != null) userId = userObject.id;
-            }
-            return userId;
         }
 
         /// <summary>
