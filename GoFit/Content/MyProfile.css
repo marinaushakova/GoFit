@@ -1,0 +1,27 @@
+﻿div.personal_info_header {
+    margin: 10px;
+    margin-top: 5px;
+    padding: 5px;
+    font-size: 1.4em;
+    font-weight: bold;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: #ff7f7f;
+    color: #FFF;
+    border-radius: 4px;
+    max-width: 100%;
+}
+
+div.personal_info_detail {
+    margin-top: 20px;
+}
+
+div.my_profile_label > h4 > span {
+    margin-right: 20px;
+}
+
+div.my_profile_prop {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

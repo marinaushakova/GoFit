@@ -232,6 +232,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\home.css" />
+    <Content Include="Content\MyProfile.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="DB\create_blank_tables.sql" />
     <Content Include="DB\drop_create_gofitdb.sql" />
