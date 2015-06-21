@@ -325,6 +325,8 @@
     <Content Include="Views\AdminWorkouts\Index.cshtml" />
     <Content Include="Views\AdminHome\Index.cshtml" />
     <Content Include="Views\MyAccount\Register.cshtml" />
+	<Content Include="Views\Home\AddExerciseToWorkout.cshtml" />
+    <Content Include="Views\Home\ExerciseList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

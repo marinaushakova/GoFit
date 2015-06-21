@@ -1,0 +1,9 @@
+diff a/GoFit/GoFit.csproj b/GoFit/GoFit.csproj	(rejected hunks)
+@@ -169,7 +169,6 @@
+     <Compile Include="Controllers\AccountController.cs" />
+     <Compile Include="Controllers\AdminCategoriesController.cs" />
+     <Compile Include="Controllers\AdminExercisesController.cs" />
+-    <Compile Include="Controllers\AdminHomeController.cs" />
+     <Compile Include="Controllers\AdminTypesController.cs" />
+     <Compile Include="Controllers\AdminWorkoutsController.cs" />
+     <Compile Include="Controllers\HomeController.cs" />

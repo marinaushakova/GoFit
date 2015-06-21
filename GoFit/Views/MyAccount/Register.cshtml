@@ -17,7 +17,7 @@
         @Html.ValidationSummary(true)
 
         <div class="form-group">
-            @Html.Label("Username: *", new { @class = "control-label col-md-2" })
+            @Html.Label("Username: *", new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.username)
                 @Html.ValidationMessageFor(model => model.username)
@@ -34,7 +34,7 @@
 
         <div class="form-group">
             @Html.Label("First name:", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="dropdown col-md-10" >
                 @Html.EditorFor(model => model.fname)
                 @Html.ValidationMessageFor(model => model.fname)
             </div>
@@ -88,7 +88,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Register" class="btn btn-default" />
+                <input type="submit" value="Register" class="btn btn-primary" />
             </div>
         </div>
     </div>
