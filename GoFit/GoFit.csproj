@@ -323,6 +323,7 @@
     <Content Include="Views\AdminWorkouts\Edit.cshtml" />
     <Content Include="Views\AdminWorkouts\Index.cshtml" />
     <Content Include="Views\AdminHome\Index.cshtml" />
+    <Content Include="Views\MyAccount\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
