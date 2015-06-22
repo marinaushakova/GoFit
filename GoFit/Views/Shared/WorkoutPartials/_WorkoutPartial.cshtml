@@ -39,39 +39,59 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr class="row">
-                                    <th class="col-xs-4">Exercise</th>
-                                    <th class="col-xs-4">Duration</th>
-                                    <th class="col-xs-4">
-                                        @if (@ViewBag.isMyWorkout == true)
-                                        {
+                                    @if (@ViewBag.isMyWorkout == true)
+                                    {
+                                        <th class="col-xs-4">Exercise</th>
+                                        <th class="col-xs-4">Duration</th>
+                                        <th class="col-xs-4">
                                             <span class="did_exercise_chkbx">Complete</span>
-                                        }
-                                    </th>
+                                        </th>
+                                    }
+                                    else
+                                    {
+                                        <th class="col-xs-6">Exercise</th>
+                                        <th class="col-xs-6">Duration</th>
+                                    }
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var exercise in Model.workout_exercise)
                                 {
                                     <tr class="row">
-                                        <td class="col-xs-4">@Html.DisplayFor(modelItem => exercise.exercise.name)</td>
-                                        <td class="col-xs-4">
-                                            @if (@exercise.exercise.type.measure == "unit")
-                                            {
-                                                <span>@Convert.ToInt16(@exercise.duration)</span>
-                                                <span>reps</span>
-                                            }
-                                            else
-                                            {
-                                                <span>@exercise.duration</span>
-                                                <span>@exercise.exercise.type.measure</span>
-                                            }
-                                        </td>
-                                        <td class="col-xs-4">
-                                            @if (@ViewBag.isMyWorkout == true)
-                                            {
+                                        @if (@ViewBag.isMyWorkout == true) { 
+                                            <td class="col-xs-4">@Html.DisplayFor(modelItem => exercise.exercise.name)</td>
+                                            <td class="col-xs-4">
+                                                @if (@exercise.exercise.type.measure == "unit")
+                                                {
+                                                    <span>@Convert.ToInt16(@exercise.duration)</span>
+                                                    <span>reps</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>@exercise.duration</span>
+                                                    <span>@exercise.exercise.type.measure</span>
+                                                }
+                                            </td>
+                                            <td class="col-xs-4">
                                                 <input type="checkbox" class="did_exercise_chkbx" id="@String.Concat("chkbx", @exercise.position)" onchange="onCheck(@exercise.position)" />
-                                            }
-                                        </td>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="col-xs-6">@Html.DisplayFor(modelItem => exercise.exercise.name)</td>
+                                            <td class="col-xs-6">
+                                                @if (@exercise.exercise.type.measure == "unit")
+                                                {
+                                                    <span>@Convert.ToInt16(@exercise.duration)</span>
+                                                    <span>reps</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>@exercise.duration</span>
+                                                    <span>@exercise.exercise.type.measure</span>
+                                                }
+                                            </td>
+                                        }
                                     </tr>
                                 }
                             </tbody>
