@@ -4,10 +4,12 @@
 
 <div class="row button_bar">
     <a href="/" class="btn btn-primary">Back</a>
-    @Html.ActionLink(
+    @if (User.Identity.IsAuthenticated) {
+        @Html.ActionLink(
                 "Add to My Workouts",
                 "AddToMyWorkouts",
                 "MyWorkouts",
                 new { workout_id = @Model.id },
                 new { @class = "btn btn-primary" })
+    }
 </div>

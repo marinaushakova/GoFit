@@ -159,7 +159,7 @@ namespace GoFit.Controllers
                 {
                     db.user_workout.Add(userWorkout);
                     db.SaveChanges();
-                    return RedirectToAction("Details", "Home", new { workoutId = userWorkout.workout_id });
+                    return RedirectToAction("Details", "MyWorkouts", new { user_workout_id = userWorkout.id });
                 }
                 catch (Exception ex) 
                 {
