@@ -10,7 +10,7 @@ using GoFit.Models;
 
 namespace GoFit.Controllers
 {
-    [Authorize(Users="admin, admin2")]
+    [Authorize]
     public class AdminWorkoutsController : Controller
     {
         private masterEntities db = new masterEntities();
@@ -18,6 +18,8 @@ namespace GoFit.Controllers
         // GET: AdminWorkouts
         public ActionResult Index()
         {
+            var isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin == 1;
+
             var workouts = db.workouts.Include(w => w.category).Include(w => w.user);
             return View(workouts.ToList());
         }
@@ -54,6 +56,9 @@ namespace GoFit.Controllers
         {
             if (ModelState.IsValid)
             {
+                workout.timestamp = DateTime.Now;
+                workout.created_at = DateTime.Now;
+                workout.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
                 db.workouts.Add(workout);
                 db.SaveChanges();
                 return RedirectToAction("Index");

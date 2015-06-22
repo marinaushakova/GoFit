@@ -10,7 +10,7 @@ using GoFit.Models;
 
 namespace GoFit.Controllers
 {
-    [Authorize(Users="admin, admin2")]
+    [Authorize]
     public class AdminTypesController : Controller
     {
         private masterEntities db = new masterEntities();
@@ -51,6 +51,7 @@ namespace GoFit.Controllers
         {
             if (ModelState.IsValid)
             {
+                type.timestamp = DateTime.Now;
                 db.types.Add(type);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -192,10 +192,10 @@ namespace GoFit.Controllers
         /// <param name="id">workout id</param>
         /// <returns>List of exercises of workout with passed id</returns>
         [Authorize]
-        public ViewResult ExerciseList(int id)
+        public PartialViewResult ExerciseList(int id)
         {
             var exerciseList = db.workout_exercise.Where(m => m.workout_id == id).ToList();
-            return View(exerciseList); 
+            return PartialView(exerciseList); 
         }
 
         /// <summary>
