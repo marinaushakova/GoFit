@@ -35,6 +35,17 @@ namespace GoFit.Controllers
             helper = new ControllerHelpers(db);
         }
 
+        /// <summary>
+        /// Constructor to allow a passed in db context
+        /// </summary>
+        /// <param name="context">The context to use</param>
+        public MyWorkoutsController(masterEntities context)
+        {
+            db = context;
+            pageSize = PAGE_SIZE;
+            helper = new ControllerHelpers(db);
+        }
+
         //
         // GET: /MyWorkouts/
         /// <summary>

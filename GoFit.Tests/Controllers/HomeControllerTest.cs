@@ -29,9 +29,6 @@ namespace GoFit.Tests.Controllers
         {
             DbContextHelpers contextHelpers = new DbContextHelpers();
             search = new WorkoutSearch();
-            //var mockContext = contextHelpers.getDbContext();
-            //var mockContext = getDbContext();
-            //controller = new HomeController(mockContext.Object);
 
             Mock<masterEntities> db = contextHelpers.getDbContext();
             controller = new HomeController(db.Object) {
