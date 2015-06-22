@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GoFit.Models;
+using PagedList;
 
 namespace GoFit.Controllers
 {
@@ -15,13 +16,38 @@ namespace GoFit.Controllers
     {
         private masterEntities db = new masterEntities();
 
+        protected override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            base.OnAuthorization(filterContext);
+
+            var isAdmin = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
+            }
+
+            // Redirect non-administrative users to the home page upon authorization
+            if (isAdmin != 1)
+            {
+                filterContext.Result = new RedirectResult("/Home/Index");
+            }
+        }
+
         // GET: AdminWorkouts
         public ActionResult Index()
         {
-            var isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin == 1;
+            
 
             var workouts = db.workouts.Include(w => w.category).Include(w => w.user);
             return View(workouts.ToList());
+
+            //workouts = this.doFilter(workouts, filterString);
+            //workouts = this.doSearch(workouts, workoutSearch, filterString, sortBy, page);
+            //workouts = this.doSort(workouts, sortBy);
+
+            //int pageNumber = (page ?? 1);
+            //var view = View("Index", workouts.ToPagedList(pageNumber, AdminWorkoutsController.PAGE_SIZE));
+            //return view;
         }
 
         // GET: AdminWorkouts/Details/5
