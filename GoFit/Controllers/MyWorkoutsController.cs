@@ -71,6 +71,30 @@ namespace GoFit.Controllers
             return view;
         }
 
+        /// <summary>
+        /// Shows an individual user workout
+        /// </summary>
+        /// <param name="user_workout_id">The user workout to show</param>
+        /// <returns>The user workout view</returns>
+        [Authorize]
+        public ActionResult Details(int user_workout_id)
+        {
+            workout workout;
+
+            int userId = helper.getUserId(User.Identity.Name);
+            user_workout myworkout = db.user_workout.Find(user_workout_id);
+
+            if (myworkout == null) return new HttpNotFoundResult("Workout not found");
+            else
+            {
+                workout = myworkout.workout;
+                ViewBag.myWorkoutId = myworkout.id;
+                ViewBag.numExercisesCompleted = myworkout.number_of_ex_completed;
+                ViewBag.isMyWorkout = true;
+                return View(workout);
+            }
+        }
+
         [Authorize]
         public ActionResult AddToMyWorkouts(user_workout userWorkout)
         {

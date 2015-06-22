@@ -77,20 +77,7 @@ namespace GoFit.Controllers
         {
             workout workout;
             if (workoutId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            int userId = helper.getUserId(User.Identity.Name);
-            user_workout myworkout = db.user_workout.Where(w =>
-                w.workout_id == workoutId &&
-                w.user_id == userId).FirstOrDefault();
-
-            if (myworkout == null) workout = db.workouts.Find(workoutId);
-            else
-            {
-                workout = myworkout.workout;
-                ViewBag.myWorkoutId = myworkout.id;
-                ViewBag.numExercisesCompleted = myworkout.number_of_ex_completed;
-                ViewBag.isMyWorkout = true;
-            }
+            workout = db.workouts.Find(workoutId);
             if (workout == null) return HttpNotFound();
             return View(workout);
         }
