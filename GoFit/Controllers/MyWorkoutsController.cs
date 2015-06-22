@@ -137,6 +137,11 @@ namespace GoFit.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds a workout to the user_workout table
+        /// </summary>
+        /// <param name="userWorkout">The user_workout object to add</param>
+        /// <returns>The detail view for the added workout</returns>
         [Authorize]
         public ActionResult AddToMyWorkouts(user_workout userWorkout)
         {
