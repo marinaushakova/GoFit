@@ -85,4 +85,9 @@ textarea.description_textarea {
     height: 25px;
 }
 
+#duration_text {
+    min-width: 100px;
+    width: 100px;
+}
+
 

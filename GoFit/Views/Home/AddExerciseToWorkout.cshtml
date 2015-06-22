@@ -32,7 +32,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-4 col-sm-12">Exercise:</label>
                     <div class="col-md-8 col-sm-12">
-                        @Html.DropDownListFor(model => model.exercise_id, (IEnumerable<SelectListItem>)ViewBag.Exercises, new { onChange = "onSelectedIndexChanged()", id = "cmbMeasure" })
+                        @Html.DropDownListFor(model => model.exercise_id, (IEnumerable<SelectListItem>)ViewBag.Exercises, new { onChange = "onSelectedIndexChanged()", id = "cmbMeasure", @class = "drop_down" })
                         @Html.ValidationMessageFor(model => model.exercise_id)
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-4 col-sm-12">Duration:</label>
                     <div class="col-md-8 col-sm-12">
-                        @Html.EditorFor(model => model.duration)
+                        @Html.TextBoxFor(model => model.duration, new { @id = "duration_text" })
                         @Html.ValidationMessageFor(model => model.duration)
                         <label id="lblMeasure">unit(s)</label>
                     </div>
@@ -48,7 +48,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-4 col-md-8">
-                        <input type="submit" value="Add Exercise" class="btn btn-primaru" />
+                        <input type="submit" value="Add Exercise" class="btn btn-primary" />
                     </div>
                 </div>
             </div>
