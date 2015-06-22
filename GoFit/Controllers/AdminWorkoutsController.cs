@@ -56,6 +56,9 @@ namespace GoFit.Controllers
         {
             if (ModelState.IsValid)
             {
+                workout.timestamp = DateTime.Now;
+                workout.created_at = DateTime.Now;
+                workout.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
                 db.workouts.Add(workout);
                 db.SaveChanges();
                 return RedirectToAction("Index");
