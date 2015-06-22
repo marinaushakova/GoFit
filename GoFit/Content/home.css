@@ -56,3 +56,17 @@ table {
     overflow: auto;
     height: 300px;
 }
+div.exercise_form {
+    margin-top: 20px;
+}
+
+@media (min-width: 992px) {
+    div.exercise_form {
+        margin-top: 20px;
+        margin-left: 20px;
+    }
+}
+
+div.add_ex_content .row {
+    background-color: red;
+}
