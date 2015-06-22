@@ -197,7 +197,7 @@ namespace GoFit.Controllers
             if (myWorkout == null) return new HttpNotFoundResult("Unable to find the given user workout");
             try
             {
-                if (position == 1)
+                if (position == 1 || myWorkout.date_started == null)
                 {
                     myWorkout.number_of_ex_completed = position;
                     myWorkout.date_started = DateTime.Now;
