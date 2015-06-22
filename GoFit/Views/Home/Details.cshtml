@@ -99,7 +99,7 @@
 @section Scripts {
     <script type="text/javascript">
         function onCheck(position) {
-            alert(JSON.stringify(position));
+            //alert(JSON.stringify(position));
             if (position == null) return;
             var id = "chkbx" + id;
             var checkbox = document.getElementById(id);
@@ -109,9 +109,9 @@
             params.position = position
 
             $.post(url, params, function (result) {
-                if (result.error) {
-                    for (var i = 1; i < position; i++) {
-                        id = "chkbx" + i;
+                if (result) {
+                    for (var i = 1; i <= position; i++) {
+                        var id = "chkbx" + i;
                         checkbox = document.getElementById(id);
                         checkbox.checked = true;
                         checkbox.disabled = true;
@@ -123,8 +123,13 @@
             });
         };
 
-        (function markAndDisableCheckboxes() {
-
+        (function () {
+            for (var i = 1; i <= @ViewBag.numExercisesCompleted; i++) {
+                id = "chkbx" + i;
+                checkbox = document.getElementById(id);
+                checkbox.checked = true;
+                checkbox.disabled = true;
+            }
         })();
     </script>
 }

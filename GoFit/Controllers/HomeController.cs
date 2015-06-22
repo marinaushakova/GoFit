@@ -88,6 +88,7 @@ namespace GoFit.Controllers
             {
                 workout = myworkout.workout;
                 ViewBag.myWorkoutId = myworkout.id;
+                ViewBag.numExercisesCompleted = myworkout.number_of_ex_completed;
                 ViewBag.isMyWorkout = true;
             }
             if (workout == null) return HttpNotFound();
