@@ -67,6 +67,22 @@ div.exercise_form {
     }
 }
 
-div.add_ex_content .row {
-    background-color: red;
+textarea.description_textarea {
+    max-width: 360px;
+    width: 360px; 
+    max-height: 100px;
+    height: 100px;
+    resize: none;
 }
+
+.workout_textbox {
+    max-width: 360px;
+    width: 360px;
+}
+
+.drop_down {
+    width: 200px;
+    height: 25px;
+}
+
+
