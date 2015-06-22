@@ -44,7 +44,7 @@
                                         @if (@ViewBag.isMyWorkout == true)
                                         {
                                             <span class="did_exercise_chkbx">Complete</span>
-                                        } 
+                                        }
                                     </th>
                                 </tr>
                             </thead>
@@ -68,30 +68,64 @@
                                         <td class="col-xs-4">
                                             @if (@ViewBag.isMyWorkout == true)
                                             {
-                                                <input class="did_exercise_chkbx" type="checkbox" />
-                                            } 
+                                                @*<input class="did_exercise_chkbx" type="checkbox" />*@
+                                                <input type="checkbox" class="did_exercise_chkbx" id="@String.Concat("chkbx", @exercise.position)" onchange="onCheck(@exercise.position)" />
+                                            }
                                         </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
     </div>
     <div class="row button_bar">
         <a href="/" class="btn btn-primary">Back</a>
-        @if (@ViewBag.isMyWorkout != true) 
+        @if (@ViewBag.isMyWorkout != true)
         {
             @*<a href="/" class="btn btn-primary">Add to My Workouts</a>*@
             @Html.ActionLink(
-                "Add to My Workouts", 
-                "AddToMyWorkouts", 
+                "Add to My Workouts",
+                "AddToMyWorkouts",
                 "MyWorkouts",
-                new { workout_id = @Model.id }, 
+                new { workout_id = @Model.id },
                 new { @class = "btn btn-primary" })
         }
     </div>
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+        function onCheck(position) {
+            alert(JSON.stringify(position));
+            if (position == null) return;
+            var id = "chkbx" + id;
+            var checkbox = document.getElementById(id);
+            var url = "@Url.Action("MarkExercise", "Home")";
+            var params = {}
+            params.my_workout_id = @ViewBag.myWorkoutId
+            params.position = position
+
+            $.post(url, params, function (result) {
+                if (result.error) {
+                    for (var i = 1; i < position; i++) {
+                        id = "chkbx" + i;
+                        checkbox = document.getElementById(id);
+                        checkbox.checked = true;
+                        checkbox.disabled = true;
+                    }
+                } else {
+                    checkbox.checked = false;
+                    alert("Failed to mark progess on exercise. Please try again");
+                }
+            });
+        };
+
+        (function markAndDisableCheckboxes() {
+
+        })();
+    </script>
+}
 

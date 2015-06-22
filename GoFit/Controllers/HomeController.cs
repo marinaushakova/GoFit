@@ -79,14 +79,15 @@ namespace GoFit.Controllers
             if (workoutId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             int userId = helper.getUserId(User.Identity.Name);
-            user_workout myworkout = db.user_workout.Where(w => 
-                w.workout_id == workoutId && 
+            user_workout myworkout = db.user_workout.Where(w =>
+                w.workout_id == workoutId &&
                 w.user_id == userId).FirstOrDefault();
 
             if (myworkout == null) workout = db.workouts.Find(workoutId);
             else
             {
                 workout = myworkout.workout;
+                ViewBag.myWorkoutId = myworkout.id;
                 ViewBag.isMyWorkout = true;
             }
             if (workout == null) return HttpNotFound();
@@ -102,7 +103,7 @@ namespace GoFit.Controllers
         {
             var query = db.categories.Select(c => new { c.id, c.name });
             ViewBag.Categories = new SelectList(query.AsEnumerable(), "id", "name");
-            
+
             return View();
         }
 
@@ -139,7 +140,7 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult AddExerciseToWorkout(int? id)
         {
-            
+
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             ViewBag.Workout = db.workouts.Find(id);
             Session["workout_id"] = id;
@@ -158,7 +159,7 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult AddExerciseToWorkout(workout_exercise w_ex)
         {
-            
+
             if (ModelState.IsValid)
             {
                 w_ex.workout_id = (int)Session["workout_id"];
@@ -186,6 +187,42 @@ namespace GoFit.Controllers
             return Json(measure, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        [Authorize]
+        public ActionResult MarkExercise(int my_workout_id, int position)
+        {
+
+            user_workout myWorkout = db.user_workout.Find(my_workout_id);
+            if (myWorkout == null) return new HttpNotFoundResult("Unable to find the given user workout");
+            try
+            {
+                if (position == 1)
+                {
+                    myWorkout.number_of_ex_completed = position;
+                    myWorkout.date_started = DateTime.Now;
+                    db.SaveChanges();
+                    return Json(true);
+                }
+                else if (position == myWorkout.workout.workout_exercise.Count)
+                {
+                    myWorkout.number_of_ex_completed = position;
+                    myWorkout.date_finished = DateTime.Now;
+                    db.SaveChanges();
+                    return Json(true);
+                }
+                else
+                {
+                    myWorkout.number_of_ex_completed = position;
+                    db.SaveChanges();
+                    return Json(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(false);
+            }
+        }
+
         /// <summary>
         /// Gets list of exercises that are in given workout
         /// </summary>
@@ -195,7 +232,7 @@ namespace GoFit.Controllers
         public PartialViewResult ExerciseList(int id)
         {
             var exerciseList = db.workout_exercise.Where(m => m.workout_id == id).ToList();
-            return PartialView(exerciseList); 
+            return PartialView(exerciseList);
         }
 
         /// <summary>
