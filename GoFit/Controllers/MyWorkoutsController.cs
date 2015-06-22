@@ -95,6 +95,48 @@ namespace GoFit.Controllers
             }
         }
 
+        /// <summary>
+        /// Marks an exercise or exercises of a user_workout as completed
+        /// </summary>
+        /// <param name="my_workout_id">the user_workout to mark exercises on</param>
+        /// <param name="position">the position the user has marked</param>
+        /// <returns>True if successful, false otherwise</returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult MarkExercise(int my_workout_id, int position)
+        {
+
+            user_workout myWorkout = db.user_workout.Find(my_workout_id);
+            if (myWorkout == null) return new HttpNotFoundResult("Unable to find the given user workout");
+            try
+            {
+                if (position == 1 || myWorkout.date_started == null)
+                {
+                    myWorkout.number_of_ex_completed = position;
+                    myWorkout.date_started = DateTime.Now;
+                    db.SaveChanges();
+                    return Json(true);
+                }
+                else if (position == myWorkout.workout.workout_exercise.Count)
+                {
+                    myWorkout.number_of_ex_completed = position;
+                    myWorkout.date_finished = DateTime.Now;
+                    db.SaveChanges();
+                    return Json(true);
+                }
+                else
+                {
+                    myWorkout.number_of_ex_completed = position;
+                    db.SaveChanges();
+                    return Json(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(false);
+            }
+        }
+
         [Authorize]
         public ActionResult AddToMyWorkouts(user_workout userWorkout)
         {

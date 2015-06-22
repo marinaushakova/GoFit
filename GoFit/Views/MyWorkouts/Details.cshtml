@@ -19,7 +19,7 @@
             if (position == null) return;
             var id = "chkbx" + id;
             var checkbox = document.getElementById(id);
-            var url = "@Url.Action("MarkExercise", "Home")";
+            var url = "@Url.Action("MarkExercise", "MyWorkouts")";
             var params = {}
             params.my_workout_id = @ViewBag.myWorkoutId
             params.position = position

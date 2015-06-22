@@ -175,41 +175,6 @@ namespace GoFit.Controllers
             return Json(measure, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        [Authorize]
-        public ActionResult MarkExercise(int my_workout_id, int position)
-        {
-
-            user_workout myWorkout = db.user_workout.Find(my_workout_id);
-            if (myWorkout == null) return new HttpNotFoundResult("Unable to find the given user workout");
-            try
-            {
-                if (position == 1 || myWorkout.date_started == null)
-                {
-                    myWorkout.number_of_ex_completed = position;
-                    myWorkout.date_started = DateTime.Now;
-                    db.SaveChanges();
-                    return Json(true);
-                }
-                else if (position == myWorkout.workout.workout_exercise.Count)
-                {
-                    myWorkout.number_of_ex_completed = position;
-                    myWorkout.date_finished = DateTime.Now;
-                    db.SaveChanges();
-                    return Json(true);
-                }
-                else
-                {
-                    myWorkout.number_of_ex_completed = position;
-                    db.SaveChanges();
-                    return Json(true);
-                }
-            }
-            catch (Exception ex)
-            {
-                return Json(false);
-            }
-        }
 
         /// <summary>
         /// Gets list of exercises that are in given workout
