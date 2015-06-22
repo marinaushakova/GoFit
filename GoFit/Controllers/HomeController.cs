@@ -17,6 +17,7 @@ namespace GoFit.Controllers
     {
         private masterEntities db;
         private const int PAGE_SIZE = 10;
+        private ControllerHelpers helper;
 
         /// <summary>
         /// Constructor to create the default db context
@@ -25,6 +26,7 @@ namespace GoFit.Controllers
         {
             db = new masterEntities();
             pageSize = PAGE_SIZE;
+            helper = new ControllerHelpers(db);
         }
 
         /// <summary>
@@ -35,6 +37,7 @@ namespace GoFit.Controllers
         {
             db = context;
             pageSize = PAGE_SIZE;
+            helper = new ControllerHelpers(db);
         }
 
         /// <summary>
@@ -75,7 +78,7 @@ namespace GoFit.Controllers
             workout workout;
             if (workoutId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            int userId = ControllerHelpers.getUserId(db, User);
+            int userId = helper.getUserId(User.Identity.Name);
             user_workout myworkout = db.user_workout.Where(w => 
                 w.workout_id == workoutId && 
                 w.user_id == userId).FirstOrDefault();
@@ -294,9 +297,9 @@ namespace GoFit.Controllers
         {
             if (Session != null)
             {
-                search.name = Session["NameSearchParam"] as String;
-                search.category = Session["CategorySearchParam"] as String;
-                search.username = Session["UserSearchParam"] as String;
+                if (!String.IsNullOrEmpty(Session["NameSearchParam"] as String)) search.name = Session["NameSearchParam"] as String;
+                if (!String.IsNullOrEmpty(Session["CategorySearchParam"] as String)) search.category = Session["CategorySearchParam"] as String;
+                if (!String.IsNullOrEmpty(Session["UserSearchParam"] as String)) search.username = Session["UserSearchParam"] as String;
             }
             return search;
         }

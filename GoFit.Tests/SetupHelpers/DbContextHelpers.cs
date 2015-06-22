@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,13 +14,13 @@ namespace GoFit.Tests.MockSetupHelpers
     /// <summary>
     /// Class to provide the needed contexts to the various controller unit tests
     /// </summary>
-    public static class DbContextHelpers
+    public class DbContextHelpers
     {
         /// <summary>
         /// Sets up the mock context and gives it test data
         /// </summary>
         /// <returns>The mock context</returns>
-        public static Mock<masterEntities> getDbContext()
+        public Mock<masterEntities> getDbContext()
         {
 
             var user_workouts = new List<user_workout>
@@ -28,6 +29,21 @@ namespace GoFit.Tests.MockSetupHelpers
                     user_id = 2,
                     workout_id = 1,
                     id = 1
+                }
+            }.AsQueryable();
+
+            var users = new List<user> {
+                new user {
+                    id = 1,
+                    username = "admin"
+                },
+                new user {
+                    id = 2,
+                    username = "bob"
+                },
+                new user {
+                    id = 3,
+                    username = "jjones"
                 }
             }.AsQueryable();
 
@@ -45,9 +61,16 @@ namespace GoFit.Tests.MockSetupHelpers
             userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.ElementType).Returns(user_workouts.ElementType);
             userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.GetEnumerator()).Returns(user_workouts.GetEnumerator);
 
+            var userMockset = new Mock<DbSet<user>>() { CallBase = true };
+            userMockset.As<IQueryable<user>>().Setup(m => m.Provider).Returns(users.Provider);
+            userMockset.As<IQueryable<user>>().Setup(m => m.Expression).Returns(users.Expression);
+            userMockset.As<IQueryable<user>>().Setup(m => m.ElementType).Returns(users.ElementType);
+            userMockset.As<IQueryable<user>>().Setup(m => m.GetEnumerator()).Returns(users.GetEnumerator);
+
             var mockContext = new Mock<masterEntities>();
             mockContext.Setup(c => c.workouts).Returns(workoutMockset.Object);
             mockContext.Setup(c => c.user_workout).Returns(userWorkoutMockset.Object);
+            mockContext.Setup(c => c.users).Returns(userMockset.Object);
             return mockContext;
         }
 

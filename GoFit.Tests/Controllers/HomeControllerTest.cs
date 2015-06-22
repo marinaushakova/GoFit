@@ -11,6 +11,7 @@ using PagedList;
 using Moq;
 using System.Data.Entity;
 using GoFit.Tests.MockContexts;
+using GoFit.Tests.MockSetupHelpers;
 
 namespace GoFit.Tests.Controllers
 {
@@ -26,9 +27,16 @@ namespace GoFit.Tests.Controllers
         [TestInitialize]
         public void Initialize()
         {
+            DbContextHelpers contextHelpers = new DbContextHelpers();
             search = new WorkoutSearch();
-            var mockContext = getDbContext();
-            controller = new HomeController(mockContext.Object);
+            //var mockContext = contextHelpers.getDbContext();
+            //var mockContext = getDbContext();
+            //controller = new HomeController(mockContext.Object);
+
+            Mock<masterEntities> db = contextHelpers.getDbContext();
+            controller = new HomeController(db.Object) {
+                ControllerContext = MockContext.AuthenticationContext("jjones")
+            };
             controller.pageSize = 10;
         }
 
@@ -236,7 +244,7 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestIndexSearchCategoryAndSortUserDesc()
         {
-            controller.pageSize = 12;
+            controller.pageSize = 20;
             search.category = "strength";
             ViewResult result = controller.Index("user_desc", null, search) as ViewResult;
             Assert.IsNotNull(result);
@@ -251,6 +259,7 @@ namespace GoFit.Tests.Controllers
         {
             controller.pageSize = 20;
             search.name = "2";
+            controller.Session["NameSearchParam"] = "2";
             ViewResult result = controller.Index("date", null, search) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;

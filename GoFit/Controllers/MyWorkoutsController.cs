@@ -18,6 +18,7 @@ namespace GoFit.Controllers
         private masterEntities db;
         private int currUserId;
         private const int PAGE_SIZE = 10;
+        private ControllerHelpers helper;
 
         /// <summary>
         /// Getter/setter for the pageSize instance variable
@@ -31,6 +32,7 @@ namespace GoFit.Controllers
         {
             db = new masterEntities();
             pageSize = PAGE_SIZE;
+            helper = new ControllerHelpers(db);
         }
 
         //
@@ -61,7 +63,7 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult AddToMyWorkouts(user_workout userWorkout)
         {
-            int userID = ControllerHelpers.getUserId(db, User);
+            int userID = helper.getUserId(User.Identity.Name);
             if (userID == -1)
             {
                 return View();
@@ -97,7 +99,7 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult DeleteFromMyWorkouts(int? userWorkout_id)
         {
-            int userID = ControllerHelpers.getUserId(db, User);
+            int userID = helper.getUserId(User.Identity.Name);
             if (userID == -1)
             {
                 return View();
