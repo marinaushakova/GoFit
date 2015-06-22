@@ -36,9 +36,9 @@ namespace GoFit.Tests.Controllers
             RedirectToRouteResult result = myWorkoutsCon.AddToMyWorkouts(userWorkout) as RedirectToRouteResult;
             var res = myWorkoutsCon.AddToMyWorkouts(userWorkout);
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.RouteValues["workoutId"], "workoutId was not 1");
+            Assert.AreEqual(0, result.RouteValues["user_workout_id"], "workoutId was not 1");
             Assert.AreEqual("Details", result.RouteValues["action"], "action was not Controller");
-            Assert.AreEqual("Home", result.RouteValues["controller"], "controller was not Home");
+            Assert.AreEqual("MyWorkouts", result.RouteValues["controller"], "controller was not Home");
         }
     }
 }
