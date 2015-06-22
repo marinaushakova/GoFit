@@ -34,11 +34,18 @@ namespace GoFit.Tests.Controllers
             userWorkout.workout_id = 1;
             db.Setup(c => c.user_workout.Add(userWorkout)).Returns(userWorkout);
             RedirectToRouteResult result = myWorkoutsCon.AddToMyWorkouts(userWorkout) as RedirectToRouteResult;
-            var res = myWorkoutsCon.AddToMyWorkouts(userWorkout);
             Assert.IsNotNull(result);
             Assert.AreEqual(0, result.RouteValues["user_workout_id"], "workoutId was not 1");
             Assert.AreEqual("Details", result.RouteValues["action"], "action was not Controller");
             Assert.AreEqual("MyWorkouts", result.RouteValues["controller"], "controller was not Home");
+        }
+
+        [TestMethod]
+        public void TestMarkExerciseClickingFirstCheckbox()
+        {
+            JsonResult result = myWorkoutsCon.MarkExercise(1, 1) as JsonResult;
+
+            Assert.IsNotNull(result);
         }
     }
 }
