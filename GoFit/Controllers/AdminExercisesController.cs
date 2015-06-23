@@ -217,29 +217,54 @@ namespace GoFit.Controllers
                 sortBy = setSortFromSession(sortBy);
             }
 
-            ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
+            ViewBag.CreatedSortParam = (sortBy == "date") ? "date_desc" : "date";
+            ViewBag.LinkSortParam = (sortBy == "link") ? "link_desc" : "link";
             ViewBag.DescriptionSortParam = (sortBy == "description") ? "description_desc" : "description";
             ViewBag.TimestampSortParam = (sortBy == "time") ? "time_desc" : "time";
+            ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
+            ViewBag.TypeSortParam = (sortBy == "type") ? "type_desc" : "type";
+            ViewBag.UsernameSortParam = (sortBy == "name") ? "name_desc" : "name";
 
             switch (sortBy)
             {
-                case "name_desc":
-                    exercises = exercises.OrderByDescending(w => w.name);
+                case "date":
+                    exercises = exercises.OrderBy(e => e.created_at);
+                    break;
+                case "date_desc":
+                    exercises = exercises.OrderByDescending(e => e.created_at);
+                    break;
+                case "link":
+                    exercises = exercises.OrderBy(e => e.link);
+                    break;
+                case "link_desc":
+                    exercises = exercises.OrderByDescending(e => e.link);
                     break;
                 case "description":
-                    exercises = exercises.OrderBy(w => w.description);
+                    exercises = exercises.OrderBy(e => e.description);
                     break;
                 case "description_desc":
-                    exercises = exercises.OrderByDescending(w => w.description);
+                    exercises = exercises.OrderByDescending(e => e.description);
                     break;
                 case "time":
-                    exercises = exercises.OrderBy(w => w.timestamp);
+                    exercises = exercises.OrderBy(e => e.timestamp);
                     break;
                 case "time_desc":
-                    exercises = exercises.OrderByDescending(w => w.timestamp);
+                    exercises = exercises.OrderByDescending(e => e.timestamp);
+                    break;
+                case "name":
+                    exercises = exercises.OrderBy(e => e.name);
+                    break;
+                case "name_desc":
+                    exercises = exercises.OrderByDescending(e => e.name);
+                    break;
+                case "type":
+                    exercises = exercises.OrderBy(e => e.type.name);
+                    break;
+                case "type_desc":
+                    exercises = exercises.OrderByDescending(e => e.type.name);
                     break;
                 default:
-                    exercises = exercises.OrderBy(w => w.name);
+                    exercises = exercises.OrderBy(e => e.name);
                     break;
             }
 
