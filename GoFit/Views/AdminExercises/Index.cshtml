@@ -1,5 +1,4 @@
-﻿@*@model IEnumerable<GoFit.Models.exercise>*@
-@model PagedList.IPagedList<GoFit.Models.exercise>
+﻿@model PagedList.IPagedList<GoFit.Models.exercise>
 @using PagedList.Mvc;
 
 @{
@@ -38,15 +37,6 @@
             <table class="workout_list table container-fluid">
                 <thead>
                     <tr class="row">
-                        @*<th class="col-xs-3">@Html.DisplayNameFor(model => model.created_at)</th>
-                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.link)</th>
-                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.description)</th>
-                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.timestamp)</th>
-                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.name)</th>
-                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.type.name)</th>
-                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.user.username)</th>*@
-
-                        
                         <th class="col-xs-3">@Html.ActionLink("Created Date", "Index", new { sortBy = ViewBag.CreatedSortParam, filterString = ViewBag.FilterParam })</th>
                         <th class="col-xs-3">@Html.ActionLink("Link", "Index", new { sortBy = ViewBag.LinkSortParam, filterString = ViewBag.FilterParam })</th>
                         <th class="col-xs-3">@Html.ActionLink("Description", "Index", new { sortBy = ViewBag.DescriptionSortParam, filterString = ViewBag.FilterParam })</th>
