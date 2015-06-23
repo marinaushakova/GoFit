@@ -267,20 +267,34 @@ namespace GoFit.Controllers
             }
 
             ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
+            ViewBag.DescriptionSortParam = (sortBy == "description") ? "description_desc" : "description";
             ViewBag.DateSortParam = (sortBy == "date") ? "date_desc" : "date";
+            ViewBag.TimestampSortParam = (sortBy == "time") ? "time_desc" : "time";
             ViewBag.CategorySortParam = (sortBy == "category") ? "category_desc" : "category";
-            ViewBag.UserSortParam = (sortBy == "user") ? "user_desc" : "user";
+            ViewBag.UsernameSortParam = (sortBy == "user") ? "user_desc" : "user";
 
             switch (sortBy)
             {
                 case "name_desc":
                     workouts = workouts.OrderByDescending(w => w.name);
                     break;
+                case "description":
+                    workouts = workouts.OrderBy(w => w.description);
+                    break;
+                case "description_desc":
+                    workouts = workouts.OrderByDescending(w => w.description);
+                    break;
                 case "date":
                     workouts = workouts.OrderBy(w => w.created_at);
                     break;
                 case "date_desc":
                     workouts = workouts.OrderByDescending(w => w.created_at);
+                    break;
+                case "time":
+                    workouts = workouts.OrderBy(w => w.timestamp);
+                    break;
+                case "time_desc":
+                    workouts = workouts.OrderByDescending(w => w.timestamp);
                     break;
                 case "category":
                     workouts = workouts.OrderBy(w => w.category.name);
