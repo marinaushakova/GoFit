@@ -53,6 +53,70 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual("false", dict["error"]);
         }
 
+        [TestMethod]
+        public void TestMarkExerciseClickingSecondCheckbox()
+        {
+            JsonResult result = myWorkoutsCon.MarkExercise(1, 2) as JsonResult;
 
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Data);
+            Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
+            var dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
+            Assert.AreEqual("true", dict["result"]);
+            Assert.AreEqual("false", dict["error"]);
+        }
+
+        [TestMethod]
+        public void TestMarkExerciseClickingSecondCheckboxAfterFirst()
+        {
+            JsonResult result = myWorkoutsCon.MarkExercise(1, 1) as JsonResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Data);
+            Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
+            var dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
+            Assert.AreEqual("true", dict["result"]);
+            Assert.AreEqual("false", dict["error"]);
+
+            result = myWorkoutsCon.MarkExercise(1, 2) as JsonResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Data);
+            Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
+            dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
+            Assert.AreEqual("true", dict["result"]);
+            Assert.AreEqual("false", dict["error"]);
+        }
+
+        [TestMethod]
+        public void TestMarkExerciseFinishingExercise()
+        {
+            JsonResult result = myWorkoutsCon.MarkExercise(1, 1) as JsonResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Data);
+            Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
+            var dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
+            Assert.AreEqual("true", dict["result"]);
+            Assert.AreEqual("false", dict["error"]);
+
+            result = myWorkoutsCon.MarkExercise(1, 2) as JsonResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Data);
+            Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
+            dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
+            Assert.AreEqual("true", dict["result"]);
+            Assert.AreEqual("false", dict["error"]);
+
+            result = myWorkoutsCon.MarkExercise(1, 3) as JsonResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Data);
+            Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
+            dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
+            Assert.AreEqual("true", dict["result"]);
+            Assert.AreEqual("false", dict["error"]);
+        }
     }
 }

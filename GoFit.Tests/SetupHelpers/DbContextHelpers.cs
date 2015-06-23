@@ -22,13 +22,26 @@ namespace GoFit.Tests.MockSetupHelpers
         /// <returns>The mock context</returns>
         public Mock<masterEntities> getDbContext()
         {
-
+            var exercises = new List<workout_exercise> {
+                new workout_exercise {},
+                new workout_exercise {},
+                new workout_exercise {}
+            };
+            var testWorkout = new workout
+            {
+                id = 1,
+                name = "workout1",
+                description = "desc1",
+                created_at = Convert.ToDateTime("2015-06-15"),
+                workout_exercise = exercises
+            };
             var user_workouts = new List<user_workout>
             {
                 new user_workout { 
                     user_id = 2,
                     workout_id = 1,
-                    id = 1
+                    id = 1,
+                    workout = testWorkout
                 }
             }.AsQueryable();
 
