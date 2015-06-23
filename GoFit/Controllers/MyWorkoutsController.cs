@@ -115,25 +115,30 @@ namespace GoFit.Controllers
                     myWorkout.number_of_ex_completed = position;
                     myWorkout.date_started = DateTime.Now;
                     db.SaveChanges();
-                    return Json(true);
                 }
                 else if (position == myWorkout.workout.workout_exercise.Count)
                 {
                     myWorkout.number_of_ex_completed = position;
                     myWorkout.date_finished = DateTime.Now;
                     db.SaveChanges();
-                    return Json(true);
                 }
                 else
                 {
                     myWorkout.number_of_ex_completed = position;
                     db.SaveChanges();
-                    return Json(true);
                 }
+                var result = new Dictionary<string, string>();
+                result.Add("result", "true");
+                result.Add("error", "false");
+                return Json(result);
             }
             catch (Exception ex)
             {
-                return Json(false);
+                var result = new Dictionary<string, string>();
+                result.Add("error", "true");
+                result.Add("result", "false");
+                result.Add("message", "Failed to mark wokrout progress");
+                return Json(result);
             }
         }
 

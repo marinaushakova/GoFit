@@ -46,6 +46,13 @@ namespace GoFit.Tests.Controllers
             JsonResult result = myWorkoutsCon.MarkExercise(1, 1) as JsonResult;
 
             Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Data);
+            Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
+            var dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
+            Assert.AreEqual("true", dict["result"]);
+            Assert.AreEqual("false", dict["error"]);
         }
+
+
     }
 }
