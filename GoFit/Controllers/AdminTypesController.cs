@@ -244,7 +244,7 @@ namespace GoFit.Controllers
             if (Session != null)
             {
                 search.name = Session["NameSearchParam"] as String;
-                search.measure = Session["DescriptionSearchParam"] as String;
+                search.measure = Session["MeasureSearchParam"] as String;
             }
             return search;
         }
