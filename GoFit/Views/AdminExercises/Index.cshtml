@@ -1,4 +1,5 @@
-﻿@model IEnumerable<GoFit.Models.exercise>
+﻿@model PagedList.IPagedList<GoFit.Models.exercise>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Admin Exercises";
@@ -18,16 +19,31 @@
         </div>
 
         <div class="panel-body">
+            <div class="search_bar">
+                <form action="/AdminExercises" method="post" class="form-inline">
+                    <div class="search_inputs form-group row">
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <input class="" id="NameSearch" name="Name" type="text" value="@Session["NameSearchParam"]" placeholder="Exercise name..." />
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <input class="" id="DescriptionSearch" name="Description" type="text" value="@Session["DescriptionSearchParam"]" placeholder="Description..." />
+                        </div>
+                        <div class="col-lg-2 col-md-1 col-sm-12 col-xs-12">
+                            <input class="btn btn-primary" type="submit" value="Search" />
+                        </div>
+                    </div>
+                </form>
+            </div>
             <table class="workout_list table container-fluid">
                 <thead>
                     <tr class="row">
-                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.created_at)</th>
-                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.link)</th>
-                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.description)</th>
-                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.timestamp)</th>
-                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.name)</th>
-                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.type.name)</th>
-                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.user.username)</th>
+                        <th class="col-xs-3">@Html.ActionLink("Created Date", "Index", new { sortBy = ViewBag.CreatedSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-3">@Html.ActionLink("Link", "Index", new { sortBy = ViewBag.LinkSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-3">@Html.ActionLink("Description", "Index", new { sortBy = ViewBag.DescriptionSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-3">@Html.ActionLink("Timestamp", "Index", new { sortBy = ViewBag.TimestampSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-3">@Html.ActionLink("Name", "Index", new { sortBy = ViewBag.NameSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-3">@Html.ActionLink("Type", "Index", new { sortBy = ViewBag.TypeSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-3">@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UsernameSortParam, filterString = ViewBag.FilterParam })</th>
                         <th class="col-xs-3">&nbsp;</th>
                     </tr>
                 </thead>
@@ -53,6 +69,10 @@
                 </tbody>
 
             </table>
+            <div class="pagination_container">
+                @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+            </div>
         </div>
     </div>
 </div>

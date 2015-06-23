@@ -14,9 +14,8 @@ namespace GoFit.Controllers
     [Authorize]
     public class AdminWorkoutsController : Controller
     {
-        private masterEntities db = new masterEntities();
+        private masterEntities db;
         private const int PAGE_SIZE = 10;
-        private int currUserId;
 
         /// <summary>
         /// Getter/setter for the pageSize instance variable
@@ -28,7 +27,7 @@ namespace GoFit.Controllers
         /// </summary>
         public AdminWorkoutsController()
         {
-            
+            db = new masterEntities();
             pageSize = PAGE_SIZE;
         }
 
@@ -52,7 +51,7 @@ namespace GoFit.Controllers
         // GET: AdminWorkouts
         public ActionResult Index(string filterString, string sortBy, int? page, WorkoutSearch workoutSearch)
         {
-            currUserId = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
+            //currUserId = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
             //var workouts = db.workouts.Include(w => w.category).Include(w => w.user);
             var workouts = from w in db.workouts select w;
 
@@ -181,40 +180,6 @@ namespace GoFit.Controllers
         }
 
 
-        //private IQueryable<workout> doFilter(IQueryable<workout> workouts, String filterString)
-        //{
-
-        //    if (!String.IsNullOrEmpty(filterString))
-        //    {
-        //        ViewBag.FilterParam = filterString;
-        //    }
-        //    else ViewBag.FilterParam = "";
-
-        //    switch (filterString)
-        //    {
-        //        case "in_progress":
-        //            workouts = from w in db.workouts
-        //                            where w.user_id == currUserId && w.date_started != null && w.date_finished == null
-        //                            select w;
-        //            break;
-        //        case "not_started":
-        //            workouts = from w in db.workouts
-        //                            where w.user_id == currUserId && w.date_started == null && w.date_finished == null
-        //                            select w;
-        //            break;
-        //        case "completed":
-        //            workouts = from w in db.workouts
-        //                            where w.user_id == currUserId && w.date_started != null && w.date_finished != null
-        //                            select w;
-        //            break;
-        //        default:
-        //            break;
-        //    }
-
-        //    return workouts;
-        //}
-
-
         /// <summary>
         /// Private helper method to perform a new search or maintain a previous search through 
         /// pagination and filter changes
@@ -267,20 +232,34 @@ namespace GoFit.Controllers
             }
 
             ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
+            ViewBag.DescriptionSortParam = (sortBy == "description") ? "description_desc" : "description";
             ViewBag.DateSortParam = (sortBy == "date") ? "date_desc" : "date";
+            ViewBag.TimestampSortParam = (sortBy == "time") ? "time_desc" : "time";
             ViewBag.CategorySortParam = (sortBy == "category") ? "category_desc" : "category";
-            ViewBag.UserSortParam = (sortBy == "user") ? "user_desc" : "user";
+            ViewBag.UsernameSortParam = (sortBy == "user") ? "user_desc" : "user";
 
             switch (sortBy)
             {
                 case "name_desc":
                     workouts = workouts.OrderByDescending(w => w.name);
                     break;
+                case "description":
+                    workouts = workouts.OrderBy(w => w.description);
+                    break;
+                case "description_desc":
+                    workouts = workouts.OrderByDescending(w => w.description);
+                    break;
                 case "date":
                     workouts = workouts.OrderBy(w => w.created_at);
                     break;
                 case "date_desc":
                     workouts = workouts.OrderByDescending(w => w.created_at);
+                    break;
+                case "time":
+                    workouts = workouts.OrderBy(w => w.timestamp);
+                    break;
+                case "time_desc":
+                    workouts = workouts.OrderByDescending(w => w.timestamp);
                     break;
                 case "category":
                     workouts = workouts.OrderBy(w => w.category.name);

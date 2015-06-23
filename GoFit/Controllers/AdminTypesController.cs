@@ -7,13 +7,29 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GoFit.Models;
+using PagedList;
 
 namespace GoFit.Controllers
 {
     [Authorize]
     public class AdminTypesController : Controller
     {
-        private masterEntities db = new masterEntities();
+        private masterEntities db;
+        private const int PAGE_SIZE = 10;
+
+        /// <summary>
+        /// Getter/setter for the pageSize instance variable
+        /// </summary>
+        public int pageSize { get; set; }
+
+        /// <summary>
+        /// Constructor to create the default db context
+        /// </summary>
+        public AdminTypesController()
+        {
+            db = new masterEntities();
+            pageSize = PAGE_SIZE;
+        }
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -33,9 +49,16 @@ namespace GoFit.Controllers
         }
 
         // GET: AdminTypes
-        public ActionResult Index()
+        public ActionResult Index(string filterString, string sortBy, int? page, TypeSearch typeSearch)
         {
-            return View(db.types.ToList());
+            //return View(db.types.ToList());
+            var types = from t in db.types select t;
+            types = this.doSearch(types, typeSearch, filterString, sortBy, page);
+            types = this.doSort(types, sortBy);
+
+            int pageNumber = (page ?? 1);
+            var view = View("Index", types.ToPagedList(pageNumber, pageSize));
+            return view;
         }
 
         // GET: AdminTypes/Details/5
@@ -141,6 +164,131 @@ namespace GoFit.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Private helper method to perform a new search or maintain a previous search through 
+        /// pagination and filter changes
+        /// </summary>
+        /// <param name="types">The base type query result</param>
+        /// <param name="sortBy">The passed sort string if it exists, else null</param>
+        /// <param name="page">The passed page param if it exists, else null</param>
+        /// <returns>The searched types</returns>
+        private IQueryable<type> doSearch(IQueryable<type> types, TypeSearch search, String filterString, string sortBy, int? page)
+        {
+            if (page != null || !String.IsNullOrEmpty(sortBy) || !String.IsNullOrEmpty(filterString))
+            {
+                search = setSearchFromSession(search);
+            }
+            else setSessionFromSearch(search);
+
+            if (!String.IsNullOrEmpty(search.name)) types = types.Where(t => t.name.Contains(search.name));
+            if (!String.IsNullOrEmpty(search.measure)) types = types.Where(t => t.measure.Contains(search.measure));
+
+            return types;
+        }
+
+        /// <summary>
+        /// Private helper method set and return the sorted types
+        /// </summary>
+        /// <param name="types">The base type query result</param>
+        /// <param name="sortBy">Indicates the sort order</param>
+        /// <returns>The sorted types</returns>
+        private IQueryable<type> doSort(IQueryable<type> types, string sortBy)
+        {
+            if (!String.IsNullOrEmpty(sortBy))
+            {
+                setSessionFromSort(sortBy);
+            }
+            else
+            {
+                sortBy = setSortFromSession(sortBy);
+            }
+
+            ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
+            ViewBag.MeasureSortParam = (sortBy == "measure") ? "measure_desc" : "measure";
+            ViewBag.TimestampSortParam = (sortBy == "time") ? "time_desc" : "time";
+
+            switch (sortBy)
+            {
+                case "name_desc":
+                    types = types.OrderByDescending(t => t.name);
+                    break;
+                case "measure":
+                    types = types.OrderBy(t => t.measure);
+                    break;
+                case "measure_desc":
+                    types = types.OrderByDescending(t => t.measure);
+                    break;
+                case "time":
+                    types = types.OrderBy(t => t.timestamp);
+                    break;
+                case "time_desc":
+                    types = types.OrderByDescending(t => t.timestamp);
+                    break;
+                default:
+                    types = types.OrderBy(t => t.name);
+                    break;
+            }
+
+            return types;
+        }
+
+        /// <summary>
+        /// Sets the TypeSearch object with the stored session search variables if they exist
+        /// </summary>
+        /// <param name="search">The TypeSearch object to set</param>
+        /// <returns>The TypeSearch object set with the session search variables if the session exists, else the passed in TypeSearch object</returns>
+        private TypeSearch setSearchFromSession(TypeSearch search)
+        {
+            if (Session != null)
+            {
+                search.name = Session["NameSearchParam"] as String;
+                search.measure = Session["MeasureSearchParam"] as String;
+            }
+            return search;
+        }
+
+        /// <summary>
+        /// Sets the session search parameters based on the current search values
+        /// </summary>
+        /// <param name="search">The WorkoutSearch object containing the values to set in the session</param>
+        private void setSessionFromSearch(TypeSearch search)
+        {
+            if (Session != null)
+            {
+                if (!String.IsNullOrEmpty(search.name)) Session["NameSearchParam"] = search.name;
+                else Session["NameSearchParam"] = "";
+
+                if (!String.IsNullOrEmpty(search.measure)) Session["MeasureSearchParam"] = search.measure;
+                else Session["MeasureSearchParam"] = "";
+
+
+            }
+        }
+
+        /// <summary>
+        /// Sets the sortBy param to the session sort value if the session exists. 
+        /// If the session does not exist the passed in sortBy param is returned. 
+        /// </summary>
+        /// <param name="sortBy">The current sort filter</param>
+        /// <returns>The sort parameter set from the session else the original sort param</returns>
+        private string setSortFromSession(string sortBy)
+        {
+            if (Session != null)
+            {
+                sortBy = Session["SortBy"] as String;
+            }
+            return sortBy;
+        }
+
+        /// <summary>
+        /// Sets the session if it exists from the passed in sortBy string
+        /// </summary>
+        /// <param name="sortBy">The current sort filter</param>
+        private void setSessionFromSort(string sortBy)
+        {
+            if (Session != null) Session["SortBy"] = sortBy;
         }
     }
 }
