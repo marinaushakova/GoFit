@@ -19,6 +19,23 @@ namespace GoFit.Controllers
         private const int PAGE_SIZE = 10;
         private ControllerHelpers helper;
 
+        protected override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            base.OnAuthorization(filterContext);
+
+            var isAdmin = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
+            }
+
+            // Redirect admins to admin home page upon authorization
+            if (isAdmin == 1)
+            {
+                filterContext.Result = new RedirectResult("/AdminHome/Index");
+            }
+        }
+
         /// <summary>
         /// Constructor to create the default db context
         /// </summary>

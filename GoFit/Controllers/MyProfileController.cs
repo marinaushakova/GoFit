@@ -13,21 +13,38 @@ namespace GoFit.Controllers
 {
     public class MyProfileController : Controller
     {
+        private masterEntities db = new masterEntities();
+
+        protected override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            base.OnAuthorization(filterContext);
+
+            var isAdmin = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
+            }
+
+            // Redirect admins to admin home page upon authorization
+            if (isAdmin == 1)
+            {
+                filterContext.Result = new RedirectResult("/AdminHome/Index");
+            }
+        }
+
         //
         // GET: /MyProfile/
         [Authorize]
         public ActionResult Index()
         {
-            masterEntities dbEntities = new masterEntities();
-            var view = View(dbEntities.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault());
+            var view = View(db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault());
             return view;
         }
 
         [Authorize]
         public ActionResult Edit()
         {
-            masterEntities dbEntities = new masterEntities();
-            var view = View(dbEntities.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault());
+            var view = View(db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault());
             return view;
         }
 
@@ -35,22 +52,21 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult Edit(user user)
         {
-            masterEntities dbEntities = new masterEntities();
             string hashedPassword = HashPassword(user.username, user.password);
             user.password = hashedPassword;
 
             if (ModelState.IsValid)
             {
                 user.timestamp = DateTime.Now;
-                dbEntities.Entry(user).State = EntityState.Modified;
+                db.Entry(user).State = EntityState.Modified;
 
-                dbEntities.SaveChanges();
+                db.SaveChanges();
 
                 return RedirectToAction("Index");
 
             }
 
-            return View(dbEntities.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault());
+            return View(db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault());
 
         }
 
