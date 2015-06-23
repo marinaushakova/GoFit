@@ -21,19 +21,13 @@
 
         <div class="panel-body">
             <div class="search_bar">
-                <form action="/MyWorkouts" method="post" class="form-inline">
+                <form action="/Index" method="post" class="form-inline">
                     <div class="search_inputs form-group row">
                         <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
                             <input class="" id="NameSearch" name="Name" type="text" value="@Session["NameSearchParam"]" placeholder="Workout name..." />
                         </div>
                         <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
-                            <input class="" id="CategorySearch" name="Category" type="text" value="@Session["CategorySearchParam"]" placeholder="Category..." />
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                            <input class="" id="DateAddedSearch" name="DateAdded" type="date" placeholder="Date Added..." />
-                        </div>
-                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
-                            <input class="" id="UsernameSearch" name="Username" type="text" value="@Session["UsernameSearchParam"]" placeholder="Username..." />
+                            <input class="" id="MeasureSearch" name="Measure" type="text" value="@Session["MeasureSearchParam"]" placeholder="Measure..." />
                         </div>
                         <div class="col-lg-2 col-md-1 col-sm-12 col-xs-12">
                             <input class="btn btn-primary" type="submit" value="Search" />

@@ -209,6 +209,7 @@
     <Compile Include="Models\type.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TypeSearch.cs" />
     <Compile Include="Models\user.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
