@@ -19,7 +19,7 @@
 
         <div class="panel-body">
             <div class="search_bar">
-                <form action="/MyWorkouts" method="post" class="form-inline">
+                <form action="/AdminWorkouts" method="post" class="form-inline">
                     <div class="search_inputs form-group row">
                         <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
                             <input class="" id="NameSearch" name="Name" type="text" value="@Session["NameSearchParam"]" placeholder="Workout name..." />
@@ -43,11 +43,11 @@
                 <thead>
                     <tr class="row">
                         <th class="col-xs-3">@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.NameSortParam, filterString = ViewBag.FilterParam })</th>
-                        <th class="col-xs-3">@Html.ActionLink("Workout Description", "Index", new { sortBy = ViewBag.DescriptionSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-2">@Html.ActionLink("Workout Description", "Index", new { sortBy = ViewBag.DescriptionSortParam, filterString = ViewBag.FilterParam })</th>
                         <th class="col-xs-3">@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam, filterString = ViewBag.FilterParam })</th>
-                        <th class="col-xs-3">@Html.ActionLink("Timestamp", "Index", new { sortBy = ViewBag.TimestampSortParam, filterString = ViewBag.FilterParam })</th>
-                        <th class="col-xs-3">@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam, filterString = ViewBag.FilterParam })</th>
-                        <th class="col-xs-3">@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UsernameSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-2">@Html.ActionLink("Timestamp", "Index", new { sortBy = ViewBag.TimestampSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-2">@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-2">@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UsernameSortParam, filterString = ViewBag.FilterParam })</th>
                         <th class="col-xs-3">&nbsp;</th>
                     </tr>
                 </thead>
@@ -57,11 +57,11 @@
                     {
                         <tr class="row">
                             <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.name)</td>
-                            <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.description)</td>
+                            <td class="workout_name_cell col-xs-2">@Html.DisplayFor(modelItem => item.description)</td>
                             <td class="workout_created_cell col-xs-3">@Html.DisplayFor(modelItem => item.created_at)</td>
-                            <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.timestamp)</td>
-                            <td class="workout_category_cell col-xs-3">@Html.DisplayFor(modelItem => item.category.name)</td>
-                            <td class="workout_user_cell col-xs-3">@Html.DisplayFor(modelItem => item.user.username)</td>
+                            <td class="workout_name_cell col-xs-2">@Html.DisplayFor(modelItem => item.timestamp)</td>
+                            <td class="workout_category_cell col-xs-2">@Html.DisplayFor(modelItem => item.category.name)</td>
+                            <td class="workout_user_cell col-xs-2">@Html.DisplayFor(modelItem => item.user.username)</td>
                             <td class="workout_name_cell col-xs-3">
                                 @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
                                 @Html.ActionLink("Details", "Details", new { id = item.id }) |
