@@ -8,7 +8,12 @@ using GoFit.Models;
 
 namespace GoFit.Tests.MockContexts
 {
-    public class DbSetOverrideFind<TEntity> : DbSet<workout>
+    /// <summary>
+    /// Overrides the DbSet type Find method so that Moq can call find without the 
+    /// mock entity objects having primary keys
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to override Find for</typeparam>
+    public class DbSetOverrideWorkoutsFind<TEntity> : DbSet<workout>
     {
         public override workout Find(params object[] keyValues)
         {
@@ -17,12 +22,12 @@ namespace GoFit.Tests.MockContexts
         }
     }
 
-    //class DbSetOverrideFind<TEntity> : DbSet<TEntity>
-    //{
-    //    public override TEntity Find(params object[] keyValues)
-    //    {
-    //        var id = (int)keyValues.Single();
-    //        return this.SingleOrDefault(w => w.);
-    //    }
-    //}
+    public class DbSetOverrideUserWorkoutsFind<TEntity> : DbSet<user_workout>
+    {
+        public override user_workout Find(params object[] keyValues)
+        {
+            var id = (int)keyValues.Single();
+            return this.SingleOrDefault(w => w.id == id);
+        }
+    }
 }

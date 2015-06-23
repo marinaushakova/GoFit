@@ -10,10 +10,27 @@ using GoFit.Models;
 
 namespace GoFit.Controllers
 {
-    [Authorize(Users="admin, admin2")]
+    [Authorize]
     public class AdminExercisesController : Controller
     {
         private masterEntities db = new masterEntities();
+
+        protected override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            base.OnAuthorization(filterContext);
+
+            var isAdmin = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
+            }
+
+            // Redirect non-administrative users to the home page upon authorization
+            if (isAdmin != 1)
+            {
+                filterContext.Result = new RedirectResult("/Home/Index");
+            }
+        }
 
         // GET: AdminExercises
         public ActionResult Index()
@@ -54,6 +71,9 @@ namespace GoFit.Controllers
         {
             if (ModelState.IsValid)
             {
+                exercise.timestamp = DateTime.Now;
+                exercise.created_at = DateTime.Now;
+                exercise.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
                 db.exercises.Add(exercise);
                 db.SaveChanges();
                 return RedirectToAction("Index");

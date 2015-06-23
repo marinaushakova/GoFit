@@ -18,6 +18,7 @@ namespace GoFit.Controllers
         private masterEntities db;
         private int currUserId;
         private const int PAGE_SIZE = 10;
+        private ControllerHelpers helper;
 
         /// <summary>
         /// Getter/setter for the pageSize instance variable
@@ -31,6 +32,18 @@ namespace GoFit.Controllers
         {
             db = new masterEntities();
             pageSize = PAGE_SIZE;
+            helper = new ControllerHelpers(db);
+        }
+
+        /// <summary>
+        /// Constructor to allow a passed in db context
+        /// </summary>
+        /// <param name="context">The context to use</param>
+        public MyWorkoutsController(masterEntities context)
+        {
+            db = context;
+            pageSize = PAGE_SIZE;
+            helper = new ControllerHelpers(db);
         }
 
         //
@@ -58,10 +71,86 @@ namespace GoFit.Controllers
             return view;
         }
 
+        /// <summary>
+        /// Shows an individual user workout
+        /// </summary>
+        /// <param name="user_workout_id">The user workout to show</param>
+        /// <returns>The user workout view</returns>
+        [Authorize]
+        public ActionResult Details(int user_workout_id)
+        {
+            workout workout;
+
+            int userId = helper.getUserId(User.Identity.Name);
+            user_workout myworkout = db.user_workout.Find(user_workout_id);
+
+            if (myworkout == null) return new HttpNotFoundResult("Workout not found");
+            else
+            {
+                workout = myworkout.workout;
+                ViewBag.myWorkoutId = myworkout.id;
+                ViewBag.numExercisesCompleted = myworkout.number_of_ex_completed;
+                ViewBag.isMyWorkout = true;
+                return View(workout);
+            }
+        }
+
+        /// <summary>
+        /// Marks an exercise or exercises of a user_workout as completed
+        /// </summary>
+        /// <param name="my_workout_id">the user_workout to mark exercises on</param>
+        /// <param name="position">the position the user has marked</param>
+        /// <returns>True if successful, false otherwise</returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult MarkExercise(int my_workout_id, int position)
+        {
+
+            user_workout myWorkout = db.user_workout.Find(my_workout_id);
+            if (myWorkout == null) return new HttpNotFoundResult("Unable to find the given user workout");
+            try
+            {
+                if (position == 1 || myWorkout.date_started == null)
+                {
+                    myWorkout.number_of_ex_completed = position;
+                    myWorkout.date_started = DateTime.Now;
+                    db.SaveChanges();
+                }
+                else if (position == myWorkout.workout.workout_exercise.Count)
+                {
+                    myWorkout.number_of_ex_completed = position;
+                    myWorkout.date_finished = DateTime.Now;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    myWorkout.number_of_ex_completed = position;
+                    db.SaveChanges();
+                }
+                var result = new Dictionary<string, string>();
+                result.Add("result", "true");
+                result.Add("error", "false");
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                var result = new Dictionary<string, string>();
+                result.Add("error", "true");
+                result.Add("result", "false");
+                result.Add("message", "Failed to mark wokrout progress");
+                return Json(result);
+            }
+        }
+
+        /// <summary>
+        /// Adds a workout to the user_workout table
+        /// </summary>
+        /// <param name="userWorkout">The user_workout object to add</param>
+        /// <returns>The detail view for the added workout</returns>
         [Authorize]
         public ActionResult AddToMyWorkouts(user_workout userWorkout)
         {
-            int userID = getUserId();
+            int userID = helper.getUserId(User.Identity.Name);
             if (userID == -1)
             {
                 return View();
@@ -80,7 +169,7 @@ namespace GoFit.Controllers
                 {
                     db.user_workout.Add(userWorkout);
                     db.SaveChanges();
-                    return RedirectToAction("Details", "Home", new { workoutId = userWorkout.workout_id });
+                    return RedirectToAction("Details", "MyWorkouts", new { user_workout_id = userWorkout.id });
                 }
                 catch (Exception ex) 
                 {
@@ -97,7 +186,7 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult DeleteFromMyWorkouts(int? userWorkout_id)
         {
-            int userID = getUserId();
+            int userID = helper.getUserId(User.Identity.Name);
             if (userID == -1)
             {
                 return View();
@@ -114,19 +203,6 @@ namespace GoFit.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add this workout to user MyWorkouts page");
             }
             
-        }
-
-
-        /// <summary>
-        /// Gets the id of the current user else returns -1
-        /// </summary>
-        /// <returns>The id of the current logged in user else -1</returns>
-        private int getUserId()
-        {
-            user user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
-            int userId = -1;
-            if (user != null) userId = user.id;
-            return userId;
         }
 
         private IQueryable<user_workout> doFilter(IQueryable<user_workout> user_workouts, String filterString)

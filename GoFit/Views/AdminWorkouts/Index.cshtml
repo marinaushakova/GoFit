@@ -1,46 +1,79 @@
 ﻿@model IEnumerable<GoFit.Models.workout>
-@*model PagedList.IPagedList<GoFit.Models.workout>
-    @using PagedList.Mvc;*@
+@*@model PagedList.IPagedList<GoFit.Models.workout>
+@using PagedList.Mvc;*@
 
 @{
     ViewBag.Title = "Admin Workouts";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Listing Workouts...</h2>
-
+<h2 class="h2">Admin Workouts</h2>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <input class="btn btn-primary" type="button" value="Create New Workout" onclick="location.href='@Url.Action("Create", "AdminWorkouts" )'" />
 </p>
-<table class="workout_list table container-fluid">
-    <tr class="row">
-        <th class="col-xs-3">@Html.DisplayNameFor(model => model.name)</th>
-        <th class="col-xs-3">@Html.DisplayNameFor(model => model.description)</th>
-        <th class="col-xs-3">@Html.DisplayNameFor(model => model.created_at)</th>
-        <th class="col-xs-3">@Html.DisplayNameFor(model => model.timestamp)</th>
-        <th class="col-xs-3">@Html.DisplayNameFor(model => model.category.name)</th>
-        <th class="col-xs-3">@Html.DisplayNameFor(model => model.user.username)</th>
-        <th class="col-xs-3"></th>
-    </tr>
+<br>
+<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="panel-title">Listing Workouts...</h2>
+        </div>
 
-@foreach (var item in Model) {
-    <tr class="row">
-        <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.name)</td>
-        <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.description)</td>
-        <td class="workout_created_cell col-xs-3">@Html.DisplayFor(modelItem => item.created_at)</td>
-        <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.timestamp)</td>
-        <td class="workout_category_cell col-xs-3">@Html.DisplayFor(modelItem => item.category.name)</td>
-        <td class="workout_user_cell col-xs-3">@Html.DisplayFor(modelItem => item.user.username)</td>
-        <td class="workout_name_cell col-xs-3">
-            @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.id })
-        </td>
-    </tr>
-}
+        <div class="panel-body">
 
-</table>
-@*<div class="pagination_container">
-        @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
-    </div>*@
+            <div class="search_bar">
+                <form action="/MyWorkouts" method="post" class="form-inline">
+                    <div class="search_inputs form-group row">
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <input class="" id="NameSearch" name="Name" type="text" value="@Session["NameSearchParam"]" placeholder="Workout name..." />
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <input class="" id="CategorySearch" name="Category" type="text" value="@Session["CategorySearchParam"]" placeholder="Category..." />
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <input class="" id="DateAddedSearch" name="DateAdded" type="date" placeholder="Date Added..." />
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <input class="" id="UsernameSearch" name="Username" type="text" value="@Session["UsernameSearchParam"]" placeholder="Username..." />
+                        </div>
+                        <div class="col-lg-2 col-md-1 col-sm-12 col-xs-12">
+                            <input class="btn btn-primary" type="submit" value="Search" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <table class="workout_list table container-fluid">
+                <thead>
+                    <tr class="row">
+                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.name)</th>
+                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.description)</th>
+                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.created_at)</th>
+                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.timestamp)</th>
+                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.category.name)</th>
+                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.user.username)</th>
+                        <th class="col-xs-3">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr class="row">
+                            <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.name)</td>
+                            <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.description)</td>
+                            <td class="workout_created_cell col-xs-3">@Html.DisplayFor(modelItem => item.created_at)</td>
+                            <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.timestamp)</td>
+                            <td class="workout_category_cell col-xs-3">@Html.DisplayFor(modelItem => item.category.name)</td>
+                            <td class="workout_user_cell col-xs-3">@Html.DisplayFor(modelItem => item.user.username)</td>
+                            <td class="workout_name_cell col-xs-3">
+                                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>

@@ -5,66 +5,54 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Listing Exercises...</h2>
+<h2>Admin Exercises</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <input class="btn btn-primary" type="button" value="Create New Exercise" onclick="location.href='@Url.Action("Create", "AdminExercises" )'" />
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.created_at)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.link)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.timestamp)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.type.name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.user.username)
-        </th>
-        <th></th>
-    </tr>
+<br>
+<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="panel-title">Listing Exercises...</h2>
+        </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.created_at)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.link)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.timestamp)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.type.name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.user.username)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
+        <div class="panel-body">
+            <table class="workout_list table container-fluid">
+                <thead>
+                    <tr class="row">
+                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.created_at)</th>
+                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.link)</th>
+                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.description)</th>
+                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.timestamp)</th>
+                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.name)</th>
+                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.type.name)</th>
+                        <th class="col-xs-3">@Html.DisplayNameFor(model => model.user.username)</th>
+                        <th class="col-xs-3">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="row">
+                            <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.created_at)</td>
+                            <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.link)</td>
+                            <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.description)</td>
+                            <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.timestamp)</td>
+                            <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.name)</td>
+                            <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.type.name)</td>
+                            <td class="workout_name_cell col-xs-3">@Html.DisplayFor(modelItem => item.user.username)</td>
+                            <td class="workout_name_cell col-xs-3">
+                                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                            </td>
+                        </tr>
+                    }
 
-</table>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+﻿@*MyWorkout/Details*@
+
+@Html.Partial("WorkoutPartials/_WorkoutPartial")
+
+<div class="row button_bar">
+    <a href="/MyWorkouts" class="btn btn-primary">Back</a>
+    @Html.ActionLink(
+                "Add to My Workouts",
+                "AddToMyWorkouts",
+                "MyWorkouts",
+                new { workout_id = @Model.id },
+                new { @class = "btn btn-primary" })
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        function onCheck(position) {
+            //alert(JSON.stringify(position));
+            if (position == null) return;
+            var id = "chkbx" + id;
+            var checkbox = document.getElementById(id);
+            var url = "@Url.Action("MarkExercise", "MyWorkouts")";
+            var params = {}
+            params.my_workout_id = @ViewBag.myWorkoutId
+            params.position = position
+
+            $.post(url, params, function (result) {
+                if (result) {
+                    for (var i = 1; i <= position; i++) {
+                        var id = "chkbx" + i;
+                        checkbox = document.getElementById(id);
+                        checkbox.checked = true;
+                        checkbox.disabled = true;
+                    }
+                } else {
+                    checkbox.checked = false;
+                    alert("Failed to mark progess on exercise. Please try again");
+                }
+            });
+        };
+
+        (function () {
+            for (var i = 1; i <= @ViewBag.numExercisesCompleted; i++) {
+                id = "chkbx" + i;
+                checkbox = document.getElementById(id);
+                checkbox.checked = true;
+                checkbox.disabled = true;
+            }
+        })();
+    </script>
+}
+

@@ -17,6 +17,7 @@ namespace GoFit.Controllers
     {
         private masterEntities db;
         private const int PAGE_SIZE = 10;
+        private ControllerHelpers helper;
 
         /// <summary>
         /// Constructor to create the default db context
@@ -25,6 +26,7 @@ namespace GoFit.Controllers
         {
             db = new masterEntities();
             pageSize = PAGE_SIZE;
+            helper = new ControllerHelpers(db);
         }
 
         /// <summary>
@@ -35,6 +37,7 @@ namespace GoFit.Controllers
         {
             db = context;
             pageSize = PAGE_SIZE;
+            helper = new ControllerHelpers(db);
         }
 
         /// <summary>
@@ -74,18 +77,7 @@ namespace GoFit.Controllers
         {
             workout workout;
             if (workoutId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            int? userId = getUserId();
-            user_workout myworkout = db.user_workout.Where(w => 
-                w.workout_id == workoutId && 
-                w.user_id == userId).FirstOrDefault();
-
-            if (myworkout == null) workout = db.workouts.Find(workoutId);
-            else
-            {
-                workout = myworkout.workout;
-                ViewBag.isMyWorkout = true;
-            }
+            workout = db.workouts.Find(workoutId);
             if (workout == null) return HttpNotFound();
             return View(workout);
         }
@@ -99,7 +91,7 @@ namespace GoFit.Controllers
         {
             var query = db.categories.Select(c => new { c.id, c.name });
             ViewBag.Categories = new SelectList(query.AsEnumerable(), "id", "name");
-            
+
             return View();
         }
 
@@ -136,7 +128,7 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult AddExerciseToWorkout(int? id)
         {
-            
+
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             ViewBag.Workout = db.workouts.Find(id);
             Session["workout_id"] = id;
@@ -155,7 +147,7 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult AddExerciseToWorkout(workout_exercise w_ex)
         {
-            
+
             if (ModelState.IsValid)
             {
                 w_ex.workout_id = (int)Session["workout_id"];
@@ -183,6 +175,7 @@ namespace GoFit.Controllers
             return Json(measure, JsonRequestBehavior.AllowGet);
         }
 
+
         /// <summary>
         /// Gets list of exercises that are in given workout
         /// </summary>
@@ -192,19 +185,7 @@ namespace GoFit.Controllers
         public PartialViewResult ExerciseList(int id)
         {
             var exerciseList = db.workout_exercise.Where(m => m.workout_id == id).ToList();
-            return PartialView(exerciseList); 
-        }
-
-        /// <summary>
-        /// Gets the id of the current user
-        /// </summary>
-        /// <returns>The id of the current logged in user</returns>
-        private int? getUserId()
-        {
-            user user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
-            int? userId = null;
-            if (user != null) userId = user.id;
-            return userId;
+            return PartialView(exerciseList);
         }
 
         /// <summary>
@@ -306,9 +287,9 @@ namespace GoFit.Controllers
         {
             if (Session != null)
             {
-                search.name = Session["NameSearchParam"] as String;
-                search.category = Session["CategorySearchParam"] as String;
-                search.username = Session["UserSearchParam"] as String;
+                if (!String.IsNullOrEmpty(Session["NameSearchParam"] as String)) search.name = Session["NameSearchParam"] as String;
+                if (!String.IsNullOrEmpty(Session["CategorySearchParam"] as String)) search.category = Session["CategorySearchParam"] as String;
+                if (!String.IsNullOrEmpty(Session["UserSearchParam"] as String)) search.username = Session["UserSearchParam"] as String;
             }
             return search;
         }

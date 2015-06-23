@@ -10,10 +10,27 @@ using GoFit.Models;
 
 namespace GoFit.Controllers
 {
-    [Authorize(Users="admin, admin2")]
+    [Authorize]
     public class AdminCategoriesController : Controller
     {
         private masterEntities db = new masterEntities();
+
+        protected override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            base.OnAuthorization(filterContext);
+
+            var isAdmin = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
+            }
+
+            // Redirect non-administrative users to the home page upon authorization
+            if (isAdmin != 1)
+            {
+                filterContext.Result = new RedirectResult("/Home/Index");
+            }
+        }
 
         // GET: AdminCategories
         public ActionResult Index()
@@ -51,6 +68,7 @@ namespace GoFit.Controllers
         {
             if (ModelState.IsValid)
             {
+                category.timestamp = DateTime.Now;
                 db.categories.Add(category);
                 db.SaveChanges();
                 return RedirectToAction("Index");
