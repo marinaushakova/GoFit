@@ -214,22 +214,22 @@ namespace GoFit.Controllers
             switch (sortBy)
             {
                 case "name_desc":
-                    categories = categories.OrderByDescending(w => w.name);
+                    categories = categories.OrderByDescending(c => c.name);
                     break;
                 case "description":
-                    categories = categories.OrderBy(w => w.description);
+                    categories = categories.OrderBy(c => c.description);
                     break;
                 case "description_desc":
-                    categories = categories.OrderByDescending(w => w.description);
+                    categories = categories.OrderByDescending(c => c.description);
                     break;
                 case "time":
-                    categories = categories.OrderBy(w => w.timestamp);
+                    categories = categories.OrderBy(c => c.timestamp);
                     break;
                 case "time_desc":
-                    categories = categories.OrderByDescending(w => w.timestamp);
+                    categories = categories.OrderByDescending(c => c.timestamp);
                     break;
                 default:
-                    categories = categories.OrderBy(w => w.name);
+                    categories = categories.OrderBy(c => c.name);
                     break;
             }
 
