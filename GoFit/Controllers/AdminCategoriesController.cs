@@ -7,13 +7,30 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GoFit.Models;
+using PagedList;
 
 namespace GoFit.Controllers
 {
     [Authorize]
     public class AdminCategoriesController : Controller
     {
-        private masterEntities db = new masterEntities();
+        private masterEntities db;
+        private const int PAGE_SIZE = 10;
+
+        /// <summary>
+        /// Getter/setter for the pageSize instance variable
+        /// </summary>
+        public int pageSize { get; set; }
+
+        /// <summary>
+        /// Constructor to create the default db context
+        /// </summary>
+        public AdminCategoriesController()
+        {
+            db = new masterEntities();
+            pageSize = PAGE_SIZE;
+        }
+
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -33,9 +50,17 @@ namespace GoFit.Controllers
         }
 
         // GET: AdminCategories
-        public ActionResult Index()
+        public ActionResult Index(string filterString, string sortBy, int? page, CategorySearch categorySearch)
         {
-            return View(db.categories.ToList());
+            //return View(db.categories.ToList());
+
+            var categories = from c in db.categories select c;
+            categories = this.doSearch(categories, categorySearch, filterString, sortBy, page);
+            categories = this.doSort(categories, sortBy);
+
+            int pageNumber = (page ?? 1);
+            var view = View("Index", categories.ToPagedList(pageNumber, pageSize));
+            return view;
         }
 
         // GET: AdminCategories/Details/5
@@ -141,6 +166,131 @@ namespace GoFit.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Private helper method to perform a new search or maintain a previous search through 
+        /// pagination and filter changes
+        /// </summary>
+        /// <param name="workouts">The base workout query result</param>
+        /// <param name="sortBy">The passed sort string if it exists, else null</param>
+        /// <param name="page">The passed page param if it exists, else null</param>
+        /// <returns>The searched workouts</returns>
+        private IQueryable<category> doSearch(IQueryable<category> categories, CategorySearch search, String filterString, string sortBy, int? page)
+        {
+            if (page != null || !String.IsNullOrEmpty(sortBy) || !String.IsNullOrEmpty(filterString))
+            {
+                search = setSearchFromSession(search);
+            }
+            else setSessionFromSearch(search);
+
+            if (!String.IsNullOrEmpty(search.name)) categories = categories.Where(c => c.name.Contains(search.name));
+            if (!String.IsNullOrEmpty(search.description)) categories = categories.Where(c => c.description.Contains(search.description));
+            
+            return categories;
+        }
+
+        /// <summary>
+        /// Private helper method set and return the sorted workouts
+        /// </summary>
+        /// <param name="workouts">The base workout query result</param>
+        /// <param name="sortBy">Indicates the sort order</param>
+        /// <returns>The sorted workouts</returns>
+        private IQueryable<category> doSort(IQueryable<category> categories, string sortBy)
+        {
+            if (!String.IsNullOrEmpty(sortBy))
+            {
+                setSessionFromSort(sortBy);
+            }
+            else
+            {
+                sortBy = setSortFromSession(sortBy);
+            }
+
+            ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
+            ViewBag.DescriptionSortParam = (sortBy == "description") ? "description_desc" : "description";
+            ViewBag.TimestampSortParam = (sortBy == "time") ? "time_desc" : "time";
+          
+            switch (sortBy)
+            {
+                case "name_desc":
+                    categories = categories.OrderByDescending(w => w.name);
+                    break;
+                case "description":
+                    categories = categories.OrderBy(w => w.description);
+                    break;
+                case "description_desc":
+                    categories = categories.OrderByDescending(w => w.description);
+                    break;
+                case "time":
+                    categories = categories.OrderBy(w => w.timestamp);
+                    break;
+                case "time_desc":
+                    categories = categories.OrderByDescending(w => w.timestamp);
+                    break;
+                default:
+                    categories = categories.OrderBy(w => w.name);
+                    break;
+            }
+
+            return categories;
+        }
+
+        /// <summary>
+        /// Sets the WorkoutSearch object with the stored session search variables if they exist
+        /// </summary>
+        /// <param name="search">The WorkoutSearch object to set</param>
+        /// <returns>The WorkoutSearch object set with the session search variables if the session exists, else the passed in WorkoutSearch object</returns>
+        private CategorySearch setSearchFromSession(CategorySearch search)
+        {
+            if (Session != null)
+            {
+                search.name = Session["NameSearchParam"] as String;
+                search.description = Session["DescriptionSearchParam"] as String;
+            }
+            return search;
+        }
+
+        /// <summary>
+        /// Sets the session search parameters based on the current search values
+        /// </summary>
+        /// <param name="search">The WorkoutSearch object containing the values to set in the session</param>
+        private void setSessionFromSearch(CategorySearch search)
+        {
+            if (Session != null)
+            {
+                if (!String.IsNullOrEmpty(search.name)) Session["NameSearchParam"] = search.name;
+                else Session["NameSearchParam"] = "";
+
+                if (!String.IsNullOrEmpty(search.description)) Session["DescriptionSearchParam"] = search.description;
+                else Session["DescriptionSearchParam"] = "";
+
+
+            }
+        }
+
+        /// <summary>
+        /// Sets the sortBy param to the session sort value if the session exists. 
+        /// If the session does not exist the passed in sortBy param is returned. 
+        /// </summary>
+        /// <param name="sortBy">The current sort filter</param>
+        /// <returns>The sort parameter set from the session else the original sort param</returns>
+        private string setSortFromSession(string sortBy)
+        {
+            if (Session != null)
+            {
+                sortBy = Session["SortBy"] as String;
+            }
+            return sortBy;
+        }
+
+        /// <summary>
+        /// Sets the session if it exists from the passed in sortBy string
+        /// </summary>
+        /// <param name="sortBy">The current sort filter</param>
+        private void setSessionFromSort(string sortBy)
+        {
+            if (Session != null) Session["SortBy"] = sortBy;
         }
     }
 }

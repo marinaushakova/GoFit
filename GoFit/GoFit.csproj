@@ -184,6 +184,7 @@
     <Compile Include="Models\category.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CategorySearch.cs" />
     <Compile Include="Models\exercise.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
