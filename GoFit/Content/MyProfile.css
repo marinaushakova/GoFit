@@ -25,3 +25,9 @@ div.my_profile_prop {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.drop_down {
+    width: 175px;
+    height: 25px;
+}
+
