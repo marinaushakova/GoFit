@@ -95,12 +95,12 @@ namespace GoFit.Controllers
             workout workout;
             if (workoutId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             workout = db.workouts.Find(workoutId);
-            if (workout == null) return HttpNotFound();
+            if (workout == null) return HttpNotFound("Workout not found");
             return View(workout);
         }
 
         /// <summary>
-        /// Returns a list of categories to populate combobox on Create new workout page
+        /// Passes a list of categories to populate combobox on Create new workout page to the view 
         /// </summary>
         /// <returns>Create workout view</returns>
         [Authorize]
@@ -121,18 +121,34 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult Create(workout workout)
         {
+            if (workout == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
+            workout.timestamp = DateTime.Now;
+            workout.created_at = DateTime.Now;
+            workout.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
+            if (workout.created_by_user_id == -1) return HttpNotFound("created_by_user_id not found");
+
             if (ModelState.IsValid)
             {
-                workout.timestamp = DateTime.Now;
-                workout.created_at = DateTime.Now;
-                workout.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
-                db.workouts.Add(workout);
-                db.SaveChanges();
-
-                return RedirectToAction("AddExerciseToWorkout", new { id = workout.id });
+                try
+                {
+                    db.workouts.Add(workout);
+                    db.SaveChanges();
+                    return RedirectToAction("AddExerciseToWorkout", new { id = workout.id });
+                }
+                catch (Exception ex)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to create new workout");
+                }
             }
-
-            return View();
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to create new workout");
+            }
+            
 
         }
 
@@ -145,13 +161,18 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult AddExerciseToWorkout(int? id)
         {
-
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            ViewBag.Workout = db.workouts.Find(id);
-            Session["workout_id"] = id;
-            var query = db.exercises.Select(ex => new { ex.id, ex.name });
-            ViewBag.Exercises = new SelectList(query.AsEnumerable(), "id", "name");
-
+            else
+            {
+                ViewBag.Workout = db.workouts.Find(id);
+                if (ViewBag.Workout == null) return HttpNotFound("Workout not found");
+                // Workout id is stored in session to be accessed from AddExerciseToWorkout post method
+                Session["workout_id"] = id;
+                // ViewBag.Exercises stores a list of exercises to populate combobox
+                var query = db.exercises.Select(ex => new { ex.id, ex.name });
+                ViewBag.Exercises = new SelectList(query.AsEnumerable(), "id", "name");
+            }
+            
             return View();
         }
 
@@ -164,19 +185,30 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult AddExerciseToWorkout(workout_exercise w_ex)
         {
+            if (w_ex == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
+            w_ex.workout_id = (int)Session["workout_id"];
+            w_ex.timestamp = DateTime.Now;
+            w_ex.position = db.workout_exercise.Where(m => m.workout_id == w_ex.workout_id).Count() + 1;
+            
             if (ModelState.IsValid)
             {
-                w_ex.workout_id = (int)Session["workout_id"];
-                w_ex.timestamp = DateTime.Now;
-                w_ex.position = db.workout_exercise.Where(m => m.workout_id == w_ex.workout_id).Count() + 1;
-                db.workout_exercise.Add(w_ex);
-                db.SaveChanges();
-
-                return RedirectToAction("AddExerciseToWorkout", new { id = w_ex.workout_id });
+                try
+                {
+                    db.workout_exercise.Add(w_ex);
+                    db.SaveChanges();
+                    return RedirectToAction("AddExerciseToWorkout", new { id = w_ex.workout_id });
+                }
+                catch
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add an exercise to workout");
+                }
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add an exercise to workout");
             }
 
-            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
         /// <summary>
@@ -186,9 +218,11 @@ namespace GoFit.Controllers
         /// <returns>Measure name to be used in javascript on AddExerciseToWorkout page</returns>
         [HttpGet]
         [Authorize]
-        public ActionResult GetMeasure(int ex_id)
+        public ActionResult GetMeasure(int? ex_id)
         {
+            if (ex_id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var measure = db.exercises.Find(ex_id).type.measure;
+            if (ViewBag.Workout == null) return HttpNotFound("Measure not found");
             return Json(measure, JsonRequestBehavior.AllowGet);
         }
 
@@ -199,7 +233,7 @@ namespace GoFit.Controllers
         /// <param name="id">workout id</param>
         /// <returns>List of exercises of workout with passed id</returns>
         [Authorize]
-        public PartialViewResult ExerciseList(int id)
+        public PartialViewResult ExerciseList(int? id)
         {
             var exerciseList = db.workout_exercise.Where(m => m.workout_id == id).ToList();
             return PartialView(exerciseList);
