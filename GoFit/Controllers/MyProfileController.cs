@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -13,7 +14,8 @@ namespace GoFit.Controllers
 {
     public class MyProfileController : Controller
     {
-        private masterEntities db = new masterEntities();
+        private masterEntities db;
+        private ControllerHelpers helper;
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -32,19 +34,29 @@ namespace GoFit.Controllers
             }
         }
 
+
+        public MyProfileController()
+        {
+            db = new masterEntities();
+            helper = new ControllerHelpers(db);
+        }
+
         //
         // GET: /MyProfile/
         [Authorize]
         public ActionResult Index()
         {
             var view = View(db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault());
+            if (view == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             return view;
         }
 
         [Authorize]
         public ActionResult Edit()
         {
-            var view = View(db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault());
+            int currentUserID = helper.getUserId(User.Identity.Name);
+            var view = View(db.users.Find(currentUserID));
+            if (view == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             return view;
         }
 
@@ -52,21 +64,34 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult Edit(user user)
         {
-            string hashedPassword = HashPassword(user.username, user.password);
-            user.password = hashedPassword;
+            
+            if (user == null || user.id != helper.getUserId(User.Identity.Name))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            masterEntities db = new masterEntities();
+            user.timestamp = DateTime.Now;
 
             if (ModelState.IsValid)
             {
-                user.timestamp = DateTime.Now;
-                db.Entry(user).State = EntityState.Modified;
-
-                db.SaveChanges();
-
-                return RedirectToAction("Index");
-
+                try
+                {
+                    string hashedPassword = HashPassword(user.username, user.password);
+                    user.password = hashedPassword;
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to save changes");
+                }
             }
-
-            return View(db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault());
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to save changes");
+            }
 
         }
 
@@ -77,6 +102,11 @@ namespace GoFit.Controllers
         /// <returns></returns>
         private string HashData(string data)
         {
+            if (String.IsNullOrEmpty(data))
+            {
+                throw new Exception("HashData can't be empty string or null");
+            }
+            
             SHA256 hasher = SHA256Managed.Create();
             byte[] hashedData = hasher.ComputeHash(Encoding.Unicode.GetBytes(data));
 
@@ -96,6 +126,10 @@ namespace GoFit.Controllers
         /// <returns></returns>
         private string HashPassword(string userName, string password)
         {
+            if (String.IsNullOrEmpty(userName) || String.IsNullOrEmpty(password))
+            {
+                throw new Exception("Username and password can't be empty string or null");
+            }
             return HashData(String.Format("{0}{1}", userName.Substring(0, 4), password));
         }
     }
