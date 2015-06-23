@@ -11,6 +11,7 @@ namespace GoFit.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class category
     {
@@ -20,7 +21,9 @@ namespace GoFit.Models
         }
     
         public int id { get; set; }
+        [Required(ErrorMessage = "Category name reqired", AllowEmptyStrings = false)]
         public string name { get; set; }
+        [Required(ErrorMessage = "Description reqired", AllowEmptyStrings = false)]
         public string description { get; set; }
         public System.DateTime timestamp { get; set; }
     
