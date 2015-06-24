@@ -265,6 +265,10 @@
       <DependentUpon>GoFitModel.edmx</DependentUpon>
       <LastGenOutput>GoFitModel.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\gofitMDK - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\gofitMDK - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\gofitMDKdebug - FTP %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\gofitMDKdebug - Web Deploy %282%29.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
