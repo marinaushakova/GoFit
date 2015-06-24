@@ -304,24 +304,27 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual("AddExerciseToWorkout", result.RouteValues["action"], "action was not AddExerciseToWorkout");
             Assert.AreEqual("Home", result.RouteValues["controller"], "controller was not Home");
         }
-       /*
+       
         [TestMethod]
         public void TestAddExerciseToWorkout()
         {
             workout_exercise workoutExercise = new workout_exercise();
-            workoutExercise.id = 1;
+            workoutExercise.id = 4;
             workoutExercise.exercise_id = 1;
             workoutExercise.workout_id = 2;
-            workoutExercise.position = 1;
+            workoutExercise.position = 3;
             workoutExercise.duration = 5;
             controller.Session["workout_id"] = 2;
-            //ViewResult r = controller.AddExerciseToWorkout(2) as ViewResult;
-            //Assert.IsNotNull(r);
+            ViewResult r = controller.AddExerciseToWorkout(2) as ViewResult;
+            Assert.IsNotNull(r);
             db.Setup(c => c.workout_exercise.Add(workoutExercise)).Returns(workoutExercise);
-            ViewResult result = controller.AddExerciseToWorkout(workoutExercise) as ViewResult;
+            RedirectToRouteResult result = controller.AddExerciseToWorkout(workoutExercise) as RedirectToRouteResult;
             Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.RouteValues["id"], "workoutId was not 2");
+            Assert.AreEqual("AddExerciseToWorkout", result.RouteValues["action"], "action was not AddExerciseToWorkoutr");
+            Assert.AreEqual("Home", result.RouteValues["controller"], "controller was not Home");
         }
-        */
+        
 
         /// <summary>
         /// Test if ExerciseList method returns list of 2 exersise_workouts for workout with id = 2

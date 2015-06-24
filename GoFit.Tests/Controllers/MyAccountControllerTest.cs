@@ -31,10 +31,10 @@ namespace GoFit.Tests.Controllers
 
             db = contextHelpers.getDbContext();
 
-            myAccountCon = new MyAccountController(db.Object)
-            {
-                ControllerContext = MockContext.AuthenticationContext("jjones")
-            };
+            myAccountCon = new MyAccountController();
+            //{
+             //   ControllerContext = MockContext.AuthenticationContext("jjones")
+            //};
 
         }
 

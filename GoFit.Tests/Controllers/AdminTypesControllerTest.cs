@@ -42,6 +42,21 @@ namespace GoFit.Tests.Controllers
                 ControllerContext = MockContext.AuthenticationContext("admin")
             };
         }
+        
+        /// <summary>
+        /// Test creating a type record
+        /// </summary>
+        [TestMethod]
+        public void TestAdminCreateType()
+        {
+            type type = new type();
+            type.name = "TEST_DLJ";
+            type.measure = "TEST_DLJ";
+            type.timestamp = DateTime.Now;
+            RedirectToRouteResult result = adminCon.Create(type) as RedirectToRouteResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Index", result.RouteValues["action"], "redirect was not to Index");
+        }
 
         /// <summary>
         /// Test the types are sorted ascending upon passing

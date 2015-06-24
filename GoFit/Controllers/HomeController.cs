@@ -214,9 +214,9 @@ namespace GoFit.Controllers
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to add was specified."));
             }
 
-            w_ex.workout_id = (int)Session["workout_id"];
+            if (Session["workout_id"] != null) w_ex.workout_id = (int)Session["workout_id"];
             w_ex.timestamp = DateTime.Now;
-            w_ex.position = db.workout_exercise.Where(m => m.workout_id == w_ex.workout_id).Count() + 1;
+            if ( w_ex.position == null )w_ex.position = db.workout_exercise.Where(m => m.workout_id == w_ex.workout_id).Count() + 1;
             
             if (ModelState.IsValid)
             {
