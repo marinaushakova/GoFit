@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using System.Net;
+using System.Net.Http;
 
 namespace GoFit.Controllers
 {
@@ -177,7 +178,7 @@ namespace GoFit.Controllers
             userWorkout.number_of_ex_completed = 0;
             // Not sure why the timestamp is automatically set to an invalid value
             // This is a temporary workaround
-            userWorkout.timestamp = DateTime.Now;
+            //userWorkout.timestamp = DateTime.Now;
 
             if (ModelState.IsValid)
             {
@@ -191,7 +192,10 @@ namespace GoFit.Controllers
                 }
                 catch (Exception ex) 
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add this workout to user MyWorkouts page");
+                    var err = new HandleErrorInfo(ex, "MyWorkouts", "AddToMyWorkouts");
+                    //return View("Error", err);
+                    //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to add the requested workout to user workouts.");
+                    return View("Error", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to add the requested workout to user workouts."));
                 }
             }
             else
