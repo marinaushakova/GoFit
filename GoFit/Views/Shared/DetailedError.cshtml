@@ -1,0 +1,32 @@
+﻿@model Exception
+
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<h1 class="text-danger">Error.</h1>
+<h2 class="text-danger">An error occurred while processing your request.</h2>
+<h3>Message</h3>
+<p>@Model.Message</p>
+
+<h3>Source</h3>
+<p>@Model.Source</p>
+
+<h3>Help Link</h3>
+<p>@Model.HelpLink</p>
+
+<h3>HResult</h3>
+<p>@Model.HResult</p>
+
+<h3>Target Site</h3>
+<p>@Model.TargetSite</p>
+
+<h3>Inner Exception</h3>
+<p>@Model.InnerException</p>
+
+<h3>Exception Data</h3>
+<p>@Model.Data</p>
+
+<h3>Stack Trace</h3>
+<p>@Model.StackTrace</p>
