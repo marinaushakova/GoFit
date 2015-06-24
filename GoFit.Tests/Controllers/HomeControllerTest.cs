@@ -12,6 +12,7 @@ using Moq;
 using System.Data.Entity;
 using GoFit.Tests.MockContexts;
 using GoFit.Tests.MockSetupHelpers;
+using System.Web;
 
 namespace GoFit.Tests.Controllers
 {
@@ -22,6 +23,7 @@ namespace GoFit.Tests.Controllers
     public class HomeControllerTest
     {
         private HomeController controller;
+        private Mock<masterEntities> db;
         private WorkoutSearch search;
 
         [TestInitialize]
@@ -30,7 +32,7 @@ namespace GoFit.Tests.Controllers
             DbContextHelpers contextHelpers = new DbContextHelpers();
             search = new WorkoutSearch();
 
-            Mock<masterEntities> db = contextHelpers.getDbContext();
+            db = contextHelpers.getDbContext();
             controller = new HomeController(db.Object) {
                 ControllerContext = MockContext.AuthenticationContext("jjones")
             };
@@ -281,7 +283,52 @@ namespace GoFit.Tests.Controllers
             Assert.IsNotNull(result);
             workout workout24 = (workout)result.ViewData.Model;
             Assert.AreEqual("desc24", workout24.description, "description was not 'desc24'");
-        } 
+        }
+
+        /// <summary>
+        /// Tests creation of new workout
+        /// </summary>
+        [TestMethod]
+        public void TestCreateWorkout()
+        {
+            workout workout = new workout();
+            workout.id = 1;
+            workout.name = "TestWorkoutName";
+            workout.description = "TestWorkoutDescription";
+            workout.category_id = 1;
+            workout.created_by_user_id = 1;
+            db.Setup(c => c.workouts.Add(workout)).Returns(workout);
+            RedirectToRouteResult result = controller.Create(workout) as RedirectToRouteResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.RouteValues["id"], "workoutId was not 1");
+            Assert.AreEqual("AddExerciseToWorkout", result.RouteValues["action"], "action was not AddExerciseToWorkout");
+            Assert.AreEqual("Home", result.RouteValues["controller"], "controller was not Home");
+        }
+
+        /// <summary>
+        /// Tests adding exercise to workout
+        /// </summary>
+        [TestMethod]
+        public void AddExerciseToWorkout()
+        {
+            workout_exercise workoutExercise = new workout_exercise();
+            workoutExercise.workout_id = 1;
+            workoutExercise.exercise_id = 1;
+            workoutExercise.position = 1;
+            workoutExercise.duration = 5;
+            db.Setup(c => c.workout_exercise.Add(workoutExercise)).Returns(workoutExercise);
+            //var mockSession = new Mock<HttpSessionStateBase>();
+           // mock.Setup(p => p.HttpContext.Session).Returns(mockSession.Object);
+            var mockHttpContext = new Mock<HttpContextBase>();
+            mockHttpContext.SetupSet(
+                c => c.Session["workout_id"] = workoutExercise.workout_id);
+            controller.Session["workout_id"] = workoutExercise.workout_id;
+            RedirectToRouteResult result = controller.AddExerciseToWorkout(workoutExercise) as RedirectToRouteResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.RouteValues["id"], "workoutId was not 1");
+            Assert.AreEqual("AddExerciseToWorkout", result.RouteValues["action"], "action was not AddExerciseToWorkout");
+            Assert.AreEqual("Home", result.RouteValues["controller"], "controller was not Home");
+        }
 
         /* Private Test Helpers */
 

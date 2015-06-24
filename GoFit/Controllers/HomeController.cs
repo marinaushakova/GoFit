@@ -137,7 +137,7 @@ namespace GoFit.Controllers
                 {
                     db.workouts.Add(workout);
                     db.SaveChanges();
-                    return RedirectToAction("AddExerciseToWorkout", new { id = workout.id });
+                    return RedirectToAction("AddExerciseToWorkout", "Home", new { id = workout.id });
                 }
                 catch (Exception ex)
                 {
@@ -197,7 +197,7 @@ namespace GoFit.Controllers
                 {
                     db.workout_exercise.Add(w_ex);
                     db.SaveChanges();
-                    return RedirectToAction("AddExerciseToWorkout", new { id = w_ex.workout_id });
+                    return RedirectToAction("AddExerciseToWorkout", "Home", new { id = w_ex.workout_id });
                 }
                 catch
                 {
