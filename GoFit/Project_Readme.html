@@ -96,12 +96,46 @@
 <body>
 
     <div id="header">
-        <h1>Your ASP.NET application</h1>
-        <p>Congratulations! You've created a project</p>
+        <h1>GoFit</h1>
     </div>
 
     <div id="main">
         <div class="section first">
+            Built with Visual Studio 2013<br />
+            <br />
+            Scripts:<br />
+            GoFit/DB/gofitdb_full_script.sql  (drops and creates whole db, all tables, and enters all data)<br />
+            GoFit/DB/seeddata.sql (Just inserts data)<br />
+
+            Admins:<br />
+            Username: admin<br />
+            Password: admin<br />
+
+            Users:<br />
+            Username: hunts<br />
+            Password: hunts<br />
+
+            Username: dunnj<br />
+            Password: dunnj<br />
+
+            To set up:<br />
+
+            1) Clone project from bitbucket<br />
+            2) Right click on solution in solution explorer and select rebuild solution<br />
+            3) If there are missing assemblies right click on the GoFit project and select Manage NuGet Packages.<br />
+            4) Install EntityFramework<br />
+            5) Install Microsoft ASP.NET MVC<br />
+            6) Right click on GoFit.Tests project in the solution explorer and select Manage NuGet Packages.<br />
+            7) Install EntityFramework<br />
+            8) Install Microsoft ASP.NET MVC<br />
+            9) Rebuild the project and all assembly warnings should be resolved<br />
+
+            To test:<br />
+
+            Click run all from the Visual studio test explorer<br />
+
+        </div>  
+        <!--<div class="section first">
             <h2>This application consists of:</h2>
             <ul>
                 <li>Sample pages showing basic nav between Home, About, and Contact</li>
@@ -144,7 +178,7 @@
                 <li><a href="http://go.microsoft.com/fwlink/?LinkID=320772">Get help</a></li>
                 <li><a href="http://go.microsoft.com/fwlink/?LinkID=320773">Get more templates</a></li>
             </ul>
-        </div>
+        </div>-->
     </div>
 
 </body>
