@@ -27,22 +27,6 @@ namespace GoFit.Tests.MockSetupHelpers
                 new workout_exercise {},
                 new workout_exercise {}
             };
-            
-
-            /*var users = new List<user> {
-                new user {
-                    id = 1,
-                    username = "admin"
-                },
-                new user {
-                    id = 2,
-                    username = "bob"
-                },
-                new user {
-                    id = 3,
-                    username = "jjones"
-                }
-            }.AsQueryable();*/
 
             user user1 = new user
             {
@@ -90,7 +74,7 @@ namespace GoFit.Tests.MockSetupHelpers
                 description = "desc1",
                 category = category1,
                 created_at = Convert.ToDateTime("2015-06-15"),
-                created_by_user_id = users.First().id,
+                created_by_user_id = 1,
                 workout_exercise = exercises,
                 user = user3
             };
@@ -100,8 +84,8 @@ namespace GoFit.Tests.MockSetupHelpers
                 name = "workout2",
                 description = "desc2",
                 category = category1,
-                created_at = Convert.ToDateTime("2015-06-15"),
-                created_by_user_id = users.First().id,
+                created_at = Convert.ToDateTime("2015-06-16"),
+                created_by_user_id = 3,
                 workout_exercise = exercises,
                 user = user3
             };
@@ -111,8 +95,8 @@ namespace GoFit.Tests.MockSetupHelpers
                 name = "workout3",
                 description = "desc3",
                 category = category1,
-                created_at = Convert.ToDateTime("2015-06-15"),
-                created_by_user_id = users.First().id,
+                created_at = Convert.ToDateTime("2015-06-17"),
+                created_by_user_id = 3,
                 workout_exercise = exercises,
                 user = user3
             };
