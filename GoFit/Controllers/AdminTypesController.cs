@@ -89,15 +89,24 @@ namespace GoFit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,name,measure,timestamp")] type type)
         {
-            if (ModelState.IsValid)
+            try
             {
-                type.timestamp = DateTime.Now;
-                db.types.Add(type);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    type.timestamp = DateTime.Now;
+                    db.types.Add(type);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                return View(type);
+            }
+            catch (Exception ex)
+            {
+                var err = new HandleErrorInfo(ex, "AdminTypes", "Create");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the type."));
             }
 
-            return View(type);
         }
 
         // GET: AdminTypes/Edit/5
@@ -122,13 +131,22 @@ namespace GoFit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,name,measure,timestamp")] type type)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(type).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(type).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(type);
             }
-            return View(type);
+            catch (Exception ex)
+            {
+                var err = new HandleErrorInfo(ex, "AdminTypes", "Edit");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the type."));
+            }
+
         }
 
         // GET: AdminTypes/Delete/5
@@ -158,9 +176,10 @@ namespace GoFit.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var err = new HandleErrorInfo(ex, "AdminTypes", "DeleteConfirmed");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the type as it may be referenced in the database."));
             }
             
         }

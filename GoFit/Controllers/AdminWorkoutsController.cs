@@ -94,19 +94,28 @@ namespace GoFit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,name,description,category_id,created_by_user_id,created_at,timestamp")] workout workout)
         {
-            if (ModelState.IsValid)
+            try
             {
-                workout.timestamp = DateTime.Now;
-                workout.created_at = DateTime.Now;
-                workout.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
-                db.workouts.Add(workout);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    workout.timestamp = DateTime.Now;
+                    workout.created_at = DateTime.Now;
+                    workout.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
+                    db.workouts.Add(workout);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.category_id = new SelectList(db.categories, "id", "name", workout.category_id);
+                ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", workout.created_by_user_id);
+                return View(workout);
+            }
+            catch (Exception ex)
+            {
+                var err = new HandleErrorInfo(ex, "AdminWorkouts", "Create");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the workout."));
             }
 
-            ViewBag.category_id = new SelectList(db.categories, "id", "name", workout.category_id);
-            ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", workout.created_by_user_id);
-            return View(workout);
         }
 
         // GET: AdminWorkouts/Edit/5
@@ -133,15 +142,24 @@ namespace GoFit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,name,description,category_id,created_by_user_id,created_at,timestamp")] workout workout)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(workout).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(workout).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.category_id = new SelectList(db.categories, "id", "name", workout.category_id);
+                ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", workout.created_by_user_id);
+                return View(workout);
             }
-            ViewBag.category_id = new SelectList(db.categories, "id", "name", workout.category_id);
-            ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", workout.created_by_user_id);
-            return View(workout);
+            catch (Exception ex)
+            {
+                var err = new HandleErrorInfo(ex, "AdminWorkouts", "Edit");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the workout."));
+            }
+
         }
 
         // GET: AdminWorkouts/Delete/5
@@ -171,9 +189,10 @@ namespace GoFit.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var err = new HandleErrorInfo(ex, "AdminWorkouts", "DeleteConfirmed");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout as it may be referenced in the database."));
             }
 
         }
