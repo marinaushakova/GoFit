@@ -84,7 +84,6 @@ namespace GoFit.Controllers
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            masterEntities db = new masterEntities();
             user.timestamp = DateTime.Now;
 
             if (ModelState.IsValid)
