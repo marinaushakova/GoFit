@@ -27,25 +27,9 @@ namespace GoFit.Tests.MockSetupHelpers
                 new workout_exercise {},
                 new workout_exercise {}
             };
-            var testWorkout = new workout
-            {
-                id = 1,
-                name = "workout1",
-                description = "desc1",
-                created_at = Convert.ToDateTime("2015-06-15"),
-                workout_exercise = exercises
-            };
-            var user_workouts = new List<user_workout>
-            {
-                new user_workout { 
-                    user_id = 2,
-                    workout_id = 1,
-                    id = 1,
-                    workout = testWorkout
-                }
-            }.AsQueryable();
+            
 
-            var users = new List<user> {
+            /*var users = new List<user> {
                 new user {
                     id = 1,
                     username = "admin"
@@ -58,9 +42,154 @@ namespace GoFit.Tests.MockSetupHelpers
                     id = 3,
                     username = "jjones"
                 }
+            }.AsQueryable();*/
+
+            user user1 = new user
+            {
+                id = 1,
+                username = "admin"
+            };
+            user user2 = new user
+            {
+                id = 2,
+                username = "bob"
+            };
+            user user3 = new user
+            {
+                id = 3,
+                username = "jjones"
+            };
+
+            var users = new List<user> { user1, user2, user3 }.AsQueryable();
+            
+
+            
+            category category1 = new category
+            {
+                id = 1,
+                name = "endurance",
+                description = "Endurance workouts help"
+            };
+            category category2 = new category
+            {
+                id = 2,
+                name = "strength",
+                description = "Strength workouts build"
+            };
+            category category3 = new category
+            {
+                id = 3,
+                name = "flexibility",
+                description = "Flexibility workouts stretch"
+            };
+
+            var testWorkout1 = new workout
+            {
+                id = 1,
+                name = "workout1",
+                description = "desc1",
+                category = category1,
+                created_at = Convert.ToDateTime("2015-06-15"),
+                created_by_user_id = users.First().id,
+                workout_exercise = exercises,
+                user = user3
+            };
+            var testWorkout2 = new workout
+            {
+                id = 2,
+                name = "workout2",
+                description = "desc2",
+                category = category1,
+                created_at = Convert.ToDateTime("2015-06-15"),
+                created_by_user_id = users.First().id,
+                workout_exercise = exercises,
+                user = user3
+            };
+            var testWorkout3 = new workout
+            {
+                id = 3,
+                name = "workout3",
+                description = "desc3",
+                category = category1,
+                created_at = Convert.ToDateTime("2015-06-15"),
+                created_by_user_id = users.First().id,
+                workout_exercise = exercises,
+                user = user3
+            };
+
+            var user_workouts = new List<user_workout>
+            {
+                new user_workout { 
+                    user_id = 2,
+                    workout_id = 1,
+                    id = 1,
+                    workout = testWorkout1
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 2,
+                    id = 2,
+                    workout = testWorkout2
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 3,
+                    id = 3,
+                    workout = testWorkout3
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 3,
+                    id = 4,
+                    workout = testWorkout3
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 2,
+                    id = 5,
+                    workout = testWorkout2
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 1,
+                    id = 6,
+                    workout = testWorkout1
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 1,
+                    id = 7,
+                    workout = testWorkout1
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 3,
+                    id = 8,
+                    workout = testWorkout3
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 3,
+                    id = 9,
+                    workout = testWorkout3
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 2,
+                    id = 10,
+                    workout = testWorkout2
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 1,
+                    id = 11,
+                    workout = testWorkout1
+                }
+
             }.AsQueryable();
 
             var workouts = getSeedWorkouts();
+            //var user_workouts = getSeedUserWorkouts();
 
             var workoutMockset = new Mock<DbSetOverrideWorkoutsFind<workout>>() { CallBase = true };
             workoutMockset.As<IQueryable<workout>>().Setup(m => m.Provider).Returns(workouts.Provider);
@@ -322,5 +451,6 @@ namespace GoFit.Tests.MockSetupHelpers
 
             return workouts;
         }
+
     }
 }
