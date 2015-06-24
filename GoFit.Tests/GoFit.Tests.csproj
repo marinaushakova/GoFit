@@ -101,6 +101,7 @@
     <Compile Include="Controllers\MyWorkoutsControllerTest.cs" />
     <Compile Include="Controllers\AdminWorkoutsControllerTest.cs" />
     <Compile Include="Controllers\MyProfileControllerTest.cs" />
+    <Compile Include="Controllers\MyAccountControllerTest.cs" />
     <Compile Include="MockContexts\DbSetOverrideFind.cs" />
     <Compile Include="MockContexts\MockContext.cs" />
     <Compile Include="SetupHelpers\DbContextHelpers.cs" />

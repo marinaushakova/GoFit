@@ -14,6 +14,7 @@ namespace GoFit.Controllers
     public class MyAccountController : Controller
     {
         private masterEntities db;
+        private ControllerHelpers helper;
 
         /// <summary>
         /// Constructor to create the default db context
@@ -21,6 +22,16 @@ namespace GoFit.Controllers
         public MyAccountController()
         {
             db = new masterEntities();
+        }
+
+        /// <summary>
+        /// Constructor to allow a passed in db context
+        /// </summary>
+        /// <param name="context">The context to use</param>
+        public MyAccountController(masterEntities context)
+        {
+            db = context;
+            helper = new ControllerHelpers(db);
         }
 
         public ActionResult Login()
@@ -36,23 +47,6 @@ namespace GoFit.Controllers
             {
                 string hashedPassword = HashPassword(login.Username, login.Password);
                 var user = db.users.Where(a => a.username.Equals(login.Username) && a.password.Equals(hashedPassword)).FirstOrDefault();
-                /*
-                string role;
-                if (user.is_admin == 1)
-                {
-                    role = "admin";
-                }
-                else
-                {
-                    role = "regular_user";
-                }
-
-                //if (!Roles.RoleExists(role))
-                //    Roles.CreateRole(role);
-
-                if (!Roles.IsUserInRole(user.username, role))
-                    Roles.AddUserToRole(user.username, role);
-                */
                 
                 ModelState.Remove("Password");
                 if (user != null)

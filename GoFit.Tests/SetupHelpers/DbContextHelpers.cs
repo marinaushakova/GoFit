@@ -31,7 +31,8 @@ namespace GoFit.Tests.MockSetupHelpers
             user user1 = new user
             {
                 id = 1,
-                username = "admin"
+                username = "admin",
+                password = "3c1c88f0b0fec9b5f539c3d6b0577bd138bd157d604125a53e60e35cf940a5fe"
             };
             user user2 = new user
             {
