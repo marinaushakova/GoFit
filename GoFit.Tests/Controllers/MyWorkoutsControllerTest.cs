@@ -384,6 +384,31 @@ namespace GoFit.Tests.Controllers
             Assert.IsTrue(isSortedDesc);
         }
 
+        /// <summary>
+        /// Checks if details view is returned for workout1 when
+        /// user_workout with id=1 is chosen
+        /// </summary>
+        [TestMethod]
+        public void TestMyWorkoutsDetailsForWorkout1()
+        {
+            ViewResult result = myWorkoutsCon.Details(1) as ViewResult;
+            Assert.IsNotNull(result);
+            workout workout1 = (workout)result.ViewData.Model;
+            Assert.AreEqual("workout1", workout1.name, "Name was not 'workout1'");
+        }
+
+        /// <summary>
+        /// Checks if details view is returned for workout2 when
+        /// user_workout with id=10 is chosen
+        /// </summary>
+        [TestMethod]
+        public void TestMyWorkoutsDetailsForWorkout24()
+        {
+            ViewResult result = myWorkoutsCon.Details(10) as ViewResult;
+            Assert.IsNotNull(result);
+            workout workout10 = (workout)result.ViewData.Model;
+            Assert.AreEqual("desc2", workout10.description, "description was not 'desc24'");
+        }
 
     /* Private Test Helpers */
 
