@@ -103,6 +103,7 @@
     <Compile Include="Controllers\AdminCategoriesControllerTest.cs" />
     <Compile Include="Controllers\AdminExercisesControllerTest.cs" />
     <Compile Include="Controllers\AdminTypesControllerTest.cs" />
+    <Compile Include="Controllers\AdminHomeControllerTest.cs" />
     <Compile Include="MockContexts\DbSetOverrideFind.cs" />
     <Compile Include="MockContexts\MockContext.cs" />
     <Compile Include="SetupHelpers\DbContextHelpers.cs" />
