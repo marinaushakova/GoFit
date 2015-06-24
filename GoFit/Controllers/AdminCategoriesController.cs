@@ -91,15 +91,24 @@ namespace GoFit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,name,description,timestamp")] category category)
         {
-            if (ModelState.IsValid)
+            try
             {
-                category.timestamp = DateTime.Now;
-                db.categories.Add(category);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    category.timestamp = DateTime.Now;
+                    db.categories.Add(category);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                return View(category);
+            }
+            catch (Exception ex)
+            {
+                var err = new HandleErrorInfo(ex, "AdminCategories", "Create");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the category."));
             }
 
-            return View(category);
         }
 
         // GET: AdminCategories/Edit/5

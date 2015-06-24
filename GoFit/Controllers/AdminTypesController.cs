@@ -89,15 +89,24 @@ namespace GoFit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,name,measure,timestamp")] type type)
         {
-            if (ModelState.IsValid)
+            try
             {
-                type.timestamp = DateTime.Now;
-                db.types.Add(type);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    type.timestamp = DateTime.Now;
+                    db.types.Add(type);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                return View(type);
+            }
+            catch (Exception ex)
+            {
+                var err = new HandleErrorInfo(ex, "AdminTypes", "Create");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the type."));
             }
 
-            return View(type);
         }
 
         // GET: AdminTypes/Edit/5

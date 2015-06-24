@@ -93,19 +93,28 @@ namespace GoFit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,type_id,created_by_user_id,created_at,link,description,timestamp,name")] exercise exercise)
         {
-            if (ModelState.IsValid)
+            try
             {
-                exercise.timestamp = DateTime.Now;
-                exercise.created_at = DateTime.Now;
-                exercise.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
-                db.exercises.Add(exercise);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    exercise.timestamp = DateTime.Now;
+                    exercise.created_at = DateTime.Now;
+                    exercise.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
+                    db.exercises.Add(exercise);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.type_id = new SelectList(db.types, "id", "name", exercise.type_id);
+                ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", exercise.created_by_user_id);
+                return View(exercise);
+            }
+            catch (Exception ex)
+            {
+                var err = new HandleErrorInfo(ex, "AdminExercises", "Create");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the exercise."));
             }
 
-            ViewBag.type_id = new SelectList(db.types, "id", "name", exercise.type_id);
-            ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", exercise.created_by_user_id);
-            return View(exercise);
         }
 
         // GET: AdminExercises/Edit/5
