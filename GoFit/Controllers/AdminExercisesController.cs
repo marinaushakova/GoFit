@@ -163,10 +163,18 @@ namespace GoFit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            exercise exercise = db.exercises.Find(id);
-            db.exercises.Remove(exercise);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                exercise exercise = db.exercises.Find(id);
+                db.exercises.Remove(exercise);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
         }
 
         protected override void Dispose(bool disposing)
