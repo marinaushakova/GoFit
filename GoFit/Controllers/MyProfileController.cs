@@ -53,7 +53,11 @@ namespace GoFit.Controllers
         public ActionResult Index()
         {
             var view = View(db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault());
-            if (view == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (view == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user profile."));
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return view;
         }
 
@@ -61,7 +65,11 @@ namespace GoFit.Controllers
         public ActionResult Edit()
         {
             var view = View(db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault());
-            if (view == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (view == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user profile."));
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return view;
         }
 
@@ -72,10 +80,10 @@ namespace GoFit.Controllers
             
             if (user == null || user.id != helper.getUserId(User.Identity.Name))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user."));
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            masterEntities db = new masterEntities();
             user.timestamp = DateTime.Now;
 
             if (ModelState.IsValid)
@@ -90,12 +98,14 @@ namespace GoFit.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to save changes");
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit user."));
+                    //return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to save changes");
                 }
             }
             else
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to save changes");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Invalid changes."));
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to save changes");
             }
 
         }

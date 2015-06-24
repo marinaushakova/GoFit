@@ -106,12 +106,14 @@ namespace GoFit.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to register new account");
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "An error occured while trying to register new account"));
+                    //return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to register new account");
                 }
             }
             else
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to register new account");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to register new account"));
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to register new account");
             }
         }
 
