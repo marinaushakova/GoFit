@@ -37,10 +37,10 @@
             <table class="workout_list table container-fluid">
                 <thead>
                     <tr class="row">
-                        <th class="col-xs-3">@Html.ActionLink("Category Name", "Index", new { sortBy = ViewBag.NameSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-2">@Html.ActionLink("Category Name", "Index", new { sortBy = ViewBag.NameSortParam, filterString = ViewBag.FilterParam })</th>
                         <th class="col-xs-3">@Html.ActionLink("Description", "Index", new { sortBy = ViewBag.DescriptionSortParam, filterString = ViewBag.FilterParam })</th>
-                        <th class="col-xs-3">@Html.ActionLink("Timestamp", "Index", new { sortBy = ViewBag.TimestampSortParam, filterString = ViewBag.FilterParam })</th>
-                        <th class="col-xs-5">&nbsp;</th>
+                        <th class="col-xs-2">@Html.ActionLink("Timestamp", "Index", new { sortBy = ViewBag.TimestampSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-3">&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,10 +48,10 @@
                     @foreach (var item in Model)
                     {
                         <tr class="row">
-                            <td class="col-xs-3">@Html.DisplayFor(modelItem => item.name)</td>
+                            <td class="col-xs-2">@Html.DisplayFor(modelItem => item.name)</td>
                             <td class="col-xs-3">@Html.DisplayFor(modelItem => item.description)</td>
-                            <td class="col-xs-3">@Html.DisplayFor(modelItem => item.timestamp)</td>
-                            <td class="col-xs-5">
+                            <td class="col-xs-2">@Html.DisplayFor(modelItem => item.timestamp)</td>
+                            <td class="col-xs-3">
                                 @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
                                 @Html.ActionLink("Details", "Details", new { id = item.id }) |
                                 @Html.ActionLink("Delete", "Delete", new { id = item.id })
