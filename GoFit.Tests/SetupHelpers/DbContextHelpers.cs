@@ -115,9 +115,9 @@ namespace GoFit.Tests.MockSetupHelpers
             };
 
             var workout_exercises = new List<workout_exercise> {
-                new workout_exercise { id = 1, workout_id = 2, workout = testWorkout2, exercise = ex1},
-                new workout_exercise { id = 1, workout_id = 2, workout = testWorkout2, exercise = ex2},
-                new workout_exercise { id = 1, workout_id = 3, workout = testWorkout3, exercise = ex2}
+                new workout_exercise { id = 1, workout_id = 2/*, workout = testWorkout2, exercise = ex1*/},
+                new workout_exercise { id = 2, workout_id = 2/*, workout = testWorkout2, exercise = ex2*/},
+                new workout_exercise { id = 3, workout_id = 3/*, workout = testWorkout3, exercise = ex2*/}
             }.AsQueryable();
 
             var user_workouts = new List<user_workout>
