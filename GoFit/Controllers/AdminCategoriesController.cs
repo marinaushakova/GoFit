@@ -160,9 +160,10 @@ namespace GoFit.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (Exception)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            catch (Exception ex)
+            {   
+                var err = new HandleErrorInfo(ex, "AdminCategories", "DeleteConfirmed"); 
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
             }
             
         }
