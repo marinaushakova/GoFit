@@ -100,6 +100,9 @@
   <ItemGroup>
     <Compile Include="Controllers\MyWorkoutsControllerTest.cs" />
     <Compile Include="Controllers\AdminWorkoutsControllerTest.cs" />
+    <Compile Include="Controllers\AdminCategoriesControllerTest.cs" />
+    <Compile Include="Controllers\AdminExercisesControllerTest.cs" />
+    <Compile Include="Controllers\AdminTypesControllerTest.cs" />
     <Compile Include="MockContexts\DbSetOverrideFind.cs" />
     <Compile Include="MockContexts\MockContext.cs" />
     <Compile Include="SetupHelpers\DbContextHelpers.cs" />
