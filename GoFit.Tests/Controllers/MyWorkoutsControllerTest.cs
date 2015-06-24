@@ -410,19 +410,19 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual("desc2", workout10.description, "description was not 'desc24'");
         }
 
-        //[TestMethod]
-        //public void TestMyWorkoutsDeleteMyWorkout1()
-        //{
-        //    user_workout u_workout = new user_workout();
-        //    u_workout.id = 2;
-        //    db.Setup(c => c.user_workout.Remove(u_workout)).Returns(u_workout);
-        //    RedirectToRouteResult result = myWorkoutsCon.DeleteFromMyWorkouts(2) as RedirectToRouteResult;
-        //    ViewResult v_result = myWorkoutsCon.Details(2) as ViewResult;
-        //    Assert.IsNull(v_result);
-        //    Assert.IsNotNull(result);
-        //    Assert.AreEqual("Index", result.RouteValues["action"], "action was not Index");
-        //    Assert.AreEqual("MyWorkouts", result.RouteValues["controller"], "controller was not MyWorkouts");
-        //}
+        [TestMethod]
+        public void TestMyWorkoutsDeleteMyWorkout()
+        {
+            user_workout u_workout = new user_workout();
+            u_workout.id = 2;
+            db.Setup(c => c.user_workout.Remove(u_workout)).Returns(u_workout);
+            RedirectToRouteResult result = myWorkoutsCon.DeleteFromMyWorkouts(2) as RedirectToRouteResult;
+            RedirectToRouteResult v_result = myWorkoutsCon.Details(2) as RedirectToRouteResult;
+            Assert.IsNull(v_result);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Index", result.RouteValues["action"], "action was not Index");
+            Assert.AreEqual("MyWorkouts", result.RouteValues["controller"], "controller was not MyWorkouts");
+        }
 
     /* Private Test Helpers */
 
