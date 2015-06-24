@@ -132,15 +132,24 @@ namespace GoFit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,type_id,created_by_user_id,created_at,link,description,timestamp,name")] exercise exercise)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(exercise).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(exercise).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.type_id = new SelectList(db.types, "id", "name", exercise.type_id);
+                ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", exercise.created_by_user_id);
+                return View(exercise);
             }
-            ViewBag.type_id = new SelectList(db.types, "id", "name", exercise.type_id);
-            ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", exercise.created_by_user_id);
-            return View(exercise);
+            catch (Exception ex)
+            {
+                var err = new HandleErrorInfo(ex, "AdminExercises", "Edit");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the exercise."));
+            }
+
         }
 
         // GET: AdminExercises/Delete/5

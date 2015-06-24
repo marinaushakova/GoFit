@@ -124,13 +124,22 @@ namespace GoFit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,name,description,timestamp")] category category)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(category).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(category).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(category);
             }
-            return View(category);
+            catch (Exception ex)
+            {
+                var err = new HandleErrorInfo(ex, "AdminCategories", "Edit");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the category."));
+            }
+
         }
 
         // GET: AdminCategories/Delete/5

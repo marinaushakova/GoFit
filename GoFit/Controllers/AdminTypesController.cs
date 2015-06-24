@@ -122,13 +122,22 @@ namespace GoFit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,name,measure,timestamp")] type type)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(type).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(type).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(type);
             }
-            return View(type);
+            catch (Exception ex)
+            {
+                var err = new HandleErrorInfo(ex, "AdminTypes", "Edit");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the type."));
+            }
+
         }
 
         // GET: AdminTypes/Delete/5
