@@ -14,7 +14,7 @@ namespace GoFit.Controllers
     public class MyAccountController : Controller
     {
         private masterEntities db;
-        private ControllerHelpers helper;
+        //private ControllerHelpers helper;
 
         /// <summary>
         /// Constructor to create the default db context
