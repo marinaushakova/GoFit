@@ -304,6 +304,37 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual("AddExerciseToWorkout", result.RouteValues["action"], "action was not AddExerciseToWorkout");
             Assert.AreEqual("Home", result.RouteValues["controller"], "controller was not Home");
         }
+       /*
+        [TestMethod]
+        public void TestAddExerciseToWorkout()
+        {
+            workout_exercise workoutExercise = new workout_exercise();
+            workoutExercise.id = 1;
+            workoutExercise.exercise_id = 1;
+            workoutExercise.workout_id = 2;
+            workoutExercise.position = 1;
+            workoutExercise.duration = 5;
+            controller.Session["workout_id"] = 2;
+            //ViewResult r = controller.AddExerciseToWorkout(2) as ViewResult;
+            //Assert.IsNotNull(r);
+            db.Setup(c => c.workout_exercise.Add(workoutExercise)).Returns(workoutExercise);
+            ViewResult result = controller.AddExerciseToWorkout(workoutExercise) as ViewResult;
+            Assert.IsNotNull(result);
+        }
+        */
+
+        /// <summary>
+        /// Test if ExerciseList method returns list of 2 exersise_workouts for workout with id = 2
+        /// </summary>
+        [TestMethod]
+        public void TestExerciseList()
+        {
+            PartialViewResult result = controller.ExerciseList(2);
+            Assert.IsNotNull(result);
+            List<workout_exercise> exs = (List<workout_exercise>)result.ViewData.Model;
+            Assert.AreEqual(2, exs.Count(), "workout_exercise count was not 2");
+        }
+
 
 
         /* Private Test Helpers */

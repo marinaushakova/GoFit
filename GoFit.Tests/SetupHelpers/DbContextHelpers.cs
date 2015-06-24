@@ -22,11 +22,23 @@ namespace GoFit.Tests.MockSetupHelpers
         /// <returns>The mock context</returns>
         public Mock<masterEntities> getDbContext()
         {
-            var exercises = new List<workout_exercise> {
-                new workout_exercise {},
-                new workout_exercise {},
-                new workout_exercise {}
+            
+            exercise ex1 = new exercise
+            {
+                id = 1,
+                name = "ex1"
             };
+            exercise ex2 = new exercise
+            {
+                id = 2,
+                name = "ex2"
+            };
+            exercise ex3 = new exercise
+            {
+                id = 3,
+                name = "ex3"
+            };
+            var exercises = new List<exercise> { ex1, ex2, ex3 }.AsQueryable();
 
             user user1 = new user
             {
@@ -44,7 +56,6 @@ namespace GoFit.Tests.MockSetupHelpers
                 id = 3,
                 username = "jjones"
             };
-
             var users = new List<user> { user1, user2, user3 }.AsQueryable();
             
 
@@ -67,6 +78,7 @@ namespace GoFit.Tests.MockSetupHelpers
                 name = "flexibility",
                 description = "Flexibility workouts stretch"
             };
+            var categories = new List<category> { category1, category2, category3 }.AsQueryable();
 
             var testWorkout1 = new workout
             {
@@ -76,7 +88,7 @@ namespace GoFit.Tests.MockSetupHelpers
                 category = category1,
                 created_at = Convert.ToDateTime("2015-06-15"),
                 created_by_user_id = 1,
-                workout_exercise = exercises,
+                //workout_exercise = exercises,
                 user = user3
             };
             var testWorkout2 = new workout
@@ -87,7 +99,7 @@ namespace GoFit.Tests.MockSetupHelpers
                 category = category1,
                 created_at = Convert.ToDateTime("2015-06-16"),
                 created_by_user_id = 3,
-                workout_exercise = exercises,
+                //workout_exercise = exercises,
                 user = user3
             };
             var testWorkout3 = new workout
@@ -98,9 +110,15 @@ namespace GoFit.Tests.MockSetupHelpers
                 category = category1,
                 created_at = Convert.ToDateTime("2015-06-17"),
                 created_by_user_id = 3,
-                workout_exercise = exercises,
+                //workout_exercise = workout_exercises,
                 user = user3
             };
+
+            var workout_exercises = new List<workout_exercise> {
+                new workout_exercise { id = 1, workout_id = 2, workout = testWorkout2, exercise = ex1},
+                new workout_exercise { id = 1, workout_id = 2, workout = testWorkout2, exercise = ex2},
+                new workout_exercise { id = 1, workout_id = 3, workout = testWorkout3, exercise = ex2}
+            }.AsQueryable();
 
             var user_workouts = new List<user_workout>
             {
@@ -174,11 +192,9 @@ namespace GoFit.Tests.MockSetupHelpers
                     id = 11,
                     workout = testWorkout1
                 }
-
             }.AsQueryable();
 
             var workouts = getSeedWorkouts();
-            //var user_workouts = getSeedUserWorkouts();
 
             var workoutMockset = new Mock<DbSetOverrideWorkoutsFind<workout>>() { CallBase = true };
             workoutMockset.As<IQueryable<workout>>().Setup(m => m.Provider).Returns(workouts.Provider);
@@ -198,10 +214,32 @@ namespace GoFit.Tests.MockSetupHelpers
             userMockset.As<IQueryable<user>>().Setup(m => m.ElementType).Returns(users.ElementType);
             userMockset.As<IQueryable<user>>().Setup(m => m.GetEnumerator()).Returns(users.GetEnumerator);
 
+            var categoryMockset = new Mock<DbSet<category>>() { CallBase = true };
+            categoryMockset.As<IQueryable<category>>().Setup(m => m.Provider).Returns(categories.Provider);
+            categoryMockset.As<IQueryable<category>>().Setup(m => m.Expression).Returns(categories.Expression);
+            categoryMockset.As<IQueryable<category>>().Setup(m => m.ElementType).Returns(categories.ElementType);
+            categoryMockset.As<IQueryable<category>>().Setup(m => m.GetEnumerator()).Returns(categories.GetEnumerator);
+
+            var workoutExerciseMockset = new Mock<DbSet<workout_exercise>>() { CallBase = true };
+            workoutExerciseMockset.As<IQueryable<workout_exercise>>().Setup(m => m.Provider).Returns(workout_exercises.Provider);
+            workoutExerciseMockset.As<IQueryable<workout_exercise>>().Setup(m => m.Expression).Returns(workout_exercises.Expression);
+            workoutExerciseMockset.As<IQueryable<workout_exercise>>().Setup(m => m.ElementType).Returns(workout_exercises.ElementType);
+            workoutExerciseMockset.As<IQueryable<workout_exercise>>().Setup(m => m.GetEnumerator()).Returns(workout_exercises.GetEnumerator);
+
+            var exerciseMockset = new Mock<DbSet<exercise>>() { CallBase = true };
+            exerciseMockset.As<IQueryable<exercise>>().Setup(m => m.Provider).Returns(exercises.Provider);
+            exerciseMockset.As<IQueryable<exercise>>().Setup(m => m.Expression).Returns(exercises.Expression);
+            exerciseMockset.As<IQueryable<exercise>>().Setup(m => m.ElementType).Returns(exercises.ElementType);
+            exerciseMockset.As<IQueryable<exercise>>().Setup(m => m.GetEnumerator()).Returns(exercises.GetEnumerator);
+
+            
             var mockContext = new Mock<masterEntities>();
             mockContext.Setup(c => c.workouts).Returns(workoutMockset.Object);
             mockContext.Setup(c => c.user_workout).Returns(userWorkoutMockset.Object);
             mockContext.Setup(c => c.users).Returns(userMockset.Object);
+            mockContext.Setup(c => c.categories).Returns(categoryMockset.Object);
+            mockContext.Setup(c => c.workout_exercise).Returns(workoutExerciseMockset.Object);
+            mockContext.Setup(c => c.exercises).Returns(exerciseMockset.Object);
             return mockContext;
         }
 
