@@ -366,6 +366,24 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual(1, workouts.Count);
         }
 
+        /// <summary>
+        /// Tests the MyWorkouts are fitlered by "not_started", 
+        /// created by user with username "jjones" and 
+        /// sorted by workout name in descending order
+        /// </summary>
+        [TestMethod]
+        public void TestMyWorkoutsIndexFilterByNotStartedSearchUsernameAndSortWorkoutNameDesc()
+        {
+            myWorkoutsCon.pageSize = 10;
+            search.username = "jjones";
+            ViewResult result = myWorkoutsCon.Index("not_started", "name_desc", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var workouts = (PagedList<user_workout>)result.ViewData.Model;
+            Assert.IsTrue(workouts.Count == 7);
+            var isSortedDesc = this.isSorted(workouts, "name", "desc");
+            Assert.IsTrue(isSortedDesc);
+        }
+
 
     /* Private Test Helpers */
 
