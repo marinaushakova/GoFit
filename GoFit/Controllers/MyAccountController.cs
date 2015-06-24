@@ -24,15 +24,6 @@ namespace GoFit.Controllers
             db = new masterEntities();
         }
 
-        /// <summary>
-        /// Constructor to allow a passed in db context
-        /// </summary>
-        /// <param name="context">The context to use</param>
-        public MyAccountController(masterEntities context)
-        {
-            db = context;
-            helper = new ControllerHelpers(db);
-        }
 
         public ActionResult Login()
         {
