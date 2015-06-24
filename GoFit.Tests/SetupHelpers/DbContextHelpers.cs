@@ -22,41 +22,175 @@ namespace GoFit.Tests.MockSetupHelpers
         /// <returns>The mock context</returns>
         public Mock<masterEntities> getDbContext()
         {
-            var exercises = new List<workout_exercise> {
-                new workout_exercise {},
-                new workout_exercise {},
-                new workout_exercise {}
+            
+            exercise ex1 = new exercise
+            {
+                id = 1,
+                name = "ex1"
             };
-            var testWorkout = new workout
+            exercise ex2 = new exercise
+            {
+                id = 2,
+                name = "ex2"
+            };
+            exercise ex3 = new exercise
+            {
+                id = 3,
+                name = "ex3"
+            };
+            var exercises = new List<exercise> { ex1, ex2, ex3 }.AsQueryable();
+
+            user user1 = new user
+            {
+                id = 1,
+                username = "admin",
+                password = "3c1c88f0b0fec9b5f539c3d6b0577bd138bd157d604125a53e60e35cf940a5fe"
+            };
+            user user2 = new user
+            {
+                id = 2,
+                username = "bob"
+            };
+            user user3 = new user
+            {
+                id = 3,
+                username = "jjones"
+            };
+            var users = new List<user> { user1, user2, user3 }.AsQueryable();
+            
+
+            
+            category category1 = new category
+            {
+                id = 1,
+                name = "endurance",
+                description = "Endurance workouts help"
+            };
+            category category2 = new category
+            {
+                id = 2,
+                name = "strength",
+                description = "Strength workouts build"
+            };
+            category category3 = new category
+            {
+                id = 3,
+                name = "flexibility",
+                description = "Flexibility workouts stretch"
+            };
+            var categories = new List<category> { category1, category2, category3 }.AsQueryable();
+
+            var testWorkout1 = new workout
             {
                 id = 1,
                 name = "workout1",
                 description = "desc1",
+                category = category1,
                 created_at = Convert.ToDateTime("2015-06-15"),
-                workout_exercise = exercises
+                created_by_user_id = 1,
+                //workout_exercise = exercises,
+                user = user3
             };
+            var testWorkout2 = new workout
+            {
+                id = 2,
+                name = "workout2",
+                description = "desc2",
+                category = category1,
+                created_at = Convert.ToDateTime("2015-06-16"),
+                created_by_user_id = 3,
+                //workout_exercise = exercises,
+                user = user3
+            };
+            var testWorkout3 = new workout
+            {
+                id = 3,
+                name = "workout3",
+                description = "desc3",
+                category = category1,
+                created_at = Convert.ToDateTime("2015-06-17"),
+                created_by_user_id = 3,
+                //workout_exercise = workout_exercises,
+                user = user3
+            };
+
+            var workout_exercises = new List<workout_exercise> {
+                new workout_exercise { id = 1, workout_id = 2, workout = testWorkout2, exercise = ex1},
+                new workout_exercise { id = 1, workout_id = 2, workout = testWorkout2, exercise = ex2},
+                new workout_exercise { id = 1, workout_id = 3, workout = testWorkout3, exercise = ex2}
+            }.AsQueryable();
+
             var user_workouts = new List<user_workout>
             {
                 new user_workout { 
                     user_id = 2,
                     workout_id = 1,
                     id = 1,
-                    workout = testWorkout
-                }
-            }.AsQueryable();
-
-            var users = new List<user> {
-                new user {
-                    id = 1,
-                    username = "admin"
+                    workout = testWorkout1
                 },
-                new user {
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 2,
                     id = 2,
-                    username = "bob"
+                    workout = testWorkout2
                 },
-                new user {
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 3,
                     id = 3,
-                    username = "jjones"
+                    workout = testWorkout3,
+                    date_started = Convert.ToDateTime("2015-06-18")
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 3,
+                    id = 4,
+                    workout = testWorkout3
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 2,
+                    id = 5,
+                    workout = testWorkout2,
+                    date_started = Convert.ToDateTime("2015-06-18")
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 1,
+                    id = 6,
+                    workout = testWorkout1
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 1,
+                    id = 7,
+                    workout = testWorkout1,
+                    date_started = Convert.ToDateTime("2015-06-18"),
+                    date_finished = Convert.ToDateTime("2015-06-18")
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 3,
+                    id = 8,
+                    workout = testWorkout3
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 3,
+                    id = 9,
+                    workout = testWorkout3
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 2,
+                    id = 10,
+                    workout = testWorkout2
+                },
+                new user_workout { 
+                    user_id = 3,
+                    workout_id = 1,
+                    id = 11,
+                    workout = testWorkout1
                 }
             }.AsQueryable();
 
@@ -80,10 +214,32 @@ namespace GoFit.Tests.MockSetupHelpers
             userMockset.As<IQueryable<user>>().Setup(m => m.ElementType).Returns(users.ElementType);
             userMockset.As<IQueryable<user>>().Setup(m => m.GetEnumerator()).Returns(users.GetEnumerator);
 
+            var categoryMockset = new Mock<DbSet<category>>() { CallBase = true };
+            categoryMockset.As<IQueryable<category>>().Setup(m => m.Provider).Returns(categories.Provider);
+            categoryMockset.As<IQueryable<category>>().Setup(m => m.Expression).Returns(categories.Expression);
+            categoryMockset.As<IQueryable<category>>().Setup(m => m.ElementType).Returns(categories.ElementType);
+            categoryMockset.As<IQueryable<category>>().Setup(m => m.GetEnumerator()).Returns(categories.GetEnumerator);
+
+            var workoutExerciseMockset = new Mock<DbSet<workout_exercise>>() { CallBase = true };
+            workoutExerciseMockset.As<IQueryable<workout_exercise>>().Setup(m => m.Provider).Returns(workout_exercises.Provider);
+            workoutExerciseMockset.As<IQueryable<workout_exercise>>().Setup(m => m.Expression).Returns(workout_exercises.Expression);
+            workoutExerciseMockset.As<IQueryable<workout_exercise>>().Setup(m => m.ElementType).Returns(workout_exercises.ElementType);
+            workoutExerciseMockset.As<IQueryable<workout_exercise>>().Setup(m => m.GetEnumerator()).Returns(workout_exercises.GetEnumerator);
+
+            var exerciseMockset = new Mock<DbSet<exercise>>() { CallBase = true };
+            exerciseMockset.As<IQueryable<exercise>>().Setup(m => m.Provider).Returns(exercises.Provider);
+            exerciseMockset.As<IQueryable<exercise>>().Setup(m => m.Expression).Returns(exercises.Expression);
+            exerciseMockset.As<IQueryable<exercise>>().Setup(m => m.ElementType).Returns(exercises.ElementType);
+            exerciseMockset.As<IQueryable<exercise>>().Setup(m => m.GetEnumerator()).Returns(exercises.GetEnumerator);
+
+            
             var mockContext = new Mock<masterEntities>();
             mockContext.Setup(c => c.workouts).Returns(workoutMockset.Object);
             mockContext.Setup(c => c.user_workout).Returns(userWorkoutMockset.Object);
             mockContext.Setup(c => c.users).Returns(userMockset.Object);
+            mockContext.Setup(c => c.categories).Returns(categoryMockset.Object);
+            mockContext.Setup(c => c.workout_exercise).Returns(workoutExerciseMockset.Object);
+            mockContext.Setup(c => c.exercises).Returns(exerciseMockset.Object);
             return mockContext;
         }
 
@@ -322,5 +478,6 @@ namespace GoFit.Tests.MockSetupHelpers
 
             return workouts;
         }
+
     }
 }
