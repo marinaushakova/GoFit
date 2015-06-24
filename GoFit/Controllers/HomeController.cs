@@ -93,9 +93,17 @@ namespace GoFit.Controllers
         public ActionResult Details(int? workoutId)
         {
             workout workout;
-            if (workoutId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (workoutId == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Workout could not be retrieved with given parameters."));
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             workout = db.workouts.Find(workoutId);
-            if (workout == null) return HttpNotFound("Workout not found");
+            if (workout == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not find the specified workout."));
+                //return HttpNotFound("Workout not found");
+            }
             return View(workout);
         }
 
@@ -123,13 +131,18 @@ namespace GoFit.Controllers
         {
             if (workout == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Workout could not be created. Please try again."));
             }
             
             workout.timestamp = DateTime.Now;
             workout.created_at = DateTime.Now;
             workout.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
-            if (workout.created_by_user_id == -1) return HttpNotFound("created_by_user_id not found");
+            if (workout.created_by_user_id == -1)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Workout could not be found."));
+                //return HttpNotFound("created_by_user_id not found");
+            }
 
             if (ModelState.IsValid)
             {
@@ -141,12 +154,14 @@ namespace GoFit.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to create new workout");
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the requested workout."));
+                    //return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to create new workout");
                 }
             }
             else
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to create new workout");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to create new workout");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not create the workout with the given values."));
             }
             
 
@@ -161,11 +176,19 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult AddExerciseToWorkout(int? id)
         {
-            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (id == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to add was specified."));
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             else
             {
                 ViewBag.Workout = db.workouts.Find(id);
-                if (ViewBag.Workout == null) return HttpNotFound("Workout not found");
+                if (ViewBag.Workout == null)
+                {
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Workout could not be found."));
+                    //return HttpNotFound("Workout not found");
+                }
                 // Workout id is stored in session to be accessed from AddExerciseToWorkout post method
                 Session["workout_id"] = id;
                 // ViewBag.Exercises stores a list of exercises to populate combobox
@@ -185,7 +208,11 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult AddExerciseToWorkout(workout_exercise w_ex)
         {
-            if (w_ex == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (w_ex == null)
+            {
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to add was specified."));
+            }
 
             w_ex.workout_id = (int)Session["workout_id"];
             w_ex.timestamp = DateTime.Now;
@@ -201,17 +228,19 @@ namespace GoFit.Controllers
                 }
                 catch
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add an exercise to workout");
+                    //return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add an exercise to workout");
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Exercise could not be added to the workout."));
                 }
             }
             else
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add an exercise to workout");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Invalid exercise."));
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add an exercise to workout");
             }
 
         }
 
-        /// <summary>
+        /// <summ/ary>
         /// Gets measure for given exercise
         /// </summary>
         /// <param name="ex_id">Exercise id</param>
@@ -220,9 +249,17 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult GetMeasure(int? ex_id)
         {
-            if (ex_id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (ex_id == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to get a measure for was specified."));
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             var measure = db.exercises.Find(ex_id).type.measure;
-            if (ViewBag.Workout == null) return HttpNotFound("Measure not found");
+            if (ViewBag.Workout == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Exercise could not be found."));
+                //return HttpNotFound("Measure not found");
+            }
             return Json(measure, JsonRequestBehavior.AllowGet);
         }
 

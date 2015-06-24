@@ -103,7 +103,11 @@ namespace GoFit.Controllers
             int userId = helper.getUserId(User.Identity.Name);
             user_workout myworkout = db.user_workout.Find(user_workout_id);
 
-            if (myworkout == null) return new HttpNotFoundResult("Workout not found");
+            if (myworkout == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Your workout could not be found."));
+                //return new HttpNotFoundResult("Workout not found");
+            }
             else
             {
                 workout = myworkout.workout;
@@ -126,16 +130,22 @@ namespace GoFit.Controllers
         {
 
             user_workout myWorkout = db.user_workout.Find(my_workout_id);
-            if (myWorkout == null) return new HttpNotFoundResult("Unable to find the given user workout");
+            if (myWorkout == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Workout could not be found."));
+                //return new HttpNotFoundResult("Unable to find the given user workout");
+            }
             try
             {
+                int totalNumExercises = myWorkout.workout.workout_exercise.Count;
                 if (position == 1 || myWorkout.date_started == null)
                 {
                     myWorkout.number_of_ex_completed = position;
                     myWorkout.date_started = DateTime.Now;
+                    if (position == totalNumExercises) myWorkout.date_finished = DateTime.Now;
                     db.SaveChanges();
                 }
-                else if (position == myWorkout.workout.workout_exercise.Count)
+                else if (position == totalNumExercises)
                 {
                     myWorkout.number_of_ex_completed = position;
                     myWorkout.date_finished = DateTime.Now;
@@ -156,7 +166,7 @@ namespace GoFit.Controllers
                 var result = new Dictionary<string, string>();
                 result.Add("error", "true");
                 result.Add("result", "false");
-                result.Add("message", "Failed to mark wokrout progress");
+                result.Add("message", "Failed to mark workout progress");
                 return Json(result);
             }
         }
@@ -222,7 +232,7 @@ namespace GoFit.Controllers
             }
             catch (Exception ex)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add this workout to user MyWorkouts page");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the requested workout from MyWorkouts."));
             }
             
         }
