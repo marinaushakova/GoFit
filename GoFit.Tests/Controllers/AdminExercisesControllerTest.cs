@@ -76,6 +76,38 @@ namespace GoFit.Tests.Controllers
         }
 
         /// <summary>
+        /// Test the exercises are sorted ascending upon passing
+        /// sortBy "username" to the index view
+        /// </summary>
+        [TestMethod]
+        public void TestSortAdminExercisesUserNameAsc()
+        {
+            string sortBy = "username";
+            // controller.action(args) as ViewResult
+            //  -gives a resulting view object
+            ViewResult result = adminCon.Index(null, sortBy, null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var exercises = (PagedList<exercise>)result.ViewData.Model;
+            var isSortedAsc = this.isSorted(exercises, "username", "asc");
+            Assert.IsTrue(isSortedAsc);
+
+        }
+
+        /// <summary>
+        /// Test that the exercises are returned and sorted in descending
+        /// order upon passing "username_desc" to the Index
+        /// </summary>
+        [TestMethod]
+        public void TestSortAdminExercisesUserNameDesc()
+        {
+            string sortBy = "username_desc";
+            ViewResult result = adminCon.Index(null, sortBy, null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var exercises = (PagedList<exercise>)result.ViewData.Model;
+            Assert.IsTrue(this.isSorted(exercises, "username", "desc"));
+        }
+
+        /// <summary>
         /// Test that the exercises are returned and sorted in descending
         /// order upon passing "description_desc" to the Index
         /// </summary>
@@ -168,6 +200,10 @@ namespace GoFit.Tests.Controllers
                 else if (propName == "date")
                 {
                     res = DateTime.Compare(prevExercise.created_at, currentExercise.created_at);
+                }
+                else if (propName == "username")
+                {
+                    res = String.Compare(prevExercise.user.username, currentExercise.user.username);
                 }
                 else if (propName == "link")
                 {
