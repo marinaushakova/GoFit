@@ -41,6 +41,12 @@ namespace GoFit.Controllers
             helper = new ControllerHelpers(db);
         }
 
+        public MyProfileController(masterEntities context)
+        {
+            db = context;
+            helper = new ControllerHelpers(db);
+        }
+
         //
         // GET: /MyProfile/
         [Authorize]

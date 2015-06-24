@@ -410,6 +410,15 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual("desc2", workout10.description, "description was not 'desc24'");
         }
 
+        /*[TestMethod]
+        public void TestMyWorkoutsDeleteMyWorkout1()
+        {
+            RedirectToRouteResult result = myWorkoutsCon.DeleteFromMyWorkouts(2) as RedirectToRouteResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Index", result.RouteValues["action"], "action was not Index");
+            Assert.AreEqual("MyWorkouts", result.RouteValues["controller"], "controller was not MyWorkouts");
+        }*/
+
     /* Private Test Helpers */
 
         /// <summary>

@@ -200,7 +200,7 @@ namespace GoFit.Controllers
             }
         }
 
-        // POST: AdminTypes/Delete/5
+        
         [Authorize]
         public ActionResult DeleteFromMyWorkouts(int? userWorkout_id)
         {
@@ -214,7 +214,7 @@ namespace GoFit.Controllers
                 user_workout user_workout = db.user_workout.Find(userWorkout_id);
                 db.user_workout.Remove(user_workout);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "MyWorkouts");
             }
             catch (Exception ex)
             {

@@ -292,7 +292,7 @@ namespace GoFit.Tests.Controllers
         public void TestCreateWorkout()
         {
             workout workout = new workout();
-            workout.id = 1;
+            workout.id = 100;
             workout.name = "TestWorkoutName";
             workout.description = "TestWorkoutDescription";
             workout.category_id = 1;
@@ -300,7 +300,7 @@ namespace GoFit.Tests.Controllers
             db.Setup(c => c.workouts.Add(workout)).Returns(workout);
             RedirectToRouteResult result = controller.Create(workout) as RedirectToRouteResult;
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.RouteValues["id"], "workoutId was not 1");
+            Assert.AreEqual(100, result.RouteValues["id"], "workoutId was not 100");
             Assert.AreEqual("AddExerciseToWorkout", result.RouteValues["action"], "action was not AddExerciseToWorkout");
             Assert.AreEqual("Home", result.RouteValues["controller"], "controller was not Home");
         }
