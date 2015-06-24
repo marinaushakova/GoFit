@@ -163,10 +163,18 @@ namespace GoFit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            exercise exercise = db.exercises.Find(id);
-            db.exercises.Remove(exercise);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                exercise exercise = db.exercises.Find(id);
+                db.exercises.Remove(exercise);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
         }
 
         protected override void Dispose(bool disposing)
@@ -223,7 +231,7 @@ namespace GoFit.Controllers
             ViewBag.TimestampSortParam = (sortBy == "time") ? "time_desc" : "time";
             ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
             ViewBag.TypeSortParam = (sortBy == "type") ? "type_desc" : "type";
-            ViewBag.UsernameSortParam = (sortBy == "name") ? "name_desc" : "name";
+            ViewBag.UsernameSortParam = (sortBy == "username") ? "username_desc" : "username";
 
             switch (sortBy)
             {
@@ -256,6 +264,12 @@ namespace GoFit.Controllers
                     break;
                 case "name_desc":
                     exercises = exercises.OrderByDescending(e => e.name);
+                    break;
+                case "username":
+                    exercises = exercises.OrderBy(e => e.user.username);
+                    break;
+                case "username_desc":
+                    exercises = exercises.OrderByDescending(e => e.user.username);
                     break;
                 case "type":
                     exercises = exercises.OrderBy(e => e.type.name);

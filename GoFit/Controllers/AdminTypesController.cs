@@ -151,10 +151,18 @@ namespace GoFit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            type type = db.types.Find(id);
-            db.types.Remove(type);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                type type = db.types.Find(id);
+                db.types.Remove(type);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
         }
 
         protected override void Dispose(bool disposing)
