@@ -338,6 +338,35 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual(10, workouts.Count);
         }
 
+        /// <summary>
+        /// Tests that filtering MyWorkouts by its completion status being
+        /// "not_started", "in_progress" and "completed" and checks if correct number
+        /// of workouts is returned
+        /// </summary>
+        [TestMethod]
+        public void TestMyWorkoutsIndexFilterByCompletionStatus()
+        {
+            myWorkoutsCon.pageSize = 10;
+            string filterString = "not_started";
+            ViewResult result = myWorkoutsCon.Index(filterString, "", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            var workouts = (PagedList<user_workout>)result.ViewData.Model;
+            Assert.AreEqual(7, workouts.Count);
+
+            filterString = "in_progress";
+            result = myWorkoutsCon.Index(filterString, "", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            workouts = (PagedList<user_workout>)result.ViewData.Model;
+            Assert.AreEqual(2, workouts.Count);
+
+            filterString = "completed";
+            result = myWorkoutsCon.Index(filterString, "", null, search) as ViewResult;
+            Assert.IsNotNull(result);
+            workouts = (PagedList<user_workout>)result.ViewData.Model;
+            Assert.AreEqual(1, workouts.Count);
+        }
+
+
     /* Private Test Helpers */
 
         /// <summary>

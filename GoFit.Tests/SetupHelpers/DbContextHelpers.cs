@@ -119,7 +119,8 @@ namespace GoFit.Tests.MockSetupHelpers
                     user_id = 3,
                     workout_id = 3,
                     id = 3,
-                    workout = testWorkout3
+                    workout = testWorkout3,
+                    date_started = Convert.ToDateTime("2015-06-18")
                 },
                 new user_workout { 
                     user_id = 3,
@@ -131,7 +132,8 @@ namespace GoFit.Tests.MockSetupHelpers
                     user_id = 3,
                     workout_id = 2,
                     id = 5,
-                    workout = testWorkout2
+                    workout = testWorkout2,
+                    date_started = Convert.ToDateTime("2015-06-18")
                 },
                 new user_workout { 
                     user_id = 3,
@@ -143,7 +145,9 @@ namespace GoFit.Tests.MockSetupHelpers
                     user_id = 3,
                     workout_id = 1,
                     id = 7,
-                    workout = testWorkout1
+                    workout = testWorkout1,
+                    date_started = Convert.ToDateTime("2015-06-18"),
+                    date_finished = Convert.ToDateTime("2015-06-18")
                 },
                 new user_workout { 
                     user_id = 3,
