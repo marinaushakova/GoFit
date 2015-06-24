@@ -335,6 +335,7 @@
     <Content Include="Views\MyWorkouts\Details.cshtml" />
     <Content Include="Views\Shared\WorkoutPartials\_WorkoutPartial.cshtml" />
     <Content Include="Views\Shared\DetailedError.cshtml" />
+    <Content Include="Views\Shared\DevError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

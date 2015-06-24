@@ -1,9 +1,8 @@
-﻿@model HttpStatusCodeResult
+﻿@model System.Web.Mvc.HandleErrorInfo
 
 @{
     ViewBag.Title = "Error";
 }
 
-<h1 class="text-danger">@Model.StatusCode Error</h1>
+<h1 class="text-danger">Error</h1>
 <h3 class="text-danger">An error occurred while processing your request. Please try again or contact our support team</h3>
-<h4>Description:</h4><p>@Model.StatusDescription</p>

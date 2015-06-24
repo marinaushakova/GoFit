@@ -178,7 +178,7 @@ namespace GoFit.Controllers
             userWorkout.number_of_ex_completed = 0;
             // Not sure why the timestamp is automatically set to an invalid value
             // This is a temporary workaround
-            //userWorkout.timestamp = DateTime.Now;
+            userWorkout.timestamp = DateTime.Now;
 
             if (ModelState.IsValid)
             {
@@ -195,7 +195,7 @@ namespace GoFit.Controllers
                     var err = new HandleErrorInfo(ex, "MyWorkouts", "AddToMyWorkouts");
                     //return View("Error", err);
                     //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to add the requested workout to user workouts.");
-                    return View("Error", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to add the requested workout to user workouts."));
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to add the requested workout to user workouts."));
                 }
             }
             else
