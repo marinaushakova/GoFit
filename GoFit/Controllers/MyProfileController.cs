@@ -60,8 +60,7 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult Edit()
         {
-            int currentUserID = helper.getUserId(User.Identity.Name);
-            var view = View(db.users.Find(currentUserID));
+            var view = View(db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault());
             if (view == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             return view;
         }
@@ -87,7 +86,7 @@ namespace GoFit.Controllers
                     user.password = hashedPassword;
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "MyProfile");
                 }
                 catch (Exception ex)
                 {
