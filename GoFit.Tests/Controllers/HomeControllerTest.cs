@@ -339,6 +339,13 @@ namespace GoFit.Tests.Controllers
         }
 
 
+        [TestMethod]
+        public void TestGetMeasure()
+        {
+
+        }
+
+
 
         /* Private Test Helpers */
 
