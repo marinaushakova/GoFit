@@ -9,6 +9,18 @@
     padding-right: 15px;
 }
 
+.gofit-header {
+    min-height: 75px;
+    background-image: url(../Images/goFit_med.png);
+    background-repeat: no-repeat;
+    transition: background-image 1s;
+	-webkit-transition: background-image 1s; /* Safari */
+}
+
+.gofit-header:hover {
+    background-image: url(../Images/goFit_med_lit.png);
+}
+
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
