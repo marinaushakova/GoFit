@@ -9,6 +9,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using GoFit.Controllers.Hashers;
 
 namespace GoFit.Controllers
 {
@@ -89,8 +90,8 @@ namespace GoFit.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
-                    string hashedPassword = HashPassword(user.username, user.password);
+                {   
+                    string hashedPassword = Hashers.Hashers.HashPassword(user.username, user.password);
                     user.password = hashedPassword;
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
@@ -108,44 +109,6 @@ namespace GoFit.Controllers
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to save changes");
             }
 
-        }
-
-        /// <summary>
-        /// Hashes the given data
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        private string HashData(string data)
-        {
-            if (String.IsNullOrEmpty(data))
-            {
-                throw new Exception("HashData can't be empty string or null");
-            }
-            
-            SHA256 hasher = SHA256Managed.Create();
-            byte[] hashedData = hasher.ComputeHash(Encoding.Unicode.GetBytes(data));
-
-            StringBuilder sb = new StringBuilder(hashedData.Length * 2);
-            foreach (byte b in hashedData)
-            {
-                sb.AppendFormat("{0:x2}", b);
-            }
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Hashes the user login credentials
-        /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        private string HashPassword(string userName, string password)
-        {
-            if (String.IsNullOrEmpty(userName) || String.IsNullOrEmpty(password))
-            {
-                throw new Exception("Username and password can't be empty string or null");
-            }
-            return HashData(String.Format("{0}{1}", userName.Substring(0, 4), password));
         }
     }
 }
