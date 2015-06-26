@@ -13,12 +13,21 @@
     min-height: 75px;
     background-image: url(../Images/goFit_med.png);
     background-repeat: no-repeat;
+    background-position: center;
     transition: background-image 1s;
 	-webkit-transition: background-image 1s; /* Safari */
 }
 
 .gofit-header:hover {
     background-image: url(../Images/goFit_med_lit.png);
+}
+
+.gofit-invis-link {
+    display:block;
+    width:75px;
+    height:75px;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
