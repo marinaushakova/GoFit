@@ -173,7 +173,7 @@
     <Compile Include="Controllers\AdminTypesController.cs" />
     <Compile Include="Controllers\AdminWorkoutsController.cs" />
     <Compile Include="Controllers\ControllerHelpers.cs" />
-    <Compile Include="Controllers\Hashers\Hashers.cs" />
+    <Compile Include="Controllers\Hashers\Hasher.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\MyProfileController.cs" />

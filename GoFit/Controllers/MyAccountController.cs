@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Security.Cryptography;
 using System.Text;
+using GoFit.Controllers.Hashers;
 
 namespace GoFit.Controllers
 {
@@ -36,7 +37,7 @@ namespace GoFit.Controllers
         {
             using (db)
             {
-                string hashedPassword = Hashers.Hashers.HashPassword(login.Username, login.Password);
+                string hashedPassword = Hasher.HashPassword(login.Username, login.Password);
                 var user = db.users.Where(a => a.username.Equals(login.Username) && a.password.Equals(hashedPassword)).FirstOrDefault();
                 
                 ModelState.Remove("Password");
@@ -90,7 +91,7 @@ namespace GoFit.Controllers
             login.Username = user.username;
             login.Password = user.password;
 
-            string hashedPassword = Hashers.Hashers.HashPassword(user.username, user.password);
+            string hashedPassword = Hasher.HashPassword(user.username, user.password);
             user.password = hashedPassword;
             user.is_admin = 0;
             user.timestamp = DateTime.Now;

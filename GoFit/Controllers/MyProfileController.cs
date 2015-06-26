@@ -91,7 +91,7 @@ namespace GoFit.Controllers
             {
                 try
                 {   
-                    string hashedPassword = Hashers.Hashers.HashPassword(user.username, user.password);
+                    string hashedPassword = Hasher.HashPassword(user.username, user.password);
                     user.password = hashedPassword;
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
