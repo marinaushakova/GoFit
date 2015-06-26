@@ -7,6 +7,9 @@ using System.Web;
 
 namespace GoFit.Controllers.Hashers
 {
+    /// <summary>
+    /// Static helper class to hash user passwords with usernames
+    /// </summary>
     public class Hashers
     {
         /// <summary>

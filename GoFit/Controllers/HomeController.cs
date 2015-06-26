@@ -7,6 +7,7 @@ using GoFit.Models;
 using PagedList;
 using System.Net;
 using System.Data.Entity;
+using GoFit.Controllers.SessionVariablesManager;
 
 namespace GoFit.Controllers
 {
@@ -288,9 +289,9 @@ namespace GoFit.Controllers
         {
             if (page != null || !String.IsNullOrEmpty(sortBy))
             {
-                search = setSearchFromSession(search);
+                search = SessionVariableManager.setSearchFromSession(Session, search);
             }
-            else setSessionFromSearch(search);
+            else SessionVariableManager.setSessionFromSearch(Session, search);
 
             if (!String.IsNullOrEmpty(search.name)) workouts = workouts.Where(w => w.name.Contains(search.name));
             if (!String.IsNullOrEmpty(search.category)) workouts = workouts.Where(w => w.category.name.Contains(search.category));
@@ -320,11 +321,11 @@ namespace GoFit.Controllers
         {
             if (!String.IsNullOrEmpty(sortBy))
             {
-                setSessionFromSort(sortBy);
+                SessionVariableManager.setSessionFromSort(Session, sortBy);
             }
             else
             {
-                sortBy = setSortFromSession(sortBy);
+                sortBy = SessionVariableManager.setSortFromSession(Session, sortBy);
             }
 
             ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
@@ -364,73 +365,6 @@ namespace GoFit.Controllers
             }
 
             return workouts;
-        }
-
-        /// <summary>
-        /// Sets the WorkoutSearch object with the stored session search variables if they exist
-        /// </summary>
-        /// <param name="search">The WorkoutSearch object to set</param>
-        /// <returns>The WorkoutSearch object set with the session search variables if the session exists, else the passed in WorkoutSearch object</returns>
-        private WorkoutSearch setSearchFromSession(WorkoutSearch search)
-        {
-            if (Session != null)
-            {
-                if (!String.IsNullOrEmpty(Session["NameSearchParam"] as String)) search.name = Session["NameSearchParam"] as String;
-                if (!String.IsNullOrEmpty(Session["CategorySearchParam"] as String)) search.category = Session["CategorySearchParam"] as String;
-                if (!String.IsNullOrEmpty(Session["UserSearchParam"] as String)) search.username = Session["UserSearchParam"] as String;
-            }
-            return search;
-        }
-
-        /// <summary>
-        /// Sets the session search parameters based on the current search values
-        /// </summary>
-        /// <param name="search">The WorkoutSearch object containing the values to set in the session</param>
-        private void setSessionFromSearch(WorkoutSearch search)
-        {
-            if (Session != null)
-            {
-                if (!String.IsNullOrEmpty(search.name)) Session["NameSearchParam"] = search.name;
-                else Session["NameSearchParam"] = "";
-
-                if (!String.IsNullOrEmpty(search.category)) Session["CategorySearchParam"] = search.category;
-                else Session["CategorySearchParam"] = "";
-
-                if (!String.IsNullOrEmpty(search.dateAdded))
-                {
-                    string[] dateArrayString = search.dateAdded.Split('-');
-                    int year = Convert.ToInt16(dateArrayString[0]);
-                    int month = Convert.ToInt16(dateArrayString[1]);
-                    int day = Convert.ToInt16(dateArrayString[2]);
-                }
-
-                if (!String.IsNullOrEmpty(search.username)) Session["UsernameSearchParam"] = search.username;
-                else Session["UsernameSearchParam"] = "";
-            }
-        }
-
-        /// <summary>
-        /// Sets the sortBy param to the session sort value if the session exists. 
-        /// If the session does not exist the passed in sortBy param is returned. 
-        /// </summary>
-        /// <param name="sortBy">The current sort filter</param>
-        /// <returns>The sort parameter set from the session else the original sort param</returns>
-        private string setSortFromSession(string sortBy)
-        {
-            if (Session != null)
-            {
-                sortBy = Session["SortBy"] as String;
-            }
-            return sortBy;
-        }
-
-        /// <summary>
-        /// Sets the session if it exists from the passed in sortBy string
-        /// </summary>
-        /// <param name="sortBy">The current sort filter</param>
-        private void setSessionFromSort(string sortBy)
-        {
-            if (Session != null) Session["SortBy"] = sortBy;
         }
     }
 }

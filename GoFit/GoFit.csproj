@@ -178,6 +178,7 @@
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\MyProfileController.cs" />
     <Compile Include="Controllers\MyWorkoutsController.cs" />
+    <Compile Include="Controllers\SessionVariablesManager\SessionVariableManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
