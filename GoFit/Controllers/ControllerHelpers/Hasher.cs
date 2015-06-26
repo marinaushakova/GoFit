@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace GoFit.Controllers.Hashers
+namespace GoFit.Controllers.ControllerHelpers
 {
     /// <summary>
     /// Static helper class to hash user passwords with usernames

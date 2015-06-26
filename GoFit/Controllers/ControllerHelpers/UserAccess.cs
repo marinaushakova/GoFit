@@ -5,17 +5,17 @@ using System.Linq;
 using System.Security.Principal;
 using System.Web;
 
-namespace GoFit.Controllers
+namespace GoFit.Controllers.ControllerHelpers
 {
     /// <summary>
     /// Class to provide common helper methods to the various controllers. 
-    /// Also allows override of helpers as needing for testing purposes
+    /// Also allows override of helpers as needed for testing purposes
     /// </summary>
-    public class ControllerHelpers
+    public class UserAccess
     {
         private masterEntities db;
 
-        public ControllerHelpers(masterEntities db)
+        public UserAccess(masterEntities db)
         {
             this.db = db;
         }

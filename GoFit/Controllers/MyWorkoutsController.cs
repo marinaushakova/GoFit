@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using PagedList;
 using System.Net;
 using System.Net.Http;
-using GoFit.Controllers.SessionVariablesManager;
+using GoFit.Controllers.ControllerHelpers;
 
 namespace GoFit.Controllers
 {
@@ -20,7 +20,7 @@ namespace GoFit.Controllers
         private masterEntities db;
         private int currUserId;
         private const int PAGE_SIZE = 10;
-        private ControllerHelpers helper;
+        private UserAccess userAccess;
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -52,7 +52,7 @@ namespace GoFit.Controllers
         {
             db = new masterEntities();
             pageSize = PAGE_SIZE;
-            helper = new ControllerHelpers(db);
+            userAccess = new UserAccess(db);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace GoFit.Controllers
         {
             db = context;
             pageSize = PAGE_SIZE;
-            helper = new ControllerHelpers(db);
+            userAccess = new UserAccess(db);
         }
 
         //
@@ -101,7 +101,7 @@ namespace GoFit.Controllers
         {
             workout workout;
 
-            int userId = helper.getUserId(User.Identity.Name);
+            int userId = userAccess.getUserId(User.Identity.Name);
             user_workout myworkout = db.user_workout.Find(user_workout_id);
 
             if (myworkout == null)
@@ -180,7 +180,7 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult AddToMyWorkouts(user_workout userWorkout)
         {
-            int userID = helper.getUserId(User.Identity.Name);
+            int userID = userAccess.getUserId(User.Identity.Name);
             if (userID == -1)
             {
                 return View();
@@ -219,7 +219,7 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult DeleteFromMyWorkouts(int? userWorkout_id)
         {
-            int userID = helper.getUserId(User.Identity.Name);
+            int userID = userAccess.getUserId(User.Identity.Name);
             if (userID == -1)
             {
                 return View();

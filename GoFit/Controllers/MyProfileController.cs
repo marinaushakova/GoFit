@@ -9,14 +9,14 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using GoFit.Controllers.Hashers;
+using GoFit.Controllers.ControllerHelpers;
 
 namespace GoFit.Controllers
 {
     public class MyProfileController : Controller
     {
         private masterEntities db;
-        private ControllerHelpers helper;
+        private UserAccess userAccess;
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -39,13 +39,13 @@ namespace GoFit.Controllers
         public MyProfileController()
         {
             db = new masterEntities();
-            helper = new ControllerHelpers(db);
+            userAccess = new UserAccess(db);
         }
 
         public MyProfileController(masterEntities context)
         {
             db = context;
-            helper = new ControllerHelpers(db);
+            userAccess = new UserAccess(db);
         }
 
         //
@@ -78,8 +78,8 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult Edit(user user)
         {
-            
-            if (user == null || user.id != helper.getUserId(User.Identity.Name))
+
+            if (user == null || user.id != userAccess.getUserId(User.Identity.Name))
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user."));
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

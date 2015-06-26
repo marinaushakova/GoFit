@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace GoFit.Controllers.SessionVariablesManager
+namespace GoFit.Controllers.ControllerHelpers
 {
     /// <summary>
     /// Static helper class to handle setting and getting various 

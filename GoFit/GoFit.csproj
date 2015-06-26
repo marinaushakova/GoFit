@@ -172,13 +172,13 @@
     <Compile Include="Controllers\AdminHomeController.cs" />
     <Compile Include="Controllers\AdminTypesController.cs" />
     <Compile Include="Controllers\AdminWorkoutsController.cs" />
-    <Compile Include="Controllers\ControllerHelpers.cs" />
-    <Compile Include="Controllers\Hashers\Hasher.cs" />
+    <Compile Include="Controllers\ControllerHelpers\UserAccess.cs" />
+    <Compile Include="Controllers\ControllerHelpers\Hasher.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\MyProfileController.cs" />
     <Compile Include="Controllers\MyWorkoutsController.cs" />
-    <Compile Include="Controllers\SessionVariablesManager\SessionVariableManager.cs" />
+    <Compile Include="Controllers\ControllerHelpers\SessionVariableManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

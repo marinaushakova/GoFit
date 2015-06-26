@@ -7,7 +7,7 @@ using GoFit.Models;
 using PagedList;
 using System.Net;
 using System.Data.Entity;
-using GoFit.Controllers.SessionVariablesManager;
+using GoFit.Controllers.ControllerHelpers;
 
 namespace GoFit.Controllers
 {
@@ -18,7 +18,7 @@ namespace GoFit.Controllers
     {
         private masterEntities db;
         private const int PAGE_SIZE = 10;
-        private ControllerHelpers helper;
+        private UserAccess userAccess;
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -44,7 +44,7 @@ namespace GoFit.Controllers
         {
             db = new masterEntities();
             pageSize = PAGE_SIZE;
-            helper = new ControllerHelpers(db);
+            userAccess = new UserAccess(db);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace GoFit.Controllers
         {
             db = context;
             pageSize = PAGE_SIZE;
-            helper = new ControllerHelpers(db);
+            userAccess = new UserAccess(db);
         }
 
         /// <summary>
@@ -217,7 +217,10 @@ namespace GoFit.Controllers
 
             if (Session["workout_id"] != null) w_ex.workout_id = (int)Session["workout_id"];
             w_ex.timestamp = DateTime.Now;
-            if ( w_ex.position == null )w_ex.position = db.workout_exercise.Where(m => m.workout_id == w_ex.workout_id).Count() + 1;
+
+            var exercisesInWorkout = db.workout_exercise.Where(m => m.workout_id == w_ex.workout_id);
+            int exerciseCount = exercisesInWorkout.Count();
+            w_ex.position = exerciseCount + 1;
             
             if (ModelState.IsValid)
             {

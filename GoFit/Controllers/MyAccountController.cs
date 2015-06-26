@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Security.Cryptography;
 using System.Text;
-using GoFit.Controllers.Hashers;
+using GoFit.Controllers.ControllerHelpers;
 
 namespace GoFit.Controllers
 {
