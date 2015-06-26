@@ -8,16 +8,21 @@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+<body style="padding-top:0;">
+    <div class="navbar navbar-inverse">
         <div class="container">
+
+            <div class="gofit-header">
+                <a href="." class="gofit-invis-link"></a>
+            </div>
+
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("GoFit", "Index", "Home", null, new { @class = "navbar-brand" })
+                @*@Html.ActionLink("GoFit", "Index", "Home", null, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -31,10 +36,11 @@
             </div>
         </div>
     </div>
+
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
+        <footer class="gofit-footer">
             <p>&copy; @DateTime.Now.Year - GoFit</p>
         </footer>
     </div>

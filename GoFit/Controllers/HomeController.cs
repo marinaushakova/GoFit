@@ -255,7 +255,7 @@ namespace GoFit.Controllers
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var measure = db.exercises.Find(ex_id).type.measure;
-            if (ViewBag.Workout == null)
+            if (measure == null)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Exercise could not be found."));
                 //return HttpNotFound("Measure not found");
