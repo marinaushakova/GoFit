@@ -132,34 +132,6 @@ namespace GoFit.Tests.Controllers
         }
 
         /// <summary>
-        /// Test that the workouts are returned and sorted in descending
-        /// order upon passing "time_desc" to the Index
-        /// </summary>
-        [TestMethod]
-        public void TestSortAdminWorkoutsTimeDesc()
-        {
-            string sortBy = "time_desc";
-            ViewResult result = adminCon.Index(null, sortBy, null, search) as ViewResult;
-            Assert.IsNotNull(result);
-            var workouts = (PagedList<workout>)result.ViewData.Model;
-            Assert.IsTrue(this.isSorted(workouts, "time", "desc"));
-        }
-
-        /// <summary>
-        /// Test that the workouts are returned and sorted in ascending
-        /// order upon passing "time" to the Index
-        /// </summary>
-        [TestMethod]
-        public void TestSortAdminWorkoutsTimeAsc()
-        {
-            string sortBy = "time";
-            ViewResult result = adminCon.Index(null, sortBy, null, search) as ViewResult;
-            Assert.IsNotNull(result);
-            var workouts = (PagedList<workout>)result.ViewData.Model;
-            Assert.IsTrue(this.isSorted(workouts, "time", "asc"));
-        }
-
-        /// <summary>
         /// Test that the workouts are returned and sorted in ascending
         /// order upon passing "category" to the Index
         /// </summary>

@@ -50,8 +50,8 @@ namespace GoFit.Controllers.ControllerHelpers
                     int day = Convert.ToInt16(dateArrayString[2]);
                 }
 
-                if (!String.IsNullOrEmpty(search.username)) Session["UsernameSearchParam"] = search.username;
-                else Session["UsernameSearchParam"] = "";
+                if (!String.IsNullOrEmpty(search.username)) Session["UserSearchParam"] = search.username;
+                else Session["UserSearchParam"] = "";
             }
         }
 
