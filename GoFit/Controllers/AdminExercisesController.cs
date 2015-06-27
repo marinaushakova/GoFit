@@ -98,7 +98,7 @@ namespace GoFit.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    exercise.timestamp = DateTime.Now;
+                    //exercise.timestamp = DateTime.Now;
                     exercise.created_at = DateTime.Now;
                     exercise.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
                     db.exercises.Add(exercise);

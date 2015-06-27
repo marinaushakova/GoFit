@@ -188,6 +188,9 @@
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CategorySearch.cs" />
+    <Compile Include="Models\comment.cs">
+      <DependentUpon>GoFitModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\exercise.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
@@ -214,9 +217,6 @@
     </Compile>
     <Compile Include="Models\TypeSearch.cs" />
     <Compile Include="Models\user.cs">
-      <DependentUpon>GoFitModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\user_favorite_exercise.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\user_favorite_workout.cs">

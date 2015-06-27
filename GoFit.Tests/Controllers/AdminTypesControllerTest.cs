@@ -52,7 +52,7 @@ namespace GoFit.Tests.Controllers
             type type = new type();
             type.name = "TEST_DLJ";
             type.measure = "TEST_DLJ";
-            type.timestamp = DateTime.Now;
+            //type.timestamp = DateTime.Now;
             RedirectToRouteResult result = adminCon.Create(type) as RedirectToRouteResult;
             Assert.IsNotNull(result);
             Assert.AreEqual("Index", result.RouteValues["action"], "redirect was not to Index");

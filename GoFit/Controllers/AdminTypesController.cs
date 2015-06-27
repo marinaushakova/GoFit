@@ -94,7 +94,7 @@ namespace GoFit.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    type.timestamp = DateTime.Now;
+                    //type.timestamp = DateTime.Now;
                     db.types.Add(type);
                     db.SaveChanges();
                     return RedirectToAction("Index");

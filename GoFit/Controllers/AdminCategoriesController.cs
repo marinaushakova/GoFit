@@ -96,7 +96,7 @@ namespace GoFit.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    category.timestamp = DateTime.Now;
+                    //category.timestamp = DateTime.Now;
                     db.categories.Add(category);
                     db.SaveChanges();
                     return RedirectToAction("Index");

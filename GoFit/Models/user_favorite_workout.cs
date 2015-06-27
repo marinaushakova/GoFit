@@ -17,6 +17,7 @@ namespace GoFit.Models
         public int id { get; set; }
         public int user_id { get; set; }
         public int workout_id { get; set; }
+        public byte[] timestamp { get; set; }
     
         public virtual user user { get; set; }
         public virtual workout workout { get; set; }

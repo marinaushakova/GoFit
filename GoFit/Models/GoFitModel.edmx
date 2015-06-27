@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="gofitdbModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="GoFitModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="category">
           <Key>
             <PropertyRef Name="id" />
@@ -12,7 +12,18 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="45" Nullable="false" />
           <Property Name="description" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="comment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="message" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="User_id" Type="int" Nullable="false" />
+          <Property Name="Workout_id" Type="int" Nullable="false" />
+          <Property Name="date_cteated" Type="datetime2" Precision="0" Nullable="false" />
         </EntityType>
         <EntityType Name="exercise">
           <Key>
@@ -24,7 +35,7 @@
           <Property Name="created_at" Type="datetime2" Precision="0" Nullable="false" />
           <Property Name="link" Type="nvarchar" MaxLength="255" />
           <Property Name="description" Type="nvarchar(max)" />
-          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="type">
@@ -34,7 +45,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="45" Nullable="false" />
           <Property Name="measure" Type="nvarchar" MaxLength="45" Nullable="false" />
-          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="user">
           <Key>
@@ -42,22 +53,14 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="username" Type="nvarchar" MaxLength="45" Nullable="false" />
-          <Property Name="password" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="fname" Type="nvarchar" MaxLength="45" />
           <Property Name="lname" Type="nvarchar" MaxLength="45" />
           <Property Name="is_male" Type="smallint" />
           <Property Name="is_admin" Type="smallint" Nullable="false" />
           <Property Name="weight" Type="int" />
           <Property Name="height" Type="decimal" Precision="3" Scale="1" />
-          <Property Name="timestamp" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="user_favorite_exercise">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="User_id" Type="int" Nullable="false" />
-          <Property Name="Exercise_id" Type="int" Nullable="false" />
+          <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="user_favorite_workout">
           <Key>
@@ -66,18 +69,19 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="workout_id" Type="int" Nullable="false" />
+          <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="user_workout">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" />
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="workout_id" Type="int" Nullable="false" />
           <Property Name="number_of_ex_completed" Type="int" Nullable="false" />
           <Property Name="date_started" Type="date" />
           <Property Name="date_finished" Type="date" />
-          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="workout">
           <Key>
@@ -89,7 +93,7 @@
           <Property Name="category_id" Type="int" Nullable="false" />
           <Property Name="created_by_user_id" Type="int" Nullable="false" />
           <Property Name="created_at" Type="datetime2" Precision="0" Nullable="false" />
-          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="workout_exercise">
           <Key>
@@ -100,8 +104,32 @@
           <Property Name="exercise_id" Type="int" Nullable="false" />
           <Property Name="position" Type="int" Nullable="false" />
           <Property Name="duration" Type="decimal" Precision="5" Scale="2" Nullable="false" />
-          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
+        <Association Name="comment$fk_Comment_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="comment" Type="Self.comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="comment$fk_Comment_Workout1">
+          <End Role="workout" Type="Self.workout" Multiplicity="1" />
+          <End Role="comment" Type="Self.comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="workout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="Workout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="exercise$fk_Exercise_Type1">
           <End Role="type" Type="Self.type" Multiplicity="1" />
           <End Role="exercise" Type="Self.exercise" Multiplicity="*" />
@@ -123,30 +151,6 @@
             </Principal>
             <Dependent Role="exercise">
               <PropertyRef Name="created_by_user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="user_favorite_exercise$fk_User_Favorite_Exercise_Exercise1">
-          <End Role="exercise" Type="Self.exercise" Multiplicity="1" />
-          <End Role="user_favorite_exercise" Type="Self.user_favorite_exercise" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="exercise">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="user_favorite_exercise">
-              <PropertyRef Name="Exercise_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="user_favorite_exercise$fk_User_Favorite_Exercise_User1">
-          <End Role="user" Type="Self.user" Multiplicity="1" />
-          <End Role="user_favorite_exercise" Type="Self.user_favorite_exercise" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="user">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="user_favorite_exercise">
-              <PropertyRef Name="User_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -246,16 +250,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="gofitdbModel1StoreContainer">
+        <EntityContainer Name="GoFitModelStoreContainer">
           <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="comment" EntityType="Self.comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="exercise" EntityType="Self.exercise" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="type" EntityType="Self.type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="user_favorite_exercise" EntityType="Self.user_favorite_exercise" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_favorite_workout" EntityType="Self.user_favorite_workout" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_workout" EntityType="Self.user_workout" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="workout" EntityType="Self.workout" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="workout_exercise" EntityType="Self.workout_exercise" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="comment$fk_Comment_User1" Association="Self.comment$fk_Comment_User1">
+            <End Role="user" EntitySet="user" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="comment$fk_Comment_Workout1" Association="Self.comment$fk_Comment_Workout1">
+            <End Role="workout" EntitySet="workout" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
           <AssociationSet Name="exercise$fk_Exercise_Type1" Association="Self.exercise$fk_Exercise_Type1">
             <End Role="type" EntitySet="type" />
             <End Role="exercise" EntitySet="exercise" />
@@ -263,14 +275,6 @@
           <AssociationSet Name="exercise$fk_Exercise_User1" Association="Self.exercise$fk_Exercise_User1">
             <End Role="user" EntitySet="user" />
             <End Role="exercise" EntitySet="exercise" />
-          </AssociationSet>
-          <AssociationSet Name="user_favorite_exercise$fk_User_Favorite_Exercise_Exercise1" Association="Self.user_favorite_exercise$fk_User_Favorite_Exercise_Exercise1">
-            <End Role="exercise" EntitySet="exercise" />
-            <End Role="user_favorite_exercise" EntitySet="user_favorite_exercise" />
-          </AssociationSet>
-          <AssociationSet Name="user_favorite_exercise$fk_User_Favorite_Exercise_User1" Association="Self.user_favorite_exercise$fk_User_Favorite_Exercise_User1">
-            <End Role="user" EntitySet="user" />
-            <End Role="user_favorite_exercise" EntitySet="user_favorite_exercise" />
           </AssociationSet>
           <AssociationSet Name="user_favorite_workout$fk_User_Favorite_Workout_User1" Association="Self.user_favorite_workout$fk_User_Favorite_Workout_User1">
             <End Role="user" EntitySet="user" />
@@ -309,7 +313,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="gofitdbModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="GoFitModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="category">
           <Key>
             <PropertyRef Name="id" />
@@ -317,8 +321,21 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="workouts" Relationship="Self.workout_fk_Workout_Category1" FromRole="category" ToRole="workout" />
+        </EntityType>
+        <EntityType Name="comment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="User_id" Type="Int32" Nullable="false" />
+          <Property Name="Workout_id" Type="Int32" Nullable="false" />
+          <Property Name="date_cteated" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="user" Relationship="Self.comment_fk_Comment_User1" FromRole="comment" ToRole="user" />
+          <NavigationProperty Name="workout" Relationship="Self.comment_fk_Comment_Workout1" FromRole="comment" ToRole="workout" />
         </EntityType>
         <EntityType Name="exercise">
           <Key>
@@ -330,11 +347,10 @@
           <Property Name="created_at" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="type" Relationship="Self.exercise_fk_Exercise_Type1" FromRole="exercise" ToRole="type" />
           <NavigationProperty Name="user" Relationship="Self.exercise_fk_Exercise_User1" FromRole="exercise" ToRole="user" />
-          <NavigationProperty Name="user_favorite_exercise" Relationship="Self.user_favorite_exercise_fk_User_Favorite_Exercise_Exercise1" FromRole="exercise" ToRole="user_favorite_exercise" />
           <NavigationProperty Name="workout_exercise" Relationship="Self.workout_exercise_fk_Workout_has_Exercise_Exercise1" FromRole="exercise" ToRole="workout_exercise" />
         </EntityType>
         <EntityType Name="type">
@@ -344,7 +360,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="measure" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="exercises" Relationship="Self.exercise_fk_Exercise_Type1" FromRole="type" ToRole="exercise" />
         </EntityType>
         <EntityType Name="user">
@@ -360,22 +376,12 @@
           <Property Name="is_admin" Type="Int16" Nullable="false" />
           <Property Name="weight" Type="Int32" />
           <Property Name="height" Type="Decimal" Precision="3" Scale="1" />
-          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="comments" Relationship="Self.comment_fk_Comment_User1" FromRole="user" ToRole="comment" />
           <NavigationProperty Name="exercises" Relationship="Self.exercise_fk_Exercise_User1" FromRole="user" ToRole="exercise" />
-          <NavigationProperty Name="user_favorite_exercise" Relationship="Self.user_favorite_exercise_fk_User_Favorite_Exercise_User1" FromRole="user" ToRole="user_favorite_exercise" />
           <NavigationProperty Name="user_favorite_workout" Relationship="Self.user_favorite_workout_fk_User_Favorite_Workout_User1" FromRole="user" ToRole="user_favorite_workout" />
           <NavigationProperty Name="user_workout" Relationship="Self.user_workout_fk_User_has_Workout_User1" FromRole="user" ToRole="user_workout" />
           <NavigationProperty Name="workouts" Relationship="Self.workout_fk_Workout_User1" FromRole="user" ToRole="workout" />
-        </EntityType>
-        <EntityType Name="user_favorite_exercise">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="User_id" Type="Int32" Nullable="false" />
-          <Property Name="Exercise_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="exercise" Relationship="Self.user_favorite_exercise_fk_User_Favorite_Exercise_Exercise1" FromRole="user_favorite_exercise" ToRole="exercise" />
-          <NavigationProperty Name="user" Relationship="Self.user_favorite_exercise_fk_User_Favorite_Exercise_User1" FromRole="user_favorite_exercise" ToRole="user" />
         </EntityType>
         <EntityType Name="user_favorite_workout">
           <Key>
@@ -384,6 +390,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="user_id" Type="Int32" Nullable="false" />
           <Property Name="workout_id" Type="Int32" Nullable="false" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="user" Relationship="Self.user_favorite_workout_fk_User_Favorite_Workout_User1" FromRole="user_favorite_workout" ToRole="user" />
           <NavigationProperty Name="workout" Relationship="Self.user_favorite_workout_fk_User_Favorite_Workout_Workout1" FromRole="user_favorite_workout" ToRole="workout" />
         </EntityType>
@@ -391,13 +398,13 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="user_id" Type="Int32" Nullable="false" />
           <Property Name="workout_id" Type="Int32" Nullable="false" />
           <Property Name="number_of_ex_completed" Type="Int32" Nullable="false" />
           <Property Name="date_started" Type="DateTime" Precision="0" />
           <Property Name="date_finished" Type="DateTime" Precision="0" />
-          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="user" Relationship="Self.user_workout_fk_User_has_Workout_User1" FromRole="user_workout" ToRole="user" />
           <NavigationProperty Name="workout" Relationship="Self.user_workout_fk_User_has_Workout_Workout1" FromRole="user_workout" ToRole="workout" />
         </EntityType>
@@ -411,8 +418,9 @@
           <Property Name="category_id" Type="Int32" Nullable="false" />
           <Property Name="created_by_user_id" Type="Int32" Nullable="false" />
           <Property Name="created_at" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="category" Relationship="Self.workout_fk_Workout_Category1" FromRole="workout" ToRole="category" />
+          <NavigationProperty Name="comments" Relationship="Self.comment_fk_Comment_Workout1" FromRole="workout" ToRole="comment" />
           <NavigationProperty Name="user" Relationship="Self.workout_fk_Workout_User1" FromRole="workout" ToRole="user" />
           <NavigationProperty Name="user_favorite_workout" Relationship="Self.user_favorite_workout_fk_User_Favorite_Workout_Workout1" FromRole="workout" ToRole="user_favorite_workout" />
           <NavigationProperty Name="user_workout" Relationship="Self.user_workout_fk_User_has_Workout_Workout1" FromRole="workout" ToRole="user_workout" />
@@ -427,7 +435,7 @@
           <Property Name="exercise_id" Type="Int32" Nullable="false" />
           <Property Name="position" Type="Int32" Nullable="false" />
           <Property Name="duration" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
-          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="exercise" Relationship="Self.workout_exercise_fk_Workout_has_Exercise_Exercise1" FromRole="workout_exercise" ToRole="exercise" />
           <NavigationProperty Name="workout" Relationship="Self.workout_exercise_fk_Workout_has_Exercise_Workout1" FromRole="workout_exercise" ToRole="workout" />
         </EntityType>
@@ -440,6 +448,30 @@
             </Principal>
             <Dependent Role="workout">
               <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="comment_fk_Comment_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="comment" Type="Self.comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="comment_fk_Comment_Workout1">
+          <End Role="workout" Type="Self.workout" Multiplicity="1" />
+          <End Role="comment" Type="Self.comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="workout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="Workout_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -467,18 +499,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="user_favorite_exercise_fk_User_Favorite_Exercise_Exercise1">
-          <End Role="exercise" Type="Self.exercise" Multiplicity="1" />
-          <End Role="user_favorite_exercise" Type="Self.user_favorite_exercise" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="exercise">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="user_favorite_exercise">
-              <PropertyRef Name="Exercise_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="workout_exercise_fk_Workout_has_Exercise_Exercise1">
           <End Role="exercise" Type="Self.exercise" Multiplicity="1" />
           <End Role="workout_exercise" Type="Self.workout_exercise" Multiplicity="*" />
@@ -488,18 +508,6 @@
             </Principal>
             <Dependent Role="workout_exercise">
               <PropertyRef Name="exercise_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="user_favorite_exercise_fk_User_Favorite_Exercise_User1">
-          <End Role="user" Type="Self.user" Multiplicity="1" />
-          <End Role="user_favorite_exercise" Type="Self.user_favorite_exercise" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="user">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="user_favorite_exercise">
-              <PropertyRef Name="User_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -577,10 +585,10 @@
         </Association>
         <EntityContainer Name="masterEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="categories" EntityType="Self.category" />
+          <EntitySet Name="comments" EntityType="Self.comment" />
           <EntitySet Name="exercises" EntityType="Self.exercise" />
           <EntitySet Name="types" EntityType="Self.type" />
           <EntitySet Name="users" EntityType="Self.user" />
-          <EntitySet Name="user_favorite_exercise" EntityType="Self.user_favorite_exercise" />
           <EntitySet Name="user_favorite_workout" EntityType="Self.user_favorite_workout" />
           <EntitySet Name="user_workout" EntityType="Self.user_workout" />
           <EntitySet Name="workouts" EntityType="Self.workout" />
@@ -588,6 +596,14 @@
           <AssociationSet Name="workout_fk_Workout_Category1" Association="Self.workout_fk_Workout_Category1">
             <End Role="category" EntitySet="categories" />
             <End Role="workout" EntitySet="workouts" />
+          </AssociationSet>
+          <AssociationSet Name="comment_fk_Comment_User1" Association="Self.comment_fk_Comment_User1">
+            <End Role="user" EntitySet="users" />
+            <End Role="comment" EntitySet="comments" />
+          </AssociationSet>
+          <AssociationSet Name="comment_fk_Comment_Workout1" Association="Self.comment_fk_Comment_Workout1">
+            <End Role="workout" EntitySet="workouts" />
+            <End Role="comment" EntitySet="comments" />
           </AssociationSet>
           <AssociationSet Name="exercise_fk_Exercise_Type1" Association="Self.exercise_fk_Exercise_Type1">
             <End Role="type" EntitySet="types" />
@@ -597,17 +613,9 @@
             <End Role="user" EntitySet="users" />
             <End Role="exercise" EntitySet="exercises" />
           </AssociationSet>
-          <AssociationSet Name="user_favorite_exercise_fk_User_Favorite_Exercise_Exercise1" Association="Self.user_favorite_exercise_fk_User_Favorite_Exercise_Exercise1">
-            <End Role="exercise" EntitySet="exercises" />
-            <End Role="user_favorite_exercise" EntitySet="user_favorite_exercise" />
-          </AssociationSet>
           <AssociationSet Name="workout_exercise_fk_Workout_has_Exercise_Exercise1" Association="Self.workout_exercise_fk_Workout_has_Exercise_Exercise1">
             <End Role="exercise" EntitySet="exercises" />
             <End Role="workout_exercise" EntitySet="workout_exercise" />
-          </AssociationSet>
-          <AssociationSet Name="user_favorite_exercise_fk_User_Favorite_Exercise_User1" Association="Self.user_favorite_exercise_fk_User_Favorite_Exercise_User1">
-            <End Role="user" EntitySet="users" />
-            <End Role="user_favorite_exercise" EntitySet="user_favorite_exercise" />
           </AssociationSet>
           <AssociationSet Name="user_favorite_workout_fk_User_Favorite_Workout_User1" Association="Self.user_favorite_workout_fk_User_Favorite_Workout_User1">
             <End Role="user" EntitySet="users" />
@@ -639,9 +647,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="gofitdbModel1StoreContainer" CdmEntityContainer="masterEntities">
+        <EntityContainerMapping StorageEntityContainer="GoFitModelStoreContainer" CdmEntityContainer="masterEntities">
           <EntitySetMapping Name="categories">
-            <EntityTypeMapping TypeName="gofitdbModel1.category">
+            <EntityTypeMapping TypeName="GoFitModel.category">
               <MappingFragment StoreEntitySet="category">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -650,8 +658,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="comments">
+            <EntityTypeMapping TypeName="GoFitModel.comment">
+              <MappingFragment StoreEntitySet="comment">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="User_id" ColumnName="User_id" />
+                <ScalarProperty Name="Workout_id" ColumnName="Workout_id" />
+                <ScalarProperty Name="date_cteated" ColumnName="date_cteated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="exercises">
-            <EntityTypeMapping TypeName="gofitdbModel1.exercise">
+            <EntityTypeMapping TypeName="GoFitModel.exercise">
               <MappingFragment StoreEntitySet="exercise">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="type_id" ColumnName="type_id" />
@@ -665,7 +685,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="types">
-            <EntityTypeMapping TypeName="gofitdbModel1.type">
+            <EntityTypeMapping TypeName="GoFitModel.type">
               <MappingFragment StoreEntitySet="type">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -675,7 +695,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="users">
-            <EntityTypeMapping TypeName="gofitdbModel1.user">
+            <EntityTypeMapping TypeName="GoFitModel.user">
               <MappingFragment StoreEntitySet="user">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="username" ColumnName="username" />
@@ -690,26 +710,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="user_favorite_exercise">
-            <EntityTypeMapping TypeName="gofitdbModel1.user_favorite_exercise">
-              <MappingFragment StoreEntitySet="user_favorite_exercise">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="User_id" ColumnName="User_id" />
-                <ScalarProperty Name="Exercise_id" ColumnName="Exercise_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="user_favorite_workout">
-            <EntityTypeMapping TypeName="gofitdbModel1.user_favorite_workout">
+            <EntityTypeMapping TypeName="GoFitModel.user_favorite_workout">
               <MappingFragment StoreEntitySet="user_favorite_workout">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="workout_id" ColumnName="workout_id" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="user_workout">
-            <EntityTypeMapping TypeName="gofitdbModel1.user_workout">
+            <EntityTypeMapping TypeName="GoFitModel.user_workout">
               <MappingFragment StoreEntitySet="user_workout">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
@@ -722,7 +734,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="workouts">
-            <EntityTypeMapping TypeName="gofitdbModel1.workout">
+            <EntityTypeMapping TypeName="GoFitModel.workout">
               <MappingFragment StoreEntitySet="workout">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -735,7 +747,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="workout_exercise">
-            <EntityTypeMapping TypeName="gofitdbModel1.workout_exercise">
+            <EntityTypeMapping TypeName="GoFitModel.workout_exercise">
               <MappingFragment StoreEntitySet="workout_exercise">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="workout_id" ColumnName="workout_id" />

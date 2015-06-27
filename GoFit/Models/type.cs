@@ -25,7 +25,7 @@ namespace GoFit.Models
         public string name { get; set; }
         [Required(ErrorMessage = "Measure reqired", AllowEmptyStrings = false)]
         public string measure { get; set; }
-        public System.DateTime timestamp { get; set; }
+        public byte[] timestamp { get; set; }
     
         public virtual ICollection<exercise> exercises { get; set; }
     }
