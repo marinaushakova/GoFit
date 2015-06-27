@@ -344,7 +344,7 @@
     <Content Include="Views\Shared\WorkoutPartials\_WorkoutPartial.cshtml" />
     <Content Include="Views\Shared\DetailedError.cshtml" />
     <Content Include="Views\Shared\DevError.cshtml" />
-    <Content Include="Views\Shared\AdminPartials\_AdminDetailedError.cshtml" />
+    <Content Include="Views\Shared\_AdminDetailedError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

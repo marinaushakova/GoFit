@@ -182,8 +182,8 @@ namespace GoFit.Controllers
             catch (Exception ex)
             {
                 return View();
-                //var err = new HandleErrorInfo(ex, "AdminCategories", "DeleteConfirmed");
-                //return View("../Views/Shared/AdminPartials/_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
+                var err = new HandleErrorInfo(ex, "AdminCategories", "DeleteConfirmed");
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
             }
             
         }
