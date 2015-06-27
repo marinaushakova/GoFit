@@ -309,12 +309,12 @@ namespace GoFit.Tests.Controllers
             ViewResult result = myWorkoutsCon.Index("", "", null, search) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (PagedList<user_workout>)result.ViewData.Model;
-            Assert.IsTrue(workouts.Count == 3);
-            search.dateAdded = "2015-06-17";
+            Assert.AreEqual(3, workouts.Count);
+            search.dateAdded = "2015-06-13";
             result = myWorkoutsCon.Index("", "", null, search) as ViewResult;
             Assert.IsNotNull(result);
             workouts = (PagedList<user_workout>)result.ViewData.Model;
-            Assert.IsTrue(workouts.Count == 4);
+            Assert.AreEqual(4, workouts.Count);
         }
 
         /// <summary>
