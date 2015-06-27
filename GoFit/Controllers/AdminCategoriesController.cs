@@ -30,24 +30,35 @@ namespace GoFit.Controllers
         {
             db = new masterEntities();
             pageSize = PAGE_SIZE;
+            
         }
 
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
             base.OnAuthorization(filterContext);
-
-            var isAdmin = 0;
-            if (User.Identity.IsAuthenticated)
-            {
-                isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
+            try
+            {   
+                var isAdmin = 0;
+                if (User.Identity.IsAuthenticated)
+                    isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
+                
+                if (isAdmin != 1)
+                {
+                    ViewBag.UserIsAdmin = false;
+                    // Redirect non-administrative users to the home page upon authorization
+                    filterContext.Result = new RedirectResult("/Home/Index");
+                }
+                else
+                    ViewBag.UserIsAdmin = true;
             }
-
-            // Redirect non-administrative users to the home page upon authorization
-            if (isAdmin != 1)
+            catch (Exception ex)
             {
-                filterContext.Result = new RedirectResult("/Home/Index");
+                var err = new HandleErrorInfo(ex, "AdminCategories", "Create");
+                RedirectToRoute("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Error on authorization. Please contact site administrator."));
             }
+            
+
         }
 
         // GET: AdminCategories
@@ -183,7 +194,7 @@ namespace GoFit.Controllers
             {
                 return View();
                 var err = new HandleErrorInfo(ex, "AdminCategories", "DeleteConfirmed");
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
+                return View("~/Views/Shared/_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
             }
             
         }
