@@ -281,7 +281,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -340,6 +342,7 @@
     <Content Include="Views\Shared\WorkoutPartials\_WorkoutPartial.cshtml" />
     <Content Include="Views\Shared\DetailedError.cshtml" />
     <Content Include="Views\Shared\DevError.cshtml" />
+    <Content Include="Views\Shared\AdminPartials\_AdminDetailedError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
