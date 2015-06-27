@@ -13,6 +13,7 @@ using System.Data.Entity;
 using GoFit.Tests.MockContexts;
 using GoFit.Tests.MockSetupHelpers;
 using System.Web;
+using GoFit.Tests.Controllers.TestHelpers;
 
 namespace GoFit.Tests.Controllers
 {
@@ -63,7 +64,7 @@ namespace GoFit.Tests.Controllers
             ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;
-            var isSortedAsc = this.isSorted(workouts, "name", "asc");
+            var isSortedAsc = CheckSort.isSorted(workouts, "name", "asc");
             Assert.IsTrue(isSortedAsc);
         }
 
@@ -78,7 +79,7 @@ namespace GoFit.Tests.Controllers
             ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;
-            var isSortedDesc = this.isSorted(workouts, "name", "desc");
+            var isSortedDesc = CheckSort.isSorted(workouts, "name", "desc");
             Assert.IsTrue(isSortedDesc);
         }
 
@@ -93,7 +94,7 @@ namespace GoFit.Tests.Controllers
             ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;
-            var isSortedAsc = this.isSorted(workouts, "category", "asc");
+            var isSortedAsc = CheckSort.isSorted(workouts, "category", "asc");
             Assert.IsTrue(isSortedAsc);
         }
 
@@ -108,7 +109,7 @@ namespace GoFit.Tests.Controllers
             ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;
-            var isSortedDesc = this.isSorted(workouts, "category", "desc");
+            var isSortedDesc = CheckSort.isSorted(workouts, "category", "desc");
             Assert.IsTrue(isSortedDesc);
         }
 
@@ -123,7 +124,7 @@ namespace GoFit.Tests.Controllers
             ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;
-            var isSortedAsc = this.isSorted(workouts, "dateCreated", "asc");
+            var isSortedAsc = CheckSort.isSorted(workouts, "dateCreated", "asc");
             Assert.IsTrue(isSortedAsc);
         }
 
@@ -138,7 +139,7 @@ namespace GoFit.Tests.Controllers
             ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;
-            var isSortedDesc = this.isSorted(workouts, "dateCreated", "desc");
+            var isSortedDesc = CheckSort.isSorted(workouts, "dateCreated", "desc");
             Assert.IsTrue(isSortedDesc);
         }
 
@@ -153,7 +154,7 @@ namespace GoFit.Tests.Controllers
             ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;
-            var isSortedAsc = this.isSorted(workouts, "username", "asc");
+            var isSortedAsc = CheckSort.isSorted(workouts, "username", "asc");
             Assert.IsTrue(isSortedAsc);
         }
 
@@ -168,7 +169,7 @@ namespace GoFit.Tests.Controllers
             ViewResult result = controller.Index(sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;
-            var isSortedDesc = this.isSorted(workouts, "username", "desc");
+            var isSortedDesc = CheckSort.isSorted(workouts, "username", "desc");
             Assert.IsTrue(isSortedDesc);
         }
 
@@ -249,7 +250,7 @@ namespace GoFit.Tests.Controllers
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;
             Assert.IsTrue(workouts.Count == 12);
-            var isSortedDesc = this.isSorted(workouts, "username", "desc");
+            var isSortedDesc = CheckSort.isSorted(workouts, "username", "desc");
             Assert.IsTrue(isSortedDesc);
         }
 
@@ -263,7 +264,7 @@ namespace GoFit.Tests.Controllers
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;
             Assert.IsTrue(workouts.Count == 7);
-            var isSortedAsc = this.isSorted(workouts, "dateCreated", "asc");
+            var isSortedAsc = CheckSort.isSorted(workouts, "dateCreated", "asc");
             Assert.IsTrue(isSortedAsc);
         }
 
@@ -336,55 +337,6 @@ namespace GoFit.Tests.Controllers
             Assert.IsNotNull(result);
             List<workout_exercise> exs = (List<workout_exercise>)result.ViewData.Model;
             Assert.AreEqual(2, exs.Count(), "workout_exercise count was not 2");
-        }
-
-
-
-        /* Private Test Helpers */
-
-        /// <summary>
-        /// Helper method to determin if a workout list is sorted in a certain order on a certain property
-        /// </summary>
-        /// <param name="workouts">The workout list to check</param>
-        /// <param name="propName">The workout property that the list should be sorted by</param>
-        /// <param name="order">One of "asc" or "desc". Tells the method to check if the list is in ascending or descending order</param>
-        /// <returns>True if the list is sorted on the given property in the given order, false otherwise</returns>
-        private bool isSorted(PagedList<workout> workouts, string propName, string order)
-        {
-            int limit = (workouts.Count > 10) ? 11 : workouts.Count;
-            for (int i = 1; i < limit; i++)
-            {
-                workout currentWorkout = workouts[i];
-                workout prevWorkout = workouts[i - 1];
-                int? res = null;
-                if (propName == "name")
-                {
-                    res = String.Compare(prevWorkout.name, currentWorkout.name);
-                }
-                else if (propName == "category")
-                {
-                    res = String.Compare(prevWorkout.category.name, currentWorkout.category.name);
-                }
-                else if (propName == "dateCreated")
-                {
-                    res = DateTime.Compare(prevWorkout.created_at, currentWorkout.created_at);
-                }
-                else if (propName == "username")
-                {
-                    res = String.Compare(prevWorkout.user.username, currentWorkout.user.username);
-                }
-                else return false;
-
-                if (order == "asc")
-                {
-                    if (res > 0) return false;
-                }
-                else if (order == "desc")
-                {
-                    if (res < 0) return false;
-                }
-            }
-            return true;
         }
     }
 }
