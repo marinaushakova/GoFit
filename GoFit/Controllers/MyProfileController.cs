@@ -78,6 +78,7 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult Edit(user user)
         {
+            db = new masterEntities();
 
             if (user == null || user.id != userAccess.getUserId(User.Identity.Name))
             {

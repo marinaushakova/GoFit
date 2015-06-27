@@ -38,7 +38,11 @@ namespace GoFit.Models
         public Nullable<short> is_male { get; set; }
         [Required(ErrorMessage = "Role reqired", AllowEmptyStrings = false)]
         public short is_admin { get; set; }
+        [Range(0, 1000, ErrorMessage = "Invalid weight")]
+        [RegularExpression(@"\d+$", ErrorMessage = "Weight must be whole number")]
         public Nullable<int> weight { get; set; }
+        [Range(2.00, 9.00, ErrorMessage = "Height must be in range from 2.00 to 9.00")]
+        [RegularExpression(@"\d+(\.\d{0,2})?", ErrorMessage = "Invalid height")]
         public Nullable<decimal> height { get; set; }
         public byte[] timestamp { get; set; }
     
