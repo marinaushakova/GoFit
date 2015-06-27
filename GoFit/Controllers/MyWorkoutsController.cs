@@ -215,7 +215,11 @@ namespace GoFit.Controllers
             }
         }
 
-        
+        /// <summary>
+        /// Deletes the given workout from the users workouts
+        /// </summary>
+        /// <param name="userWorkout_id">The id of the instance of user_workout to be deleted</param>
+        /// <returns>The MyWorkouts index view</returns>
         [Authorize]
         public ActionResult DeleteFromMyWorkouts(int? userWorkout_id)
         {
@@ -238,6 +242,13 @@ namespace GoFit.Controllers
             
         }
 
+        /// <summary>
+        /// Filters user_workouts by their date started and date finished attributes
+        /// </summary>
+        /// <param name="user_workouts">A given users workouts </param>
+        /// <param name="filterString">The string to filter by. One of "in_progress",
+        /// "not_started", or "completed"</param>
+        /// <returns>The filtered user_workouts list</returns>
         private IQueryable<user_workout> doFilter(IQueryable<user_workout> user_workouts, String filterString)
         {
 
