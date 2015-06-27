@@ -189,7 +189,7 @@ namespace GoFit.Controllers
             userWorkout.number_of_ex_completed = 0;
             // Not sure why the timestamp is automatically set to an invalid value
             // This is a temporary workaround
-            userWorkout.timestamp = DateTime.Now;
+            //userWorkout.timestamp = DateTime.Now;
 
             if (ModelState.IsValid)
             {

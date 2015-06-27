@@ -24,7 +24,7 @@ namespace GoFit.Models
         public int number_of_ex_completed { get; set; }
         public Nullable<System.DateTime> date_started { get; set; }
         public Nullable<System.DateTime> date_finished { get; set; }
-        public System.DateTime timestamp { get; set; }
+        public byte[] timestamp { get; set; }
     
         public virtual user user { get; set; }
         public virtual workout workout { get; set; }

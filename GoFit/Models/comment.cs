@@ -12,13 +12,16 @@ namespace GoFit.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class user_favorite_exercise
+    public partial class comment
     {
         public int id { get; set; }
+        public string message { get; set; }
+        public byte[] timestamp { get; set; }
         public int User_id { get; set; }
-        public int Exercise_id { get; set; }
+        public int Workout_id { get; set; }
+        public System.DateTime date_cteated { get; set; }
     
-        public virtual exercise exercise { get; set; }
         public virtual user user { get; set; }
+        public virtual workout workout { get; set; }
     }
 }

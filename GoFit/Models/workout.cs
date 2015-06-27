@@ -17,6 +17,7 @@ namespace GoFit.Models
     {
         public workout()
         {
+            this.comments = new HashSet<comment>();
             this.user_favorite_workout = new HashSet<user_favorite_workout>();
             this.user_workout = new HashSet<user_workout>();
             this.workout_exercise = new HashSet<workout_exercise>();
@@ -32,9 +33,10 @@ namespace GoFit.Models
         [Required(ErrorMessage = "User id reqired", AllowEmptyStrings = false)]
         public int created_by_user_id { get; set; }
         public System.DateTime created_at { get; set; }
-        public System.DateTime timestamp { get; set; }
+        public byte[] timestamp { get; set; }
     
         public virtual category category { get; set; }
+        public virtual ICollection<comment> comments { get; set; }
         public virtual user user { get; set; }
         public virtual ICollection<user_favorite_workout> user_favorite_workout { get; set; }
         public virtual ICollection<user_workout> user_workout { get; set; }

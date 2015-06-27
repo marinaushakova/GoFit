@@ -30,30 +30,40 @@ namespace GoFit.Controllers
         {
             db = new masterEntities();
             pageSize = PAGE_SIZE;
+            
         }
 
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
             base.OnAuthorization(filterContext);
-
-            var isAdmin = 0;
-            if (User.Identity.IsAuthenticated)
-            {
-                isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
+            try
+            {   
+                var isAdmin = 0;
+                if (User.Identity.IsAuthenticated)
+                    isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
+                
+                if (isAdmin != 1)
+                {
+                    ViewBag.UserIsAdmin = false;
+                    // Redirect non-administrative users to the home page upon authorization
+                    filterContext.Result = new RedirectResult("/Home/Index");
+                }
+                else
+                    ViewBag.UserIsAdmin = true;
             }
-
-            // Redirect non-administrative users to the home page upon authorization
-            if (isAdmin != 1)
+            catch (Exception ex)
             {
-                filterContext.Result = new RedirectResult("/Home/Index");
+                var err = new HandleErrorInfo(ex, "AdminCategories", "Create");
+                RedirectToRoute("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Error on authorization. Please contact site administrator."));
             }
+            
+
         }
 
         // GET: AdminCategories
         public ActionResult Index(string filterString, string sortBy, int? page, CategorySearch categorySearch)
         {
-            //return View(db.categories.ToList());
 
             var categories = from c in db.categories select c;
             categories = this.doSearch(categories, categorySearch, filterString, sortBy, page);
@@ -96,7 +106,7 @@ namespace GoFit.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    category.timestamp = DateTime.Now;
+                    //category.timestamp = DateTime.Now;
                     db.categories.Add(category);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -107,7 +117,7 @@ namespace GoFit.Controllers
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminCategories", "Create");
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the category."));
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the category."));
             }
 
         }
@@ -147,7 +157,7 @@ namespace GoFit.Controllers
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminCategories", "Edit");
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the category."));
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the category."));
             }
 
         }
@@ -180,9 +190,10 @@ namespace GoFit.Controllers
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
-            {   
-                var err = new HandleErrorInfo(ex, "AdminCategories", "DeleteConfirmed"); 
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
+            {
+                return View();
+                var err = new HandleErrorInfo(ex, "AdminCategories", "DeleteConfirmed");
+                return View("~/Views/Shared/_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
             }
             
         }

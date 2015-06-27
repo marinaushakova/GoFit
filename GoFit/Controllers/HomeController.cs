@@ -136,7 +136,7 @@ namespace GoFit.Controllers
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Workout could not be created. Please try again."));
             }
             
-            workout.timestamp = DateTime.Now;
+            //workout.timestamp = DateTime.Now;
             workout.created_at = DateTime.Now;
             workout.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
             if (workout.created_by_user_id == -1)
@@ -216,7 +216,7 @@ namespace GoFit.Controllers
             }
 
             if (Session["workout_id"] != null) w_ex.workout_id = (int)Session["workout_id"];
-            w_ex.timestamp = DateTime.Now;
+            //w_ex.timestamp = DateTime.Now;
 
             if (w_ex.position == 0)
             {

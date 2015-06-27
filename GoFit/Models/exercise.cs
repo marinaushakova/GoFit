@@ -17,7 +17,6 @@ namespace GoFit.Models
     {
         public exercise()
         {
-            this.user_favorite_exercise = new HashSet<user_favorite_exercise>();
             this.workout_exercise = new HashSet<workout_exercise>();
         }
     
@@ -31,13 +30,12 @@ namespace GoFit.Models
         public string link { get; set; }
         [Required(ErrorMessage = "Description reqired", AllowEmptyStrings = false)]
         public string description { get; set; }
-        public System.DateTime timestamp { get; set; }
+        public byte[] timestamp { get; set; }
         [Required(ErrorMessage = "Exercise name reqired", AllowEmptyStrings = false)]
         public string name { get; set; }
     
         public virtual type type { get; set; }
         public virtual user user { get; set; }
-        public virtual ICollection<user_favorite_exercise> user_favorite_exercise { get; set; }
         public virtual ICollection<workout_exercise> workout_exercise { get; set; }
     }
 }

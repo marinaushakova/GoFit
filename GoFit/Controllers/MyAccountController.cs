@@ -94,7 +94,7 @@ namespace GoFit.Controllers
             string hashedPassword = Hasher.HashPassword(user.username, user.password);
             user.password = hashedPassword;
             user.is_admin = 0;
-            user.timestamp = DateTime.Now;
+            //user.timestamp = DateTime.Now;
 
             if (ModelState.IsValid)
             {
