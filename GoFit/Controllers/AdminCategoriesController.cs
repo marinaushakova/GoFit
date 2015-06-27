@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GoFit.Models;
 using PagedList;
+using GoFit.Controllers.ControllerHelpers;
 
 namespace GoFit.Controllers
 {
@@ -228,11 +229,11 @@ namespace GoFit.Controllers
         {
             if (!String.IsNullOrEmpty(sortBy))
             {
-                setSessionFromSort(sortBy);
+                SessionVariableManager.setSessionFromSort(Session, sortBy);
             }
             else
             {
-                sortBy = setSortFromSession(sortBy);
+                sortBy = SessionVariableManager.setSortFromSession(Session, sortBy);
             }
 
             ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
@@ -295,30 +296,6 @@ namespace GoFit.Controllers
 
 
             }
-        }
-
-        /// <summary>
-        /// Sets the sortBy param to the session sort value if the session exists. 
-        /// If the session does not exist the passed in sortBy param is returned. 
-        /// </summary>
-        /// <param name="sortBy">The current sort filter</param>
-        /// <returns>The sort parameter set from the session else the original sort param</returns>
-        private string setSortFromSession(string sortBy)
-        {
-            if (Session != null)
-            {
-                sortBy = Session["SortBy"] as String;
-            }
-            return sortBy;
-        }
-
-        /// <summary>
-        /// Sets the session if it exists from the passed in sortBy string
-        /// </summary>
-        /// <param name="sortBy">The current sort filter</param>
-        private void setSessionFromSort(string sortBy)
-        {
-            if (Session != null) Session["SortBy"] = sortBy;
         }
     }
 }

@@ -172,11 +172,14 @@
     <Compile Include="Controllers\AdminHomeController.cs" />
     <Compile Include="Controllers\AdminTypesController.cs" />
     <Compile Include="Controllers\AdminWorkoutsController.cs" />
-    <Compile Include="Controllers\ControllerHelpers.cs" />
+    <Compile Include="Controllers\ControllerHelpers\UserAccess.cs" />
+    <Compile Include="Controllers\ControllerHelpers\Hasher.cs" />
+    <Compile Include="Controllers\ControllerHelpers\WorkoutSortSearch.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\MyProfileController.cs" />
     <Compile Include="Controllers\MyWorkoutsController.cs" />
+    <Compile Include="Controllers\ControllerHelpers\SessionVariableManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -238,9 +241,8 @@
     <Content Include="Content\home.css" />
     <Content Include="Content\MyProfile.css" />
     <Content Include="Content\PagedList.css" />
-    <Content Include="DB\create_blank_tables.sql" />
-    <Content Include="DB\drop_create_gofitdb.sql" />
     <Content Include="DB\gofitdb_full_script.sql" />
+    <Content Include="DB\iteration2_db_v2_mod.sql" />
     <Content Include="DB\seeddata.sql" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

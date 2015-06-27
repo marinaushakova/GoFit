@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Security.Cryptography;
 using System.Text;
+using GoFit.Controllers.ControllerHelpers;
 
 namespace GoFit.Controllers
 {
@@ -36,7 +37,7 @@ namespace GoFit.Controllers
         {
             using (db)
             {
-                string hashedPassword = HashPassword(login.Username, login.Password);
+                string hashedPassword = Hasher.HashPassword(login.Username, login.Password);
                 var user = db.users.Where(a => a.username.Equals(login.Username) && a.password.Equals(hashedPassword)).FirstOrDefault();
                 
                 ModelState.Remove("Password");
@@ -90,7 +91,7 @@ namespace GoFit.Controllers
             login.Username = user.username;
             login.Password = user.password;
 
-            string hashedPassword = HashPassword(user.username, user.password);
+            string hashedPassword = Hasher.HashPassword(user.username, user.password);
             user.password = hashedPassword;
             user.is_admin = 0;
             user.timestamp = DateTime.Now;
@@ -115,35 +116,6 @@ namespace GoFit.Controllers
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to register new account"));
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to register new account");
             }
-        }
-
-        /// <summary>
-        /// Hashes the given data
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        private string HashData(string data)
-        {
-            SHA256 hasher = SHA256Managed.Create();
-            byte[] hashedData = hasher.ComputeHash(Encoding.Unicode.GetBytes(data));
-
-            StringBuilder sb = new StringBuilder(hashedData.Length * 2);
-            foreach (byte b in hashedData)
-            {
-                sb.AppendFormat("{0:x2}", b);
-            }
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Hashes the user login credentials
-        /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        private string HashPassword(string userName, string password)
-        {
-            return HashData(String.Format("{0}{1}", userName.Substring(0, 4), password));
         }
     }
 }
