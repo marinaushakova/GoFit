@@ -40,7 +40,7 @@
                         <th class="col-xs-2">@Html.ActionLink("Created Date", "Index", new { sortBy = ViewBag.CreatedSortParam, filterString = ViewBag.FilterParam })</th>
                         <th class="col-xs-2">@Html.ActionLink("Link", "Index", new { sortBy = ViewBag.LinkSortParam, filterString = ViewBag.FilterParam })</th>
                         <th class="col-xs-1">@Html.ActionLink("Description", "Index", new { sortBy = ViewBag.DescriptionSortParam, filterString = ViewBag.FilterParam })</th>
-                        <th class="col-xs-2">@Html.ActionLink("Timestamp", "Index", new { sortBy = ViewBag.TimestampSortParam, filterString = ViewBag.FilterParam })</th>
+                        
                         <th class="col-xs-1">@Html.ActionLink("Name", "Index", new { sortBy = ViewBag.NameSortParam, filterString = ViewBag.FilterParam })</th>
                         <th class="col-xs-1">@Html.ActionLink("Type", "Index", new { sortBy = ViewBag.TypeSortParam, filterString = ViewBag.FilterParam })</th>
                         <th class="col-xs-1">@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UsernameSortParam, filterString = ViewBag.FilterParam })</th>
@@ -54,7 +54,7 @@
                             <td class="col-xs-2">@Html.DisplayFor(modelItem => item.created_at)</td>
                             <td class="col-xs-2">@Html.DisplayFor(modelItem => item.link)</td>
                             <td class="col-xs-1">@Html.DisplayFor(modelItem => item.description)</td>
-                            <td class="col-xs-2">@Html.DisplayFor(modelItem => item.timestamp)</td>
+                            
                             <td class="col-xs-1">@Html.DisplayFor(modelItem => item.name)</td>
                             <td class="col-xs-1">@Html.DisplayFor(modelItem => item.type.name)</td>
                             <td class="col-xs-1">@Html.DisplayFor(modelItem => item.user.username)</td>

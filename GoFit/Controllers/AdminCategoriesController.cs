@@ -64,7 +64,6 @@ namespace GoFit.Controllers
         // GET: AdminCategories
         public ActionResult Index(string filterString, string sortBy, int? page, CategorySearch categorySearch)
         {
-            //return View(db.categories.ToList());
 
             var categories = from c in db.categories select c;
             categories = this.doSearch(categories, categorySearch, filterString, sortBy, page);
