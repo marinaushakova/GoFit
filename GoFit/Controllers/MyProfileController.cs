@@ -93,7 +93,9 @@ namespace GoFit.Controllers
                 {   
                     string hashedPassword = Hasher.HashPassword(user.username, user.password);
                     user.password = hashedPassword;
-                    db.Entry(user).State = EntityState.Modified;
+                    var u = db.users.Find(user.id);
+                    //db.Entry(user).State = EntityState.Modified;
+                    db.Entry(u).CurrentValues.SetValues(user);
                     db.SaveChanges();
                     return RedirectToAction("Index", "MyProfile");
                 }
