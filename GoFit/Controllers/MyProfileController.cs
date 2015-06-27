@@ -85,7 +85,7 @@ namespace GoFit.Controllers
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            user.timestamp = DateTime.Now;
+            //user.timestamp = DateTime.Now;
 
             if (ModelState.IsValid)
             {
@@ -95,7 +95,15 @@ namespace GoFit.Controllers
                     user.password = hashedPassword;
                     var u = db.users.Find(user.id);
                     //db.Entry(user).State = EntityState.Modified;
-                    db.Entry(u).CurrentValues.SetValues(user);
+                    var res = db.Entry(u).State;
+                    if (res == EntityState.Detached)
+                    {
+                        db.Entry(user).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        db.Entry(u).CurrentValues.SetValues(user);
+                    }
                     db.SaveChanges();
                     return RedirectToAction("Index", "MyProfile");
                 }

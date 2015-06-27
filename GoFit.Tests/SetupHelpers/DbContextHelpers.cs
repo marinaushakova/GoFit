@@ -48,7 +48,7 @@ namespace GoFit.Tests.MockSetupHelpers
             userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.ElementType).Returns(userWorkoutsQ.ElementType);
             userWorkoutMockset.As<IQueryable<user_workout>>().Setup(m => m.GetEnumerator()).Returns(userWorkoutsQ.GetEnumerator);
 
-            var userMockset = new Mock<DbSet<user>>() { CallBase = true };
+            var userMockset = new Mock<DbSetOverrideUserFind<user>>() { CallBase = true };
             userMockset.As<IQueryable<user>>().Setup(m => m.Provider).Returns(usersQ.Provider);
             userMockset.As<IQueryable<user>>().Setup(m => m.Expression).Returns(usersQ.Expression);
             userMockset.As<IQueryable<user>>().Setup(m => m.ElementType).Returns(usersQ.ElementType);

@@ -136,34 +136,6 @@ namespace GoFit.Tests.Controllers
         }
 
         /// <summary>
-        /// Test that the exercises are returned and sorted in descending
-        /// order upon passing "time_desc" to the Index
-        /// </summary>
-        [TestMethod]
-        public void TestSortAdminExercisesTimeDesc()
-        {
-            string sortBy = "time_desc";
-            ViewResult result = adminCon.Index(null, sortBy, null, search) as ViewResult;
-            Assert.IsNotNull(result);
-            var exercises = (PagedList<exercise>)result.ViewData.Model;
-            Assert.IsTrue(this.isSorted(exercises, "time", "desc"));
-        }
-
-        /// <summary>
-        /// Test that the exercises are returned and sorted in ascending
-        /// order upon passing "time" to the Index
-        /// </summary>
-        [TestMethod]
-        public void TestSortAdminExercisesTimeAsc()
-        {
-            string sortBy = "time";
-            ViewResult result = adminCon.Index(null, sortBy, null, search) as ViewResult;
-            Assert.IsNotNull(result);
-            var exercises = (PagedList<exercise>)result.ViewData.Model;
-            Assert.IsTrue(this.isSorted(exercises, "time", "asc"));
-        }
-
-        /// <summary>
         /// Test that the AdminExercises Index view returns data
         /// </summary>
         [TestMethod]
@@ -212,10 +184,6 @@ namespace GoFit.Tests.Controllers
                 else if (propName == "description")
                 {
                     res = String.Compare(prevExercise.description, currentExercise.description);
-                }
-                else if (propName == "time")
-                {
-                    res = DateTime.Compare(prevExercise.timestamp, currentExercise.timestamp);
                 }
                 else if (propName == "type")
                 {

@@ -30,4 +30,13 @@ namespace GoFit.Tests.MockContexts
             return this.SingleOrDefault(w => w.id == id);
         }
     }
+
+    public class DbSetOverrideUserFind<TEntity> : DbSet<user>
+    {
+        public override user Find(params object[] keyValues)
+        {
+            var id = (int)keyValues.Single();
+            return this.SingleOrDefault(w => w.id == id);
+        }
+    }
 }
