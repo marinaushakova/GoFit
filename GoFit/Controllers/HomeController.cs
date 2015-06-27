@@ -218,9 +218,12 @@ namespace GoFit.Controllers
             if (Session["workout_id"] != null) w_ex.workout_id = (int)Session["workout_id"];
             w_ex.timestamp = DateTime.Now;
 
-            var exercisesInWorkout = db.workout_exercise.Where(m => m.workout_id == w_ex.workout_id);
-            int exerciseCount = exercisesInWorkout.Count();
-            w_ex.position = exerciseCount + 1;
+            if (w_ex.position == 0)
+            {
+                var exercisesInWorkout = db.workout_exercise.Where(m => m.workout_id == w_ex.workout_id);
+                int exerciseCount = exercisesInWorkout.Count();
+                w_ex.position = exerciseCount + 1;
+            }
             
             if (ModelState.IsValid)
             {
