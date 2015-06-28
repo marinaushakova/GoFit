@@ -187,14 +187,29 @@ namespace GoFit.Controllers
         // POST: AdminTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed([Bind(Include = "id,timestamp")] type type)
         {
             try
             {
-                type type = db.types.Find(id);
-                db.types.Remove(type);
+                type oldType = db.types.Find(type.id);
+                if (oldType == null)
+                {
+                    return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The type does not exist or has already been deleted"));
+                }
+                var entry = db.Entry(oldType);
+                var state = entry.State;
+                entry.OriginalValues["timestamp"] = type.timestamp;
+                db.types.Remove(oldType);
                 db.SaveChanges();
                 return RedirectToAction("Index");
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the type as another admin may have modified this type"));
+            }
+            catch (DbUpdateException ex)
+            {
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the type."));
             }
             catch (Exception ex)
             {

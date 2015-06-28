@@ -203,14 +203,29 @@ namespace GoFit.Controllers
         // POST: AdminComments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed([Bind(Include = "id,timestamp")] comment comment)
         {
             try
             {
-                comment comment = db.comments.Find(id);
-                db.comments.Remove(comment);
+                comment oldComment = db.comments.Find(comment.id);
+                if (oldComment == null)
+                {
+                    return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The comment does not exist or has already been deleted"));
+                }
+                var entry = db.Entry(oldComment);
+                var state = entry.State;
+                entry.OriginalValues["timestamp"] = comment.timestamp;
+                db.comments.Remove(oldComment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment as another admin may have modified it"));
+            }
+            catch (DbUpdateException ex)
+            {
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment."));
             }
             catch (Exception ex)
             {
