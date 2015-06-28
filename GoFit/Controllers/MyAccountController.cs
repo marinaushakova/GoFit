@@ -12,7 +12,7 @@ using GoFit.Controllers.ControllerHelpers;
 
 namespace GoFit.Controllers
 {
-    public class MyAccountController : Controller
+    public class MyAccountController : GoFitBaseController
     {
         private masterEntities db;
         //private ControllerHelpers helper;

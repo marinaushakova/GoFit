@@ -176,6 +176,7 @@
     <Compile Include="Controllers\ControllerHelpers\Hasher.cs" />
     <Compile Include="Controllers\ControllerHelpers\WorkoutSortSearch.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\GoFitBaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\MyProfileController.cs" />

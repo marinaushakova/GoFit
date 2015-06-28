@@ -14,7 +14,7 @@ namespace GoFit.Controllers
     /// <summary>
     /// Defines MyWorkouts page funtionality
     /// </summary>
-    public class MyWorkoutsController : Controller
+    public class MyWorkoutsController : GoFitBaseController
     {
 
         private masterEntities db;

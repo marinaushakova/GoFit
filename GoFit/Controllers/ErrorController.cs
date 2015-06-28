@@ -12,6 +12,15 @@ namespace GoFit.Controllers
     /// </summary>
     public class ErrorController : Controller
     {
+        /// <summary>
+        /// Overrides the Controller.HandleUnknownAction method to redirect to the
+        /// NotFoundError action of the Error controller
+        /// </summary>
+        /// <param name="actionName">The unknown action name</param>
+        protected override void HandleUnknownAction(string actionName)
+        {
+            RedirectToAction("NotFoundError").ExecuteResult(this.ControllerContext);
+        }
         
         // GET: /Error/
         /// <summary>

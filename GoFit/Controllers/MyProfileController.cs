@@ -13,7 +13,7 @@ using GoFit.Controllers.ControllerHelpers;
 
 namespace GoFit.Controllers
 {
-    public class MyProfileController : Controller
+    public class MyProfileController : GoFitBaseController
     {
         private masterEntities db;
         private UserAccess userAccess;
