@@ -11,7 +11,6 @@ namespace GoFit.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class exercise
     {
@@ -19,19 +18,14 @@ namespace GoFit.Models
         {
             this.workout_exercise = new HashSet<workout_exercise>();
         }
-
+    
         public int id { get; set; }
-        [Required(ErrorMessage = "Type reqired", AllowEmptyStrings = false)]
         public int type_id { get; set; }
-        [Required(ErrorMessage = "User reqired", AllowEmptyStrings = false)]
         public int created_by_user_id { get; set; }
-        [Required(ErrorMessage = "Creation date reqired", AllowEmptyStrings = false)]
         public System.DateTime created_at { get; set; }
         public string link { get; set; }
-        [Required(ErrorMessage = "Description reqired", AllowEmptyStrings = false)]
         public string description { get; set; }
         public byte[] timestamp { get; set; }
-        [Required(ErrorMessage = "Exercise name reqired", AllowEmptyStrings = false)]
         public string name { get; set; }
     
         public virtual type type { get; set; }

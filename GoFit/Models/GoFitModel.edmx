@@ -376,7 +376,7 @@
           <Property Name="is_admin" Type="Int16" Nullable="false" />
           <Property Name="weight" Type="Int32" />
           <Property Name="height" Type="Decimal" Precision="3" Scale="1" />
-          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="comments" Relationship="Self.comment_fk_Comment_User1" FromRole="user" ToRole="comment" />
           <NavigationProperty Name="exercises" Relationship="Self.exercise_fk_Exercise_User1" FromRole="user" ToRole="exercise" />
           <NavigationProperty Name="user_favorite_workout" Relationship="Self.user_favorite_workout_fk_User_Favorite_Workout_User1" FromRole="user" ToRole="user_favorite_workout" />

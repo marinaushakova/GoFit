@@ -11,20 +11,13 @@ namespace GoFit.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class workout_exercise
     {
         public int id { get; set; }
-        [Required(ErrorMessage = "Workout id reqired", AllowEmptyStrings = false)]
         public int workout_id { get; set; }
-        [Required(ErrorMessage = "Exercise reqired", AllowEmptyStrings = false)]
         public int exercise_id { get; set; }
-
         public int position { get; set; }
-        [Required(ErrorMessage = "Duration reqired", AllowEmptyStrings = false)]
-        [Range(0.01, 999.99, ErrorMessage = "Duration can't exceed 1000")]
-        [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Invalid duration")]
         public decimal duration { get; set; }
         public byte[] timestamp { get; set; }
     

@@ -44,6 +44,7 @@ namespace GoFit.Models
         [Range(2.00, 9.00, ErrorMessage = "Height must be in range from 2.00 to 9.00")]
         [RegularExpression(@"\d+(\.\d{0,2})?", ErrorMessage = "Invalid height")]
         public Nullable<decimal> height { get; set; }
+        [ConcurrencyCheck]
         public byte[] timestamp { get; set; }
     
         public virtual ICollection<comment> comments { get; set; }

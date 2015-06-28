@@ -8,6 +8,7 @@ using PagedList;
 using System.Net;
 using System.Data.Entity;
 using GoFit.Controllers.ControllerHelpers;
+using System.Data.Entity.Infrastructure;
 
 namespace GoFit.Controllers
 {

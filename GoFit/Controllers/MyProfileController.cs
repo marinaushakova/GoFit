@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using GoFit.Controllers.ControllerHelpers;
+using System.Data.Entity.Infrastructure;
 
 namespace GoFit.Controllers
 {
@@ -95,17 +96,27 @@ namespace GoFit.Controllers
                     user.password = hashedPassword;
                     var u = db.users.Find(user.id);
                     //db.Entry(user).State = EntityState.Modified;
-                    var res = db.Entry(u).State;
+                    var entry = db.Entry(u);
+                    var res = entry.State;
                     if (res == EntityState.Detached)
                     {
                         db.Entry(user).State = EntityState.Modified;
                     }
                     else
                     {
-                        db.Entry(u).CurrentValues.SetValues(user);
+                        entry.OriginalValues["timestamp"] = user.timestamp;
+                        entry.CurrentValues.SetValues(user);
                     }
                     db.SaveChanges();
                     return RedirectToAction("Index", "MyProfile");
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit user as another user/admin may have already update this user"));
+                }
+                catch (DbUpdateException ex)
+                {
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit user."));
                 }
                 catch (Exception ex)
                 {
