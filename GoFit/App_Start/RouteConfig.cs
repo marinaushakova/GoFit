@@ -20,8 +20,8 @@ namespace GoFit
                 constraints: new { controller = "Home|MyWorkouts|MyProfile|MyAccount|Error|AdminWorkouts|AdminTypes|AdminHome|AdminExercises|AdminCategories"}
             );
             routes.MapRoute(
-                name: "NotFound",
-                url: "{*url}",
+                name: "ControllerCatchall",
+                url: "{*any}",
                 defaults: new { controller = "Error", action = "NotFoundError" }
             );
         }

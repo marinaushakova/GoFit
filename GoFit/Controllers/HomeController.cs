@@ -20,6 +20,16 @@ namespace GoFit.Controllers
         private const int PAGE_SIZE = 10;
         private UserAccess userAccess;
 
+        /// <summary>
+        /// Overrides the Controller.HandleUnknownAction method to redirect to the
+        /// NotFoundError action of the Error controller
+        /// </summary>
+        /// <param name="actionName"></param>
+        protected override void HandleUnknownAction(string actionName)
+        {
+            RedirectToAction("NotFoundError", "Error").ExecuteResult(this.ControllerContext);
+        }
+
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
             base.OnAuthorization(filterContext);
