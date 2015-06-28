@@ -248,11 +248,12 @@ namespace GoFit.Controllers
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to get a measure for was specified."));
             }
-            var measure = db.exercises.Find(ex_id).type.measure;
-            if (measure == null)
+            var exercise = db.exercises.Find(ex_id);
+            if (exercise == null)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Exercise could not be found."));
             }
+            var measure = exercise.type.measure;
             return Json(measure, JsonRequestBehavior.AllowGet);
         }
 
