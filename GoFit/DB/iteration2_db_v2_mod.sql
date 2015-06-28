@@ -479,7 +479,7 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[user_workout]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[user_workout](
-	[id] [int] NOT NULL,
+	[id] [int] IDENTITY(1,1) NOT NULL,
 	[user_id] [int] NOT NULL,
 	[workout_id] [int] NOT NULL,
 	[number_of_ex_completed] [int] NOT NULL,

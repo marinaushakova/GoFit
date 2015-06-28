@@ -11,7 +11,6 @@ namespace GoFit.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class user
     {
@@ -25,24 +24,13 @@ namespace GoFit.Models
         }
     
         public int id { get; set; }
-        [Required(ErrorMessage = "Username reqired", AllowEmptyStrings = false)]
-        [StringLength(25, MinimumLength = 5, ErrorMessage = "Username must be between 5 and 25 characters")]
         public string username { get; set; }
-        [Required(ErrorMessage = "Password reqired", AllowEmptyStrings = false)]
-        [DataType(System.ComponentModel.DataAnnotations.DataType.Password)]
-        [StringLength(200, MinimumLength = 5, ErrorMessage = "Password must be between 5 and 25 characters")]
         public string password { get; set; }
         public string fname { get; set; }
         public string lname { get; set; }
-
         public Nullable<short> is_male { get; set; }
-        [Required(ErrorMessage = "Role reqired", AllowEmptyStrings = false)]
         public short is_admin { get; set; }
-        [Range(0, 1000, ErrorMessage = "Invalid weight")]
-        [RegularExpression(@"\d+$", ErrorMessage = "Weight must be whole number")]
         public Nullable<int> weight { get; set; }
-        [Range(2.00, 9.00, ErrorMessage = "Height must be in range from 2.00 to 9.00")]
-        [RegularExpression(@"\d+(\.\d{0,2})?", ErrorMessage = "Invalid height")]
         public Nullable<decimal> height { get; set; }
         public byte[] timestamp { get; set; }
     
