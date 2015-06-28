@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using GoFit.Models;
 using PagedList;
 using GoFit.Controllers.ControllerHelpers;
+using System.Data.Entity.Infrastructure;
 
 namespace GoFit.Controllers
 {
@@ -142,13 +143,32 @@ namespace GoFit.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(exercise).State = EntityState.Modified;
+                    var oldExercise = db.exercises.Find(exercise.id);
+                    var entry = db.Entry(oldExercise);
+                    var state = entry.State;
+                    if (state == EntityState.Detached)
+                    {
+                        db.Entry(exercise).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        entry.OriginalValues["timestamp"] = exercise.timestamp;
+                        entry.CurrentValues.SetValues(exercise);
+                    }
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 ViewBag.type_id = new SelectList(db.types, "id", "name", exercise.type_id);
                 ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", exercise.created_by_user_id);
                 return View(exercise);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit exercise as another admin may have already update this exercise"));
+            }
+            catch (DbUpdateException ex)
+            {
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit exercise."));
             }
             catch (Exception ex)
             {

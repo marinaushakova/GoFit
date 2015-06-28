@@ -165,11 +165,11 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to workout user as another user may have already update this workout"));
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit workout as another admin may have already update this workout"));
             }
             catch (DbUpdateException ex)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit workout."));
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit workout."));
             }
             catch (Exception ex)
             {

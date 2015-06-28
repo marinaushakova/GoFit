@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using GoFit.Models;
 using PagedList;
 using GoFit.Controllers.ControllerHelpers;
+using System.Data.Entity.Infrastructure;
 
 namespace GoFit.Controllers
 {
@@ -144,11 +145,30 @@ namespace GoFit.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(category).State = EntityState.Modified;
+                    var oldCategory = db.categories.Find(category.id);
+                    var entry = db.Entry(oldCategory);
+                    var state = entry.State;
+                    if (state == EntityState.Detached)
+                    {
+                        db.Entry(category).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        entry.OriginalValues["timestamp"] = category.timestamp;
+                        entry.CurrentValues.SetValues(category);
+                    }
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 return View(category);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit category as another admin may have already update this category"));
+            }
+            catch (DbUpdateException ex)
+            {
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit category."));
             }
             catch (Exception ex)
             {

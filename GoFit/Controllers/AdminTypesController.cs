@@ -136,8 +136,8 @@ namespace GoFit.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var t = db.types.Find(type.id);
-                    var entry = db.Entry(t);
+                    var oldType = db.types.Find(type.id);
+                    var entry = db.Entry(oldType);
                     var state = entry.State;
                     if (state == EntityState.Detached)
                     {
@@ -155,11 +155,11 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit user as another user/admin may have already update this user"));
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit type as another admin may have already update this type"));
             }
             catch (DbUpdateException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit user."));
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit type."));
             }
             catch (Exception ex)
             {
