@@ -286,6 +286,14 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual("desc24", workout24.description, "description was not 'desc24'");
         }
 
+        [TestMethod]
+        public void TestHomeControllerGetCreateWorkoutView()
+        {
+            ViewResult result = controller.Create() as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Create", result.ViewName);
+        }
+
         /// <summary>
         /// Tests creation of new workout
         /// </summary>
@@ -325,7 +333,6 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual("AddExerciseToWorkout", result.RouteValues["action"], "action was not AddExerciseToWorkoutr");
             Assert.AreEqual("Home", result.RouteValues["controller"], "controller was not Home");
         }
-        
 
         /// <summary>
         /// Test if ExerciseList method returns list of 2 exersise_workouts for workout with id = 2
@@ -337,6 +344,180 @@ namespace GoFit.Tests.Controllers
             Assert.IsNotNull(result);
             List<workout_exercise> exs = (List<workout_exercise>)result.ViewData.Model;
             Assert.AreEqual(2, exs.Count(), "workout_exercise count was not 2");
+        }
+
+        [TestMethod]
+        public void TestHomeControllerDetailsNoIdError()
+        {
+            ViewResult result = controller.Details(null) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("Workout could not be retrieved with given parameters.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestHomeControllerDetailsNotFoundIdError()
+        {
+            ViewResult result = controller.Details(4000) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("Could not find the specified workout.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestHomeControllerCreateNoWorkoutPassedError()
+        {
+            ViewResult result = controller.Create(null) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("Workout could not be created. Please try again.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestHomeControllerCreateWorkoutWithNoUserError()
+        {
+            controller = new HomeController(db.Object)
+            {
+                ControllerContext = MockContext.AuthenticationContext("not_a_real_user")
+            };
+            var workout = new workout();
+            ViewResult result = controller.Create(workout) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("No user could be associated with the workout being created", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestHomeControllerCreateWorkoutWithBadWorkoutObj()
+        {
+            var workout = new workout();
+            var ex = new Exception();
+            db.Setup(c => c.workouts.Add(workout)).Throws(ex);
+            ViewResult result = controller.Create(workout) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to create the requested workout.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestHomeControllerCreateWorkoutWithValidationErrs()
+        {
+            var workout = new workout();
+            controller.ModelState.AddModelError("Fail", "Failed");
+            ViewResult result = controller.Create(workout) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("Could not create the workout with the given values.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestHomeControllerAddExerciseToWorkoutWithNullId()
+        {
+            int? number = null;
+            ViewResult result = controller.AddExerciseToWorkout(number) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("No exercise to add was specified.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestHomeControllerAddExerciseToWorkoutCannotFindWorkoutToAddExTo()
+        {
+            ViewResult result = controller.AddExerciseToWorkout(6000) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("Workout to add exercise to could not be found.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestHomeControllerAddExerciseToWorkoutWithNullEx()
+        {
+            workout_exercise w_ex = null;
+            ViewResult result = controller.AddExerciseToWorkout(w_ex) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("No exercise to add was specified.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestHomeControllerAddExerciseToWorkoutWithInvalidModel()
+        {
+            var w_ex = new workout_exercise();
+            controller.ModelState.AddModelError("Fail", "Failed");
+            ViewResult result = controller.AddExerciseToWorkout(w_ex) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("Invalid exercise.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestHomeControllerAddExerciseToWorkoutDbException()
+        {
+            var w_ex = new workout_exercise();
+            w_ex.position = 1;
+            var ex = new Exception();
+            db.Setup(c => c.workout_exercise.Add(w_ex)).Throws(ex);
+            ViewResult result = controller.AddExerciseToWorkout(w_ex) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Exercise could not be added to the workout.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestHomeControllerGetMeasureWithNoExId()
+        {
+            ViewResult result = controller.GetMeasure(null) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("No exercise to get a measure for was specified.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestHomeControllerGetMeasureWithBadExId()
+        {
+            ViewResult result = controller.GetMeasure(6000) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("Exercise could not be found.", model.StatusDescription);
         }
     }
 }
