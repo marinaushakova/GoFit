@@ -39,7 +39,6 @@
                     <tr class="row">
                         <th class="col-xs-2">@Html.ActionLink("Type Name", "Index", new { sortBy = ViewBag.NameSortParam, filterString = ViewBag.FilterParam })</th>
                         <th class="col-xs-2">@Html.ActionLink("Measure", "Index", new { sortBy = ViewBag.MeasureSortParam, filterString = ViewBag.FilterParam })</th>
-                        
                         <th class="col-xs-3">&nbsp;</th>
                     </tr>
                 </thead>
@@ -49,7 +48,6 @@
                         <tr class="row">
                             <td class="col-xs-2">@Html.DisplayFor(modelItem => item.name)</td>
                             <td class="col-xs-2">@Html.DisplayFor(modelItem => item.measure)</td>
-                            
                             <td class="col-xs-3">
                                 @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
                                 @Html.ActionLink("Details", "Details", new { id = item.id }) |
