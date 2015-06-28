@@ -175,6 +175,7 @@
     <Compile Include="Controllers\ControllerHelpers\UserAccess.cs" />
     <Compile Include="Controllers\ControllerHelpers\Hasher.cs" />
     <Compile Include="Controllers\ControllerHelpers\WorkoutSortSearch.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\MyProfileController.cs" />
@@ -350,6 +351,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
+    <Folder Include="Views\Error\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
