@@ -97,8 +97,8 @@ namespace GoFit.Controllers
                     var u = db.users.Find(user.id);
                     //db.Entry(user).State = EntityState.Modified;
                     var entry = db.Entry(u);
-                    var res = entry.State;
-                    if (res == EntityState.Detached)
+                    var state = entry.State;
+                    if (state == EntityState.Detached)
                     {
                         db.Entry(user).State = EntityState.Modified;
                     }
