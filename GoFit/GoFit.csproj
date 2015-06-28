@@ -167,6 +167,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AdminCategoriesController.cs" />
+    <Compile Include="Controllers\AdminCommentsController.cs" />
     <Compile Include="Controllers\AdminExercisesController.cs" />
     <Compile Include="Controllers\AdminHomeController.cs" />
     <Compile Include="Controllers\AdminTypesController.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Models\comment.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CommentSearch.cs" />
     <Compile Include="Models\exercise.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
@@ -347,6 +349,11 @@
     <Content Include="Views\Shared\DevError.cshtml" />
     <Content Include="Views\Shared\_LayoutTest.cshtml" />
     <Content Include="Views\Shared\_AdminDetailedError.cshtml" />
+    <Content Include="Views\AdminComments\Create.cshtml" />
+    <Content Include="Views\AdminComments\Delete.cshtml" />
+    <Content Include="Views\AdminComments\Details.cshtml" />
+    <Content Include="Views\AdminComments\Edit.cshtml" />
+    <Content Include="Views\AdminComments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

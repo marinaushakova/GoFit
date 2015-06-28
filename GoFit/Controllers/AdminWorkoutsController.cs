@@ -52,11 +52,8 @@ namespace GoFit.Controllers
         // GET: AdminWorkouts
         public ActionResult Index(string filterString, string sortBy, int? page, WorkoutSearch workoutSearch)
         {
-            //currUserId = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
-            //var workouts = db.workouts.Include(w => w.category).Include(w => w.user);
             var workouts = from w in db.workouts select w;
 
-            //workouts = this.doFilter(workouts, filterString);
             workouts = WorkoutSortSearch.doSearch(workouts, workoutSearch, sortBy, page, Session, ViewBag);
             workouts = WorkoutSortSearch.doSort(workouts, sortBy, Session, ViewBag);
 
@@ -99,7 +96,6 @@ namespace GoFit.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //workout.timestamp = DateTime.Now;
                     workout.created_at = DateTime.Now;
                     workout.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
                     db.workouts.Add(workout);

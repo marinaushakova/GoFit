@@ -52,9 +52,6 @@ namespace GoFit.Controllers
         // GET: AdminExercises
         public ActionResult Index(string filterString, string sortBy, int? page, ExerciseSearch exerciseSearch)
         {
-            //var exercises = db.exercises.Include(e => e.type).Include(e => e.user);
-            //return View(exercises.ToList());
-
             var exercises = from e in db.exercises select e;
             exercises = this.doSearch(exercises, exerciseSearch, filterString, sortBy, page);
             exercises = this.doSort(exercises, sortBy);
@@ -98,7 +95,6 @@ namespace GoFit.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //exercise.timestamp = DateTime.Now;
                     exercise.created_at = DateTime.Now;
                     exercise.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
                     db.exercises.Add(exercise);
@@ -248,7 +244,6 @@ namespace GoFit.Controllers
             ViewBag.CreatedSortParam = (sortBy == "date") ? "date_desc" : "date";
             ViewBag.LinkSortParam = (sortBy == "link") ? "link_desc" : "link";
             ViewBag.DescriptionSortParam = (sortBy == "description") ? "description_desc" : "description";
-            ViewBag.TimestampSortParam = (sortBy == "time") ? "time_desc" : "time";
             ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
             ViewBag.TypeSortParam = (sortBy == "type") ? "type_desc" : "type";
             ViewBag.UsernameSortParam = (sortBy == "username") ? "username_desc" : "username";
@@ -272,12 +267,6 @@ namespace GoFit.Controllers
                     break;
                 case "description_desc":
                     exercises = exercises.OrderByDescending(e => e.description);
-                    break;
-                case "time":
-                    exercises = exercises.OrderBy(e => e.timestamp);
-                    break;
-                case "time_desc":
-                    exercises = exercises.OrderByDescending(e => e.timestamp);
                     break;
                 case "name":
                     exercises = exercises.OrderBy(e => e.name);

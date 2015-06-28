@@ -94,7 +94,6 @@ namespace GoFit.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //type.timestamp = DateTime.Now;
                     db.types.Add(type);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -235,7 +234,6 @@ namespace GoFit.Controllers
 
             ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
             ViewBag.MeasureSortParam = (sortBy == "measure") ? "measure_desc" : "measure";
-            ViewBag.TimestampSortParam = (sortBy == "time") ? "time_desc" : "time";
 
             switch (sortBy)
             {
@@ -247,12 +245,6 @@ namespace GoFit.Controllers
                     break;
                 case "measure_desc":
                     types = types.OrderByDescending(t => t.measure);
-                    break;
-                case "time":
-                    types = types.OrderBy(t => t.timestamp);
-                    break;
-                case "time_desc":
-                    types = types.OrderByDescending(t => t.timestamp);
                     break;
                 default:
                     types = types.OrderBy(t => t.name);

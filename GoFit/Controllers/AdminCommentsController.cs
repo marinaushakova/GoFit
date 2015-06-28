@@ -7,13 +7,13 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GoFit.Models;
-using PagedList;
 using GoFit.Controllers.ControllerHelpers;
+using PagedList;
 
 namespace GoFit.Controllers
 {
     [Authorize]
-    public class AdminCategoriesController : GoFitBaseController
+    public class AdminCommentsController : Controller
     {
         private masterEntities db;
         private const int PAGE_SIZE = 10;
@@ -26,7 +26,7 @@ namespace GoFit.Controllers
         /// <summary>
         /// Constructor to create the default db context
         /// </summary>
-        public AdminCategoriesController()
+        public AdminCommentsController()
         {
             db = new masterEntities();
             pageSize = PAGE_SIZE;
@@ -37,11 +37,11 @@ namespace GoFit.Controllers
         {
             base.OnAuthorization(filterContext);
             try
-            {   
+            {
                 var isAdmin = 0;
                 if (User.Identity.IsAuthenticated)
                     isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
-                
+
                 if (isAdmin != 1)
                 {
                     ViewBag.UserIsAdmin = false;
@@ -57,140 +57,146 @@ namespace GoFit.Controllers
                 RedirectToRoute("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Error on authorization. Please contact site administrator."));
             }
         }
-
-        // GET: AdminCategories
-        public ActionResult Index(string filterString, string sortBy, int? page, CategorySearch categorySearch)
+        // GET: AdminComments
+        public ActionResult Index(string filterString, string sortBy, int? page, CommentSearch commentSearch)
         {
-
-            var categories = from c in db.categories select c;
-            categories = this.doSearch(categories, categorySearch, filterString, sortBy, page);
-            categories = this.doSort(categories, sortBy);
+            //var comments = db.comments.Include(c => c.user).Include(c => c.workout);
+            //return View(comments.ToList());
+            var comments = from c in db.comments select c;
+            comments = this.doSearch(comments, commentSearch, filterString, sortBy, page);
+            comments = this.doSort(comments, sortBy);
 
             int pageNumber = (page ?? 1);
-            var view = View("Index", categories.ToPagedList(pageNumber, pageSize));
+            var view = View("Index", comments.ToPagedList(pageNumber, pageSize));
             return view;
         }
 
-        // GET: AdminCategories/Details/5
+        // GET: AdminComments/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            category category = db.categories.Find(id);
-            if (category == null)
+            comment comment = db.comments.Find(id);
+            if (comment == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(comment);
         }
 
-        // GET: AdminCategories/Create
+        // GET: AdminComments/Create
         public ActionResult Create()
         {
+            ViewBag.User_id = new SelectList(db.users, "id", "username");
+            ViewBag.Workout_id = new SelectList(db.workouts, "id", "name");
             return View();
         }
 
-        // POST: AdminCategories/Create
+        // POST: AdminComments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,name,description,timestamp")] category category)
+        public ActionResult Create([Bind(Include = "id,message,timestamp,User_id,Workout_id,date_cteated")] comment comment)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.categories.Add(category);
+                    db.comments.Add(comment);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
 
-                return View(category);
+                ViewBag.User_id = new SelectList(db.users, "id", "username", comment.User_id);
+                ViewBag.Workout_id = new SelectList(db.workouts, "id", "name", comment.Workout_id);
+                return View(comment);
             }
             catch (Exception ex)
             {
-                var err = new HandleErrorInfo(ex, "AdminCategories", "Create");
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the category."));
+                var err = new HandleErrorInfo(ex, "AdminComments", "Create");
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the comment."));
             }
-
+            
         }
 
-        // GET: AdminCategories/Edit/5
+        // GET: AdminComments/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            category category = db.categories.Find(id);
-            if (category == null)
+            comment comment = db.comments.Find(id);
+            if (comment == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            ViewBag.User_id = new SelectList(db.users, "id", "username", comment.User_id);
+            ViewBag.Workout_id = new SelectList(db.workouts, "id", "name", comment.Workout_id);
+            return View(comment);
         }
 
-        // POST: AdminCategories/Edit/5
+        // POST: AdminComments/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,name,description,timestamp")] category category)
+        public ActionResult Edit([Bind(Include = "id,message,timestamp,User_id,Workout_id,date_cteated")] comment comment)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(category).State = EntityState.Modified;
+                    db.Entry(comment).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                return View(category);
+                ViewBag.User_id = new SelectList(db.users, "id", "username", comment.User_id);
+                ViewBag.Workout_id = new SelectList(db.workouts, "id", "name", comment.Workout_id);
+                return View(comment);
             }
             catch (Exception ex)
             {
-                var err = new HandleErrorInfo(ex, "AdminCategories", "Edit");
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the category."));
+                var err = new HandleErrorInfo(ex, "AdminComments", "Edit");
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the comment."));
             }
-
         }
 
-        // GET: AdminCategories/Delete/5
+        // GET: AdminComments/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            category category = db.categories.Find(id);
-            if (category == null)
+            comment comment = db.comments.Find(id);
+            if (comment == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(comment);
         }
 
-        // POST: AdminCategories/Delete/5
+        // POST: AdminComments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             try
             {
-                category category = db.categories.Find(id);
-                db.categories.Remove(category);
+                comment comment = db.comments.Find(id);
+                db.comments.Remove(comment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                var err = new HandleErrorInfo(ex, "AdminCategories", "DeleteConfirmed");
-                return View("~/Views/Shared/_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
+                var err = new HandleErrorInfo(ex, "AdminComments", "DeleteConfirmed");
+                return View("~/Views/Shared/_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment as it may be referenced in the database."));
             }
-            
         }
 
         protected override void Dispose(bool disposing)
@@ -210,18 +216,17 @@ namespace GoFit.Controllers
         /// <param name="sortBy">The passed sort string if it exists, else null</param>
         /// <param name="page">The passed page param if it exists, else null</param>
         /// <returns>The searched workouts</returns>
-        private IQueryable<category> doSearch(IQueryable<category> categories, CategorySearch search, String filterString, string sortBy, int? page)
+        private IQueryable<comment> doSearch(IQueryable<comment> comments, CommentSearch search, String filterString, string sortBy, int? page)
         {
             if (page != null || !String.IsNullOrEmpty(sortBy) || !String.IsNullOrEmpty(filterString))
             {
-                search = setSearchFromSession(search);
+                search = this.setSearchFromSession(search);
             }
             else setSessionFromSearch(search);
 
-            if (!String.IsNullOrEmpty(search.name)) categories = categories.Where(c => c.name.Contains(search.name));
-            if (!String.IsNullOrEmpty(search.description)) categories = categories.Where(c => c.description.Contains(search.description));
-            
-            return categories;
+            if (!String.IsNullOrEmpty(search.message)) comments = comments.Where(c => c.message.Contains(search.message));
+
+            return comments;
         }
 
         /// <summary>
@@ -230,7 +235,7 @@ namespace GoFit.Controllers
         /// <param name="workouts">The base workout query result</param>
         /// <param name="sortBy">Indicates the sort order</param>
         /// <returns>The sorted workouts</returns>
-        private IQueryable<category> doSort(IQueryable<category> categories, string sortBy)
+        private IQueryable<comment> doSort(IQueryable<comment> comments, string sortBy)
         {
             if (!String.IsNullOrEmpty(sortBy))
             {
@@ -241,26 +246,40 @@ namespace GoFit.Controllers
                 sortBy = SessionVariableManager.setSortFromSession(Session, sortBy);
             }
 
-            ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
-            ViewBag.DescriptionSortParam = (sortBy == "description") ? "description_desc" : "description";
-          
+            ViewBag.UsernameSortParam = (sortBy == "username") ? "username_desc" : "username";
+            ViewBag.MessageSortParam = (sortBy == "message") ? "message_desc" : "message";
+            ViewBag.WorkoutSortParam = (sortBy == "workout") ? "workout_desc" : "workout";
+            ViewBag.DateSortParam = (sortBy == "date") ? "date_desc" : "date";
+
             switch (sortBy)
             {
-                case "name_desc":
-                    categories = categories.OrderByDescending(c => c.name);
+                case "username_desc":
+                    comments = comments.OrderByDescending(c => c.user.username);
                     break;
-                case "description":
-                    categories = categories.OrderBy(c => c.description);
+                case "workout":
+                    comments = comments.OrderBy(c => c.workout.name);
                     break;
-                case "description_desc":
-                    categories = categories.OrderByDescending(c => c.description);
+                case "workout_desc":
+                    comments = comments.OrderByDescending(c => c.workout.name);
+                    break;
+                case "message":
+                    comments = comments.OrderBy(c => c.message);
+                    break;
+                case "message_desc":
+                    comments = comments.OrderByDescending(c => c.message);
+                    break;
+                case "date":
+                    comments = comments.OrderBy(c => c.date_cteated);
+                    break;
+                case "date_desc":
+                    comments = comments.OrderByDescending(c => c.date_cteated);
                     break;
                 default:
-                    categories = categories.OrderBy(c => c.name);
+                    comments = comments.OrderBy(c => c.user.username);
                     break;
             }
 
-            return categories;
+            return comments;
         }
 
         /// <summary>
@@ -268,12 +287,11 @@ namespace GoFit.Controllers
         /// </summary>
         /// <param name="search">The WorkoutSearch object to set</param>
         /// <returns>The WorkoutSearch object set with the session search variables if the session exists, else the passed in WorkoutSearch object</returns>
-        private CategorySearch setSearchFromSession(CategorySearch search)
+        private CommentSearch setSearchFromSession(CommentSearch search)
         {
             if (Session != null)
             {
-                search.name = Session["NameSearchParam"] as String;
-                search.description = Session["DescriptionSearchParam"] as String;
+                search.message = Session["MessageSearchParam"] as String;
             }
             return search;
         }
@@ -282,16 +300,13 @@ namespace GoFit.Controllers
         /// Sets the session search parameters based on the current search values
         /// </summary>
         /// <param name="search">The WorkoutSearch object containing the values to set in the session</param>
-        private void setSessionFromSearch(CategorySearch search)
+        private void setSessionFromSearch(CommentSearch search)
         {
             if (Session != null)
             {
-                if (!String.IsNullOrEmpty(search.name)) Session["NameSearchParam"] = search.name;
-                else Session["NameSearchParam"] = "";
 
-                if (!String.IsNullOrEmpty(search.description)) Session["DescriptionSearchParam"] = search.description;
-                else Session["DescriptionSearchParam"] = "";
-
+                if (!String.IsNullOrEmpty(search.message)) Session["MessageSearchParam"] = search.message;
+                else Session["MessageSearchParam"] = "";
 
             }
         }

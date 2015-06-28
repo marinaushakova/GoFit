@@ -107,6 +107,7 @@
     <Compile Include="Controllers\MyProfileControllerTest.cs" />
     <Compile Include="Controllers\MyAccountControllerTest.cs" />
     <Compile Include="Controllers\TestHelpers\CheckSort.cs" />
+    <Compile Include="Controllers\AdminCommentsControllerTest.cs" />
     <Compile Include="Controllers\ErrorControllerTest.cs" />
     <Compile Include="MockContexts\DbSetOverrideFind.cs" />
     <Compile Include="MockContexts\MockContext.cs" />
