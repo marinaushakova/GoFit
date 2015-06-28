@@ -33,7 +33,6 @@ namespace GoFit.Controllers
             
         }
 
-
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
             base.OnAuthorization(filterContext);
@@ -57,8 +56,6 @@ namespace GoFit.Controllers
                 var err = new HandleErrorInfo(ex, "AdminCategories", "Create");
                 RedirectToRoute("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Error on authorization. Please contact site administrator."));
             }
-            
-
         }
 
         // GET: AdminCategories
@@ -190,7 +187,6 @@ namespace GoFit.Controllers
             }
             catch (Exception ex)
             {
-                return View();
                 var err = new HandleErrorInfo(ex, "AdminCategories", "DeleteConfirmed");
                 return View("~/Views/Shared/_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
             }

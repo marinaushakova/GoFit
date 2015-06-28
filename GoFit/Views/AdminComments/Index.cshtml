@@ -1,36 +1,66 @@
-﻿@model IEnumerable<GoFit.Models.comment>
+﻿@model PagedList.IPagedList<GoFit.Models.comment>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Admin Comments</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <input class="btn btn-primary" type="button" value="Create New Comment" onclick="location.href='@Url.Action("Create", "AdminComments" )'" />
 </p>
-<table class="table">
-    <tr>
-        <th>@Html.DisplayNameFor(model => model.message)</th>
-        <th>@Html.DisplayNameFor(model => model.date_cteated)</th>
-        <th>@Html.DisplayNameFor(model => model.user.username)</th>
-        <th>@Html.DisplayNameFor(model => model.workout.name)</th>
-        <th>&nbsp;</th>
-    </tr>
+<br>
+<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="panel-title">Listing Comments...</h2>
+        </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>@Html.DisplayFor(modelItem => item.message)</td>
-        <td>@Html.DisplayFor(modelItem => item.date_cteated)</td>
-        <td>@Html.DisplayFor(modelItem => item.user.username)</td>
-        <td>@Html.DisplayFor(modelItem => item.workout.name)</td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
+        <div class="panel-body">
+            <div class="search_bar">
+                <form action="/AdminCategories" method="post" class="form-inline">
+                    <div class="search_inputs form-group row">
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <input class="" id="MessageSearch" name="Description" type="text" value="@Session["MessageSearchParam"]" placeholder="Message..." />
+                        </div>
+                        <div class="col-lg-2 col-md-1 col-sm-12 col-xs-12">
+                            <input class="btn btn-primary" type="submit" value="Search" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <table class="table">
+                <tr class="row">
+                    <th class="col-xs-2">@Html.ActionLink("Message", "Index", new { sortBy = ViewBag.MessageSortParam, filterString = ViewBag.FilterParam })</th>
+                    <th class="col-xs-3">@Html.ActionLink("Date Created", "Index", new { sortBy = ViewBag.DateSortParam, filterString = ViewBag.FilterParam })</th>
+                    <th class="col-xs-3">@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UsernameSortParam, filterString = ViewBag.FilterParam })</th>
+                    <th class="col-xs-3">@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.WorkoutSortParam, filterString = ViewBag.FilterParam })</th>
+                    <th>&nbsp;</th>
+                </tr>
 
-</table>
+                @foreach (var item in Model)
+                {
+                    <tr class="row">
+
+                        <td class="col-xs-2">@Html.DisplayFor(modelItem => item.message)</td>
+                        <td class="col-xs-3">@Html.DisplayFor(modelItem => item.date_cteated)</td>
+                        <td class="col-xs-3">@Html.DisplayFor(modelItem => item.user.username)</td>
+                        <td class="col-xs-3">@Html.DisplayFor(modelItem => item.workout.name)</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+            <div class="pagination_container">
+                @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+            </div>
+        </div>
+    </div>
+</div>
