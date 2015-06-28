@@ -13,7 +13,7 @@ using GoFit.Controllers.ControllerHelpers;
 namespace GoFit.Controllers
 {
     [Authorize]
-    public class AdminCategoriesController : Controller
+    public class AdminCategoriesController : GoFitBaseController
     {
         private masterEntities db;
         private const int PAGE_SIZE = 10;

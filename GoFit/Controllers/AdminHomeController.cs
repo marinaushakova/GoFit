@@ -8,7 +8,7 @@ using GoFit.Models;
 namespace GoFit.Controllers
 {
     [Authorize]
-    public class AdminHomeController : Controller
+    public class AdminHomeController : GoFitBaseController
     {
         private masterEntities db = new masterEntities();
 
