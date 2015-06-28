@@ -168,6 +168,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminCategoriesController.cs" />
+    <Compile Include="Controllers\AdminCommentsController.cs" />
     <Compile Include="Controllers\AdminExercisesController.cs" />
     <Compile Include="Controllers\AdminHomeController.cs" />
     <Compile Include="Controllers\AdminTypesController.cs" />
@@ -346,6 +347,11 @@
     <Content Include="Views\Shared\DevError.cshtml" />
     <Content Include="Views\Shared\_LayoutTest.cshtml" />
     <Content Include="Views\Shared\_AdminDetailedError.cshtml" />
+    <Content Include="Views\AdminComments\Create.cshtml" />
+    <Content Include="Views\AdminComments\Delete.cshtml" />
+    <Content Include="Views\AdminComments\Details.cshtml" />
+    <Content Include="Views\AdminComments\Edit.cshtml" />
+    <Content Include="Views\AdminComments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

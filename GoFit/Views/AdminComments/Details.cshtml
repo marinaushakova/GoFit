@@ -1,0 +1,51 @@
+﻿@model GoFit.Models.comment
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>comment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.message)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.message)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date_cteated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_cteated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user.username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user.username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.workout.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.workout.name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
