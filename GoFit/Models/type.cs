@@ -11,6 +11,7 @@ namespace GoFit.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class type
     {
@@ -18,9 +19,11 @@ namespace GoFit.Models
         {
             this.exercises = new HashSet<exercise>();
         }
-    
+
         public int id { get; set; }
+        [Required(ErrorMessage = "Type name reqired", AllowEmptyStrings = false)]
         public string name { get; set; }
+        [Required(ErrorMessage = "Measure reqired", AllowEmptyStrings = false)]
         public string measure { get; set; }
         public byte[] timestamp { get; set; }
     
