@@ -197,14 +197,29 @@ namespace GoFit.Controllers
         // POST: AdminWorkouts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed([Bind(Include = "id,timestamp")] workout workout)
         {
             try
             {
-                workout workout = db.workouts.Find(id);
-                db.workouts.Remove(workout);
+                workout oldWorkout = db.workouts.Find(workout.id);
+                if (oldWorkout == null)
+                {
+                    return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The workout does not exist or has already been deleted"));
+                }
+                var entry = db.Entry(oldWorkout);
+                var state = entry.State;
+                entry.OriginalValues["timestamp"] = workout.timestamp;
+                db.workouts.Remove(oldWorkout);
                 db.SaveChanges();
                 return RedirectToAction("Index");
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout as another admin may have modified this workout"));
+            }
+            catch (DbUpdateException ex)
+            {
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout."));
             }
             catch (Exception ex)
             {

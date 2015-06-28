@@ -196,14 +196,29 @@ namespace GoFit.Controllers
         // POST: AdminCategories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed([Bind(Include = "id,timestamp")] category category)
         {
             try
             {
-                category category = db.categories.Find(id);
-                db.categories.Remove(category);
+                category oldCategory = db.categories.Find(category.id);
+                if (oldCategory == null)
+                {
+                    return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The category does not exist or has already been deleted"));
+                }
+                var entry = db.Entry(oldCategory);
+                var state = entry.State;
+                entry.OriginalValues["timestamp"] = category.timestamp;
+                db.categories.Remove(oldCategory);
                 db.SaveChanges();
                 return RedirectToAction("Index");
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as another admin may have modified this category"));
+            }
+            catch (DbUpdateException ex)
+            {
+                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category."));
             }
             catch (Exception ex)
             {
