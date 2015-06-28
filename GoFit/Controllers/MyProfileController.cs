@@ -85,7 +85,7 @@ namespace GoFit.Controllers
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            user.timestamp = DateTime.Now;
+            //user.timestamp = DateTime.Now;
 
             if (ModelState.IsValid)
             {

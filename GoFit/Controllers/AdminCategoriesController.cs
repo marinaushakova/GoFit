@@ -106,7 +106,6 @@ namespace GoFit.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //category.timestamp = DateTime.Now;
                     db.categories.Add(category);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -248,7 +247,6 @@ namespace GoFit.Controllers
 
             ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
             ViewBag.DescriptionSortParam = (sortBy == "description") ? "description_desc" : "description";
-            ViewBag.TimestampSortParam = (sortBy == "time") ? "time_desc" : "time";
           
             switch (sortBy)
             {
@@ -260,12 +258,6 @@ namespace GoFit.Controllers
                     break;
                 case "description_desc":
                     categories = categories.OrderByDescending(c => c.description);
-                    break;
-                case "time":
-                    categories = categories.OrderBy(c => c.timestamp);
-                    break;
-                case "time_desc":
-                    categories = categories.OrderByDescending(c => c.timestamp);
                     break;
                 default:
                     categories = categories.OrderBy(c => c.name);
