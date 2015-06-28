@@ -138,9 +138,16 @@ namespace GoFit.Controllers
                 {
                     var t = db.types.Find(type.id);
                     var entry = db.Entry(t);
-                    entry.OriginalValues["timestamp"] = type.timestamp;
-                    entry.CurrentValues.SetValues(type);
-                    //db.Entry(type).State = EntityState.Modified;
+                    var state = entry.State;
+                    if (state == EntityState.Detached)
+                    {
+                        db.Entry(type).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        entry.OriginalValues["timestamp"] = type.timestamp;
+                        entry.CurrentValues.SetValues(type);
+                    }
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
