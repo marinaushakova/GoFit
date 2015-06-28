@@ -560,7 +560,7 @@ CREATE TABLE [dbo].[comment](
 	[timestamp] [timestamp] NOT NULL,
 	[User_id] [int] NOT NULL,
 	[Workout_id] [int] NOT NULL,
-	[date_cteated] [datetime2](0) NOT NULL,
+	[date_created] [datetime2](0) NOT NULL,
  CONSTRAINT [PK_comment_id] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC

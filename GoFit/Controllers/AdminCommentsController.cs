@@ -269,10 +269,10 @@ namespace GoFit.Controllers
                     comments = comments.OrderByDescending(c => c.message);
                     break;
                 case "date":
-                    comments = comments.OrderBy(c => c.date_cteated);
+                    comments = comments.OrderBy(c => c.date_created);
                     break;
                 case "date_desc":
-                    comments = comments.OrderByDescending(c => c.date_cteated);
+                    comments = comments.OrderByDescending(c => c.date_created);
                     break;
                 default:
                     comments = comments.OrderBy(c => c.user.username);

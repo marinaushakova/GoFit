@@ -333,7 +333,7 @@
           <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="User_id" Type="Int32" Nullable="false" />
           <Property Name="Workout_id" Type="Int32" Nullable="false" />
-          <Property Name="date_cteated" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="date_created" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="user" Relationship="Self.comment_fk_Comment_User1" FromRole="comment" ToRole="user" />
           <NavigationProperty Name="workout" Relationship="Self.comment_fk_Comment_Workout1" FromRole="comment" ToRole="workout" />
         </EntityType>
@@ -666,7 +666,7 @@
                 <ScalarProperty Name="timestamp" ColumnName="timestamp" />
                 <ScalarProperty Name="User_id" ColumnName="User_id" />
                 <ScalarProperty Name="Workout_id" ColumnName="Workout_id" />
-                <ScalarProperty Name="date_cteated" ColumnName="date_cteated" />
+                <ScalarProperty Name="date_created" ColumnName="date_cteated" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
