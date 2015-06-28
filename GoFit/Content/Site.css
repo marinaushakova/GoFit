@@ -9,6 +9,22 @@
     padding-right: 15px;
 }
 
+.gofit-header-user {
+    background-color: #222;
+    margin: 10px 0px;
+    padding: 15px 15px;
+    min-height: 75px;
+    background-image: url(../Images/goFit_med.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: background-image 1s;
+	-webkit-transition: background-image 1s; /* Safari */
+    border-radius: 5px;
+    box-shadow: #000 5px 5px 3px;
+    -webkit-box-shadow: #000 5px 5px 3px;
+    -moz-box-shadow: #000 5px 5px 3px;
+}
+
 .gofit-header {
     min-height: 75px;
     background-image: url(../Images/goFit_med.png);
@@ -18,7 +34,8 @@
 	-webkit-transition: background-image 1s; /* Safari */
 }
 
-.gofit-header:hover {
+.gofit-header:hover,
+.gofit-header-user:hover {
     background-image: url(../Images/goFit_med_lit.png);
 }
 
