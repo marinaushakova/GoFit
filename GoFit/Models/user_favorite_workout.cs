@@ -11,12 +11,14 @@ namespace GoFit.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class user_favorite_workout
     {
         public int id { get; set; }
         public int user_id { get; set; }
         public int workout_id { get; set; }
+        [ConcurrencyCheck]
         public byte[] timestamp { get; set; }
     
         public virtual user user { get; set; }

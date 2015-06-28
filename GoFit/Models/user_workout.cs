@@ -11,15 +11,20 @@ namespace GoFit.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class user_workout
     {
         public int id { get; set; }
+        [Required(ErrorMessage = "No user_id given")]
         public int user_id { get; set; }
+        [Required(ErrorMessage = "No workout_id given")]
         public int workout_id { get; set; }
+        [Required(ErrorMessage = "No number_of_ex_completed specified")]
         public int number_of_ex_completed { get; set; }
         public Nullable<System.DateTime> date_started { get; set; }
         public Nullable<System.DateTime> date_finished { get; set; }
+        [ConcurrencyCheck]
         public byte[] timestamp { get; set; }
     
         public virtual user user { get; set; }

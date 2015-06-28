@@ -321,7 +321,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="workouts" Relationship="Self.workout_fk_Workout_Category1" FromRole="category" ToRole="workout" />
         </EntityType>
         <EntityType Name="comment">
@@ -330,7 +330,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
           <Property Name="User_id" Type="Int32" Nullable="false" />
           <Property Name="Workout_id" Type="Int32" Nullable="false" />
           <Property Name="date_cteated" Type="DateTime" Nullable="false" Precision="0" />
@@ -347,7 +347,7 @@
           <Property Name="created_at" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="type" Relationship="Self.exercise_fk_Exercise_Type1" FromRole="exercise" ToRole="type" />
           <NavigationProperty Name="user" Relationship="Self.exercise_fk_Exercise_User1" FromRole="exercise" ToRole="user" />
@@ -360,7 +360,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="measure" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="exercises" Relationship="Self.exercise_fk_Exercise_Type1" FromRole="type" ToRole="exercise" />
         </EntityType>
         <EntityType Name="user">
@@ -390,7 +390,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="user_id" Type="Int32" Nullable="false" />
           <Property Name="workout_id" Type="Int32" Nullable="false" />
-          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="user" Relationship="Self.user_favorite_workout_fk_User_Favorite_Workout_User1" FromRole="user_favorite_workout" ToRole="user" />
           <NavigationProperty Name="workout" Relationship="Self.user_favorite_workout_fk_User_Favorite_Workout_Workout1" FromRole="user_favorite_workout" ToRole="workout" />
         </EntityType>
@@ -404,7 +404,7 @@
           <Property Name="number_of_ex_completed" Type="Int32" Nullable="false" />
           <Property Name="date_started" Type="DateTime" Precision="0" />
           <Property Name="date_finished" Type="DateTime" Precision="0" />
-          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="user" Relationship="Self.user_workout_fk_User_has_Workout_User1" FromRole="user_workout" ToRole="user" />
           <NavigationProperty Name="workout" Relationship="Self.user_workout_fk_User_has_Workout_Workout1" FromRole="user_workout" ToRole="workout" />
         </EntityType>
@@ -418,7 +418,7 @@
           <Property Name="category_id" Type="Int32" Nullable="false" />
           <Property Name="created_by_user_id" Type="Int32" Nullable="false" />
           <Property Name="created_at" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="category" Relationship="Self.workout_fk_Workout_Category1" FromRole="workout" ToRole="category" />
           <NavigationProperty Name="comments" Relationship="Self.comment_fk_Comment_Workout1" FromRole="workout" ToRole="comment" />
           <NavigationProperty Name="user" Relationship="Self.workout_fk_Workout_User1" FromRole="workout" ToRole="user" />
@@ -435,7 +435,7 @@
           <Property Name="exercise_id" Type="Int32" Nullable="false" />
           <Property Name="position" Type="Int32" Nullable="false" />
           <Property Name="duration" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
-          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="exercise" Relationship="Self.workout_exercise_fk_Workout_has_Exercise_Exercise1" FromRole="workout_exercise" ToRole="exercise" />
           <NavigationProperty Name="workout" Relationship="Self.workout_exercise_fk_Workout_has_Exercise_Workout1" FromRole="workout_exercise" ToRole="workout" />
         </EntityType>
