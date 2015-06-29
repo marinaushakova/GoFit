@@ -134,7 +134,6 @@ namespace GoFit.Controllers
             if (myWorkout == null)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Workout could not be found."));
-                //return new HttpNotFoundResult("Unable to find the given user workout");
             }
             try
             {
@@ -220,8 +219,10 @@ namespace GoFit.Controllers
         /// </summary>
         /// <param name="userWorkout_id">The id of the instance of user_workout to be deleted</param>
         /// <returns>The MyWorkouts index view</returns>
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult DeleteFromMyWorkouts(int? userWorkout_id)
+        public ActionResult DeleteFromMyWorkouts([Bind(Include = "id,timestamp")] user_workout userWorkout)
         {
             int userID = userAccess.getUserId(User.Identity.Name);
             if (userID == -1)
@@ -230,8 +231,15 @@ namespace GoFit.Controllers
             }
             try
             {
-                user_workout user_workout = db.user_workout.Find(userWorkout_id);
-                db.user_workout.Remove(user_workout);
+                user_workout oldUserWorkout = db.user_workout.Find(userWorkout.id);
+                if (oldUserWorkout == null)
+                {
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The workout does not exist or has already been deleted"));
+                }
+                var entry = db.Entry(oldUserWorkout);
+                var state = entry.State;
+                entry.OriginalValues["timestamp"] = userWorkout.timestamp;
+                db.user_workout.Remove(oldUserWorkout);
                 db.SaveChanges();
                 return RedirectToAction("Index", "MyWorkouts");
             }

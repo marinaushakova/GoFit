@@ -1,0 +1,12 @@
+﻿@model GoFit.Models.user_workout 
+@using (Html.BeginForm("Delete", "MyWorkouts"))
+{
+    @Html.AntiForgeryToken()
+    @*<input id="id" name="id" type="hidden" value="@user_workout.id" />
+        <input id="timestamp" name="timestamp" type="hidden" value="@user_workout.timestamp" />*@
+    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.timestamp)
+    <div class="form-actions no-color">
+        <input type="submit" value="Remove from My Workouts" class="btn btn-default" />
+    </div>
+}

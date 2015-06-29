@@ -95,7 +95,10 @@
                             <td class="workout_category_cell col-xs-2">@Html.DisplayFor(modelItem => user_workout.workout.category.name)</td>
                             <td class="workout_created_cell col-xs-3">@Html.DisplayFor(modelItem => user_workout.workout.created_at)</td>
                             <td class="workout_user_cell col-xs-2">@Html.DisplayFor(modelItem => user_workout.workout.user.username)</td>
-                            <td class ="workout_user_cell col-xs-3">@Html.ActionLink("Remove from My Workouts", "DeleteFromMyWorkouts", new { userWorkout_id = user_workout.id })</td>
+                            @*<td class ="workout_user_cell col-xs-3">@Html.ActionLink("Remove from My Workouts", "DeleteFromMyWorkouts", new { userWorkout_id = user_workout.id })</td>*@
+                            <td class="workout_user_cell col-xs-3">
+                               @Html.Partial("_DeleteUserWorkoutPartial", @user_workout)
+                            </td>
                         </tr>
                     }
                 </tbody>
