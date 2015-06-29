@@ -152,6 +152,10 @@ namespace GoFit.Controllers
                 if (ModelState.IsValid)
                 {
                     var oldComment = db.comments.Find(comment.id);
+                    if (oldComment == null)
+                    {
+                        return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The comment does not exist or has already been deleted"));
+                    }
                     var entry = db.Entry(oldComment);
                     var state = entry.State;
                     if (state == EntityState.Detached)

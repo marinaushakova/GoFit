@@ -137,6 +137,10 @@ namespace GoFit.Controllers
                 if (ModelState.IsValid)
                 {
                     var oldType = db.types.Find(type.id);
+                    if (oldType == null)
+                    {
+                        return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The type does not exist or has already been deleted"));
+                    }
                     var entry = db.Entry(oldType);
                     var state = entry.State;
                     if (state == EntityState.Detached)

@@ -145,6 +145,10 @@ namespace GoFit.Controllers
                 if (ModelState.IsValid)
                 {
                     var oldWorkout = db.workouts.Find(workout.id);
+                    if (oldWorkout == null)
+                    {
+                        return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The workout does not exist or has already been deleted"));
+                    }
                     var entry = db.Entry(oldWorkout);
                     var state = entry.State;
                     if (state == EntityState.Detached)

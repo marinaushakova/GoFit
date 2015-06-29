@@ -146,6 +146,10 @@ namespace GoFit.Controllers
                 if (ModelState.IsValid)
                 {
                     var oldCategory = db.categories.Find(category.id);
+                    if (oldCategory == null)
+                    {
+                        return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The category does not exist or has already been deleted"));
+                    }
                     var entry = db.Entry(oldCategory);
                     var state = entry.State;
                     if (state == EntityState.Detached)
