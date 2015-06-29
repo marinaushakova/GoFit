@@ -8,6 +8,7 @@ using PagedList;
 using System.Net;
 using System.Net.Http;
 using GoFit.Controllers.ControllerHelpers;
+using System.Data.Entity.Infrastructure;
 
 namespace GoFit.Controllers
 {
@@ -242,6 +243,14 @@ namespace GoFit.Controllers
                 db.user_workout.Remove(oldUserWorkout);
                 db.SaveChanges();
                 return RedirectToAction("Index", "MyWorkouts");
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to remove workout as another user may have updated this workout"));
+            }
+            catch (DbUpdateException ex)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to remove the workout."));
             }
             catch (Exception ex)
             {
