@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using GoFit.Controllers.ControllerHelpers;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity;
 
 namespace GoFit.Controllers
 {
@@ -239,8 +240,15 @@ namespace GoFit.Controllers
                 }
                 var entry = db.Entry(oldUserWorkout);
                 var state = entry.State;
-                entry.OriginalValues["timestamp"] = userWorkout.timestamp;
-                db.user_workout.Remove(oldUserWorkout);
+                if (state == EntityState.Detached)
+                {
+                    db.user_workout.Remove(userWorkout);
+                }
+                else
+                {
+                    entry.OriginalValues["timestamp"] = userWorkout.timestamp;
+                    db.user_workout.Remove(oldUserWorkout);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index", "MyWorkouts");
             }

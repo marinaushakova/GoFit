@@ -415,8 +415,9 @@ namespace GoFit.Tests.Controllers
         {
             user_workout u_workout = new user_workout();
             u_workout.id = 2;
+            db.Setup(c => c.user_workout.Find(u_workout.id)).Returns(u_workout);
             db.Setup(c => c.user_workout.Remove(u_workout)).Returns(u_workout);
-            RedirectToRouteResult result = myWorkoutsCon.DeleteFromMyWorkouts(2) as RedirectToRouteResult;
+            RedirectToRouteResult result = myWorkoutsCon.DeleteFromMyWorkouts(u_workout) as RedirectToRouteResult;
             RedirectToRouteResult v_result = myWorkoutsCon.Details(2) as RedirectToRouteResult;
             Assert.IsNull(v_result);
             Assert.IsNotNull(result);
