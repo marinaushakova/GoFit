@@ -57,6 +57,8 @@ namespace GoFit.Controllers
                 RedirectToRoute("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Error on authorization. Please contact site administrator."));
             }
         }
+
+
         // GET: AdminComments
         public ActionResult Index(string filterString, string sortBy, int? page, CommentSearch commentSearch)
         {

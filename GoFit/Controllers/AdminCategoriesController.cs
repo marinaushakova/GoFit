@@ -37,11 +37,11 @@ namespace GoFit.Controllers
         {
             base.OnAuthorization(filterContext);
             try
-            {   
+            {
                 var isAdmin = 0;
                 if (User.Identity.IsAuthenticated)
                     isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
-                
+
                 if (isAdmin != 1)
                 {
                     ViewBag.UserIsAdmin = false;
