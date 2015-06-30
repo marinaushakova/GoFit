@@ -73,6 +73,7 @@
                                                 }
                                             </td>
                                             <td class="col-xs-4">
+                                                <input type="hidden" id="timestampString" value="@ViewBag.timestampString" />
                                                 <input type="checkbox" class="did_exercise_chkbx" id="@String.Concat("chkbx", @exercise.position)" onchange="onCheck(@exercise.position)" />
                                             </td>
                                         }

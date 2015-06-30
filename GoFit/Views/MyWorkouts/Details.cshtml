@@ -15,17 +15,18 @@
 @section Scripts {
     <script type="text/javascript">
         function onCheck(position) {
-            //alert(JSON.stringify(position));
             if (position == null) return;
             var id = "chkbx" + id;
             var checkbox = document.getElementById(id);
             var url = "@Url.Action("MarkExercise", "MyWorkouts")";
             var params = {}
             params.my_workout_id = @ViewBag.myWorkoutId
-            params.position = position
+            params.position = position;
+            params.timestampString = $('#timestampString').val();
 
             $.post(url, params, function (result) {
-                if (result) {
+                //alert(JSON.stringify(result))
+                if (result.success == "true") {
                     for (var i = 1; i <= position; i++) {
                         var id = "chkbx" + i;
                         checkbox = document.getElementById(id);
@@ -33,20 +34,22 @@
                         checkbox.disabled = true;
                     }
                 } else {
+                    alert(result.message);
+                    var id = "chkbx" + result.position;
+                    checkbox = document.getElementById(id);
                     checkbox.checked = false;
-                    alert("Failed to mark progess on exercise. Please try again");
                 }
             });
         };
 
-        (function () {
-            for (var i = 1; i <= @ViewBag.numExercisesCompleted; i++) {
-                id = "chkbx" + i;
-                checkbox = document.getElementById(id);
-                checkbox.checked = true;
-                checkbox.disabled = true;
-            }
-        })();
+    (function () {
+        for (var i = 1; i <= @ViewBag.numExercisesCompleted; i++) {
+            id = "chkbx" + i;
+            checkbox = document.getElementById(id);
+            checkbox.checked = true;
+            checkbox.disabled = true;
+        }
+    })();
     </script>
 }
 

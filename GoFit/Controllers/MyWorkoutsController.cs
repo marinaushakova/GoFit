@@ -117,6 +117,13 @@ namespace GoFit.Controllers
                 ViewBag.myWorkoutId = myworkout.id;
                 ViewBag.numExercisesCompleted = myworkout.number_of_ex_completed;
                 ViewBag.isMyWorkout = true;
+                string timestamp = "";
+                for (var i = 0; i < myworkout.timestamp.Count(); i++)
+                {
+                    timestamp += myworkout.timestamp[i];
+                    timestamp += " ";
+                }
+                ViewBag.timestampString = timestamp;
                 return View(workout);
             }
         }
@@ -129,45 +136,129 @@ namespace GoFit.Controllers
         /// <returns>True if successful, false otherwise</returns>
         [HttpPost]
         [Authorize]
-        public ActionResult MarkExercise(int my_workout_id, int position)
+        public ActionResult MarkExercise(int my_workout_id, int position, string timestampString)
         {
+            //user_workout myWorkout = db.user_workout.Find(my_workout_id);
+            //if (myWorkout == null)
+            //{
+            //    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Workout could not be found."));
+            //}
+            //try
+            //{
+            //    int totalNumExercises = myWorkout.workout.workout_exercise.Count;
+            //    if (position == 1 || myWorkout.date_started == null)
+            //    {
+            //        myWorkout.number_of_ex_completed = position;
+            //        myWorkout.date_started = DateTime.Now;
+            //        if (position == totalNumExercises) myWorkout.date_finished = DateTime.Now;
+            //        db.SaveChanges();
+            //    }
+            //    else if (position == totalNumExercises)
+            //    {
+            //        myWorkout.number_of_ex_completed = position;
+            //        myWorkout.date_finished = DateTime.Now;
+            //        db.SaveChanges();
+            //    }
+            //    else
+            //    {
+            //        myWorkout.number_of_ex_completed = position;
+            //        db.SaveChanges();
+            //    }
+            //    var result = new Dictionary<string, string>();
+            //    result.Add("result", "true");
+            //    result.Add("error", "false");
+            //    return Json(result);
+            //}
+            //catch (Exception ex)
+            //{
+            //    var result = new Dictionary<string, string>();
+            //    result.Add("error", "true");
+            //    result.Add("result", "false");
+            //    result.Add("message", "Failed to mark workout progress");
+            //    return Json(result);
+            //}
 
-            user_workout myWorkout = db.user_workout.Find(my_workout_id);
-            if (myWorkout == null)
+
+            byte[] timestamp = new byte[8];
+            string[] sep = new string[1];
+            sep[0] = " ";
+            string[] split = timestampString.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+            for (var i = 0; i < timestamp.Count(); i++)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Workout could not be found."));
+                timestamp[i] = Convert.ToByte(split[i]);
+            }
+            user_workout userWorkout = new user_workout();
+            userWorkout.id = my_workout_id;
+            userWorkout.timestamp = timestamp;
+
+            user_workout oldMyWorkout = db.user_workout.Find(my_workout_id);
+            if (oldMyWorkout == null)
+            {
+                var result = new Dictionary<string, string>();
+                result.Add("error", "true");
+                result.Add("position", Convert.ToString(position));
+                result.Add("message", "Failed to mark progress as the workout does not exist or may have been deleted");
+                result.Add("code", "500");
+                return Json(result);
+                //return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The workout does not exist or has already been deleted"));
             }
             try
             {
-                int totalNumExercises = myWorkout.workout.workout_exercise.Count;
-                if (position == 1 || myWorkout.date_started == null)
+                var entry = db.Entry(oldMyWorkout);
+                var state = entry.State;
+                //if (state == EntityState.Detached)
+                //{
+                //    db.Entry(userWorkout).State = EntityState.Modified;
+                //}
+
+                int totalNumExercises = oldMyWorkout.workout.workout_exercise.Count;
+                if (position == 1 || oldMyWorkout.date_started == null)
                 {
-                    myWorkout.number_of_ex_completed = position;
-                    myWorkout.date_started = DateTime.Now;
-                    if (position == totalNumExercises) myWorkout.date_finished = DateTime.Now;
-                    db.SaveChanges();
+                    userWorkout.date_started = DateTime.Now;
+                    if (position == totalNumExercises) userWorkout.date_finished = DateTime.Now;
                 }
                 else if (position == totalNumExercises)
                 {
-                    myWorkout.number_of_ex_completed = position;
-                    myWorkout.date_finished = DateTime.Now;
-                    db.SaveChanges();
+                    userWorkout.date_finished = DateTime.Now;
                 }
-                else
-                {
-                    myWorkout.number_of_ex_completed = position;
-                    db.SaveChanges();
-                }
+                userWorkout.number_of_ex_completed = position;
+
+                entry.OriginalValues["timestamp"] = userWorkout.timestamp;
+                if (userWorkout.date_started != null) entry.CurrentValues["date_started"] = userWorkout.date_started;
+                if (userWorkout.date_finished != null) entry.CurrentValues["date_finished"] = userWorkout.date_finished;
+                entry.CurrentValues["number_of_ex_completed"] = userWorkout.number_of_ex_completed;
+                db.SaveChanges();
+
                 var result = new Dictionary<string, string>();
-                result.Add("result", "true");
+                result.Add("success", "true");
                 result.Add("error", "false");
                 return Json(result);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                //return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to mark progress as the workout may have already been updated"));
+                var result = new Dictionary<string, string>();
+                result.Add("error", "true");
+                result.Add("position", Convert.ToString(position));
+                result.Add("message", "Failed to mark progress as the workout may have already been updated");
+                result.Add("code", "500");
+                return Json(result);
+            }
+            catch (DbUpdateException ex)
+            {
+                var result = new Dictionary<string, string>();
+                result.Add("error", "true");
+                result.Add("position", Convert.ToString(position));
+                result.Add("message", "Failed to mark progress as the workout may have already been updated");
+                result.Add("code", "500");
+                return Json(result);
+                //return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to nark progress."));
             }
             catch (Exception ex)
             {
                 var result = new Dictionary<string, string>();
                 result.Add("error", "true");
-                result.Add("result", "false");
+                result.Add("position", Convert.ToString(position));
                 result.Add("message", "Failed to mark workout progress");
                 return Json(result);
             }
@@ -188,14 +279,9 @@ namespace GoFit.Controllers
             }
             userWorkout.user_id = userID;
             userWorkout.number_of_ex_completed = 0;
-            // Not sure why the timestamp is automatically set to an invalid value
-            // This is a temporary workaround
-            //userWorkout.timestamp = DateTime.Now;
 
             if (ModelState.IsValid)
             {
-                // TODO: Validate user_workout object
-                // TODO: Add error handling
                 try
                 {
                     db.user_workout.Add(userWorkout);
@@ -204,9 +290,6 @@ namespace GoFit.Controllers
                 }
                 catch (Exception ex) 
                 {
-                    var err = new HandleErrorInfo(ex, "MyWorkouts", "AddToMyWorkouts");
-                    //return View("Error", err);
-                    //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to add the requested workout to user workouts.");
                     return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to add the requested workout to user workouts."));
                 }
             }
