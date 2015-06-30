@@ -182,10 +182,13 @@ namespace GoFit.Controllers
             byte[] timestamp = new byte[8];
             string[] sep = new string[1];
             sep[0] = " ";
-            string[] split = timestampString.Split(sep, StringSplitOptions.RemoveEmptyEntries);
-            for (var i = 0; i < timestamp.Count(); i++)
+            if (!String.IsNullOrEmpty(timestampString))
             {
-                timestamp[i] = Convert.ToByte(split[i]);
+                string[] split = timestampString.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+                for (var i = 0; i < timestamp.Count(); i++)
+                {
+                    timestamp[i] = Convert.ToByte(split[i]);
+                }
             }
             user_workout userWorkout = new user_workout();
             userWorkout.id = my_workout_id;
@@ -206,27 +209,25 @@ namespace GoFit.Controllers
             {
                 var entry = db.Entry(oldMyWorkout);
                 var state = entry.State;
-                //if (state == EntityState.Detached)
-                //{
-                //    db.Entry(userWorkout).State = EntityState.Modified;
-                //}
-
-                int totalNumExercises = oldMyWorkout.workout.workout_exercise.Count;
-                if (position == 1 || oldMyWorkout.date_started == null)
+                if (state != EntityState.Detached)
                 {
-                    userWorkout.date_started = DateTime.Now;
-                    if (position == totalNumExercises) userWorkout.date_finished = DateTime.Now;
-                }
-                else if (position == totalNumExercises)
-                {
-                    userWorkout.date_finished = DateTime.Now;
-                }
-                userWorkout.number_of_ex_completed = position;
+                    int totalNumExercises = oldMyWorkout.workout.workout_exercise.Count;
+                    if (position == 1 || oldMyWorkout.date_started == null)
+                    {
+                        userWorkout.date_started = DateTime.Now;
+                        if (position == totalNumExercises) userWorkout.date_finished = DateTime.Now;
+                    }
+                    else if (position == totalNumExercises)
+                    {
+                        userWorkout.date_finished = DateTime.Now;
+                    }
+                    userWorkout.number_of_ex_completed = position;
 
-                entry.OriginalValues["timestamp"] = userWorkout.timestamp;
-                if (userWorkout.date_started != null) entry.CurrentValues["date_started"] = userWorkout.date_started;
-                if (userWorkout.date_finished != null) entry.CurrentValues["date_finished"] = userWorkout.date_finished;
-                entry.CurrentValues["number_of_ex_completed"] = userWorkout.number_of_ex_completed;
+                    entry.OriginalValues["timestamp"] = userWorkout.timestamp;
+                    if (userWorkout.date_started != null) entry.CurrentValues["date_started"] = userWorkout.date_started;
+                    if (userWorkout.date_finished != null) entry.CurrentValues["date_finished"] = userWorkout.date_finished;
+                    entry.CurrentValues["number_of_ex_completed"] = userWorkout.number_of_ex_completed;
+                }
                 db.SaveChanges();
 
                 var result = new Dictionary<string, string>();
