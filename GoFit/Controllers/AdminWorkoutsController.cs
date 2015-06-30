@@ -43,11 +43,14 @@ namespace GoFit.Controllers
                 isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
             }
 
-            // Redirect non-administrative users to the home page upon authorization
             if (isAdmin != 1)
             {
+                ViewBag.UserIsAdmin = false;
+                // Redirect non-administrative users to the home page upon authorization
                 filterContext.Result = new RedirectResult("/Home/Index");
             }
+            else
+                ViewBag.UserIsAdmin = true;
         }
 
         // GET: AdminWorkouts
@@ -111,7 +114,7 @@ namespace GoFit.Controllers
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminWorkouts", "Create");
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the workout."));
+                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the workout."));
             }
 
         }
@@ -178,7 +181,7 @@ namespace GoFit.Controllers
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminWorkouts", "Edit");
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the workout."));
+                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the workout."));
             }
 
         }
@@ -228,7 +231,7 @@ namespace GoFit.Controllers
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminWorkouts", "DeleteConfirmed");
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout as it may be referenced in the database."));
+                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout as it may be referenced in the database."));
             }
 
         }

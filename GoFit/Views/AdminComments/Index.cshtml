@@ -3,7 +3,6 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Admin Comments</h2>
@@ -45,7 +44,7 @@
                     <tr class="row">
 
                         <td class="col-xs-2">@Html.DisplayFor(modelItem => item.message)</td>
-                        <td class="col-xs-3">@Html.DisplayFor(modelItem => item.date_cteated)</td>
+                        <td class="col-xs-3">@Html.DisplayFor(modelItem => item.date_created)</td>
                         <td class="col-xs-3">@Html.DisplayFor(modelItem => item.user.username)</td>
                         <td class="col-xs-3">@Html.DisplayFor(modelItem => item.workout.name)</td>
                         <td>

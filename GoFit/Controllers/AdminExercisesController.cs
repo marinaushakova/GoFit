@@ -43,11 +43,14 @@ namespace GoFit.Controllers
                 isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
             }
 
-            // Redirect non-administrative users to the home page upon authorization
             if (isAdmin != 1)
             {
+                ViewBag.UserIsAdmin = false;
+                // Redirect non-administrative users to the home page upon authorization
                 filterContext.Result = new RedirectResult("/Home/Index");
             }
+            else
+                ViewBag.UserIsAdmin = true;
         }
 
         // GET: AdminExercises
@@ -110,7 +113,7 @@ namespace GoFit.Controllers
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminExercises", "Create");
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the exercise."));
+                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the exercise."));
             }
 
         }
@@ -177,7 +180,7 @@ namespace GoFit.Controllers
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminExercises", "Edit");
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the exercise."));
+                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the exercise."));
             }
 
         }
@@ -227,7 +230,7 @@ namespace GoFit.Controllers
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminExercises", "DeleteConfirmed");
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise as it may be referenced in the database."));
+                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise as it may be referenced in the database."));
             }
 
         }

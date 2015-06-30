@@ -55,9 +55,11 @@ namespace GoFit.Controllers
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminCategories", "Create");
-                RedirectToRoute("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Error on authorization. Please contact site administrator."));
+                RedirectToRoute("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Error on authorization. Please contact site administrator."));
             }
         }
+
+
         // GET: AdminComments
         public ActionResult Index(string filterString, string sortBy, int? page, CommentSearch commentSearch)
         {
@@ -118,7 +120,7 @@ namespace GoFit.Controllers
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminComments", "Create");
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the comment."));
+                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the comment."));
             }
             
         }
@@ -185,7 +187,7 @@ namespace GoFit.Controllers
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminComments", "Edit");
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the comment."));
+                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the comment."));
             }
         }
 
@@ -308,10 +310,10 @@ namespace GoFit.Controllers
                     comments = comments.OrderByDescending(c => c.message);
                     break;
                 case "date":
-                    comments = comments.OrderBy(c => c.date_cteated);
+                    comments = comments.OrderBy(c => c.date_created);
                     break;
                 case "date_desc":
-                    comments = comments.OrderByDescending(c => c.date_cteated);
+                    comments = comments.OrderByDescending(c => c.date_created);
                     break;
                 default:
                     comments = comments.OrderBy(c => c.user.username);

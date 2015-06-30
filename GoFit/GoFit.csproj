@@ -317,7 +317,6 @@
     <Content Include="Views\MyProfile\Edit.cshtml" />
     <Content Include="Views\MyWorkouts\Index.cshtml" />
     <Content Include="Views\Home\Details.cshtml" />
-    <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\AdminCategories\Create.cshtml" />
     <Content Include="Views\AdminCategories\Delete.cshtml" />
     <Content Include="Views\AdminCategories\Details.cshtml" />
@@ -347,8 +346,6 @@
     <Content Include="Views\Shared\WorkoutPartials\_WorkoutPartial.cshtml" />
     <Content Include="Views\Shared\DetailedError.cshtml" />
     <Content Include="Views\Shared\DevError.cshtml" />
-    <Content Include="Views\Shared\_LayoutTest.cshtml" />
-    <Content Include="Views\Shared\_AdminDetailedError.cshtml" />
     <Content Include="Views\AdminComments\Create.cshtml" />
     <Content Include="Views\AdminComments\Delete.cshtml" />
     <Content Include="Views\AdminComments\Details.cshtml" />

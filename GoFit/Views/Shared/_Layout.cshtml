@@ -24,9 +24,20 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("MyProfile", "Index", "MyProfile")</li>
-                    <li>@Html.ActionLink("MyWorkouts", "Index", "MyWorkouts")</li>
+                    @if (ViewBag.UserIsAdmin == true)
+                    {
+                        <li>@Html.ActionLink("Admin Home", "Index", "AdminHome")</li>
+                        <li>@Html.ActionLink("Categories", "Index", "AdminCategories")</li>
+                        <li>@Html.ActionLink("Exercises", "Index", "AdminExercises")</li>
+                        <li>@Html.ActionLink("Types", "Index", "AdminTypes")</li>
+                        <li>@Html.ActionLink("Workouts", "Index", "AdminWorkouts")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("MyProfile", "Index", "MyProfile")</li>
+                        <li>@Html.ActionLink("MyWorkouts", "Index", "MyWorkouts")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -38,7 +49,7 @@
         </div>
         @RenderBody()
         <hr />
-        <footer>
+        <footer class="gofit-footer">
             <p>&copy; @DateTime.Now.Year - GoFit</p>
         </footer>
     </div>

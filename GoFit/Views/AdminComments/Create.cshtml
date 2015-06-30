@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Create</h2>
@@ -40,10 +39,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.date_cteated, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.date_created, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.date_cteated)
-                @Html.ValidationMessageFor(model => model.date_cteated)
+                @Html.EditorFor(model => model.date_created)
+                @Html.ValidationMessageFor(model => model.date_created)
             </div>
         </div>
 
