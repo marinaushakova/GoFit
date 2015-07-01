@@ -54,8 +54,8 @@ namespace GoFit.Controllers
             }
             catch (Exception ex)
             {
-                var err = new HandleErrorInfo(ex, "AdminCategories", "Create");
-                RedirectToRoute("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Error on authorization. Please contact site administrator."));
+                var err = new HandleErrorInfo(ex, "AdminComments", "Create");
+                RedirectToRoute("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Error on authorization. Please contact site administrator."));
             }
         }
 
@@ -102,7 +102,7 @@ namespace GoFit.Controllers
         //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "id,message,timestamp,User_id,Workout_id,date_cteated")] comment comment)
+        //public ActionResult Create([Bind(Include = "id,message,timestamp,User_id,Workout_id,date_created")] comment comment)
         //{
         //    try
         //    {
@@ -120,9 +120,9 @@ namespace GoFit.Controllers
         //    catch (Exception ex)
         //    {
         //        var err = new HandleErrorInfo(ex, "AdminComments", "Create");
-        //        return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the comment."));
+        //        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the comment."));
         //    }
-            
+
         //}
 
         //// GET: AdminComments/Edit/5
@@ -178,16 +178,16 @@ namespace GoFit.Controllers
         //    }
         //    catch (DbUpdateConcurrencyException ex)
         //    {
-        //        return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit comment as another admin may have already update this comment"));
+        //        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit comment as another admin may have already update this comment"));
         //    }
         //    catch (DbUpdateException ex)
         //    {
-        //        return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit comment."));
+        //        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit comment."));
         //    }
         //    catch (Exception ex)
         //    {
         //        var err = new HandleErrorInfo(ex, "AdminComments", "Edit");
-        //        return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the comment."));
+        //        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the comment."));
         //    }
         //}
 
@@ -216,7 +216,7 @@ namespace GoFit.Controllers
                 comment oldComment = db.comments.Find(comment.id);
                 if (oldComment == null)
                 {
-                    return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The comment does not exist or has already been deleted"));
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The comment does not exist or has already been deleted"));
                 }
                 var entry = db.Entry(oldComment);
                 var state = entry.State;
@@ -225,18 +225,18 @@ namespace GoFit.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment as another admin may have modified it"));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment as another admin may have modified it"));
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment."));
             }
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminComments", "DeleteConfirmed");
-                return View("~/Views/Shared/_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment as it may be referenced in the database."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment as it may be referenced in the database."));
             }
         }
 
@@ -266,6 +266,7 @@ namespace GoFit.Controllers
             else setSessionFromSearch(search);
 
             if (!String.IsNullOrEmpty(search.message)) comments = comments.Where(c => c.message.Contains(search.message));
+            if (!String.IsNullOrEmpty(search.username)) comments = comments.Where(c => c.user.username.Contains(search.username));
 
             return comments;
         }
@@ -333,6 +334,7 @@ namespace GoFit.Controllers
             if (Session != null)
             {
                 search.message = Session["MessageSearchParam"] as String;
+                search.username = Session["UsernameSearchParam"] as String;
             }
             return search;
         }
@@ -348,6 +350,9 @@ namespace GoFit.Controllers
 
                 if (!String.IsNullOrEmpty(search.message)) Session["MessageSearchParam"] = search.message;
                 else Session["MessageSearchParam"] = "";
+
+                if (!String.IsNullOrEmpty(search.username)) Session["UsernameSearchParam"] = search.username;
+                else Session["UsernameSearchParam"] = "";
 
             }
         }
