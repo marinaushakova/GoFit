@@ -352,6 +352,7 @@
     <Content Include="Views\AdminComments\Edit.cshtml" />
     <Content Include="Views\AdminComments\Index.cshtml" />
     <Content Include="Views\Shared\_DeleteUserWorkoutPartial.cshtml" />
+    <Content Include="Views\AdminWorkouts\AddExerciseToWorkout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
