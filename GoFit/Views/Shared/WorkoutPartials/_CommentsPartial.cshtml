@@ -1,41 +1,49 @@
 ﻿@model GoFit.Models.workout
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>Message</th>
-        <th>Date Created</th>
-        <th>Timestamp</th>
-        <th>User_id</th>
-        <th>Workout_id</th>
-        <th></th>
-    </tr>
+<h2>Comments:</h2>
 
-@foreach (var item in Model.comments) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.message)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.date_created)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.timestamp)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User_id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Workout_id)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
+@if (Model.comments.Count() > 0)
+{
+
+    <table class="table">
+        <tr>
+            <th>Message</th>
+            <th>Date Created</th>
+            <th>Timestamp</th>
+            <th>User_id</th>
+            <th>Workout_id</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.comments) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.message)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_created)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.timestamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Workout_id)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            </td>
+        </tr>
+    }
+    </table>
+} else {
+    <p>
+        No comments were left yet
+    </p>
 }
 
-</table>
+
