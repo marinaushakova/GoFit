@@ -270,5 +270,10 @@ namespace GoFit.Controllers
             var exerciseList = db.workout_exercise.Where(m => m.workout_id == id).ToList();
             return PartialView(exerciseList);
         }
+
+        public PartialViewResult AddComment()
+        {
+            return PartialView();
+        }
     }
 }
