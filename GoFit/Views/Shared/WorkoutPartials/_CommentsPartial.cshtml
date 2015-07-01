@@ -4,7 +4,7 @@
 
 @if (Model.comments.Count() > 0)
 {
-    foreach (var item in Model.comments) {
+    foreach (var item in Model.comments.OrderByDescending(c => c.date_created)) {
     <div class="comment well">
         <div class="row">
             <div class="comment_header">
