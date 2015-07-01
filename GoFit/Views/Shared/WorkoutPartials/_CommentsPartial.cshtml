@@ -2,7 +2,7 @@
 <div class="comments_partial">
 <h2>Comments:</h2>
 
-@{Html.RenderAction("AddComment", "Home");}
+@if (Request.IsAuthenticated) {Html.RenderAction("AddComment", "Home");}
 
 @if (Model.comments.Count() > 0)
 {

@@ -272,11 +272,21 @@ namespace GoFit.Controllers
             return PartialView(exerciseList);
         }
 
+        /// <summary>
+        /// Calls add comment partial view
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
         public PartialViewResult AddComment()
         {
             return PartialView();
         }
 
+        /// <summary>
+        /// Adds comment to workout
+        /// </summary>
+        /// <param name="comment">Comment being added</param>
+        /// <returns>AddComment pertial view</returns>
         [HttpPost]
         [Authorize]
         public ActionResult AddComment(comment comment)
