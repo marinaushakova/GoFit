@@ -104,6 +104,7 @@ namespace GoFit.Controllers
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not find the specified workout."));
             }
+            //session is used in AddComment method
             Session["workout_id"] = workoutId;
             return View(workout);
         }

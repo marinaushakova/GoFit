@@ -3,6 +3,7 @@ using GoFit.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -51,13 +52,40 @@ namespace GoFit.Controllers
         }
 
         /// <summary>
-        /// Returns exercises view
+        /// Returns exercises view for chosen exercise
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index()
+        [AllowAnonymous]
+        public ActionResult Index(int? ex_id)
         {
+            if (ex_id == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Exercise could not be retrieved with given parameters."));
+            }
+            ViewBag.Exercise_id = ex_id;
             var exList = db.exercises.ToList();
             return View(exList);
+        }
+
+        /// <summary>
+        /// Gets the view for a single exercise, showing its description and link to multimedia
+        /// </summary>
+        /// <param name="workoutId">The exercise id</param>
+        /// <returns>The exercise's view</returns>
+        [AllowAnonymous]
+        public PartialViewResult ExerciseDetails(int? ex_id)
+        {
+            exercise exercise;
+            if (ex_id == null)
+            {
+                return PartialView("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Exercise could not be retrieved with given parameters."));
+            }
+            exercise = db.exercises.Find(ex_id);
+            if (exercise == null)
+            {
+                return PartialView("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not find the specified exercise."));
+            }
+            return PartialView(exercise);
         }
 	}
 }

@@ -357,6 +357,7 @@
     <Content Include="Views\Shared\WorkoutPartials\_CommentsPartial.cshtml" />
     <Content Include="Views\Home\AddComment.cshtml" />
     <Content Include="Views\Exercise\Index.cshtml" />
+    <Content Include="Views\Exercise\ExerciseDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
