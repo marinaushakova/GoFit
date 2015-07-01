@@ -59,7 +59,7 @@
                                 {
                                     <tr class="row">
                                         @if (@ViewBag.isMyWorkout == true) { 
-                                            <td class="col-xs-4">@Html.DisplayFor(modelItem => exercise.exercise.name)</td>
+                                            <td class="col-xs-4">@Html.ActionLink(exercise.exercise.name, "Index", "Exercise")</td>
                                             <td class="col-xs-4">
                                                 @if (@exercise.exercise.type.measure == "unit")
                                                 {
@@ -79,7 +79,7 @@
                                         }
                                         else
                                         {
-                                            <td class="col-xs-6">@Html.DisplayFor(modelItem => exercise.exercise.name)</td>
+                                            <td class="col-xs-6">@Html.ActionLink(exercise.exercise.name, "Index", "Exercise")</td>
                                             <td class="col-xs-6">
                                                 @if (@exercise.exercise.type.measure == "unit")
                                                 {
