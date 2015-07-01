@@ -53,76 +53,76 @@ namespace GoFit.Controllers
                 ViewBag.UserIsAdmin = true;
         }
 
-        ///// <summary>
-        ///// Returns an add exercise to current workout view
-        ///// </summary>
-        ///// <param name="id">workout id</param>
-        ///// <returns>AddExerciseToWorkout view </returns>
-        //[HttpGet]
-        //public ActionResult AddExerciseToWorkout(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to add was specified."));
-        //    }
-        //    else
-        //    {
-        //        ViewBag.Workout = db.workouts.Find(id);
-        //        if (ViewBag.Workout == null)
-        //        {
-        //            return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Workout to add exercise to could not be found."));
-        //        }
-        //        // Workout id is stored in session to be accessed from AddExerciseToWorkout post method
-        //        Session["workout_id"] = id;
-        //        // ViewBag.Exercises stores a list of exercises to populate combobox
-        //        var query = db.exercises.Select(ex => new { ex.id, ex.name });
-        //        ViewBag.Exercises = new SelectList(query.AsEnumerable(), "id", "name");
-        //    }
+        /// <summary>
+        /// Returns an add exercise to current workout view
+        /// </summary>
+        /// <param name="id">workout id</param>
+        /// <returns>AddExerciseToWorkout view </returns>
+        [HttpGet]
+        public ActionResult AddExerciseToWorkout(int? id)
+        {
+            if (id == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to add was specified."));
+            }
+            else
+            {
+                ViewBag.Workout = db.workouts.Find(id);
+                if (ViewBag.Workout == null)
+                {
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Workout to add exercise to could not be found."));
+                }
+                // Workout id is stored in session to be accessed from AddExerciseToWorkout post method
+                Session["workout_id"] = id;
+                // ViewBag.Exercises stores a list of exercises to populate combobox
+                var query = db.exercises.Select(ex => new { ex.id, ex.name });
+                ViewBag.Exercises = new SelectList(query.AsEnumerable(), "id", "name");
+            }
 
-        //    return View();
-        //}
+            return View();
+        }
 
-        ///// <summary>
-        ///// Adds exercise to current workout
-        ///// </summary>
-        ///// <param name="w_ex">workout_exercise object being added to db</param>
-        ///// <returns>AddExerciseToWorkout</returns>
-        //[HttpPost]
-        //public ActionResult AddExerciseToWorkout(workout_exercise w_ex)
-        //{
-        //    if (w_ex == null)
-        //    {
-        //        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to add was specified."));
-        //    }
+        /// <summary>
+        /// Adds exercise to current workout
+        /// </summary>
+        /// <param name="w_ex">workout_exercise object being added to db</param>
+        /// <returns>AddExerciseToWorkout</returns>
+        [HttpPost]
+        public ActionResult AddExerciseToWorkout(workout_exercise w_ex)
+        {
+            if (w_ex == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to add was specified."));
+            }
 
-        //    if (Session["workout_id"] != null) w_ex.workout_id = (int)Session["workout_id"];
+            if (Session["workout_id"] != null) w_ex.workout_id = (int)Session["workout_id"];
 
-        //    if (w_ex.position == 0)
-        //    {
-        //        var exercisesInWorkout = db.workout_exercise.Where(m => m.workout_id == w_ex.workout_id);
-        //        int exerciseCount = exercisesInWorkout.Count();
-        //        w_ex.position = exerciseCount + 1;
-        //    }
+            if (w_ex.position == 0)
+            {
+                var exercisesInWorkout = db.workout_exercise.Where(m => m.workout_id == w_ex.workout_id);
+                int exerciseCount = exercisesInWorkout.Count();
+                w_ex.position = exerciseCount + 1;
+            }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            db.workout_exercise.Add(w_ex);
-        //            db.SaveChanges();
-        //            return RedirectToAction("AddExerciseToWorkout", "Home", new { id = w_ex.workout_id });
-        //        }
-        //        catch
-        //        {
-        //            return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Exercise could not be added to the workout."));
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Invalid exercise."));
-        //    }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    db.workout_exercise.Add(w_ex);
+                    db.SaveChanges();
+                    return RedirectToAction("AddExerciseToWorkout", "Home", new { id = w_ex.workout_id });
+                }
+                catch
+                {
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Exercise could not be added to the workout."));
+                }
+            }
+            else
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Invalid exercise."));
+            }
 
-        //}
+        }
 
         // GET: AdminWorkouts
         public ActionResult Index(string filterString, string sortBy, int? page, WorkoutSearch workoutSearch)
