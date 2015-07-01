@@ -14,6 +14,7 @@
             </div>
         </div>
         <p>@Html.DisplayFor(modelItem => item.message)</p>
+        @Html.ActionLink("Back To Top", "Details", new { workoutId = Model.id })
     </div>
     }
 } else {
