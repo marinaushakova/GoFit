@@ -104,6 +104,7 @@ namespace GoFit.Controllers
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not find the specified workout."));
             }
+            Session["workout_id"] = workoutId;
             return View(workout);
         }
 
@@ -274,6 +275,34 @@ namespace GoFit.Controllers
         public PartialViewResult AddComment()
         {
             return PartialView();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult AddComment(comment comment)
+        {
+            comment.date_created = DateTime.Now;
+            comment.User_id = userAccess.getUserId(User.Identity.Name);
+            comment.Workout_id = (int)Session["workout_id"];
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    db.comments.Add(comment);
+                    db.SaveChanges();
+                    return PartialView();
+                }
+                catch
+                {
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Comment could not be added."));
+                }
+            }
+            else
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Invalid Comment."));
+            }
+            
+            
         }
     }
 }
