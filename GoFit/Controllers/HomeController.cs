@@ -290,7 +290,7 @@ namespace GoFit.Controllers
                 {
                     db.comments.Add(comment);
                     db.SaveChanges();
-                    return PartialView();
+                    return PartialView("AddComment");
                 }
                 catch
                 {
