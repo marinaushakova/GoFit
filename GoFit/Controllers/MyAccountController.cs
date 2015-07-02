@@ -99,6 +99,13 @@ namespace GoFit.Controllers
             user.is_admin = 0;
             //user.timestamp = DateTime.Now;
 
+            //checks if username already exists in db
+            var isDuplicate = db.users.Where(u => u.username == user.username).FirstOrDefault();
+            if (isDuplicate != null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "This username already exists. Please choose another one."));
+            }
+
             if (ModelState.IsValid)
             {
                 try
