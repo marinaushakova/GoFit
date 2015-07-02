@@ -52,12 +52,12 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No category to view was specified"));
             }
             category category = db.categories.Find(id);
             if (category == null)
             {
-                return HttpNotFound();
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The category could not be found or does not exist"));
             }
             return View(category);
         }
@@ -89,7 +89,7 @@ namespace GoFit.Controllers
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminCategories", "Create");
-                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the category."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the category."));
             }
 
         }
@@ -99,12 +99,12 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No category to edit was specified"));
             }
             category category = db.categories.Find(id);
             if (category == null)
             {
-                return HttpNotFound();
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The category could not be found or does not exist"));
             }
             return View(category);
         }
@@ -123,7 +123,7 @@ namespace GoFit.Controllers
                     var oldCategory = db.categories.Find(category.id);
                     if (oldCategory == null)
                     {
-                        return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The category does not exist or has already been deleted"));
+                        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The category does not exist or has already been deleted"));
                     }
                     var entry = db.Entry(oldCategory);
                     var state = entry.State;
@@ -143,16 +143,15 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit category as another admin may have already update this category"));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit category as another admin may have already update this category"));
             }
             catch (DbUpdateException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit category."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit category."));
             }
             catch (Exception ex)
             {
-                var err = new HandleErrorInfo(ex, "AdminCategories", "Edit");
-                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the category."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the category."));
             }
 
         }
@@ -162,12 +161,12 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No category to delete was specified"));
             }
             category category = db.categories.Find(id);
             if (category == null)
             {
-                return HttpNotFound();
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The category could not be found or does not exist"));
             }
             return View(category);
         }
@@ -182,7 +181,7 @@ namespace GoFit.Controllers
                 category oldCategory = db.categories.Find(category.id);
                 if (oldCategory == null)
                 {
-                    return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The category does not exist or has already been deleted"));
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The category does not exist or has already been deleted"));
                 }
                 var entry = db.Entry(oldCategory);
                 var state = entry.State;
@@ -193,16 +192,15 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as another admin may have modified this category"));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as another admin may have modified this category"));
             }
             catch (DbUpdateException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category."));
             }
             catch (Exception ex)
             {
-                var err = new HandleErrorInfo(ex, "AdminCategories", "DeleteConfirmed");
-                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
             }
             
         }

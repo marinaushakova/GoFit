@@ -51,12 +51,12 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No type to view was specified"));
             }
             type type = db.types.Find(id);
             if (type == null)
             {
-                return HttpNotFound();
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The type could not be found or does not exist"));
             }
             return View(type);
         }
@@ -88,7 +88,7 @@ namespace GoFit.Controllers
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminTypes", "Create");
-                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the type."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the type. Please try again."));
             }
 
         }
@@ -98,12 +98,12 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No type to edit was specified"));
             }
             type type = db.types.Find(id);
             if (type == null)
             {
-                return HttpNotFound();
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The type could not be found or does not exist"));
             }
             return View(type);
         }
@@ -122,7 +122,7 @@ namespace GoFit.Controllers
                     var oldType = db.types.Find(type.id);
                     if (oldType == null)
                     {
-                        return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The type does not exist or has already been deleted"));
+                        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The type does not exist or has already been deleted"));
                     }
                     var entry = db.Entry(oldType);
                     var state = entry.State;
@@ -142,16 +142,16 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit type as another admin may have already update this type"));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit type as another admin may have already update this type"));
             }
             catch (DbUpdateException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit type."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit type."));
             }
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminTypes", "Edit");
-                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the type."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the type."));
             }
 
         }
@@ -161,12 +161,12 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No type to delete was specified"));
             }
             type type = db.types.Find(id);
             if (type == null)
             {
-                return HttpNotFound();
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The type could not be found or does not exist"));
             }
             return View(type);
         }
@@ -181,7 +181,7 @@ namespace GoFit.Controllers
                 type oldType = db.types.Find(type.id);
                 if (oldType == null)
                 {
-                    return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The type does not exist or has already been deleted"));
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The type does not exist or has already been deleted"));
                 }
                 var entry = db.Entry(oldType);
                 var state = entry.State;
@@ -192,16 +192,15 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the type as another admin may have modified this type"));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the type as another admin may have modified this type"));
             }
             catch (DbUpdateException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the type."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the type."));
             }
             catch (Exception ex)
             {
-                var err = new HandleErrorInfo(ex, "AdminTypes", "DeleteConfirmed");
-                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the type as it may be referenced in the database."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the type as it may be referenced in the database."));
             }
             
         }

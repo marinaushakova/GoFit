@@ -53,12 +53,12 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No comment to view was specified"));
             }
             comment comment = db.comments.Find(id);
             if (comment == null)
             {
-                return HttpNotFound();
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The comment could not be found or does not exist"));
             }
             return View(comment);
         }
@@ -170,12 +170,12 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No comment to delete was specified"));
             }
             comment comment = db.comments.Find(id);
             if (comment == null)
             {
-                return HttpNotFound();
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The comment could not be found or does not exist"));
             }
             return View(comment);
         }

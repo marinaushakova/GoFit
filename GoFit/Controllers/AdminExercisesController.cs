@@ -50,12 +50,12 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to view was specified"));
             }
             exercise exercise = db.exercises.Find(id);
             if (exercise == null)
             {
-                return HttpNotFound();
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The exercise could not be found or does not exist"));
             }
             return View(exercise);
         }
@@ -92,8 +92,7 @@ namespace GoFit.Controllers
             }
             catch (Exception ex)
             {
-                var err = new HandleErrorInfo(ex, "AdminExercises", "Create");
-                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the exercise."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the exercise."));
             }
 
         }
@@ -103,12 +102,12 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to edit was specified"));
             }
             exercise exercise = db.exercises.Find(id);
             if (exercise == null)
             {
-                return HttpNotFound();
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The exercise could not be found or does not exist"));
             }
             ViewBag.type_id = new SelectList(db.types, "id", "name", exercise.type_id);
             ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", exercise.created_by_user_id);
@@ -129,7 +128,7 @@ namespace GoFit.Controllers
                     var oldExercise = db.exercises.Find(exercise.id);
                     if (oldExercise == null)
                     {
-                        return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The exercise does not exist or has already been deleted"));
+                        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The exercise does not exist or has already been deleted"));
                     }
                     var entry = db.Entry(oldExercise);
                     var state = entry.State;
@@ -151,16 +150,15 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit exercise as another admin may have already update this exercise"));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit exercise as another admin may have already update this exercise"));
             }
             catch (DbUpdateException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit exercise."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit exercise."));
             }
             catch (Exception ex)
             {
-                var err = new HandleErrorInfo(ex, "AdminExercises", "Edit");
-                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the exercise."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the exercise."));
             }
 
         }
@@ -170,12 +168,12 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to delete was specified"));
             }
             exercise exercise = db.exercises.Find(id);
             if (exercise == null)
             {
-                return HttpNotFound();
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The exercise could not be found or does not exist"));
             }
             return View(exercise);
         }
@@ -190,7 +188,7 @@ namespace GoFit.Controllers
                 exercise oldExercise = db.exercises.Find(exercise.id);
                 if (oldExercise == null)
                 {
-                    return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The exercise does not exist or has already been deleted"));
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The exercise does not exist or has already been deleted"));
                 }
                 var entry = db.Entry(oldExercise);
                 var state = entry.State;
@@ -201,16 +199,15 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise as another admin may have modified it"));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise as another admin may have modified it"));
             }
             catch (DbUpdateException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise."));
             }
             catch (Exception ex)
             {
-                var err = new HandleErrorInfo(ex, "AdminExercises", "DeleteConfirmed");
-                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise as it may be referenced in the database."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise as it may be referenced in the database."));
             }
 
         }

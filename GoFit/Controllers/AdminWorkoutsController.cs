@@ -154,12 +154,12 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "A workout to view was not specified"));
             }
             workout workout = db.workouts.Find(id);
             if (workout == null)
             {
-                return HttpNotFound();
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "That workout could not be found or does not exist"));
             }
             return View(workout);
         }
@@ -207,12 +207,12 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "A workout to edit was not specified"));
             }
             workout workout = db.workouts.Find(id);
             if (workout == null)
             {
-                return HttpNotFound();
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "That workout could not be found or does not exist"));
             }
             ViewBag.category_id = new SelectList(db.categories, "id", "name", workout.category_id);
             ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", workout.created_by_user_id);
@@ -263,7 +263,6 @@ namespace GoFit.Controllers
             }
             catch (Exception ex)
             {
-                var err = new HandleErrorInfo(ex, "AdminWorkouts", "Edit");
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the workout."));
             }
 
@@ -274,12 +273,12 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "A workout to delete was not specified"));
             }
             workout workout = db.workouts.Find(id);
             if (workout == null)
             {
-                return HttpNotFound();
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "That workout could not be found or does not exist"));
             }
             return View(workout);
         }
