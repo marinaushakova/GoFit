@@ -277,7 +277,7 @@ namespace GoFit.Controllers
         {
             comment.date_created = DateTime.Now;
             comment.User_id = userAccess.getUserId(User.Identity.Name);
-            comment.Workout_id = (int)Session["workout_id"];
+            if (Session["workout_id"] != null) comment.Workout_id = (int)Session["workout_id"];
             if (ModelState.IsValid)
             {
                 try

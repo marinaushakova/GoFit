@@ -28,6 +28,7 @@ namespace GoFit.Tests.MockSetupHelpers
             List<workout> workouts = getSeedWorkouts();
             List<workout_exercise> workoutExercises = getSeedWorkoutExercises();
             List<user_workout> userWorkouts = getSeedUserWorkouts();
+            List<comment> comments = getSeedComments();
 
             IQueryable<category> categoriesQ = categories.AsQueryable();
             IQueryable<user> usersQ = users.AsQueryable();
@@ -35,6 +36,7 @@ namespace GoFit.Tests.MockSetupHelpers
             IQueryable<workout> workoutsQ = workouts.AsQueryable();
             IQueryable<workout_exercise> workoutExercisesQ = workoutExercises.AsQueryable();
             IQueryable<user_workout> userWorkoutsQ = userWorkouts.AsQueryable();
+            IQueryable<comment> commentsQ = comments.AsQueryable();
 
             var workoutMockset = new Mock<DbSetOverrideWorkoutsFind<workout>>() { CallBase = true };
             workoutMockset.As<IQueryable<workout>>().Setup(m => m.Provider).Returns(workoutsQ.Provider);
@@ -72,6 +74,11 @@ namespace GoFit.Tests.MockSetupHelpers
             exerciseMockset.As<IQueryable<exercise>>().Setup(m => m.ElementType).Returns(exercisesQ.ElementType);
             exerciseMockset.As<IQueryable<exercise>>().Setup(m => m.GetEnumerator()).Returns(exercisesQ.GetEnumerator);
 
+            var commentMockset = new Mock<DbSet<comment>>() { CallBase = true };
+            commentMockset.As<IQueryable<comment>>().Setup(m => m.Provider).Returns(commentsQ.Provider);
+            commentMockset.As<IQueryable<comment>>().Setup(m => m.Expression).Returns(commentsQ.Expression);
+            commentMockset.As<IQueryable<comment>>().Setup(m => m.ElementType).Returns(commentsQ.ElementType);
+            commentMockset.As<IQueryable<comment>>().Setup(m => m.GetEnumerator()).Returns(commentsQ.GetEnumerator);
             
             var mockContext = new Mock<masterEntities>();
             mockContext.Setup(c => c.workouts).Returns(workoutMockset.Object);
@@ -80,6 +87,7 @@ namespace GoFit.Tests.MockSetupHelpers
             mockContext.Setup(c => c.categories).Returns(categoryMockset.Object);
             mockContext.Setup(c => c.workout_exercise).Returns(workoutExerciseMockset.Object);
             mockContext.Setup(c => c.exercises).Returns(exerciseMockset.Object);
+            mockContext.Setup(c => c.comments).Returns(commentMockset.Object);
             return mockContext;
         }
 
@@ -472,5 +480,41 @@ namespace GoFit.Tests.MockSetupHelpers
             return user_workouts;
         }
 
+        /// <summary>
+        /// Gets the fake comments
+        /// </summary>
+        /// <returns>A list of fake comments</returns>
+        private List<comment> getSeedComments()
+        {
+            List<workout> workouts = getSeedWorkouts();
+            List<user> users = getSeedUsers();
+
+            comment comment1 = new comment
+            {
+                id = 1,
+                message = "Comment1",
+                date_created = Convert.ToDateTime("2015-01-01"),
+                user = users[1],
+                workout = workouts[1]
+            };
+            comment comment2 = new comment
+            {
+                id = 2,
+                message = "Comment2",
+                date_created = Convert.ToDateTime("2015-02-02"),
+                user = users[1],
+                workout = workouts[2]
+            };
+            comment comment3 = new comment
+            {
+                id = 3,
+                message = "Comment3",
+                date_created = Convert.ToDateTime("2015-03-03"),
+                user = users[2],
+                workout = workouts[1],
+            };
+            var comment = new List<comment> { comment1, comment2, comment3 };
+            return comment;
+        }
     }
 }

@@ -346,6 +346,22 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual(2, exs.Count(), "workout_exercise count was not 2");
         }
 
+        
+        [TestMethod]
+        public void TestHomeControllerAddCommentOnWorkout()
+        {
+            comment comment = new comment();
+            comment.message = "Test comment";
+            comment.date_created = DateTime.Now;
+            comment.User_id = 1;
+            comment.Workout_id = 1;
+            db.Setup(c => c.comments.Add(comment)).Returns(comment);
+            PartialViewResult result = controller.AddComment(comment) as PartialViewResult;
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.ViewData.Model);
+
+        }
+
         [TestMethod]
         public void TestHomeControllerDetailsNoIdError()
         {
@@ -519,5 +535,6 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual(404, model.StatusCode);
             Assert.AreEqual("Exercise could not be found.", model.StatusDescription);
         }
+
     }
 }
