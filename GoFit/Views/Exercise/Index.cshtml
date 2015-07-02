@@ -17,7 +17,7 @@
                             @foreach (var exercise in Model)
                             {
                                 <tr class="row">
-                                    <td class="col-xs-12">@Html.DisplayFor(modelItem => exercise.name)</td>
+                                    <td class="col-xs-12">@Html.ActionLink(exercise.name, "Index", new { ex_id = exercise.id })</td>
                                 </tr>
                             }
                         </tbody>
