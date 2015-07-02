@@ -32,7 +32,7 @@ namespace GoFit.Controllers
             db = this.getDB();
             pageSize = PAGE_SIZE;
             
-        }
+            }
 
         // GET: AdminComments
         public ActionResult Index(string filterString, string sortBy, int? page, CommentSearch commentSearch)
@@ -63,107 +63,107 @@ namespace GoFit.Controllers
             return View(comment);
         }
 
-        // GET: AdminComments/Create
-        public ActionResult Create()
-        {
-            ViewBag.User_id = new SelectList(db.users, "id", "username");
-            ViewBag.Workout_id = new SelectList(db.workouts, "id", "name");
-            return View();
-        }
+        //// GET: AdminComments/Create
+        //public ActionResult Create()
+        //{
+        //    ViewBag.User_id = new SelectList(db.users, "id", "username");
+        //    ViewBag.Workout_id = new SelectList(db.workouts, "id", "name");
+        //    return View();
+        //}
 
-        // POST: AdminComments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,message,timestamp,User_id,Workout_id,date_cteated")] comment comment)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    db.comments.Add(comment);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
+        //// POST: AdminComments/Create
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "id,message,timestamp,User_id,Workout_id,date_created")] comment comment)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            db.comments.Add(comment);
+        //            db.SaveChanges();
+        //            return RedirectToAction("Index");
+        //        }
 
-                ViewBag.User_id = new SelectList(db.users, "id", "username", comment.User_id);
-                ViewBag.Workout_id = new SelectList(db.workouts, "id", "name", comment.Workout_id);
-                return View(comment);
-            }
-            catch (Exception ex)
-            {
-                var err = new HandleErrorInfo(ex, "AdminComments", "Create");
-                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the comment."));
-            }
+        //        ViewBag.User_id = new SelectList(db.users, "id", "username", comment.User_id);
+        //        ViewBag.Workout_id = new SelectList(db.workouts, "id", "name", comment.Workout_id);
+        //        return View(comment);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var err = new HandleErrorInfo(ex, "AdminComments", "Create");
+        //        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the comment."));
+        //    }
             
-        }
+        //}
 
-        // GET: AdminComments/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            comment comment = db.comments.Find(id);
-            if (comment == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.User_id = new SelectList(db.users, "id", "username", comment.User_id);
-            ViewBag.Workout_id = new SelectList(db.workouts, "id", "name", comment.Workout_id);
-            return View(comment);
-        }
+        //// GET: AdminComments/Edit/5
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    comment comment = db.comments.Find(id);
+        //    if (comment == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    ViewBag.User_id = new SelectList(db.users, "id", "username", comment.User_id);
+        //    ViewBag.Workout_id = new SelectList(db.workouts, "id", "name", comment.Workout_id);
+        //    return View(comment);
+        //}
 
-        // POST: AdminComments/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,message,timestamp,User_id,Workout_id,date_cteated")] comment comment)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var oldComment = db.comments.Find(comment.id);
-                    if (oldComment == null)
-                    {
-                        return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The comment does not exist or has already been deleted"));
-                    }
-                    var entry = db.Entry(oldComment);
-                    var state = entry.State;
-                    if (state == EntityState.Detached)
-                    {
-                        db.Entry(comment).State = EntityState.Modified;
-                    }
-                    else
-                    {
-                        entry.OriginalValues["timestamp"] = comment.timestamp;
-                        entry.CurrentValues.SetValues(comment);
-                    }
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                ViewBag.User_id = new SelectList(db.users, "id", "username", comment.User_id);
-                ViewBag.Workout_id = new SelectList(db.workouts, "id", "name", comment.Workout_id);
-                return View(comment);
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit comment as another admin may have already update this comment"));
-            }
-            catch (DbUpdateException ex)
-            {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit comment."));
-            }
-            catch (Exception ex)
-            {
-                var err = new HandleErrorInfo(ex, "AdminComments", "Edit");
-                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the comment."));
-            }
-        }
+        //// POST: AdminComments/Edit/5
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "id,message,timestamp,User_id,Workout_id,date_cteated")] comment comment)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            var oldComment = db.comments.Find(comment.id);
+        //            if (oldComment == null)
+        //            {
+        //                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The comment does not exist or has already been deleted"));
+        //            }
+        //            var entry = db.Entry(oldComment);
+        //            var state = entry.State;
+        //            if (state == EntityState.Detached)
+        //            {
+        //                db.Entry(comment).State = EntityState.Modified;
+        //            }
+        //            else
+        //            {
+        //                entry.OriginalValues["timestamp"] = comment.timestamp;
+        //                entry.CurrentValues.SetValues(comment);
+        //            }
+        //            db.SaveChanges();
+        //            return RedirectToAction("Index");
+        //        }
+        //        ViewBag.User_id = new SelectList(db.users, "id", "username", comment.User_id);
+        //        ViewBag.Workout_id = new SelectList(db.workouts, "id", "name", comment.Workout_id);
+        //        return View(comment);
+        //    }
+        //    catch (DbUpdateConcurrencyException ex)
+        //    {
+        //        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit comment as another admin may have already update this comment"));
+        //    }
+        //    catch (DbUpdateException ex)
+        //    {
+        //        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit comment."));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var err = new HandleErrorInfo(ex, "AdminComments", "Edit");
+        //        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the comment."));
+        //    }
+        //}
 
         // GET: AdminComments/Delete/5
         public ActionResult Delete(int? id)
@@ -190,7 +190,7 @@ namespace GoFit.Controllers
                 comment oldComment = db.comments.Find(comment.id);
                 if (oldComment == null)
                 {
-                    return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The comment does not exist or has already been deleted"));
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The comment does not exist or has already been deleted"));
                 }
                 var entry = db.Entry(oldComment);
                 var state = entry.State;
@@ -199,18 +199,18 @@ namespace GoFit.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment as another admin may have modified it"));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment as another admin may have modified it"));
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment."));
             }
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminComments", "DeleteConfirmed");
-                return View("~/Views/Shared/_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment as it may be referenced in the database."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment as it may be referenced in the database."));
             }
         }
 
@@ -240,6 +240,7 @@ namespace GoFit.Controllers
             else setSessionFromSearch(search);
 
             if (!String.IsNullOrEmpty(search.message)) comments = comments.Where(c => c.message.Contains(search.message));
+            if (!String.IsNullOrEmpty(search.username)) comments = comments.Where(c => c.user.username.Contains(search.username));
 
             return comments;
         }
@@ -307,6 +308,7 @@ namespace GoFit.Controllers
             if (Session != null)
             {
                 search.message = Session["MessageSearchParam"] as String;
+                search.username = Session["UsernameSearchParam"] as String;
             }
             return search;
         }
@@ -322,6 +324,9 @@ namespace GoFit.Controllers
 
                 if (!String.IsNullOrEmpty(search.message)) Session["MessageSearchParam"] = search.message;
                 else Session["MessageSearchParam"] = "";
+
+                if (!String.IsNullOrEmpty(search.username)) Session["UsernameSearchParam"] = search.username;
+                else Session["UsernameSearchParam"] = "";
 
             }
         }

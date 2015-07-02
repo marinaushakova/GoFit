@@ -1,0 +1,77 @@
+﻿@model GoFit.Models.workout_exercise
+
+@{
+    ViewBag.Title = "Admin Add Exercise to Workout";
+}
+
+<h2>Add Exercises To Workout: @ViewBag.Workout.name</h2>
+
+
+<div class="row">
+    <div class="col-md-4 col-xs-12 workout_detail well">
+        <div class="row">
+            <div class="workout_detail_header">@ViewBag.Workout.name</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-12 workout_label"><h4><span class="label label-default">Description</span></h4></div>
+            <div class="col-md-8 col-sm-12 workout_prop">@ViewBag.Workout.description</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-12"><h4><span class="label label-default">Category</span></h4></div>
+            <div class="col-md-8 col-sm-12 workout_prop">@ViewBag.Workout.category.name</div>
+        </div>
+    </div>
+    <div class="col-md-4 col-xs-12 exercise_form well">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="control-label col-md-4 col-sm-12">Exercise:</label>
+                    <div class="col-md-8 col-sm-12">
+                        @Html.DropDownListFor(model => model.exercise_id, (IEnumerable<SelectListItem>)ViewBag.Exercises, new { onChange = "onSelectedIndexChanged()", id = "cmbMeasure", @class = "drop_down" })
+                        @Html.ValidationMessageFor(model => model.exercise_id)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4 col-sm-12">Duration:</label>
+                    <div class="col-md-8 col-sm-12">
+                        @Html.TextBoxFor(model => model.duration, new { @id = "duration_text" })
+                        @Html.ValidationMessageFor(model => model.duration)
+                        <label id="lblMeasure">unit(s)</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input type="submit" value="Add Exercise" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@*
+@{Html.RenderAction("ExerciseList", "Home", new { id = @ViewBag.Workout.id });}*@
+
+@Html.ActionLink("View Workout", "Details", new { workoutId = @ViewBag.Workout.id }, new { @class = "btn btn-primary" })
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        function onSelectedIndexChanged() {
+            var cmbEx = document.getElementById("cmbMeasure");
+            var value = cmbEx.options[cmbEx.selectedIndex].value;
+
+            $.get("@Url.Action("GetMeasure", "Home")", { ex_id: value }, function (measure) {
+                document.getElementById('lblMeasure').innerHTML = measure + "(s)";
+            });
+        }
+    </script>
+}
