@@ -46,7 +46,7 @@ namespace GoFit.Controllers
         /// </summary>
         /// <param name="message">The message to display in the error page</param>
         /// <returns>The DetailedError page with the given message</returns>
-        public ActionResult NotFoundError(string message)
+        public ActionResult NotFoundErrorWithMessage(string message)
         {
             return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, message)); 
         }

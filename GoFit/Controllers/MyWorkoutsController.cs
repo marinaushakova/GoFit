@@ -81,7 +81,7 @@ namespace GoFit.Controllers
         /// <param name="user_workout_id">The user workout to show</param>
         /// <returns>The user workout view</returns>
         [Authorize]
-        public ActionResult Details(int user_workout_id)
+        public ActionResult Details(int? user_workout_id)
         {
             workout workout;
 
