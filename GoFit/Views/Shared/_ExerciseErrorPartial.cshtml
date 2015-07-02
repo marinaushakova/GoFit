@@ -1,0 +1,14 @@
+﻿
+@model HttpStatusCodeResult
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<div class="row">
+    <div class="well col-md-7 col-xs-12">
+        <h1 class="text-danger">@Model.StatusCode Error</h1>
+        <p class="text-danger">An error occurred while processing your request. Please try again or contact our support team</p>
+        <span><b>Description:</b></span>&nbsp;<span>@Model.StatusDescription</span>
+    </div>
+</div>

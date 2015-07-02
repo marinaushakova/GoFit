@@ -43,7 +43,7 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Please specify an exercise to add."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No workout to add an exercise to was specified"));
             }
             else
             {

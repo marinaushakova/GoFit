@@ -40,5 +40,15 @@ namespace GoFit.Controllers
         {
             return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The requested resource does not exist or could not be found")); 
         }
+
+        /// <summary>
+        /// Returns not found error page with the provided message
+        /// </summary>
+        /// <param name="message">The message to display in the error page</param>
+        /// <returns>The DetailedError page with the given message</returns>
+        public ActionResult NotFoundErrorWithMessage(string message)
+        {
+            return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, message)); 
+        }
 	}
 }

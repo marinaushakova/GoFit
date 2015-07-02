@@ -293,10 +293,8 @@ namespace GoFit.Controllers
             }
             else
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Invalid Comment."));
-            }
-            
-            
+                return PartialView(comment);
+            }     
         }
     }
 }

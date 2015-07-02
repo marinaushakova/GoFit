@@ -10,7 +10,7 @@
         @Html.ValidationSummary(true)
 
         <div class="form-group">
-            <label class="control-label col-md-2">You comment:</label>
+            <label class="control-label col-md-2">Your comment:</label>
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.message, new { @class = "comment_textarea", @Value = "" })
                 @Html.ValidationMessageFor(model => model.message)

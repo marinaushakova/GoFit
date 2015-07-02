@@ -61,12 +61,12 @@ namespace GoFit.Controllers
             exercise exercise;
             if (ex_id == null)
             {
-                return PartialView("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Exercise could not be retrieved with given parameters."));
+                return PartialView("_ExerciseErrorPartial", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Exercise could not be retrieved with given parameters."));
             }
             exercise = db.exercises.Find(ex_id);
             if (exercise == null)
             {
-                return PartialView("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not find the specified exercise."));
+                return PartialView("_ExerciseErrorPartial", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not find the specified exercise."));
             }
             return PartialView(exercise);
         }
