@@ -9,35 +9,18 @@ using System.Web.Mvc;
 
 namespace GoFit.Controllers
 {
-    public class ExerciseController : Controller
+    public class ExerciseController : GoFitBaseController
     {
 
         private masterEntities db;
         private UserAccess userAccess;
 
-        protected override void OnAuthorization(AuthorizationContext filterContext)
-        {
-            base.OnAuthorization(filterContext);
-
-            var isAdmin = 0;
-            if (User.Identity.IsAuthenticated)
-            {
-                isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
-            }
-
-            // Redirect admins to admin home page upon authorization
-            if (isAdmin == 1)
-            {
-                filterContext.Result = new RedirectResult("/AdminHome/Index");
-            }
-        }
-
         /// <summary>
         /// Constructor to create the default db context
         /// </summary>
-        public ExerciseController()
+        public ExerciseController() : base()
         {
-            db = new masterEntities();
+            db = this.getDB();
             userAccess = new UserAccess(db);
         }
 
