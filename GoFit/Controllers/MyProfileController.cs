@@ -19,33 +19,16 @@ namespace GoFit.Controllers
         private masterEntities db;
         private UserAccess userAccess;
 
-        protected override void OnAuthorization(AuthorizationContext filterContext)
+
+        public MyProfileController() : base()
         {
-            base.OnAuthorization(filterContext);
-
-            var isAdmin = 0;
-            if (User.Identity.IsAuthenticated)
-            {
-                isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
-            }
-
-            // Redirect admins to admin home page upon authorization
-            if (isAdmin == 1)
-            {
-                filterContext.Result = new RedirectResult("/AdminHome/Index");
-            }
-        }
-
-
-        public MyProfileController()
-        {
-            db = new masterEntities();
+            db = this.getDB();
             userAccess = new UserAccess(db);
         }
 
-        public MyProfileController(masterEntities context)
+        public MyProfileController(masterEntities context) : base(context)
         {
-            db = context;
+            db = this.getDB();
             userAccess = new UserAccess(db);
         }
 

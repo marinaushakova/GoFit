@@ -21,30 +21,13 @@ namespace GoFit.Controllers
         private const int PAGE_SIZE = 10;
         private UserAccess userAccess;
 
-        protected override void OnAuthorization(AuthorizationContext filterContext)
-        {
-            base.OnAuthorization(filterContext);
-
-            var isAdmin = 0;
-            if (User.Identity.IsAuthenticated)
-            {
-                isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
-            }
-
-            // Redirect admins to admin home page upon authorization
-            if (isAdmin == 1)
-            {
-                filterContext.Result = new RedirectResult("/AdminHome/Index");
-            }
-        }
-
         /// <summary>
         /// Constructor to create the default db context
         /// </summary>
-        public HomeController()
+        public HomeController() : base()
         {
-            db = new masterEntities();
             pageSize = PAGE_SIZE;
+            db = this.getDB();
             userAccess = new UserAccess(db);
         }
 
@@ -52,10 +35,10 @@ namespace GoFit.Controllers
         /// Constructor to allow a passed in db context
         /// </summary>
         /// <param name="context">The context to use</param>
-        public HomeController(masterEntities context)
+        public HomeController(masterEntities context) : base(context)
         {
-            db = context;
             pageSize = PAGE_SIZE;
+            db = this.getDB();
             userAccess = new UserAccess(db);
         }
 
