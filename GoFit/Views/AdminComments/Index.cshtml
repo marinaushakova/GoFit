@@ -7,9 +7,6 @@
 
 <h2>Admin Comments</h2>
 
-@*<p>
-    <input class="btn btn-primary" type="button" value="Create New Comment" onclick="location.href='@Url.Action("Create", "AdminComments" )'" />
-</p>*@
 <br>
 <div class="row">
     <div class="panel panel-primary">
@@ -51,7 +48,6 @@
                         <td class="col-xs-3">@Html.DisplayFor(modelItem => item.user.username)</td>
                         <td class="col-xs-3">@Html.DisplayFor(modelItem => item.workout.name)</td>
                         <td>
-                           @* @Html.ActionLink("Edit", "Edit", new { id = item.id }) |*@
                             @Html.ActionLink("Details", "Details", new { id = item.id }) |
                             @Html.ActionLink("Delete", "Delete", new { id = item.id })
                         </td>

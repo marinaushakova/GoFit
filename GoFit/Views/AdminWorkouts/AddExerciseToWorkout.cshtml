@@ -4,7 +4,7 @@
     ViewBag.Title = "Admin Add Exercise to Workout";
 }
 
-<h2>Add Exercises To Workout: @ViewBag.Workout.name</h2>
+<h2>Admin Add Exercises To Workout: @ViewBag.Workout.name</h2>
 
 
 <div class="row">
@@ -56,8 +56,8 @@
     </div>
 </div>
 
-@*
-@{Html.RenderAction("ExerciseList", "Home", new { id = @ViewBag.Workout.id });}*@
+
+@{Html.RenderAction("ExerciseList", "AdminWorkouts", new { id = @ViewBag.Workout.id });}
 
 @Html.ActionLink("View Workout", "Details", new { workoutId = @ViewBag.Workout.id }, new { @class = "btn btn-primary" })
 

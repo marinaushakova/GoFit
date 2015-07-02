@@ -43,20 +43,20 @@ namespace GoFit.Controllers
         {
             if (id == null)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to add was specified."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Please specify an exercise to add."));
             }
             else
             {
                 ViewBag.Workout = db.workouts.Find(id);
                 if (ViewBag.Workout == null)
                 {
-                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Workout to add exercise to could not be found."));
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The workout could not be found."));
                 }
                 // Workout id is stored in session to be accessed from AddExerciseToWorkout post method
                 Session["workout_id"] = id;
                 // ViewBag.Exercises stores a list of exercises to populate combobox
-                var query = db.exercises.Select(ex => new { ex.id, ex.name });
-                ViewBag.Exercises = new SelectList(query.AsEnumerable(), "id", "name");
+                var exerciseList = db.exercises.Select(ex => new { ex.id, ex.name });
+                ViewBag.Exercises = new SelectList(exerciseList.AsEnumerable(), "id", "name");
             }
 
             return View();
@@ -102,6 +102,38 @@ namespace GoFit.Controllers
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Invalid exercise."));
             }
 
+        }
+
+        /// <summary>
+        /// Gets list of exercises that are in given workout
+        /// </summary>
+        /// <param name="id">workout id</param>
+        /// <returns>List of exercises of workout with passed id</returns>
+        public PartialViewResult ExerciseList(int? id)
+        {
+            var exerciseList = db.workout_exercise.Where(m => m.workout_id == id).ToList();
+            return PartialView(exerciseList);
+        }
+
+        /// <summ/ary>
+        /// Gets measure for given exercise
+        /// </summary>
+        /// <param name="ex_id">Exercise id</param>
+        /// <returns>Measure name to be used in javascript on AddExerciseToWorkout page</returns>
+        [HttpGet]
+        public ActionResult GetMeasure(int? ex_id)
+        {
+            if (ex_id == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to get a measure for was specified."));
+            }
+            var exercise = db.exercises.Find(ex_id);
+            if (exercise == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Exercise could not be found."));
+            }
+            var measure = exercise.type.measure;
+            return Json(measure, JsonRequestBehavior.AllowGet);
         }
 
         // GET: AdminWorkouts
