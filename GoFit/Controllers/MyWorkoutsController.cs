@@ -98,13 +98,8 @@ namespace GoFit.Controllers
                 ViewBag.myWorkoutId = myworkout.id;
                 ViewBag.numExercisesCompleted = myworkout.number_of_ex_completed;
                 ViewBag.isMyWorkout = true;
-                string timestamp = "";
-                for (var i = 0; i < myworkout.timestamp.Count(); i++)
-                {
-                    timestamp += myworkout.timestamp[i];
-                    timestamp += " ";
-                }
-                ViewBag.timestampString = timestamp;
+
+                ViewBag.timestampString = timestampByteArrToString(myworkout.timestamp);
                 return View(workout);
             }
         }
@@ -119,58 +114,7 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult MarkExercise(int my_workout_id, int position, string timestampString)
         {
-            //user_workout myWorkout = db.user_workout.Find(my_workout_id);
-            //if (myWorkout == null)
-            //{
-            //    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Workout could not be found."));
-            //}
-            //try
-            //{
-            //    int totalNumExercises = myWorkout.workout.workout_exercise.Count;
-            //    if (position == 1 || myWorkout.date_started == null)
-            //    {
-            //        myWorkout.number_of_ex_completed = position;
-            //        myWorkout.date_started = DateTime.Now;
-            //        if (position == totalNumExercises) myWorkout.date_finished = DateTime.Now;
-            //        db.SaveChanges();
-            //    }
-            //    else if (position == totalNumExercises)
-            //    {
-            //        myWorkout.number_of_ex_completed = position;
-            //        myWorkout.date_finished = DateTime.Now;
-            //        db.SaveChanges();
-            //    }
-            //    else
-            //    {
-            //        myWorkout.number_of_ex_completed = position;
-            //        db.SaveChanges();
-            //    }
-            //    var result = new Dictionary<string, string>();
-            //    result.Add("result", "true");
-            //    result.Add("error", "false");
-            //    return Json(result);
-            //}
-            //catch (Exception ex)
-            //{
-            //    var result = new Dictionary<string, string>();
-            //    result.Add("error", "true");
-            //    result.Add("result", "false");
-            //    result.Add("message", "Failed to mark workout progress");
-            //    return Json(result);
-            //}
-
-
-            byte[] timestamp = new byte[8];
-            string[] sep = new string[1];
-            sep[0] = " ";
-            if (!String.IsNullOrEmpty(timestampString))
-            {
-                string[] split = timestampString.Split(sep, StringSplitOptions.RemoveEmptyEntries);
-                for (var i = 0; i < timestamp.Count(); i++)
-                {
-                    timestamp[i] = Convert.ToByte(split[i]);
-                }
-            }
+            byte[] timestamp = timestampStringToByteArr(timestampString);
             user_workout userWorkout = new user_workout();
             userWorkout.id = my_workout_id;
             userWorkout.timestamp = timestamp;
@@ -215,8 +159,11 @@ namespace GoFit.Controllers
                 }
                 db.SaveChanges();
 
+                user_workout updatedMyWorkout = db.user_workout.Find(my_workout_id);
+                string newTimestamp = timestampByteArrToString(updatedMyWorkout.timestamp);
                 var result = new Dictionary<string, string>();
                 result.Add("success", "true");
+                result.Add("timestampString", newTimestamp);
                 result.Add("error", "false");
                 return Json(result);
             }
@@ -332,6 +279,44 @@ namespace GoFit.Controllers
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the requested workout from MyWorkouts."));
             }
             
+        }
+
+        /// <summary>
+        /// Converts a space separated string of bytes into a byte array. Used 
+        /// to pass the timestamp via json
+        /// </summary>
+        /// <param name="timestampString">The timestamp in space separated string format</param>
+        /// <returns>The timestamp in byte[] format</returns>
+        private byte[] timestampStringToByteArr(string timestampString)
+        {
+            byte[] timestamp = new byte[8];
+            string[] sep = new string[1];
+            sep[0] = " ";
+            if (!String.IsNullOrEmpty(timestampString))
+            {
+                string[] split = timestampString.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+                for (var i = 0; i < timestamp.Count(); i++)
+                {
+                    timestamp[i] = Convert.ToByte(split[i]);
+                }
+            }
+            return timestamp;
+        }
+
+        /// <summary>
+        /// Takes a byte[] and converts it to a space separated string
+        /// </summary>
+        /// <param name="timestamp">The byte[] timestamp</param>
+        /// <returns>The space separated string timestamp</returns>
+        private string timestampByteArrToString(byte[] timestamp)
+        {
+            string stringTimestamp = "";
+            for (var i = 0; i < timestamp.Count(); i++)
+            {
+                stringTimestamp += timestamp[i];
+                stringTimestamp += " ";
+            }
+            return stringTimestamp;
         }
 
         /// <summary>

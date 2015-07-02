@@ -25,7 +25,6 @@
             params.my_workout_id = @ViewBag.myWorkoutId
             params.position = position;
             params.timestampString = $('#timestampString').val();
-
             $.post(url, params, function (result) {
                 //alert(JSON.stringify(result))
                 if (result.success == "true") {
@@ -35,6 +34,7 @@
                         checkbox.checked = true;
                         checkbox.disabled = true;
                     }
+                    $(".timestampString").val(result.timestampString);
                 } else {
                     alert(result.message);
                     var id = "chkbx" + result.position;
