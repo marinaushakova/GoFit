@@ -189,21 +189,26 @@ namespace GoFit.Controllers
             {
                 var entry = db.Entry(oldMyWorkout);
                 var state = entry.State;
-                if (state != EntityState.Detached)
-                {
-                    int totalNumExercises = oldMyWorkout.workout.workout_exercise.Count;
-                    if (position == 1 || oldMyWorkout.date_started == null)
-                    {
-                        userWorkout.date_started = DateTime.Now;
-                        if (position == totalNumExercises) userWorkout.date_finished = DateTime.Now;
-                    }
-                    else if (position == totalNumExercises)
-                    {
-                        userWorkout.date_finished = DateTime.Now;
-                    }
-                    userWorkout.number_of_ex_completed = position;
 
-                    entry.OriginalValues["timestamp"] = userWorkout.timestamp;
+                int totalNumExercises = oldMyWorkout.workout.workout_exercise.Count;
+                if (position == 1 || oldMyWorkout.date_started == null)
+                {
+                    userWorkout.date_started = DateTime.Now;
+                    if (position == totalNumExercises) userWorkout.date_finished = DateTime.Now;
+                }
+                else if (position == totalNumExercises)
+                {
+                    userWorkout.date_finished = DateTime.Now;
+                }
+                userWorkout.number_of_ex_completed = position;
+
+                if (state == EntityState.Detached)
+                {
+                    db.Entry(userWorkout).State = EntityState.Modified;
+                }
+                else 
+                {
+                    entry.OriginalValues["timestamp"] = userWorkout.timestamp;                        
                     if (userWorkout.date_started != null) entry.CurrentValues["date_started"] = userWorkout.date_started;
                     if (userWorkout.date_finished != null) entry.CurrentValues["date_finished"] = userWorkout.date_finished;
                     entry.CurrentValues["number_of_ex_completed"] = userWorkout.number_of_ex_completed;

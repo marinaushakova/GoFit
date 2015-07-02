@@ -7,6 +7,10 @@ using GoFit.Tests.MockContexts;
 using Moq;
 using System.Web.Mvc;
 using PagedList;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace GoFit.Tests.Controllers
 {
@@ -47,7 +51,27 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestMarkExerciseClickingFirstCheckbox()
         {
-            string timestamp = "";
+            byte[] ts = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            var uWorkout = new user_workout()
+            {
+                id = 1,
+                number_of_ex_completed = 0,
+                workout_id = 1,
+                user_id = 2,
+                timestamp = ts,
+                workout = new workout()
+                {
+                    workout_exercise = new List<workout_exercise>
+                    {
+                        {new workout_exercise()},
+                        {new workout_exercise()},
+                        {new workout_exercise()},
+                        {new workout_exercise()},
+                    }
+                }
+            };
+            string timestamp = "0 0 0 0 0 0 0 0";
+            db.Setup(c => c.user_workout.Find(1)).Returns(uWorkout);
             JsonResult result = myWorkoutsCon.MarkExercise(1, 1, timestamp) as JsonResult;
 
             Assert.IsNotNull(result);
@@ -61,7 +85,27 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestMarkExerciseClickingSecondCheckbox()
         {
-            string timestamp = "";
+            byte[] ts = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            var uWorkout = new user_workout()
+            {
+                id = 1,
+                number_of_ex_completed = 0,
+                workout_id = 1,
+                user_id = 2,
+                timestamp = ts,
+                workout = new workout()
+                {
+                    workout_exercise = new List<workout_exercise>
+                    {
+                        {new workout_exercise()},
+                        {new workout_exercise()},
+                        {new workout_exercise()},
+                        {new workout_exercise()},
+                    }
+                }
+            };
+            string timestamp = "0 0 0 0 0 0 0 0";
+            db.Setup(c => c.user_workout.Find(1)).Returns(uWorkout);
             JsonResult result = myWorkoutsCon.MarkExercise(1, 2, timestamp) as JsonResult;
 
             Assert.IsNotNull(result);
@@ -73,56 +117,35 @@ namespace GoFit.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestMarkExerciseClickingSecondCheckboxAfterFirst()
+        public void TestMarkExerciseClickingLastBoxFirst()
         {
-            string timestamp = "";
-            JsonResult result = myWorkoutsCon.MarkExercise(1, 1, timestamp) as JsonResult;
+            byte[] ts = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            var uWorkout = new user_workout()
+            {
+                id = 1,
+                number_of_ex_completed = 0,
+                workout_id = 1,
+                user_id = 2,
+                timestamp = ts,
+                workout = new workout()
+                {
+                    workout_exercise = new List<workout_exercise>
+                    {
+                        {new workout_exercise()},
+                        {new workout_exercise()},
+                        {new workout_exercise()},
+                        {new workout_exercise()},
+                    }
+                }
+            };
+            string timestamp = "0 0 0 0 0 0 0 0";
+            db.Setup(c => c.user_workout.Find(1)).Returns(uWorkout);
+            JsonResult result = myWorkoutsCon.MarkExercise(1, 4, timestamp) as JsonResult;
 
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Data);
             Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
             var dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
-            Assert.AreEqual("true", dict["success"]);
-            Assert.AreEqual("false", dict["error"]);
-
-            result = myWorkoutsCon.MarkExercise(1, 2, timestamp) as JsonResult;
-
-            Assert.IsNotNull(result);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
-            dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
-            Assert.AreEqual("true", dict["success"]);
-            Assert.AreEqual("false", dict["error"]);
-        }
-
-        [TestMethod]
-        public void TestMarkExerciseFinishingExercise()
-        {
-            string timestamp = "";
-            JsonResult result = myWorkoutsCon.MarkExercise(1, 1, timestamp) as JsonResult;
-
-            Assert.IsNotNull(result);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
-            var dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
-            Assert.AreEqual("true", dict["success"]);
-            Assert.AreEqual("false", dict["error"]);
-
-            result = myWorkoutsCon.MarkExercise(1, 2, timestamp) as JsonResult;
-
-            Assert.IsNotNull(result);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
-            dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
-            Assert.AreEqual("true", dict["success"]);
-            Assert.AreEqual("false", dict["error"]);
-
-            result = myWorkoutsCon.MarkExercise(1, 3, timestamp) as JsonResult;
-
-            Assert.IsNotNull(result);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
-            dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
             Assert.AreEqual("true", dict["success"]);
             Assert.AreEqual("false", dict["error"]);
         }

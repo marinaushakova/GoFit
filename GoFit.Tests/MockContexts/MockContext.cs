@@ -9,6 +9,7 @@ using System.Web.Routing;
 using Moq;
 using GoFit.Models;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace GoFit.Tests.MockContexts
 {
