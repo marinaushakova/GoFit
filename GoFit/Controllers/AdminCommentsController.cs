@@ -14,7 +14,7 @@ using System.Data.Entity.Infrastructure;
 namespace GoFit.Controllers
 {
     [Authorize]
-    public class AdminCommentsController : Controller
+    public class AdminCommentsController : GoFitBaseController
     {
         private masterEntities db;
         private const int PAGE_SIZE = 10;
@@ -27,38 +27,12 @@ namespace GoFit.Controllers
         /// <summary>
         /// Constructor to create the default db context
         /// </summary>
-        public AdminCommentsController()
+        public AdminCommentsController() : base()
         {
-            db = new masterEntities();
+            db = this.getDB();
             pageSize = PAGE_SIZE;
             
-        }
-
-        protected override void OnAuthorization(AuthorizationContext filterContext)
-        {
-            base.OnAuthorization(filterContext);
-            try
-            {
-                var isAdmin = 0;
-                if (User.Identity.IsAuthenticated)
-                    isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
-
-                if (isAdmin != 1)
-                {
-                    ViewBag.UserIsAdmin = false;
-                    // Redirect non-administrative users to the home page upon authorization
-                    filterContext.Result = new RedirectResult("/Home/Index");
-                }
-                else
-                    ViewBag.UserIsAdmin = true;
             }
-            catch (Exception ex)
-            {
-                var err = new HandleErrorInfo(ex, "AdminComments", "Create");
-                RedirectToRoute("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Error on authorization. Please contact site administrator."));
-            }
-        }
-
 
         // GET: AdminComments
         public ActionResult Index(string filterString, string sortBy, int? page, CommentSearch commentSearch)
@@ -122,7 +96,7 @@ namespace GoFit.Controllers
         //        var err = new HandleErrorInfo(ex, "AdminComments", "Create");
         //        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the comment."));
         //    }
-
+            
         //}
 
         //// GET: AdminComments/Edit/5

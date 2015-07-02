@@ -27,30 +27,10 @@ namespace GoFit.Controllers
         /// <summary>
         /// Constructor to create the default db context
         /// </summary>
-        public AdminWorkoutsController()
+        public AdminWorkoutsController() : base()
         {
-            db = new masterEntities();
+            db = this.getDB();
             pageSize = PAGE_SIZE;
-        }
-
-        protected override void OnAuthorization(AuthorizationContext filterContext)
-        {
-            base.OnAuthorization(filterContext);
-
-            var isAdmin = 0;
-            if (User.Identity.IsAuthenticated)
-            {
-                isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
-            }
-
-            if (isAdmin != 1)
-            {
-                ViewBag.UserIsAdmin = false;
-                // Redirect non-administrative users to the home page upon authorization
-                filterContext.Result = new RedirectResult("/Home/Index");
-            }
-            else
-                ViewBag.UserIsAdmin = true;
         }
 
         ///// <summary>
@@ -185,7 +165,7 @@ namespace GoFit.Controllers
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminWorkouts", "Create");
-                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the workout."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the workout."));
             }
 
         }
@@ -221,7 +201,7 @@ namespace GoFit.Controllers
                     var oldWorkout = db.workouts.Find(workout.id);
                     if (oldWorkout == null)
                     {
-                        return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The workout does not exist or has already been deleted"));
+                        return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The workout does not exist or has already been deleted"));
                     }
                     var entry = db.Entry(oldWorkout);
                     var state = entry.State;
@@ -243,16 +223,16 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit workout as another admin may have already update this workout"));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit workout as another admin may have already update this workout"));
             }
             catch (DbUpdateException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit workout."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit workout."));
             }
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminWorkouts", "Edit");
-                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the workout."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the workout."));
             }
 
         }
@@ -282,7 +262,7 @@ namespace GoFit.Controllers
                 workout oldWorkout = db.workouts.Find(workout.id);
                 if (oldWorkout == null)
                 {
-                    return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The workout does not exist or has already been deleted"));
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The workout does not exist or has already been deleted"));
                 }
                 var entry = db.Entry(oldWorkout);
                 var state = entry.State;
@@ -293,16 +273,16 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout as another admin may have modified this workout"));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout as another admin may have modified this workout"));
             }
             catch (DbUpdateException ex)
             {
-                return View("_AdminDetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout."));
             }
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminWorkouts", "DeleteConfirmed");
-                return View("_DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout as it may be referenced in the database."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout as it may be referenced in the database."));
             }
 
         }
