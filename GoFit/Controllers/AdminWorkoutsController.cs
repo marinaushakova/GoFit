@@ -90,7 +90,7 @@ namespace GoFit.Controllers
                 {
                     db.workout_exercise.Add(w_ex);
                     db.SaveChanges();
-                    return RedirectToAction("AddExerciseToWorkout", "Home", new { id = w_ex.workout_id });
+                    return RedirectToAction("AddExerciseToWorkout", "AdminWorkouts", new { id = w_ex.workout_id });
                 }
                 catch
                 {
