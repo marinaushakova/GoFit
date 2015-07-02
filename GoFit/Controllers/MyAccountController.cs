@@ -97,7 +97,6 @@ namespace GoFit.Controllers
             string hashedPassword = Hasher.HashPassword(user.username, user.password);
             user.password = hashedPassword;
             user.is_admin = 0;
-            //user.timestamp = DateTime.Now;
 
             //checks if username already exists in db
             var isDuplicate = db.users.Where(u => u.username == user.username).FirstOrDefault();
@@ -118,13 +117,11 @@ namespace GoFit.Controllers
                 catch (Exception ex)
                 {
                     return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "An error occured while trying to register new account"));
-                    //return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to register new account");
                 }
             }
             else
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to register new account"));
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to register new account");
             }
         }
     }

@@ -91,7 +91,6 @@ namespace GoFit.Controllers
             if (myworkout == null)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Your workout could not be found."));
-                //return new HttpNotFoundResult("Workout not found");
             }
             else
             {
@@ -185,7 +184,6 @@ namespace GoFit.Controllers
                 result.Add("message", "Failed to mark progress as the workout does not exist or may have been deleted");
                 result.Add("code", "500");
                 return Json(result);
-                //return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The workout does not exist or has already been deleted"));
             }
             try
             {
@@ -219,7 +217,6 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                //return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to mark progress as the workout may have already been updated"));
                 var result = new Dictionary<string, string>();
                 result.Add("error", "true");
                 result.Add("position", Convert.ToString(position));
@@ -235,7 +232,6 @@ namespace GoFit.Controllers
                 result.Add("message", "Failed to mark progress as the workout may have already been updated");
                 result.Add("code", "500");
                 return Json(result);
-                //return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to nark progress."));
             }
             catch (Exception ex)
             {
@@ -278,7 +274,7 @@ namespace GoFit.Controllers
             }
             else
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to add this workout to user MyWorkouts page");
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Failed to add the requested workout to user workouts due to an invalid entry."));
             }
         }
 

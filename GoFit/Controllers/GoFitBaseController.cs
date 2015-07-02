@@ -83,7 +83,8 @@ namespace GoFit.Controllers
             var isAdmin = 0;
             if (User.Identity.IsAuthenticated)
             {
-                isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
+                var user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
+                if (user != null) isAdmin = user.is_admin;
             }
 
             string destinationController = filterContext.Controller.ToString();

@@ -41,7 +41,6 @@ namespace GoFit.Controllers
             if (view == null)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user profile."));
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             return view;
         }
@@ -53,7 +52,6 @@ namespace GoFit.Controllers
             if (view == null)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user profile."));
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             return view;
         }
@@ -66,10 +64,7 @@ namespace GoFit.Controllers
             if (user == null || user.id != userAccess.getUserId(User.Identity.Name))
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user."));
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            //user.timestamp = DateTime.Now;
 
             if (ModelState.IsValid)
             {
@@ -78,7 +73,7 @@ namespace GoFit.Controllers
                     string hashedPassword = Hasher.HashPassword(user.username, user.password);
                     user.password = hashedPassword;
                     var u = db.users.Find(user.id);
-                    //db.Entry(user).State = EntityState.Modified;
+
                     var entry = db.Entry(u);
                     var state = entry.State;
                     if (state == EntityState.Detached)
@@ -104,13 +99,11 @@ namespace GoFit.Controllers
                 catch (Exception ex)
                 {
                     return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit user."));
-                    //return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to save changes");
                 }
             }
             else
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Invalid changes."));
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "An error occured while trying to save changes");
             }
 
         }
