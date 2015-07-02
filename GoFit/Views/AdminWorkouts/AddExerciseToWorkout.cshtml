@@ -69,7 +69,7 @@
             var cmbEx = document.getElementById("cmbMeasure");
             var value = cmbEx.options[cmbEx.selectedIndex].value;
 
-            $.get("@Url.Action("GetMeasure", "Home")", { ex_id: value }, function (measure) {
+            $.get("@Url.Action("GetMeasure", "AdminWorkouts")", { ex_id: value }, function (measure) {
                 document.getElementById('lblMeasure').innerHTML = measure + "(s)";
             });
         }
