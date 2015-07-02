@@ -27,30 +27,10 @@ namespace GoFit.Controllers
         /// <summary>
         /// Constructor to create the default db context
         /// </summary>
-        public AdminExercisesController()
+        public AdminExercisesController() : base()
         {
-            db = new masterEntities();
+            db = this.getDB();
             pageSize = PAGE_SIZE;
-        }
-
-        protected override void OnAuthorization(AuthorizationContext filterContext)
-        {
-            base.OnAuthorization(filterContext);
-
-            var isAdmin = 0;
-            if (User.Identity.IsAuthenticated)
-            {
-                isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
-            }
-
-            if (isAdmin != 1)
-            {
-                ViewBag.UserIsAdmin = false;
-                // Redirect non-administrative users to the home page upon authorization
-                filterContext.Result = new RedirectResult("/Home/Index");
-            }
-            else
-                ViewBag.UserIsAdmin = true;
         }
 
         // GET: AdminExercises

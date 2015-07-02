@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Kevin\Desktop\SummerProjectWorkspace\GoFit\GoFit\Models\GoFitModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Marina\Documents\UWG\Project II\GoFit\GoFit\Models\GoFitModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

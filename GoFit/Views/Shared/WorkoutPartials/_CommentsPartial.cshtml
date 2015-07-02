@@ -1,0 +1,25 @@
+﻿@model GoFit.Models.workout
+<div class="comments_partial">
+<h2>Comments:</h2>
+
+@if (Request.IsAuthenticated) {Html.RenderAction("AddComment", "Home");}
+
+@if (Model.comments.Count() > 0)
+{
+    foreach (var item in Model.comments.OrderByDescending(c => c.date_created)) {
+    <div class="comment well">
+        <div class="row">
+            <div class="comment_header">
+                @Html.DisplayFor(modelItem => item.user.username) wrote on @Html.DisplayFor(modelItem => item.date_created):
+            </div>
+        </div>
+        <p>@Html.DisplayFor(modelItem => item.message)</p>
+        @Html.ActionLink("Back To Top", "Details", new { workoutId = Model.id })
+    </div>
+    }
+} else {
+    <p>
+        No comments were left yet
+    </p>
+}
+</div>

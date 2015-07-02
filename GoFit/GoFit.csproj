@@ -176,6 +176,7 @@
     <Compile Include="Controllers\ControllerHelpers\Hasher.cs" />
     <Compile Include="Controllers\ControllerHelpers\WorkoutSortSearch.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\ExerciseController.cs" />
     <Compile Include="Controllers\GoFitBaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
@@ -353,6 +354,10 @@
     <Content Include="Views\AdminComments\Index.cshtml" />
     <Content Include="Views\Shared\_DeleteUserWorkoutPartial.cshtml" />
     <Content Include="Views\AdminWorkouts\AddExerciseToWorkout.cshtml" />
+    <Content Include="Views\Shared\WorkoutPartials\_CommentsPartial.cshtml" />
+    <Content Include="Views\Home\AddComment.cshtml" />
+    <Content Include="Views\Exercise\Index.cshtml" />
+    <Content Include="Views\Exercise\ExerciseDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

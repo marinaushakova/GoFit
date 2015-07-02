@@ -23,7 +23,7 @@
           <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="User_id" Type="int" Nullable="false" />
           <Property Name="Workout_id" Type="int" Nullable="false" />
-          <Property Name="date_cteated" Type="datetime2" Precision="0" Nullable="false" />
+          <Property Name="date_created" Type="datetime2" Precision="0" Nullable="false" />
         </EntityType>
         <EntityType Name="exercise">
           <Key>
@@ -666,7 +666,7 @@
                 <ScalarProperty Name="timestamp" ColumnName="timestamp" />
                 <ScalarProperty Name="User_id" ColumnName="User_id" />
                 <ScalarProperty Name="Workout_id" ColumnName="Workout_id" />
-                <ScalarProperty Name="date_created" ColumnName="date_cteated" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

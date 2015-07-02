@@ -21,30 +21,13 @@ namespace GoFit.Controllers
         private const int PAGE_SIZE = 10;
         private UserAccess userAccess;
 
-        protected override void OnAuthorization(AuthorizationContext filterContext)
-        {
-            base.OnAuthorization(filterContext);
-
-            var isAdmin = 0;
-            if (User.Identity.IsAuthenticated)
-            {
-                isAdmin = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().is_admin;
-            }
-
-            // Redirect admins to admin home page upon authorization
-            if (isAdmin == 1)
-            {
-                filterContext.Result = new RedirectResult("/AdminHome/Index");
-            }
-        }
-
         /// <summary>
         /// Constructor to create the default db context
         /// </summary>
-        public HomeController()
+        public HomeController() : base()
         {
-            db = new masterEntities();
             pageSize = PAGE_SIZE;
+            db = this.getDB();
             userAccess = new UserAccess(db);
         }
 
@@ -52,10 +35,10 @@ namespace GoFit.Controllers
         /// Constructor to allow a passed in db context
         /// </summary>
         /// <param name="context">The context to use</param>
-        public HomeController(masterEntities context)
+        public HomeController(masterEntities context) : base(context)
         {
-            db = context;
             pageSize = PAGE_SIZE;
+            db = this.getDB();
             userAccess = new UserAccess(db);
         }
 
@@ -104,6 +87,8 @@ namespace GoFit.Controllers
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not find the specified workout."));
             }
+            //session is used in AddComment method
+            Session["workout_id"] = workoutId;
             return View(workout);
         }
 
@@ -269,6 +254,49 @@ namespace GoFit.Controllers
         {
             var exerciseList = db.workout_exercise.Where(m => m.workout_id == id).ToList();
             return PartialView(exerciseList);
+        }
+
+        /// <summary>
+        /// Calls add comment partial view
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public PartialViewResult AddComment()
+        {
+            return PartialView();
+        }
+
+        /// <summary>
+        /// Adds comment to workout
+        /// </summary>
+        /// <param name="comment">Comment being added</param>
+        /// <returns>AddComment pertial view</returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult AddComment(comment comment)
+        {
+            comment.date_created = DateTime.Now;
+            comment.User_id = userAccess.getUserId(User.Identity.Name);
+            comment.Workout_id = (int)Session["workout_id"];
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    db.comments.Add(comment);
+                    db.SaveChanges();
+                    return new PartialViewResult();
+                }
+                catch
+                {
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Comment could not be added."));
+                }
+            }
+            else
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Invalid Comment."));
+            }
+            
+            
         }
     }
 }

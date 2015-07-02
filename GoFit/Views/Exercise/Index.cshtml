@@ -1,0 +1,32 @@
+﻿@model IEnumerable<GoFit.Models.exercise>
+
+@{
+    ViewBag.Title = "Exercises";
+}
+
+<div class="row">
+    <div class="col-md-4 col-xs-12 exercise_list ex_details">
+        <div class="">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3>Exercises</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <tbody>
+                            @foreach (var exercise in Model)
+                            {
+                                <tr class="row">
+                                    <td class="col-xs-12">@Html.ActionLink(exercise.name, "Index", new { ex_id = exercise.id })</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.Exercise_id != null) {Html.RenderAction("ExerciseDetails", "Exercise", new { ex_id = ViewBag.Exercise_id });}
+
+</div>

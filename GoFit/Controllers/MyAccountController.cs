@@ -9,13 +9,16 @@ using System.Web.Security;
 using System.Security.Cryptography;
 using System.Text;
 using GoFit.Controllers.ControllerHelpers;
+using System.Security.Claims;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Security;
 
 namespace GoFit.Controllers
 {
-    public class MyAccountController : GoFitBaseController
+    public class MyAccountController : Controller
     {
         private masterEntities db;
-        //private ControllerHelpers helper;
 
         /// <summary>
         /// Constructor to create the default db context

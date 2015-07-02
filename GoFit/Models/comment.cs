@@ -16,6 +16,7 @@ namespace GoFit.Models
     public partial class comment
     {
         public int id { get; set; }
+        [Required(ErrorMessage = "Comment reqired", AllowEmptyStrings = false)]
         public string message { get; set; }
         [ConcurrencyCheck]
         public byte[] timestamp { get; set; }

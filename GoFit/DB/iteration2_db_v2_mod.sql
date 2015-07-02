@@ -870,3 +870,15 @@ INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) value
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (7, 10, 1, 20);
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (7, 11, 2, 20);
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (7, 12, 3, 20);
+
+INSERT INTO comment ([message], [User_id], [Workout_id], [date_created]) values ('I found this workout effective. I would recommend it to a beginner.', 4, 1, '2015-6-15 13:11:30');
+INSERT INTO comment ([message], [User_id], [Workout_id], [date_created]) values ('Was very challenging for me but effective. I loved it.', 5, 2, '2015-6-15 13:18:16');
+INSERT INTO comment ([message], [User_id], [Workout_id], [date_created]) values ('Please, post more workouts like this.', 3, 3, '2015-6-15 18:22:36');
+INSERT INTO comment ([message], [User_id], [Workout_id], [date_created]) values ('My body and I was working out together. We both found this workout challenging.', 3, 5, '2015-6-15 23:46:01');
+INSERT INTO comment ([message], [User_id], [Workout_id], [date_created]) values ('Greate workout, A+', 5, 1, '2015-6-16 09:12:55');
+INSERT INTO comment ([message], [User_id], [Workout_id], [date_created]) values ('It was to easy. And I like intensive working out.', 6, 3, '2015-6-16 11:11:00');
+INSERT INTO comment ([message], [User_id], [Workout_id], [date_created]) values ('I liked the combination of exercises here. They are not too difficult and not too easy.', 3, 6, '2015-6-16 15:28:40');
+INSERT INTO comment ([message], [User_id], [Workout_id], [date_created]) values ('I recommend this workout if you just starting to build you upper body muscles', 3, 1, '2015-6-17 12:03:35');
+INSERT INTO comment ([message], [User_id], [Workout_id], [date_created]) values ('Fun and challenging. Thanks for posting it!', 4, 2, '2015-6-18 07:41:14');
+INSERT INTO comment ([message], [User_id], [Workout_id], [date_created]) values ('I did not think I liked working out until I came accross this site. This workout was the first one I haved tried.', 4, 7, '2015-6-18 19:39:21');
+INSERT INTO comment ([message], [User_id], [Workout_id], [date_created]) values ('I found this too easy for me.', 6, 1, '2015-6-19 03:53:06');

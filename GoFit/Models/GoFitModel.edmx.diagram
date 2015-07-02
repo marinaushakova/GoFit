@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="45ddd7a87e9141809b9fad369e0aabbb" Name="Diagram1">
+      <Diagram DiagramId="985190e6e04b49c3bdd56abd24b44e23" Name="Diagram1">
         <EntityTypeShape EntityType="GoFitModel.category" Width="1.5" PointX="3.75" PointY="2.25" IsExpanded="true" />
         <EntityTypeShape EntityType="GoFitModel.comment" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
         <EntityTypeShape EntityType="GoFitModel.exercise" Width="1.5" PointX="6" PointY="8.625" IsExpanded="true" />
