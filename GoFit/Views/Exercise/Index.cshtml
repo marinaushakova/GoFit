@@ -27,6 +27,6 @@
         </div>
     </div>
 
-    @{Html.RenderAction("ExerciseDetails", "Exercise", new { ex_id = ViewBag.Exercise_id });}
+    @if (ViewBag.Exercise_id != null) {Html.RenderAction("ExerciseDetails", "Exercise", new { ex_id = ViewBag.Exercise_id });}
 
 </div>

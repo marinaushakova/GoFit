@@ -58,11 +58,11 @@ namespace GoFit.Controllers
         [AllowAnonymous]
         public ActionResult Index(int? ex_id)
         {
-            if (ex_id == null)
+            if (ex_id != null)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Exercise could not be retrieved with given parameters."));
+                ViewBag.Exercise_id = ex_id;
             }
-            ViewBag.Exercise_id = ex_id;
+            
             var exList = db.exercises.ToList();
             return View(exList);
         }
