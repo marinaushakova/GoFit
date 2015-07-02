@@ -359,6 +359,7 @@
     <Content Include="Views\Exercise\Index.cshtml" />
     <Content Include="Views\Exercise\ExerciseDetails.cshtml" />
     <Content Include="Views\AdminWorkouts\ExerciseList.cshtml" />
+    <Content Include="Views\Shared\_DetailedErrorPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
