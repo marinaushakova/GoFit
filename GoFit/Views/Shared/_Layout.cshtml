@@ -26,7 +26,6 @@
                 <ul class="nav navbar-nav">
                     @if (ViewBag.UserIsAdmin == true)
                     {
-                        <li>@Html.ActionLink("Admin Home", "Index", "AdminHome")</li>
                         <li>@Html.ActionLink("Categories", "Index", "AdminCategories")</li>
                         <li>@Html.ActionLink("Comments", "Index", "AdminComments")</li>
                         <li>@Html.ActionLink("Exercises", "Index", "AdminExercises")</li>
