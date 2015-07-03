@@ -22,8 +22,8 @@
     background-image: url(../Images/goFit_med.png);
     background-repeat: no-repeat;
     background-position: center;
-    transition: background-image 1s;
-	-webkit-transition: background-image 1s; /* Safari */
+    transition: all 0.7s ease-out;
+	-webkit-transition: all 0.7s ease-out; /* Safari */
     border-radius: 5px;
     box-shadow: #000 5px 5px 3px;
     -webkit-box-shadow: #000 5px 5px 3px;
@@ -32,6 +32,7 @@
 
 .gofit-header:hover {
     background-image: url(../Images/goFit_med_lit.png);
+    background-color: #000;
 }
 
 .gofit-invis-link {
