@@ -89,6 +89,12 @@ namespace GoFit.Controllers
             }
             //session is used in AddComment method
             Session["workout_id"] = workoutId;
+            // Checks if workout is in Favorite list
+            int userID = userAccess.getUserId(User.Identity.Name);
+            user_favorite_workout fav_workout = db.user_favorite_workout
+                                                    .Where(m => m.workout_id == (int)workoutId && 
+                                                            m.user_id == userID).FirstOrDefault();
+            ViewBag.IsFavorite = (fav_workout == null) ? false : true;
             return View(workout);
         }
 
@@ -261,7 +267,7 @@ namespace GoFit.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        public PartialViewResult AddComment()
+        public ActionResult AddComment()
         {
             return PartialView();
         }
@@ -275,9 +281,14 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult AddComment(comment comment)
         {
+            if (comment == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No comment to add was specified."));
+            }
+            
             comment.date_created = DateTime.Now;
             comment.User_id = userAccess.getUserId(User.Identity.Name);
-            comment.Workout_id = (int)Session["workout_id"];
+            if (Session["workout_id"] != null) comment.Workout_id = (int)Session["workout_id"];
             if (ModelState.IsValid)
             {
                 try
@@ -288,12 +299,12 @@ namespace GoFit.Controllers
                 }
                 catch
                 {
-                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Comment could not be added."));
+                    return PartialView("_ErrorPartial", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Comment could not be added."));
                 }
             }
             else
             {
-                return PartialView(comment);
+                return PartialView("_ErrorPartial", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Invalid comment."));
             }     
         }
     }

@@ -85,6 +85,11 @@ namespace GoFit.Controllers
         {
             workout workout;
 
+            if (user_workout_id == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Workout could not be retrieved with given parameters."));
+            }
+
             int userId = userAccess.getUserId(User.Identity.Name);
             user_workout myworkout = db.user_workout.Find(user_workout_id);
 
@@ -100,6 +105,16 @@ namespace GoFit.Controllers
                 ViewBag.isMyWorkout = true;
 
                 ViewBag.timestampString = timestampByteArrToString(myworkout.timestamp);
+
+                // Workout id is stored in session to be accessed from AddComment post method
+                if (workout != null) Session["workout_id"] = workout.id;
+                // Checks if workout is in Favorite list
+                int userID = userAccess.getUserId(User.Identity.Name);
+                user_favorite_workout fav_workout = db.user_favorite_workout
+                                                        .Where(m => m.workout_id == (int)workout.id &&
+                                                                m.user_id == userID).FirstOrDefault();
+                ViewBag.IsFavorite = (fav_workout == null) ? false : true;
+
                 return View(workout);
             }
         }
@@ -191,6 +206,7 @@ namespace GoFit.Controllers
                 result.Add("error", "true");
                 result.Add("position", Convert.ToString(position));
                 result.Add("message", "Failed to mark workout progress");
+                result.Add("code", "500");
                 return Json(result);
             }
         }

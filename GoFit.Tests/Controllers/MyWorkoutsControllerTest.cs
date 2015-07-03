@@ -20,6 +20,8 @@ namespace GoFit.Tests.Controllers
         private MyWorkoutsController myWorkoutsCon;
         private Mock<masterEntities> db;
         private WorkoutSearch search;
+        private user_workout uWorkout;
+        private byte[] ts; 
 
         [TestInitialize]
         public void Initialize()
@@ -33,6 +35,26 @@ namespace GoFit.Tests.Controllers
                 ControllerContext = MockContext.AuthenticationContext("jjones")
             };
             myWorkoutsCon.pageSize = 10;
+
+            ts = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            uWorkout = new user_workout()
+            {
+                id = 1,
+                number_of_ex_completed = 0,
+                workout_id = 1,
+                user_id = 2,
+                timestamp = ts,
+                workout = new workout()
+                {
+                    workout_exercise = new List<workout_exercise>
+                    {
+                        {new workout_exercise()},
+                        {new workout_exercise()},
+                        {new workout_exercise()},
+                        {new workout_exercise()},
+                    }
+                }
+            };
         }
 
         [TestMethod]
@@ -51,25 +73,6 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestMarkExerciseClickingFirstCheckbox()
         {
-            byte[] ts = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-            var uWorkout = new user_workout()
-            {
-                id = 1,
-                number_of_ex_completed = 0,
-                workout_id = 1,
-                user_id = 2,
-                timestamp = ts,
-                workout = new workout()
-                {
-                    workout_exercise = new List<workout_exercise>
-                    {
-                        {new workout_exercise()},
-                        {new workout_exercise()},
-                        {new workout_exercise()},
-                        {new workout_exercise()},
-                    }
-                }
-            };
             string timestamp = "0 0 0 0 0 0 0 0";
             db.Setup(c => c.user_workout.Find(1)).Returns(uWorkout);
             JsonResult result = myWorkoutsCon.MarkExercise(1, 1, timestamp) as JsonResult;
@@ -85,25 +88,6 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestMarkExerciseClickingSecondCheckbox()
         {
-            byte[] ts = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-            var uWorkout = new user_workout()
-            {
-                id = 1,
-                number_of_ex_completed = 0,
-                workout_id = 1,
-                user_id = 2,
-                timestamp = ts,
-                workout = new workout()
-                {
-                    workout_exercise = new List<workout_exercise>
-                    {
-                        {new workout_exercise()},
-                        {new workout_exercise()},
-                        {new workout_exercise()},
-                        {new workout_exercise()},
-                    }
-                }
-            };
             string timestamp = "0 0 0 0 0 0 0 0";
             db.Setup(c => c.user_workout.Find(1)).Returns(uWorkout);
             JsonResult result = myWorkoutsCon.MarkExercise(1, 2, timestamp) as JsonResult;
@@ -119,25 +103,6 @@ namespace GoFit.Tests.Controllers
         [TestMethod]
         public void TestMarkExerciseClickingLastBoxFirst()
         {
-            byte[] ts = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-            var uWorkout = new user_workout()
-            {
-                id = 1,
-                number_of_ex_completed = 0,
-                workout_id = 1,
-                user_id = 2,
-                timestamp = ts,
-                workout = new workout()
-                {
-                    workout_exercise = new List<workout_exercise>
-                    {
-                        {new workout_exercise()},
-                        {new workout_exercise()},
-                        {new workout_exercise()},
-                        {new workout_exercise()},
-                    }
-                }
-            };
             string timestamp = "0 0 0 0 0 0 0 0";
             db.Setup(c => c.user_workout.Find(1)).Returns(uWorkout);
             JsonResult result = myWorkoutsCon.MarkExercise(1, 4, timestamp) as JsonResult;
@@ -482,6 +447,124 @@ namespace GoFit.Tests.Controllers
             Assert.IsNotNull(result);
             Assert.AreEqual("Index", result.RouteValues["action"], "action was not Index");
             Assert.AreEqual("MyWorkouts", result.RouteValues["controller"], "controller was not MyWorkouts");
+        }
+
+        [TestMethod]
+        public void TestMyWorkoutsDetailsNoIdPassed()
+        {
+            ViewResult result = myWorkoutsCon.Details(null) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("Workout could not be retrieved with given parameters.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestMyWorkoutsDetailsBadIdPassed()
+        {
+            ViewResult result = myWorkoutsCon.Details(50404) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("Your workout could not be found.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestMyWorkoutsMarkWithBadId()
+        {
+            string timestamp = "0 0 0 0 0 0 0 0";
+            JsonResult result = myWorkoutsCon.MarkExercise(50405, 4, timestamp) as JsonResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Data);
+            Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
+            var dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
+            Assert.AreEqual("4", dict["position"]);
+            Assert.AreEqual("true", dict["error"]);
+            Assert.AreEqual("Failed to mark progress as the workout does not exist or may have been deleted", dict["message"]);
+            Assert.AreEqual("500", dict["code"]);
+        }
+
+        [TestMethod]
+        public void TestMyWorkoutsMarkWithConcurrencyException()
+        {
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateConcurrencyException());
+            string timestamp = "0 0 0 0 0 0 0 0";
+            JsonResult result = myWorkoutsCon.MarkExercise(1, 4, timestamp) as JsonResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Data);
+            Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
+            var dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
+            Assert.AreEqual("4", dict["position"]);
+            Assert.AreEqual("true", dict["error"]);
+            Assert.AreEqual("Failed to mark progress as the workout may have already been updated", dict["message"]);
+            Assert.AreEqual("500", dict["code"]);
+        }
+
+        [TestMethod]
+        public void TestMyWorkoutsMarkWithUpdateException()
+        {
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateConcurrencyException());
+            string timestamp = "0 0 0 0 0 0 0 0";
+            JsonResult result = myWorkoutsCon.MarkExercise(1, 4, timestamp) as JsonResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Data);
+            Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
+            var dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
+            Assert.AreEqual("4", dict["position"]);
+            Assert.AreEqual("true", dict["error"]);
+            Assert.AreEqual("Failed to mark progress as the workout may have already been updated", dict["message"]);
+            Assert.AreEqual("500", dict["code"]);
+        }
+
+        [TestMethod]
+        public void TestMyWorkoutsMarkWithOtherException()
+        {
+            db.Setup(c => c.SaveChanges()).Throws(new Exception());
+            string timestamp = "0 0 0 0 0 0 0 0";
+            JsonResult result = myWorkoutsCon.MarkExercise(1, 4, timestamp) as JsonResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Data);
+            Assert.AreEqual("Dictionary`2", result.Data.GetType().Name);
+            var dict = result.Data as System.Collections.Generic.Dictionary<string, string>;
+            Assert.AreEqual("4", dict["position"]);
+            Assert.AreEqual("true", dict["error"]);
+            Assert.AreEqual("Failed to mark workout progress", dict["message"]);
+            Assert.AreEqual("500", dict["code"]);
+        }
+
+        [TestMethod]
+        public void TestMyWorkoutsAddWorkoutWithBadWorkout()
+        {
+            user_workout u_workout = new user_workout();
+            ViewResult result = myWorkoutsCon.AddToMyWorkouts(u_workout) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to add the requested workout to user workouts.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestMyWorkoutsDeleteWorkoutNotFound()
+        {
+            user_workout u_workout = new user_workout();
+            u_workout.id = 50406;
+            ViewResult result = myWorkoutsCon.DeleteFromMyWorkouts(u_workout) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("The workout does not exist or has already been deleted", model.StatusDescription);
         }
 
     /* Private Test Helpers */
