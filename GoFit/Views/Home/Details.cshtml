@@ -12,13 +12,26 @@
                 new { workout_id = @Model.id },
                 new { @class = "btn btn-primary" })
     }
-    @if (User.Identity.IsAuthenticated && !ViewBag.IsFavorite) {
-        @Html.ActionLink(
+    @if (User.Identity.IsAuthenticated) {
+        if (ViewBag.IsFavorite)
+        {
+            @Html.ActionLink(
+                "Remove from Favorites",
+                "RemoveWorkoutFromFavorites",
+                "FavoriteWorkouts",
+                new { workout_id = @Model.id },
+                new { @class = "btn btn-primary" })
+        }
+        else
+        {
+            @Html.ActionLink(
                 "Add to Favorites",
                 "AddWorkoutToFavorites",
                 "FavoriteWorkouts",
                 new { workout_id = @Model.id },
                 new { @class = "btn btn-primary" })
+        }
+        
     }
 </div>
 
