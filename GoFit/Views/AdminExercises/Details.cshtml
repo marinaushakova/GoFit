@@ -57,6 +57,12 @@
             @Html.DisplayFor(model => model.user.username)
         </dd>
     </dl>
+    <div>
+        @if (!String.IsNullOrEmpty(@Model.link))
+        {
+            <iframe class="col-md-12 col-sm-12 exercise_video" width="640" height="400" src=@Model.link.Replace("watch?v=", "embed/") frameborder="0"></iframe>
+        }
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
