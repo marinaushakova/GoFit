@@ -16,18 +16,18 @@
         <hr />
         @Html.ValidationSummary(true)
         <div class="form-group">
-            @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.name, "Type Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.name)
-                @Html.ValidationMessageFor(model => model.name)
+                @Html.ValidationMessageFor(model => model.name, "Type Name required")
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.measure, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.measure, "Measured in Units", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.measure)
-                @Html.ValidationMessageFor(model => model.measure)
+                @Html.ValidationMessageFor(model => model.measure, "Measure required")
             </div>
         </div>
 
