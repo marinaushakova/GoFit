@@ -89,6 +89,11 @@ namespace GoFit.Controllers
             }
             //session is used in AddComment method
             Session["workout_id"] = workoutId;
+            int userID = userAccess.getUserId(User.Identity.Name);
+            user_favorite_workout fav_workout = db.user_favorite_workout
+                                                    .Where(m => m.workout_id == (int)workoutId && 
+                                                            m.user_id == userID).FirstOrDefault();
+            ViewBag.IsFavorite = (fav_workout == null) ? false : true;
             return View(workout);
         }
 

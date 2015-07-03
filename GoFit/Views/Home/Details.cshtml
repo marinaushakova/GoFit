@@ -12,7 +12,7 @@
                 new { workout_id = @Model.id },
                 new { @class = "btn btn-primary" })
     }
-    @if (User.Identity.IsAuthenticated) {
+    @if (User.Identity.IsAuthenticated && !ViewBag.IsFavorite) {
         @Html.ActionLink(
                 "Add to Favorites",
                 "AddWorkoutToFavorites",
