@@ -89,6 +89,7 @@ namespace GoFit.Controllers
             }
             //session is used in AddComment method
             Session["workout_id"] = workoutId;
+            // Checks if workout is in Favorite list
             int userID = userAccess.getUserId(User.Identity.Name);
             user_favorite_workout fav_workout = db.user_favorite_workout
                                                     .Where(m => m.workout_id == (int)workoutId && 

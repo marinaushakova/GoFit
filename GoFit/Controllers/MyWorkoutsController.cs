@@ -107,6 +107,12 @@ namespace GoFit.Controllers
                 ViewBag.timestampString = timestamp;
                 // Workout id is stored in session to be accessed from AddComment post method
                 if (workout != null) Session["workout_id"] = workout.id;
+                // Checks if workout is in Favorite list
+                int userID = userAccess.getUserId(User.Identity.Name);
+                user_favorite_workout fav_workout = db.user_favorite_workout
+                                                        .Where(m => m.workout_id == (int)workout.id &&
+                                                                m.user_id == userID).FirstOrDefault();
+                ViewBag.IsFavorite = (fav_workout == null) ? false : true;
                 return View(workout);
             }
         }
