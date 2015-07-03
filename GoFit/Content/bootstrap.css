@@ -2093,6 +2093,8 @@ fieldset[disabled] .btn-default.active {
   color: #ffffff;
   background-color: #428bca;
   border-color: #357ebd;
+  transition: all 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out; /* Safari */
 }
 
 .btn-primary:hover,
@@ -2100,8 +2102,8 @@ fieldset[disabled] .btn-default.active {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-  color: #ffffff;
-  background-color: #3276b1;
+  color: #285e8e;
+  background-color: white;
   border-color: #285e8e;
 }
 
@@ -4503,6 +4505,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-inverse {
   background-color: #222222;
   border-color: #080808;
+  opacity: 0.90;
 }
 
 .navbar-inverse .navbar-brand {

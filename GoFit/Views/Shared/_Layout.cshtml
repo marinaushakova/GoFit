@@ -26,7 +26,6 @@
                 <ul class="nav navbar-nav">
                     @if (ViewBag.UserIsAdmin == true)
                     {
-                        <li>@Html.ActionLink("Admin Home", "Index", "AdminHome")</li>
                         <li>@Html.ActionLink("Categories", "Index", "AdminCategories")</li>
                         <li>@Html.ActionLink("Comments", "Index", "AdminComments")</li>
                         <li>@Html.ActionLink("Exercises", "Index", "AdminExercises")</li>
@@ -52,7 +51,7 @@
         @RenderBody()
         <hr />
         <footer class="gofit-footer">
-            <p>&copy; @DateTime.Now.Year - GoFit &nbsp; | &nbsp; <a href="#top">Back to Top</a></p>
+            <p>&copy; @DateTime.Now.Year - GoFit &nbsp; | &nbsp; <a href="#top" style="text-decoration:none;">Back to Top</a></p>
         </footer>
     </div>
 

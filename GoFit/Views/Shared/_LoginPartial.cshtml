@@ -7,7 +7,14 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "MyProfile", routeValues: null, htmlAttributes: new { title = "My Profile" })
+            @if (ViewBag.UserIsAdmin == true)
+            {
+                @Html.ActionLink("Logged in as Admin: " + HttpContext.Current.User.Identity.Name, "Index", "AdminHome")
+            }
+            else
+            {
+                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "MyProfile", routeValues: null, htmlAttributes: new { title = "My Profile" })
+            }
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Logout</a></li>
     </ul>

@@ -6,7 +6,7 @@
 
 <h2>Admin Delete Type</h2>
 
-<h3>Are you sure you want to delete this type?</h3>
+<h3>Are you sure you want to delete the type with measure: @Model.measure?</h3>
 <div>
     <hr />
     <dl class="dl-horizontal">
@@ -32,7 +32,7 @@
         @Html.HiddenFor(model => model.timestamp)
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <input type="submit" value="Delete" class="btn btn-primary" /> |
             @Html.ActionLink("Back to List", "Index")
         </div>
     }

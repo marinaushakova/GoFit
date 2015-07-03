@@ -587,6 +587,7 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[exercise$fk_Exercise_Type1]') AND parent_object_id = OBJECT_ID(N'[dbo].[exercise]'))
 ALTER TABLE [dbo].[exercise]  WITH CHECK ADD  CONSTRAINT [exercise$fk_Exercise_Type1] FOREIGN KEY([type_id])
 REFERENCES [dbo].[type] ([id])
+ON DELETE CASCADE
 GO
 IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[exercise$fk_Exercise_Type1]') AND parent_object_id = OBJECT_ID(N'[dbo].[exercise]'))
 ALTER TABLE [dbo].[exercise] CHECK CONSTRAINT [exercise$fk_Exercise_Type1]
@@ -603,6 +604,7 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[workout$fk_Workout_Category1]') AND parent_object_id = OBJECT_ID(N'[dbo].[workout]'))
 ALTER TABLE [dbo].[workout]  WITH CHECK ADD  CONSTRAINT [workout$fk_Workout_Category1] FOREIGN KEY([category_id])
 REFERENCES [dbo].[category] ([id])
+ON DELETE CASCADE
 GO
 IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[workout$fk_Workout_Category1]') AND parent_object_id = OBJECT_ID(N'[dbo].[workout]'))
 ALTER TABLE [dbo].[workout] CHECK CONSTRAINT [workout$fk_Workout_Category1]
@@ -619,6 +621,7 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[workout_exercise$fk_Workout_has_Exercise_Exercise1]') AND parent_object_id = OBJECT_ID(N'[dbo].[workout_exercise]'))
 ALTER TABLE [dbo].[workout_exercise]  WITH CHECK ADD  CONSTRAINT [workout_exercise$fk_Workout_has_Exercise_Exercise1] FOREIGN KEY([exercise_id])
 REFERENCES [dbo].[exercise] ([id])
+ON DELETE CASCADE
 GO
 IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[workout_exercise$fk_Workout_has_Exercise_Exercise1]') AND parent_object_id = OBJECT_ID(N'[dbo].[workout_exercise]'))
 ALTER TABLE [dbo].[workout_exercise] CHECK CONSTRAINT [workout_exercise$fk_Workout_has_Exercise_Exercise1]
@@ -627,6 +630,7 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[workout_exercise$fk_Workout_has_Exercise_Workout1]') AND parent_object_id = OBJECT_ID(N'[dbo].[workout_exercise]'))
 ALTER TABLE [dbo].[workout_exercise]  WITH CHECK ADD  CONSTRAINT [workout_exercise$fk_Workout_has_Exercise_Workout1] FOREIGN KEY([workout_id])
 REFERENCES [dbo].[workout] ([id])
+ON DELETE CASCADE
 GO
 IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[workout_exercise$fk_Workout_has_Exercise_Workout1]') AND parent_object_id = OBJECT_ID(N'[dbo].[workout_exercise]'))
 ALTER TABLE [dbo].[workout_exercise] CHECK CONSTRAINT [workout_exercise$fk_Workout_has_Exercise_Workout1]
@@ -643,6 +647,7 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[user_workout$fk_User_has_Workout_Workout1]') AND parent_object_id = OBJECT_ID(N'[dbo].[user_workout]'))
 ALTER TABLE [dbo].[user_workout]  WITH CHECK ADD  CONSTRAINT [user_workout$fk_User_has_Workout_Workout1] FOREIGN KEY([workout_id])
 REFERENCES [dbo].[workout] ([id])
+ON DELETE CASCADE
 GO
 IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[user_workout$fk_User_has_Workout_Workout1]') AND parent_object_id = OBJECT_ID(N'[dbo].[user_workout]'))
 ALTER TABLE [dbo].[user_workout] CHECK CONSTRAINT [user_workout$fk_User_has_Workout_Workout1]
@@ -659,6 +664,7 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[user_favorite_workout$fk_User_Favorite_Workout_Workout1]') AND parent_object_id = OBJECT_ID(N'[dbo].[user_favorite_workout]'))
 ALTER TABLE [dbo].[user_favorite_workout]  WITH CHECK ADD  CONSTRAINT [user_favorite_workout$fk_User_Favorite_Workout_Workout1] FOREIGN KEY([workout_id])
 REFERENCES [dbo].[workout] ([id])
+ON DELETE CASCADE
 GO
 IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[user_favorite_workout$fk_User_Favorite_Workout_Workout1]') AND parent_object_id = OBJECT_ID(N'[dbo].[user_favorite_workout]'))
 ALTER TABLE [dbo].[user_favorite_workout] CHECK CONSTRAINT [user_favorite_workout$fk_User_Favorite_Workout_Workout1]
@@ -675,6 +681,7 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[comment$fk_Comment_Workout1]') AND parent_object_id = OBJECT_ID(N'[dbo].[comment]'))
 ALTER TABLE [dbo].[comment]  WITH CHECK ADD  CONSTRAINT [comment$fk_Comment_Workout1] FOREIGN KEY([Workout_id])
 REFERENCES [dbo].[workout] ([id])
+ON DELETE CASCADE
 GO
 IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[comment$fk_Comment_Workout1]') AND parent_object_id = OBJECT_ID(N'[dbo].[comment]'))
 ALTER TABLE [dbo].[comment] CHECK CONSTRAINT [comment$fk_Comment_Workout1]

@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -90,7 +90,7 @@ namespace GoFit.Controllers
                 {
                     db.workout_exercise.Add(w_ex);
                     db.SaveChanges();
-                    return RedirectToAction("AddExerciseToWorkout", "Home", new { id = w_ex.workout_id });
+                    return RedirectToAction("AddExerciseToWorkout", "AdminWorkouts", new { id = w_ex.workout_id });
                 }
                 catch
                 {
@@ -253,15 +253,15 @@ namespace GoFit.Controllers
                 ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", workout.created_by_user_id);
                 return View(workout);
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit workout as another admin may have already update this workout"));
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit workout."));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the workout."));
             }
@@ -302,11 +302,11 @@ namespace GoFit.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout as another admin may have modified this workout"));
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout."));
             }

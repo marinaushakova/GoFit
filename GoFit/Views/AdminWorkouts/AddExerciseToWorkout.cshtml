@@ -59,7 +59,7 @@
 
 @{Html.RenderAction("ExerciseList", "AdminWorkouts", new { id = @ViewBag.Workout.id });}
 
-@Html.ActionLink("View Workout", "Details", new { workoutId = @ViewBag.Workout.id }, new { @class = "btn btn-primary" })
+@Html.ActionLink("View Workout", "Details", new { id = @ViewBag.Workout.id }, new { @class = "btn btn-primary" })
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -37,21 +37,21 @@ namespace GoFit.Controllers.ControllerHelpers
             return -1;
         }
 
-        /// <summary>
-        /// Helper to determine whether or not a user is an admin
-        /// or not
-        /// </summary>
-        /// <param name="username">The username as a string</param>
-        /// <returns>true if the user is an administrator</returns>
-        public bool userIsAdmin(string username)
-        {
-            bool isAdmin = false;
-            user user = db.users.Where(u => u.username.Equals(username)).FirstOrDefault();
-            if (user.is_admin == 1)
-            {
-                isAdmin = true;
-            }
-            return isAdmin;
-        }
+        ///// <summary>
+        ///// Helper to determine whether or not a user is an admin
+        ///// or not
+        ///// </summary>
+        ///// <param name="username">The username as a string</param>
+        ///// <returns>true if the user is an administrator</returns>
+        //public bool userIsAdmin(string username)
+        //{
+        //    bool isAdmin = false;
+        //    user user = db.users.Where(u => u.username.Equals(username)).FirstOrDefault();
+        //    if (user.is_admin == 1)
+        //    {
+        //        isAdmin = true;
+        //    }
+        //    return isAdmin;
+        //}
     }
 }
