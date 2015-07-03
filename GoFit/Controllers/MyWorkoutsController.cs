@@ -85,6 +85,11 @@ namespace GoFit.Controllers
         {
             workout workout;
 
+            if (user_workout_id == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Workout could not be retrieved with given parameters."));
+            }
+
             int userId = userAccess.getUserId(User.Identity.Name);
             user_workout myworkout = db.user_workout.Find(user_workout_id);
 
@@ -191,6 +196,7 @@ namespace GoFit.Controllers
                 result.Add("error", "true");
                 result.Add("position", Convert.ToString(position));
                 result.Add("message", "Failed to mark workout progress");
+                result.Add("code", "500");
                 return Json(result);
             }
         }
