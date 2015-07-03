@@ -14,12 +14,6 @@
 	-webkit-transition: all 0.3s ease-out; /* Safari */
 }
 
-.gofit-button:hover {
-    color: #428bca;
-    background-color: white;
-    font-weight: bold;
-}
-
 .gofit-header {
     background-color: #222;
     margin: 10px 0px;
