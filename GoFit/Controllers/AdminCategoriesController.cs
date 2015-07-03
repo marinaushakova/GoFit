@@ -141,15 +141,15 @@ namespace GoFit.Controllers
                 }
                 return View(category);
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit category as another admin may have already update this category"));
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit category."));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the category."));
             }
@@ -198,7 +198,7 @@ namespace GoFit.Controllers
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category."));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
             }

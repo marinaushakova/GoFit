@@ -140,11 +140,11 @@ namespace GoFit.Controllers
                 }
                 return View(type);
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit type as another admin may have already update this type"));
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit type."));
             }

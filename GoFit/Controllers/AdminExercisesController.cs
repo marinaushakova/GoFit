@@ -148,15 +148,15 @@ namespace GoFit.Controllers
                 ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", exercise.created_by_user_id);
                 return View(exercise);
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit exercise as another admin may have already update this exercise"));
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit exercise."));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit the exercise."));
             }
@@ -197,15 +197,15 @@ namespace GoFit.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise as another admin may have modified it"));
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise."));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise as it may be referenced in the database."));
             }

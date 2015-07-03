@@ -9,57 +9,74 @@
 <h3>@ViewBag.greeting</h3>
 
 <hr />
-<div>
-    @Html.ActionLink("List Categories", "Index", "AdminCategories")<br /><br />
-    @Html.ActionLink("List Comments", "Index", "AdminComments")<br /><br />
-    @Html.ActionLink("List Exercises", "Index", "AdminExercises")<br /><br />
-    @Html.ActionLink("List Types", "Index", "AdminTypes")<br /><br />
-    @Html.ActionLink("List Workouts", "Index", "AdminWorkouts")
-</div>
-
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4 col-xs-12 personal_info_detail well">
             <div class="row">
-                <div class="personal_info_header">Personal Info</div>
+                <div class="personal_info_header">Edit Entities</div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Username:</span></h4></div>
-                <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.username)</div>
+                <div class="col-md-8 col-sm-12">@Html.ActionLink("List categories", "Index" , "AdminCategories" , routeValues: null, htmlAttributes: new { @class="btn btn-primary" })</div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">First Name:</span></h4></div>
-                <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.fname)</div>
+                <div class="col-md-8 col-sm-12">@Html.ActionLink("List Comments", "Index", "AdminComments", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })</div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Last Name:</span></h4></div>
-                <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.lname)</div>
+                <div class="col-md-8 col-sm-12">@Html.ActionLink("List Exercises", "Index", "AdminExercises", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })</div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Gender:</span></h4></div>
-                @{
-                    var gender = "";
-                    if (Model.is_male != null)
-                    {
-                        gender = Model.is_male == 1 ? "Male" : "Female";
-                    }
-                }
-                <div class="col-md-8 col-sm-12 my_profile_prop">@gender</div>
+                <div class="col-lg-8 col-lg-12">@Html.ActionLink("List Types", "Index", "AdminTypes", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })</div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Weight:</span></h4></div>
-                <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.weight)</div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Height:</span></h4></div>
-                <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.height)</div>
+                <div class="col-lg-8 col-lg-12">@Html.ActionLink("List Workouts", "Index", "AdminWorkouts", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })</div>
             </div>
         </div>
     </div>
-
-    <p>
-        @Html.ActionLink("Edit My Profile", "Edit", new { id = Model.id }, new { @class = "btn btn-primary" })
-    </p>
 </div>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 col-xs-12 personal_info_detail well">
+                <div class="row">
+                    <div class="personal_info_header">Personal Info</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Username:</span></h4></div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.username)</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">First Name:</span></h4></div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.fname)</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Last Name:</span></h4></div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.lname)</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Gender:</span></h4></div>
+                    @{
+                        var gender = "";
+                        if (Model.is_male != null)
+                        {
+                            gender = Model.is_male == 1 ? "Male" : "Female";
+                        }
+                    }
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@gender</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Weight:</span></h4></div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.weight)</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Height:</span></h4></div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.height)</div>
+                </div>
+            </div>
+        </div>
+
+        <p>
+            @Html.ActionLink("Edit My Profile", "Edit", new { id = Model.id }, new { @class = "btn btn-primary" })
+        </p>
+    </div>
 
