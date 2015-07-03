@@ -109,7 +109,7 @@ namespace GoFit.Controllers
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The exercise could not be found or does not exist"));
             }
-            ViewBag.type_id = new SelectList(db.types, "id", "name", exercise.type_id);
+            ViewBag.type_id = new SelectList(db.types, "id", "measure", exercise.type_id);
             ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", exercise.created_by_user_id);
             return View(exercise);
         }
