@@ -12,7 +12,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Your comment:</label>
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.message, new { @class = "comment_textarea", @Value = "" })
+                @Html.TextAreaFor(model => model.message, new { @class = "comment_textarea" })
                 @Html.ValidationMessageFor(model => model.message)
             </div>
         </div>
@@ -24,7 +24,6 @@
         </div>
     </div>
 }
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

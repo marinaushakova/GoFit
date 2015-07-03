@@ -261,7 +261,7 @@ namespace GoFit.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        public PartialViewResult AddComment()
+        public ActionResult AddComment()
         {
             return PartialView();
         }
@@ -275,6 +275,11 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult AddComment(comment comment)
         {
+            if (comment == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No comment to add was specified."));
+            }
+            
             comment.date_created = DateTime.Now;
             comment.User_id = userAccess.getUserId(User.Identity.Name);
             if (Session["workout_id"] != null) comment.Workout_id = (int)Session["workout_id"];
@@ -293,7 +298,7 @@ namespace GoFit.Controllers
             }
             else
             {
-                return PartialView(comment);
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Invalid comment."));
             }     
         }
     }

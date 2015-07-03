@@ -363,6 +363,64 @@ namespace GoFit.Tests.Controllers
         }
 
         [TestMethod]
+        public void TestHomeControllerAddCommentWithNoUserError()
+        {
+            controller = new HomeController(db.Object)
+            {
+                ControllerContext = MockContext.AuthenticationContext("not_a_real_user")
+            };
+            var comment = new comment();
+            ViewResult result = controller.AddComment(comment) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Comment could not be added.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestHomeControllerAddCommentWithValidationErrs()
+        {
+            var comment = new comment();
+            controller.ModelState.AddModelError("Fail", "Failed");
+            ViewResult result = controller.AddComment(comment) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Invalid comment.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestHomeControllerAddNoCommentPassedError()
+        {
+            ViewResult result = controller.AddComment(null) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("No comment to add was specified.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestHomeControllerAddCommentWithBadCommentObj()
+        {
+            var comment = new comment();
+            var ex = new Exception();
+            db.Setup(c => c.comments.Add(comment)).Throws(ex);
+            ViewResult result = controller.AddComment(comment) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Comment could not be added.", model.StatusDescription);
+        }
+
+        [TestMethod]
         public void TestHomeControllerDetailsNoIdError()
         {
             ViewResult result = controller.Details(null) as ViewResult;
