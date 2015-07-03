@@ -12,6 +12,14 @@
                 new { workout_id = @Model.id },
                 new { @class = "btn btn-primary" })
     }
+    @if (User.Identity.IsAuthenticated) {
+        @Html.ActionLink(
+                "Add to Favorites",
+                "AddWorkoutToFavorites",
+                "FavoriteWorkouts",
+                new { workout_id = @Model.id },
+                new { @class = "btn btn-primary" })
+    }
 </div>
 
 @Html.Partial("WorkoutPartials/_CommentsPartial")

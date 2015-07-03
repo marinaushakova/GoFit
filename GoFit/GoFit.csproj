@@ -177,6 +177,7 @@
     <Compile Include="Controllers\ControllerHelpers\WorkoutSortSearch.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ExerciseController.cs" />
+    <Compile Include="Controllers\FavoriteWorkoutsController.cs" />
     <Compile Include="Controllers\GoFitBaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
@@ -365,6 +366,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
     <Folder Include="Views\Error\" />
+    <Folder Include="Views\FavoriteWorkouts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
