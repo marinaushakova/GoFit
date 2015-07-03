@@ -63,7 +63,7 @@ namespace GoFit.Controllers
         // GET: AdminExercises/Create
         public ActionResult Create()
         {
-            ViewBag.type_id = new SelectList(db.types, "id", "name");
+            ViewBag.type_id = new SelectList(db.types, "id", "measure");
             ViewBag.created_by_user_id = new SelectList(db.users, "id", "username");
             return View();
         }
@@ -86,7 +86,7 @@ namespace GoFit.Controllers
                     return RedirectToAction("Index");
                 }
 
-                ViewBag.type_id = new SelectList(db.types, "id", "name", exercise.type_id);
+                ViewBag.type_id = new SelectList(db.types, "id", "measure", exercise.type_id);
                 ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", exercise.created_by_user_id);
                 return View(exercise);
             }

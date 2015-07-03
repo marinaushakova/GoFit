@@ -347,10 +347,8 @@
     <Content Include="Views\Shared\WorkoutPartials\_WorkoutPartial.cshtml" />
     <Content Include="Views\Shared\DetailedError.cshtml" />
     <Content Include="Views\Shared\DevError.cshtml" />
-    <Content Include="Views\AdminComments\Create.cshtml" />
     <Content Include="Views\AdminComments\Delete.cshtml" />
     <Content Include="Views\AdminComments\Details.cshtml" />
-    <Content Include="Views\AdminComments\Edit.cshtml" />
     <Content Include="Views\AdminComments\Index.cshtml" />
     <Content Include="Views\Shared\_DeleteUserWorkoutPartial.cshtml" />
     <Content Include="Views\AdminWorkouts\AddExerciseToWorkout.cshtml" />
