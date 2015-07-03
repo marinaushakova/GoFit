@@ -24,7 +24,7 @@
             <label class="control-label col-md-2">Username</label>
             <div class="col-md-10">
                 @Html.TextBoxFor(model => model.username )
-                @Html.ValidationMessageFor(model => model.username)
+                @Html.ValidationMessageFor(model => model.username, "Username required")
             </div>
         </div>
 
@@ -32,7 +32,7 @@
             <label class="control-label col-md-2">Password</label>
             <div class="col-md-10">
                 @Html.PasswordFor(model => model.password, new { @Value = "" })
-                @Html.ValidationMessageFor(model => model.password)
+                @Html.ValidationMessageFor(model => model.password, "Password required")
             </div>
         </div>
 
@@ -40,7 +40,7 @@
             <label class="control-label col-md-2">First Name</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.fname)
-                @Html.ValidationMessageFor(model => model.fname)
+                @Html.ValidationMessageFor(model => model.fname, "Name required")
             </div>
         </div>
 
@@ -48,7 +48,7 @@
             <label class="control-label col-md-2">Last Name</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.lname)
-                @Html.ValidationMessageFor(model => model.lname)
+                @Html.ValidationMessageFor(model => model.lname, "Last Name required")
             </div>
         </div>
 
