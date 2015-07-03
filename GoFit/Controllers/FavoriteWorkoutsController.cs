@@ -85,5 +85,38 @@ namespace GoFit.Controllers
             }
 
         }
+
+        [Authorize]
+        public ActionResult RemoveWorkoutFromFavorites([Bind(Include = "id,timestamp")] int? workout_id)
+        {
+            if (workout_id == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No workout id was specified."));
+            }
+
+            int userID = userAccess.getUserId(User.Identity.Name);
+            if (userID == -1)
+            {
+                return View();
+            }
+
+            try
+            {
+                user_favorite_workout favWorkout = db.user_favorite_workout.Where(m => m.workout_id == (int)workout_id &&
+                                                            m.user_id == userID).FirstOrDefault();
+                if (favWorkout == null)
+                {
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The workout is not in Favorite list"));
+                }
+                db.user_favorite_workout.Remove(favWorkout);
+                db.SaveChanges();
+                return RedirectToAction("Details", "Home", new { workoutId = workout_id });
+            }
+            catch (Exception ex)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the requested workout from favorites."));
+            }
+
+        }
 	}
 }
