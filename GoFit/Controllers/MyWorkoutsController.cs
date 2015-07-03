@@ -106,7 +106,7 @@ namespace GoFit.Controllers
                 }
                 ViewBag.timestampString = timestamp;
                 // Workout id is stored in session to be accessed from AddComment post method
-                Session["workout_id"] = workout.id;
+                if (workout != null) Session["workout_id"] = workout.id;
                 return View(workout);
             }
         }

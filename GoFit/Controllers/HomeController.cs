@@ -293,12 +293,12 @@ namespace GoFit.Controllers
                 }
                 catch
                 {
-                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Comment could not be added."));
+                    return PartialView("_ErrorPartial", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Comment could not be added."));
                 }
             }
             else
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Invalid comment."));
+                return PartialView("_ErrorPartial", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Invalid comment."));
             }     
         }
     }

@@ -370,12 +370,12 @@ namespace GoFit.Tests.Controllers
                 ControllerContext = MockContext.AuthenticationContext("not_a_real_user")
             };
             var comment = new comment();
-            ViewResult result = controller.AddComment(comment) as ViewResult;
+            PartialViewResult result = controller.AddComment(comment) as PartialViewResult;
             Assert.IsNotNull(result);
-            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.AreEqual("_ErrorPartial", result.ViewName);
             Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
             var model = result.Model as HttpStatusCodeResult;
-            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual(400, model.StatusCode);
             Assert.AreEqual("Comment could not be added.", model.StatusDescription);
         }
 
@@ -384,12 +384,12 @@ namespace GoFit.Tests.Controllers
         {
             var comment = new comment();
             controller.ModelState.AddModelError("Fail", "Failed");
-            ViewResult result = controller.AddComment(comment) as ViewResult;
+            PartialViewResult result = controller.AddComment(comment) as PartialViewResult;
             Assert.IsNotNull(result);
-            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.AreEqual("_ErrorPartial", result.ViewName);
             Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
             var model = result.Model as HttpStatusCodeResult;
-            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual(400, model.StatusCode);
             Assert.AreEqual("Invalid comment.", model.StatusDescription);
         }
 
@@ -411,12 +411,12 @@ namespace GoFit.Tests.Controllers
             var comment = new comment();
             var ex = new Exception();
             db.Setup(c => c.comments.Add(comment)).Throws(ex);
-            ViewResult result = controller.AddComment(comment) as ViewResult;
+            PartialViewResult result = controller.AddComment(comment) as PartialViewResult;
             Assert.IsNotNull(result);
-            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.AreEqual("_ErrorPartial", result.ViewName);
             Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
             var model = result.Model as HttpStatusCodeResult;
-            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual(400, model.StatusCode);
             Assert.AreEqual("Comment could not be added.", model.StatusDescription);
         }
 
