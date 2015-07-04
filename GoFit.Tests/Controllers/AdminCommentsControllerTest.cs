@@ -61,19 +61,19 @@ namespace GoFit.Tests.Controllers
 
         }
 
-        /// <summary>
-        /// Test that the comments are returned and sorted in descending
-        /// order upon passing "name_desc" to the Index
-        /// </summary>
-        [TestMethod]
-        public void TestSortAdminCommentsNameDesc()
-        {
-            string sortBy = "name_desc";
-            ViewResult result = adminCon.Index(null, sortBy, null, search) as ViewResult;
-            Assert.IsNotNull(result);
-            var comments = (PagedList<comment>)result.ViewData.Model;
-            Assert.IsTrue(this.isSorted(comments, "name", "desc"));
-        }
+        ///// <summary>
+        ///// Test that the comments are returned and sorted in descending
+        ///// order upon passing "name_desc" to the Index
+        ///// </summary>
+        //[TestMethod]
+        //public void TestSortAdminCommentsNameDesc()
+        //{
+        //    string sortBy = "name_desc";
+        //    ViewResult result = adminCon.Index(null, sortBy, null, search) as ViewResult;
+        //    Assert.IsNotNull(result);
+        //    var comments = (PagedList<comment>)result.ViewData.Model;
+        //    Assert.IsTrue(this.isSorted(comments, "name", "desc"));
+        //}
 
         /// <summary>
         /// Test that the comments are returned and sorted in descending

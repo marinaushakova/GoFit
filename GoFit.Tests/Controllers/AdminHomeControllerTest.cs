@@ -12,15 +12,15 @@ namespace GoFit.Tests.Controllers
 
         private AdminHomeController adminCon;
 
-        /// <summary>
-        /// Test that the AdminTypes Index view returns data
-        /// </summary>
-        [TestMethod]
-        public void TestAdminHomeIndexViewRender()
-        {
-            this.adminCon = new AdminHomeController();
-            ViewResult result = adminCon.Index() as ViewResult;
-            Assert.IsNotNull(result);
-        }
+        ///// <summary>
+        ///// Test that the AdminTypes Index view returns data
+        ///// </summary>
+        //[TestMethod]
+        //public void TestAdminHomeIndexViewRender()
+        //{
+        //    this.adminCon = new AdminHomeController();
+        //    ViewResult result = adminCon.Index() as ViewResult;
+        //    Assert.IsNotNull(result);
+        //}
     }
 }

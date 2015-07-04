@@ -19,10 +19,10 @@
                 <form action="/AdminComments" method="post" class="form-inline">
                     <div class="search_inputs form-group row">
                         <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
-                            <input class="" id="MessageSearch" name="Message" type="text" value="@Session["MessageSearchParam"]" placeholder="Message..." />
+                            <input class="form-control" id="MessageSearch" name="Message" type="text" value="@Session["MessageSearchParam"]" placeholder="Message..." />
                         </div>
                         <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
-                            <input class="" id="UsernameSearch" name="Username" type="text" value="@Session["UsernameSearchParam"]" placeholder="Username..." />
+                            <input class="form-control" id="UsernameSearch" name="Username" type="text" value="@Session["UsernameSearchParam"]" placeholder="Username..." />
                         </div>
                         <div class="col-lg-2 col-md-1 col-sm-12 col-xs-12">
                             <input class="btn btn-primary" type="submit" value="Search" />
@@ -30,30 +30,32 @@
                     </div>
                 </form>
             </div>
-            <table class="table">
-                <tr class="row">
-                    <th class="col-xs-2">@Html.ActionLink("Message", "Index", new { sortBy = ViewBag.MessageSortParam, filterString = ViewBag.FilterParam })</th>
-                    <th class="col-xs-3">@Html.ActionLink("Date Created", "Index", new { sortBy = ViewBag.DateSortParam, filterString = ViewBag.FilterParam })</th>
-                    <th class="col-xs-3">@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UsernameSortParam, filterString = ViewBag.FilterParam })</th>
-                    <th class="col-xs-3">@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.WorkoutSortParam, filterString = ViewBag.FilterParam })</th>
-                    <th>&nbsp;</th>
-                </tr>
-
-                @foreach (var item in Model)
-                {
+            <table class="table table-striped table-hover container-fluid">
+                <thead>
                     <tr class="row">
-
-                        <td class="col-xs-2">@Html.DisplayFor(modelItem => item.message)</td>
-                        <td class="col-xs-3">@Html.DisplayFor(modelItem => item.date_created)</td>
-                        <td class="col-xs-3">@Html.DisplayFor(modelItem => item.user.username)</td>
-                        <td class="col-xs-3">@Html.DisplayFor(modelItem => item.workout.name)</td>
-                        <td>
-                            @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.id })
-                        </td>
+                        <th class="col-xs-4">@Html.ActionLink("Message", "Index", new { sortBy = ViewBag.MessageSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-2">@Html.ActionLink("Date Created", "Index", new { sortBy = ViewBag.DateSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-2">@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UsernameSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-2">@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.WorkoutSortParam, filterString = ViewBag.FilterParam })</th>
+                        <th class="col-xs-2">&nbsp;</th>
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="row">
 
+                            <td class="col-xs-4">@Html.DisplayFor(modelItem => item.message)</td>
+                            <td class="col-xs-2">@Html.DisplayFor(modelItem => item.date_created)</td>
+                            <td class="col-xs-2">@Html.DisplayFor(modelItem => item.user.username)</td>
+                            <td class="col-xs-2">@Html.DisplayFor(modelItem => item.workout.name)</td>
+                            <td class="col-xs-2">
+                                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
             <div class="pagination_container">
                 @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
