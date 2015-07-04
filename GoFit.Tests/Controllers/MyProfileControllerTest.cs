@@ -8,6 +8,7 @@ using GoFit.Tests.MockContexts;
 using System.Web.Mvc;
 using System.Security.Cryptography;
 using System.Text;
+using System.Data.Entity.Infrastructure;
 
 namespace GoFit.Tests.Controllers
 {
@@ -70,8 +71,83 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual(expectedPassword, user.password);
         }
 
+        [TestMethod]
+        public void TestMyProfileEditNoUser()
+        {
+            ViewResult result = myProfileCon.Edit(null) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("Could not get user.", model.StatusDescription);
+        }
 
+        [TestMethod]
+        public void TestMyProfileEditWithNoUserId()
+        {
+            user u = new user();
+            ViewResult result = myProfileCon.Edit(u) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("Could not get user.", model.StatusDescription);
+        }
 
+        [TestMethod]
+        public void TestMyProfileEditConcurrencyException()
+        {
+            user u = new user()
+            {
+                id = 3,
+                username = "pete",
+                password = "pete"
+            };
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateConcurrencyException());
+            ViewResult result = myProfileCon.Edit(u) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to edit user as another user/admin may have already update this user", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestMyProfileEditUpdateException()
+        {
+            user u = new user()
+            {
+                id = 3
+            };
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateException());
+            ViewResult result = myProfileCon.Edit(u) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to edit user.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestMyProfileEditException()
+        {
+            user u = new user()
+            {
+                id = 3
+            };
+            db.Setup(c => c.SaveChanges()).Throws(new Exception());
+            ViewResult result = myProfileCon.Edit(u) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to edit user.", model.StatusDescription);
+        }
 
         // ------- Private helpers -------
 
