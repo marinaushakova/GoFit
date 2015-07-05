@@ -45,34 +45,34 @@ namespace GoFit.Tests.Controllers
 
         /// <summary>
         /// Test the comments are sorted ascending upon passing
-        /// sortBy "name" to the index view
+        /// sortBy "username" to the index view
         /// </summary>
         [TestMethod]
-        public void TestSortAdminCommentsNameAsc()
+        public void TestSortAdminCommentsUserNameAsc()
         {
-            string sortBy = "name";
+            string sortBy = "username";
             // controller.action(args) as ViewResult
             //  -gives a resulting view object
             ViewResult result = adminCon.Index(null, sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
             var comments = (PagedList<comment>)result.ViewData.Model;
-            var isSortedAsc = this.isSorted(comments, "name", "asc");
+            var isSortedAsc = this.isSorted(comments, "username", "asc");
             Assert.IsTrue(isSortedAsc);
 
         }
 
         /// <summary>
         /// Test that the comments are returned and sorted in descending
-        /// order upon passing "name_desc" to the Index
+        /// order upon passing "username_desc" to the Index
         /// </summary>
         [TestMethod]
-        public void TestSortAdminCommentsNameDesc()
+        public void TestSortAdminCommentsUserNameDesc()
         {
-            string sortBy = "name_desc";
+            string sortBy = "username_desc";
             ViewResult result = adminCon.Index(null, sortBy, null, search) as ViewResult;
             Assert.IsNotNull(result);
             var comments = (PagedList<comment>)result.ViewData.Model;
-            Assert.IsTrue(this.isSorted(comments, "name", "desc"));
+            Assert.IsTrue(this.isSorted(comments, "username", "desc"));
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace GoFit.Tests.Controllers
                 comment currentComment = comments[i];
                 comment prevComment = comments[i - 1];
                 int? res = null;
-                if (propName == "name")
+                if (propName == "username")
                 {
                     res = String.Compare(prevComment.user.username, currentComment.user.username);
                 }

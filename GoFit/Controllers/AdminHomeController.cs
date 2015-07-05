@@ -34,18 +34,13 @@ namespace GoFit.Controllers
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user profile."));
             }
             
-
-
-
             int hour = DateTime.Now.Hour;
             string time = "Evening";
             if (hour < 12)
                 time = "Morning";
             else if (hour >= 12 && hour < 18)
                 time = "Afternoon";
-
             ViewBag.greeting = "Good " + time + ", " + User.Identity.Name + "!";
-            //return View();
             return view;
         }
 
