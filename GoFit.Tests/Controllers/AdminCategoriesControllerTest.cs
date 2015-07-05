@@ -12,6 +12,7 @@ using Moq;
 using System.Data.Entity;
 using GoFit.Tests.MockContexts;
 using GoFit.Tests.MockSetupHelpers;
+using System.Data.Entity.Infrastructure;
 
 namespace GoFit.Tests.Controllers
 {
@@ -114,6 +115,222 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual("Index", result.ViewName);
             var categories = (PagedList<category>)result.ViewData.Model;
             Assert.IsTrue(categories.Count > 0);
+        }
+
+
+        [TestMethod]
+        public void TestAdminCategoriesDetailsWithNullId()
+        {
+            int? id = null;
+            ViewResult result = adminCon.Details(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("No category to view was specified", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCategoriesDetailsWithNotFoundCategory()
+        {
+            ViewResult result = adminCon.Details(6523) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("The category could not be found or does not exist", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCategoriesCreateThrowsException()
+        {
+            category t = new category();
+            db.Setup(c => c.SaveChanges()).Throws(new Exception());
+            ViewResult result = adminCon.Create(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to create the category.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCategoriesEditWithNullId()
+        {
+            int? id = null;
+            ViewResult result = adminCon.Edit(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("No category to edit was specified", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCategoriesGetEditWithNotFoundCategory()
+        {
+            int? id = 6042;
+            ViewResult result = adminCon.Edit(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("The category could not be found or does not exist", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCategoriesPostEditCategoriesNotFound()
+        {
+            category t = new category();
+            ViewResult result = adminCon.Edit(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("The category does not exist or has already been deleted", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCategoriesPostEditWithNullExercise()
+        {
+            category t = null;
+            ViewResult result = adminCon.Edit(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to edit the category.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCategoriesPostEditWithConcurrencyException()
+        {
+            category t = new category()
+            {
+                id = 1
+            };
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateConcurrencyException());
+            ViewResult result = adminCon.Edit(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to edit category as another admin may have already updated this exercise", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCategoriesPostEditWithDbUpdateException()
+        {
+            category t = new category()
+            {
+                id = 1
+            };
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateException());
+            ViewResult result = adminCon.Edit(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to edit category.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCategoriesDeleteWithNullId()
+        {
+            int? id = null;
+            ViewResult result = adminCon.Delete(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("No category to delete was specified", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCategoriesGetDeleteWithNotFoundCategory()
+        {
+            int? id = 6042;
+            ViewResult result = adminCon.Delete(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("The category could not be found or does not exist", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCategoriesPostDeleteCategoryNotFound()
+        {
+            category t = new category();
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("The category does not exist or has already been deleted", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCategoriesPostDeleteWithNullCategory()
+        {
+            category t = null;
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to delete the category.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCategoriesPostDeleteWithConcurrencyException()
+        {
+            category t = new category()
+            {
+                id = 1
+            };
+            db.Setup(c => c.categories.Find(t.id)).Returns(t);
+            db.Setup(c => c.categories.Remove(t)).Returns(t);
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateConcurrencyException());
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to delete the category as another admin may have modified it", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCategoriesPostDeleteWithDbUpdateException()
+        {
+            category t = new category()
+            {
+                id = 1
+            };
+            db.Setup(c => c.categories.Find(t.id)).Returns(t);
+            db.Setup(c => c.categories.Remove(t)).Returns(t);
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateException());
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to delete the category as it may be referenced in the database.", model.StatusDescription);
         }
 
         /* Private Test Helpers */

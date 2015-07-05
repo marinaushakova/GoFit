@@ -98,9 +98,8 @@ namespace GoFit.Controllers
 
                 return View(category);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var err = new HandleErrorInfo(ex, "AdminCategories", "Create");
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the category."));
             }
 
@@ -197,8 +196,15 @@ namespace GoFit.Controllers
                 }
                 var entry = db.Entry(oldCategory);
                 var state = entry.State;
-                entry.OriginalValues["timestamp"] = category.timestamp;
-                db.categories.Remove(oldCategory);
+                if (state == EntityState.Detached)
+                {
+                    db.categories.Remove(category);
+                }
+                else
+                {
+                    entry.OriginalValues["timestamp"] = category.timestamp;
+                    db.categories.Remove(oldCategory);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -208,11 +214,11 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateException ex)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
             }
             catch (Exception)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category."));
             }
             
         }
