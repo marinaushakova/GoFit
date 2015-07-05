@@ -36,7 +36,7 @@ namespace GoFit.Tests.Controllers
             search = new TypeSearch();
 
             db = contextHelpers.getDbContext();
-            adminCon = new AdminTypesController()
+            adminCon = new AdminTypesController(db.Object)
             {
                 // sign in as admin
                 ControllerContext = MockContext.AuthenticationContext("admin")
@@ -133,6 +133,32 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual("Index", result.ViewName);
             var types = (PagedList<type>)result.ViewData.Model;
             Assert.IsTrue(types.Count > 0);
+        }
+
+
+        [TestMethod]
+        public void TestAdminTypesDetailsWithNullId()
+        {
+            int? id = null;
+            ViewResult result = adminCon.Details(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("No type to view was specified", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminTypesDetailsWithNotFoundType()
+        {
+            ViewResult result = adminCon.Details(6523) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("The type could not be found or does not exist", model.StatusDescription);
         }
 
         /* Private Test Helpers */
