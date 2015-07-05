@@ -50,9 +50,11 @@ namespace GoFit.Tests.Controllers
         public void TestAdminCreateType()
         {
             type type = new type();
+            type.id = 2;
             type.name = "TEST_DLJ";
             type.measure = "TEST_DLJ";
             //type.timestamp = DateTime.Now;
+            db.Setup(c => c.types.Add(type)).Returns(type);
             RedirectToRouteResult result = adminCon.Create(type) as RedirectToRouteResult;
             Assert.IsNotNull(result);
             Assert.AreEqual("Index", result.RouteValues["action"], "redirect was not to Index");
