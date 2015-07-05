@@ -154,7 +154,7 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit type as another admin may have already update this type"));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit type as another admin may have already updated this type"));
             }
             catch (DbUpdateException)
             {
@@ -197,8 +197,15 @@ namespace GoFit.Controllers
                 }
                 var entry = db.Entry(oldType);
                 var state = entry.State;
-                entry.OriginalValues["timestamp"] = type.timestamp;
-                db.types.Remove(oldType);
+                if (state == EntityState.Detached)
+                {
+                    db.types.Remove(type);
+                }
+                else
+                {
+                    entry.OriginalValues["timestamp"] = type.timestamp;
+                    db.types.Remove(oldType);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -208,11 +215,11 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateException ex)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the type."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the type as it may be referenced by another item."));
             }
             catch (Exception ex)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the type as it may be referenced in the database."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the type."));
             }
             
         }

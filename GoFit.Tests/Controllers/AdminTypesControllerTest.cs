@@ -12,6 +12,7 @@ using Moq;
 using System.Data.Entity;
 using GoFit.Tests.MockContexts;
 using GoFit.Tests.MockSetupHelpers;
+using System.Data.Entity.Infrastructure;
 
 namespace GoFit.Tests.Controllers
 {
@@ -161,6 +162,200 @@ namespace GoFit.Tests.Controllers
             var model = result.Model as HttpStatusCodeResult;
             Assert.AreEqual(404, model.StatusCode);
             Assert.AreEqual("The type could not be found or does not exist", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminTypesCreateThrowsException()
+        {
+            type t = new type();
+            db.Setup(c => c.SaveChanges()).Throws(new Exception());
+            ViewResult result = adminCon.Create(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to create the type. Please try again.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminTypesEditWithNullId()
+        {
+            int? id = null;
+            ViewResult result = adminCon.Edit(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("No type to edit was specified", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminTypesGetEditWithNotFoundType()
+        {
+            int? id = 6042;
+            ViewResult result = adminCon.Edit(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("The type could not be found or does not exist", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminTypesPostEditTypeNotFound()
+        {
+            type t = new type();
+            ViewResult result = adminCon.Edit(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("The type does not exist or has already been deleted", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminTypesPostEditWithNullType()
+        {
+            type t = null;
+            ViewResult result = adminCon.Edit(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to edit the type.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminTypesPostEditWithConcurrencyException()
+        {
+            type t = new type()
+            {
+                id = 1
+            };
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateConcurrencyException());
+            ViewResult result = adminCon.Edit(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to edit type as another admin may have already updated this type", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminTypesPostEditWithDbUpdateException()
+        {
+            type t = new type()
+            {
+                id = 1,
+                name = "xfs",
+                measure = "measure"
+            };
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateException());
+            ViewResult result = adminCon.Edit(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to edit type.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminTypesDeleteWithNullId()
+        {
+            int? id = null;
+            ViewResult result = adminCon.Delete(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("No type to delete was specified", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminTypesGetDeleteWithNotFoundType()
+        {
+            int? id = 6042;
+            ViewResult result = adminCon.Delete(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("The type could not be found or does not exist", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminTypesPostDeleteTypeNotFound()
+        {
+            type t = new type();
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("The type does not exist or has already been deleted", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminTypesPostDeleteWithNullType()
+        {
+            type t = null;
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to delete the type.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminTypesPostDeleteWithConcurrencyException()
+        {
+            type t = new type()
+            {
+                id = 1
+            };
+            db.Setup(c => c.types.Find(t.id)).Returns(t);
+            db.Setup(c => c.types.Remove(t)).Returns(t);
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateConcurrencyException());
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to delete the type as another admin may have modified this type", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminTypesPostDeleteWithDbUpdateException()
+        {
+            type t = new type()
+            {
+                id = 1,
+                name = "xfs",
+                measure = "measure"
+            };
+            db.Setup(c => c.types.Find(t.id)).Returns(t);
+            db.Setup(c => c.types.Remove(t)).Returns(t);
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateException());
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to delete the type as it may be referenced by another item.", model.StatusDescription);
         }
 
         /* Private Test Helpers */
