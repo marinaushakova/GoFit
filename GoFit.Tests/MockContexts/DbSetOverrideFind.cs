@@ -57,4 +57,13 @@ namespace GoFit.Tests.MockContexts
             return this.SingleOrDefault(w => w.id == id);
         }
     }
+
+    public class DbSetOverrideCommentFind<TEntity> : DbSet<comment>
+    {
+        public override comment Find(params object[] keyValues)
+        {
+            var id = (int)keyValues.Single();
+            return this.SingleOrDefault(w => w.id == id);
+        }
+    }
 }

@@ -78,7 +78,7 @@ namespace GoFit.Tests.MockSetupHelpers
             exerciseMockset.As<IQueryable<exercise>>().Setup(m => m.ElementType).Returns(exercisesQ.ElementType);
             exerciseMockset.As<IQueryable<exercise>>().Setup(m => m.GetEnumerator()).Returns(exercisesQ.GetEnumerator);
 
-            var commentMockset = new Mock<DbSet<comment>>() { CallBase = true };
+            var commentMockset = new Mock<DbSetOverrideCommentFind<comment>>() { CallBase = true };
             commentMockset.As<IQueryable<comment>>().Setup(m => m.Provider).Returns(commentsQ.Provider);
             commentMockset.As<IQueryable<comment>>().Setup(m => m.Expression).Returns(commentsQ.Expression);
             commentMockset.As<IQueryable<comment>>().Setup(m => m.ElementType).Returns(commentsQ.ElementType);
