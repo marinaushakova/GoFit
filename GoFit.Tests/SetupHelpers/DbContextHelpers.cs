@@ -90,7 +90,7 @@ namespace GoFit.Tests.MockSetupHelpers
             userFavMockset.As<IQueryable<user_favorite_workout>>().Setup(m => m.ElementType).Returns(userFavesQ.ElementType);
             userFavMockset.As<IQueryable<user_favorite_workout>>().Setup(m => m.GetEnumerator()).Returns(userFavesQ.GetEnumerator);
 
-            var typesMockset = new Mock<DbSet<type>>() { CallBase = true };
+            var typesMockset = new Mock<DbSetOverrideTypeFind<type>>() { CallBase = true };
             typesMockset.As<IQueryable<type>>().Setup(m => m.Provider).Returns(typesQ.Provider);
             typesMockset.As<IQueryable<type>>().Setup(m => m.Expression).Returns(typesQ.Expression);
             typesMockset.As<IQueryable<type>>().Setup(m => m.ElementType).Returns(typesQ.ElementType);
