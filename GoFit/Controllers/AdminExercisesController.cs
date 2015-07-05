@@ -33,6 +33,17 @@ namespace GoFit.Controllers
             pageSize = PAGE_SIZE;
         }
 
+        /// <summary>
+        /// Override to allow passing of db for controller construction
+        /// </summary>
+        /// <param name="context">The db to use</param>
+        public AdminExercisesController(masterEntities context)
+            : base(context)
+        {
+            db = this.getDB();
+            pageSize = PAGE_SIZE;
+        }
+
         // GET: AdminExercises
         public ActionResult Index(string filterString, string sortBy, int? page, ExerciseSearch exerciseSearch)
         {
