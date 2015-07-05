@@ -406,20 +406,27 @@ namespace GoFit.Tests.MockSetupHelpers
         /// <returns>A queryable list of fake exercises</returns>
         private List<exercise> getSeedExercises()
         {
+            var users = getSeedUsers();
             exercise ex1 = new exercise
             {
                 id = 1,
-                name = "ex1"
+                name = "ex1",
+                user = users[1],
+                created_by_user_id = 2
             };
             exercise ex2 = new exercise
             {
                 id = 2,
-                name = "ex2"
+                name = "ex2",
+                user = users[1],
+                created_by_user_id = 2
             };
             exercise ex3 = new exercise
             {
                 id = 3,
-                name = "ex3"
+                name = "ex3",
+                user = users[2],
+                created_by_user_id = 3
             };
             var exercises = new List<exercise> { ex1, ex2, ex3 };
             return exercises;
