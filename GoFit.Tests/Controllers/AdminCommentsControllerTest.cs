@@ -12,6 +12,7 @@ using Moq;
 using System.Data.Entity;
 using GoFit.Tests.MockContexts;
 using GoFit.Tests.MockSetupHelpers;
+using System.Data.Entity.Infrastructure;
 
 namespace GoFit.Tests.Controllers
 {
@@ -139,6 +140,96 @@ namespace GoFit.Tests.Controllers
             var model = result.Model as HttpStatusCodeResult;
             Assert.AreEqual(404, model.StatusCode);
             Assert.AreEqual("The comment could not be found or does not exist", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCommentsDeleteWithNullId()
+        {
+            int? id = null;
+            ViewResult result = adminCon.Delete(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("No comment to delete was specified", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCommentsGetDeleteWithNotFoundComment()
+        {
+            int? id = 6042;
+            ViewResult result = adminCon.Delete(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("The comment could not be found or does not exist", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCommentsPostDeleteCommentNotFound()
+        {
+            comment t = new comment();
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("The comment does not exist or has already been deleted", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCommentsPostDeleteWithNullComment()
+        {
+            comment t = null;
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to delete the comment.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCommentsPostDeleteWithConcurrencyException()
+        {
+            comment t = new comment()
+            {
+                id = 1
+            };
+            db.Setup(c => c.comments.Find(t.id)).Returns(t);
+            db.Setup(c => c.comments.Remove(t)).Returns(t);
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateConcurrencyException());
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to delete the comment as another admin may have modified it", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCommentsPostDeleteWithDbUpdateException()
+        {
+            comment t = new comment()
+            {
+                id = 1
+            };
+            db.Setup(c => c.comments.Find(t.id)).Returns(t);
+            db.Setup(c => c.comments.Remove(t)).Returns(t);
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateException());
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to delete the comment as it may be referenced in the database.", model.StatusDescription);
         }
 
         /* Private Test Helpers */

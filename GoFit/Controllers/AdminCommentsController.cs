@@ -103,8 +103,15 @@ namespace GoFit.Controllers
                 }
                 var entry = db.Entry(oldComment);
                 var state = entry.State;
-                entry.OriginalValues["timestamp"] = comment.timestamp;
-                db.comments.Remove(oldComment);
+                if (state == EntityState.Detached)
+                {
+                    db.comments.Remove(comment);
+                }
+                else
+                {
+                    entry.OriginalValues["timestamp"] = comment.timestamp;
+                    db.comments.Remove(oldComment);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -114,12 +121,12 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateException)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment as it may be referenced in the database."));
             }
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminComments", "DeleteConfirmed");
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment as it may be referenced in the database."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the comment."));
             }
         }
 
