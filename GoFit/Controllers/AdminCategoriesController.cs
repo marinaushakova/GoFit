@@ -34,6 +34,18 @@ namespace GoFit.Controllers
             
         }
 
+        /// <summary>
+        /// One param constructor for AdminCategoriesController that takes the db to use as
+        /// tha parameter
+        /// </summary>
+        /// <param name="context">The DB to use</param>
+        public AdminCategoriesController(masterEntities context)
+            : base(context)
+        {
+            db = this.getDB();
+            pageSize = PAGE_SIZE;
+        }
+
         // GET: AdminCategories
         public ActionResult Index(string filterString, string sortBy, int? page, CategorySearch categorySearch)
         {
