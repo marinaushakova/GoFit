@@ -33,6 +33,18 @@ namespace GoFit.Controllers
             pageSize = PAGE_SIZE;
         }
 
+        /// <summary>
+        /// Constructor that takes the db as a parmeter and calls the base contructor
+        /// with it. 
+        /// </summary>
+        /// <param name="context">the db to use</param>
+        public AdminTypesController(masterEntities context)
+            : base(context)
+        {
+            db = this.getDB();
+            pageSize = PAGE_SIZE;
+        }
+
         // GET: AdminTypes
         public ActionResult Index(string filterString, string sortBy, int? page, TypeSearch typeSearch)
         {
