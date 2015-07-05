@@ -116,6 +116,31 @@ namespace GoFit.Tests.Controllers
             Assert.IsTrue(comments.Count > 0);
         }
 
+        [TestMethod]
+        public void TestAdminCommentsDetailsWithNullId()
+        {
+            int? id = null;
+            ViewResult result = adminCon.Details(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("No comment to view was specified", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminCommentsDetailsWithNotFoundComment()
+        {
+            ViewResult result = adminCon.Details(6523) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("The comment could not be found or does not exist", model.StatusDescription);
+        }
+
         /* Private Test Helpers */
 
         /// <summary>
