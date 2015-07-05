@@ -60,7 +60,7 @@ namespace GoFit.Tests.MockSetupHelpers
             userMockset.As<IQueryable<user>>().Setup(m => m.ElementType).Returns(usersQ.ElementType);
             userMockset.As<IQueryable<user>>().Setup(m => m.GetEnumerator()).Returns(usersQ.GetEnumerator);
 
-            var categoryMockset = new Mock<DbSet<category>>() { CallBase = true };
+            var categoryMockset = new Mock<DbSetOverrideCategoryFind<category>>() { CallBase = true };
             categoryMockset.As<IQueryable<category>>().Setup(m => m.Provider).Returns(categoriesQ.Provider);
             categoryMockset.As<IQueryable<category>>().Setup(m => m.Expression).Returns(categoriesQ.Expression);
             categoryMockset.As<IQueryable<category>>().Setup(m => m.ElementType).Returns(categoriesQ.ElementType);

@@ -37,7 +37,7 @@ namespace GoFit.Tests.Controllers
             search = new CategorySearch();
 
             db = contextHelpers.getDbContext();
-            adminCon = new AdminCategoriesController()
+            adminCon = new AdminCategoriesController(db.Object)
             {
                 // sign in as admin
                 ControllerContext = MockContext.AuthenticationContext("admin")
@@ -223,7 +223,7 @@ namespace GoFit.Tests.Controllers
             Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
             var model = result.Model as HttpStatusCodeResult;
             Assert.AreEqual(500, model.StatusCode);
-            Assert.AreEqual("Failed to edit category as another admin may have already updated this exercise", model.StatusDescription);
+            Assert.AreEqual("Failed to edit category as another admin may have already updated this category", model.StatusDescription);
         }
 
         [TestMethod]
@@ -231,7 +231,10 @@ namespace GoFit.Tests.Controllers
         {
             category t = new category()
             {
-                id = 1
+                id = 1,
+                name = "someCat",
+                description = "Some desc",
+                timestamp = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0}
             };
             db.Setup(c => c.SaveChanges()).Throws(new DbUpdateException());
             ViewResult result = adminCon.Edit(t) as ViewResult;
@@ -311,7 +314,7 @@ namespace GoFit.Tests.Controllers
             Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
             var model = result.Model as HttpStatusCodeResult;
             Assert.AreEqual(500, model.StatusCode);
-            Assert.AreEqual("Failed to delete the category as another admin may have modified it", model.StatusDescription);
+            Assert.AreEqual("Failed to delete the category as another admin may have modified this category", model.StatusDescription);
         }
 
         [TestMethod]
