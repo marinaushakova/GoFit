@@ -29,6 +29,7 @@ namespace GoFit.Tests.MockSetupHelpers
             List<workout_exercise> workoutExercises = getSeedWorkoutExercises();
             List<user_workout> userWorkouts = getSeedUserWorkouts();
             List<comment> comments = getSeedComments();
+            List<user_favorite_workout> userFaves = getSeedUserFavWorkouts();
 
             IQueryable<category> categoriesQ = categories.AsQueryable();
             IQueryable<user> usersQ = users.AsQueryable();
@@ -37,6 +38,7 @@ namespace GoFit.Tests.MockSetupHelpers
             IQueryable<workout_exercise> workoutExercisesQ = workoutExercises.AsQueryable();
             IQueryable<user_workout> userWorkoutsQ = userWorkouts.AsQueryable();
             IQueryable<comment> commentsQ = comments.AsQueryable();
+            IQueryable<user_favorite_workout> userFavesQ = userFaves.AsQueryable();
 
             var workoutMockset = new Mock<DbSetOverrideWorkoutsFind<workout>>() { CallBase = true };
             workoutMockset.As<IQueryable<workout>>().Setup(m => m.Provider).Returns(workoutsQ.Provider);
@@ -79,7 +81,13 @@ namespace GoFit.Tests.MockSetupHelpers
             commentMockset.As<IQueryable<comment>>().Setup(m => m.Expression).Returns(commentsQ.Expression);
             commentMockset.As<IQueryable<comment>>().Setup(m => m.ElementType).Returns(commentsQ.ElementType);
             commentMockset.As<IQueryable<comment>>().Setup(m => m.GetEnumerator()).Returns(commentsQ.GetEnumerator);
-            
+
+            var userFavMockset = new Mock<DbSet<user_favorite_workout>>() { CallBase = true };
+            userFavMockset.As<IQueryable<user_favorite_workout>>().Setup(m => m.Provider).Returns(userFavesQ.Provider);
+            userFavMockset.As<IQueryable<user_favorite_workout>>().Setup(m => m.Expression).Returns(userFavesQ.Expression);
+            userFavMockset.As<IQueryable<user_favorite_workout>>().Setup(m => m.ElementType).Returns(userFavesQ.ElementType);
+            userFavMockset.As<IQueryable<user_favorite_workout>>().Setup(m => m.GetEnumerator()).Returns(userFavesQ.GetEnumerator);
+
             var mockContext = new Mock<masterEntities>();
             mockContext.Setup(c => c.workouts).Returns(workoutMockset.Object);
             mockContext.Setup(c => c.user_workout).Returns(userWorkoutMockset.Object);
@@ -88,6 +96,7 @@ namespace GoFit.Tests.MockSetupHelpers
             mockContext.Setup(c => c.workout_exercise).Returns(workoutExerciseMockset.Object);
             mockContext.Setup(c => c.exercises).Returns(exerciseMockset.Object);
             mockContext.Setup(c => c.comments).Returns(commentMockset.Object);
+            mockContext.Setup(c => c.user_favorite_workout).Returns(userFavMockset.Object);
             return mockContext;
         }
 
@@ -515,6 +524,23 @@ namespace GoFit.Tests.MockSetupHelpers
             };
             var comment = new List<comment> { comment1, comment2, comment3 };
             return comment;
+        }
+
+        private List<user_favorite_workout> getSeedUserFavWorkouts()
+        {
+            var users = getSeedUsers();
+            var workouts = getSeedWorkouts();
+            user_favorite_workout fav1 = new user_favorite_workout
+            {
+                id = 1,
+                user_id = 2,
+                user = users[1],
+                workout = workouts[0],
+                workout_id = 1,
+                timestamp = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0}
+            };
+            var userFavs = new List<user_favorite_workout> { fav1 };
+            return userFavs;
         }
     }
 }
