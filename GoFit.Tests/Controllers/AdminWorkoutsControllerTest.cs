@@ -245,6 +245,8 @@ namespace GoFit.Tests.Controllers
         public void TestAdminWorkoutsAddExSaveThrowsException()
         {
             var w_ex = new workout_exercise();
+            w_ex.id = 1;
+            w_ex.position = 1;
             db.Setup(c => c.workout_exercise.Add(w_ex)).Throws(new Exception());
             ViewResult result = adminCon.AddExerciseToWorkout(w_ex) as ViewResult;
             Assert.IsNotNull(result);
@@ -420,6 +422,100 @@ namespace GoFit.Tests.Controllers
             var model = result.Model as HttpStatusCodeResult;
             Assert.AreEqual(500, model.StatusCode);
             Assert.AreEqual("Failed to edit workout.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminWorkoutsDeleteWithNullId()
+        {
+            int? id = null;
+            ViewResult result = adminCon.Delete(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("A workout to delete was not specified", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminWorkoutsGetDeleteWithNotFoundWorkout()
+        {
+            int? id = 6042;
+            ViewResult result = adminCon.Delete(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("That workout could not be found or does not exist", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminWorkoutsPostDeleteWorkoutNotFound()
+        {
+            workout w = new workout();
+            ViewResult result = adminCon.DeleteConfirmed(w) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("The workout does not exist or has already been deleted", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminWorkoutsPostDeleteWithNullWorkout()
+        {
+            workout w = null;
+            ViewResult result = adminCon.DeleteConfirmed(w) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to delete the workout.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminWorkoutsPostDeleteWithConcurrencyException()
+        {
+            workout w = new workout()
+            {
+                id = 1
+            };
+            db.Setup(c => c.workouts.Find(w.id)).Returns(w);
+            db.Setup(c => c.workouts.Remove(w)).Returns(w);
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateConcurrencyException());
+            ViewResult result = adminCon.DeleteConfirmed(w) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to delete the workout as another admin may have modified this workout", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminWorkoutsPostDeleteWithDbUpdateException()
+        {
+            workout w = new workout()
+            {
+                id = 1,
+                category_id = 1,
+                name = "xfs",
+                description = "sadsa",
+                created_by_user_id = 1
+            };
+            db.Setup(c => c.workouts.Find(w.id)).Returns(w);
+            db.Setup(c => c.workouts.Remove(w)).Returns(w);
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateException());
+            ViewResult result = adminCon.DeleteConfirmed(w) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to delete the workout as it may be referenced by another item.", model.StatusDescription);
         }
     }
 }
