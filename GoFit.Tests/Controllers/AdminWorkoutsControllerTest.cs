@@ -38,7 +38,7 @@ namespace GoFit.Tests.Controllers
             search = new WorkoutSearch();
 
             db = contextHelpers.getDbContext();
-            adminCon = new AdminWorkoutsController()
+            adminCon = new AdminWorkoutsController(db.Object)
             {
                 // sign in as admin
                 ControllerContext = MockContext.AuthenticationContext("admin")

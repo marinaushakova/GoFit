@@ -34,6 +34,18 @@ namespace GoFit.Controllers
         }
 
         /// <summary>
+        /// Constructor that takes the db as a parmeter and calls the base contructor
+        /// with it. 
+        /// </summary>
+        /// <param name="context">The db to use</param>
+        public AdminWorkoutsController(masterEntities context)
+            : base(context)
+        {
+            db = this.getDB();
+            pageSize = PAGE_SIZE;
+        }
+
+        /// <summary>
         /// Returns an add exercise to current workout view
         /// </summary>
         /// <param name="id">workout id</param>
