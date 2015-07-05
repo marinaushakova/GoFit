@@ -36,7 +36,7 @@ namespace GoFit.Tests.Controllers
             search = new CommentSearch();
 
             db = contextHelpers.getDbContext();
-            adminCon = new AdminCommentsController()
+            adminCon = new AdminCommentsController(db.Object)
             {
                 // sign in as admin
                 ControllerContext = MockContext.AuthenticationContext("admin")

@@ -32,7 +32,18 @@ namespace GoFit.Controllers
             db = this.getDB();
             pageSize = PAGE_SIZE;
             
-            }
+        }
+
+        /// <summary>
+        /// Override to allow passing the desired db to the controller
+        /// </summary>
+        /// <param name="context">The db to use</param>
+        public AdminCommentsController(masterEntities context)
+            : base(context)
+        {
+            db = this.getDB();
+            pageSize = PAGE_SIZE;
+        } 
 
         // GET: AdminComments
         public ActionResult Index(string filterString, string sortBy, int? page, CommentSearch commentSearch)
