@@ -18,6 +18,8 @@ namespace GoFit.Controllers
         private int currUserId;
         private UserAccess userAccess;
 
+        private const int PAGE_SIZE = 10;
+
         /// <summary>
         /// Getter/setter for the pageSize instance variable
         /// </summary>
@@ -30,6 +32,7 @@ namespace GoFit.Controllers
         {
             db = this.getDB();
             userAccess = new UserAccess(db);
+            pageSize = PAGE_SIZE;
         }
 
         /// <summary>
@@ -40,12 +43,15 @@ namespace GoFit.Controllers
         {
             db = this.getDB();
             userAccess = new UserAccess(db);
+            pageSize = PAGE_SIZE;
         }
         //
         // GET: /FavoriteWorkouts/
         public ActionResult Index()
         {
-            return View();
+            currUserId = userAccess.getUserId(User.Identity.Name);
+            var user_favorite_workouts = from w in db.user_favorite_workout where w.user_id == currUserId select w;
+            return View(user_favorite_workouts);
         }
 
         [Authorize]
