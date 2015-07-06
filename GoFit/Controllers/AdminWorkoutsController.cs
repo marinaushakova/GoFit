@@ -34,6 +34,18 @@ namespace GoFit.Controllers
         }
 
         /// <summary>
+        /// Constructor that takes the db as a parmeter and calls the base contructor
+        /// with it. 
+        /// </summary>
+        /// <param name="context">The db to use</param>
+        public AdminWorkoutsController(masterEntities context)
+            : base(context)
+        {
+            db = this.getDB();
+            pageSize = PAGE_SIZE;
+        }
+
+        /// <summary>
         /// Returns an add exercise to current workout view
         /// </summary>
         /// <param name="id">workout id</param>
@@ -297,8 +309,15 @@ namespace GoFit.Controllers
                 }
                 var entry = db.Entry(oldWorkout);
                 var state = entry.State;
-                entry.OriginalValues["timestamp"] = workout.timestamp;
-                db.workouts.Remove(oldWorkout);
+                if (state == EntityState.Detached)
+                {
+                    db.workouts.Remove(workout);
+                }
+                else
+                {
+                    entry.OriginalValues["timestamp"] = workout.timestamp;
+                    db.workouts.Remove(oldWorkout);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -308,12 +327,12 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateException)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout as it may be referenced by another item."));
             }
             catch (Exception ex)
             {
                 var err = new HandleErrorInfo(ex, "AdminWorkouts", "DeleteConfirmed");
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout as it may be referenced in the database."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the workout."));
             }
 
         }

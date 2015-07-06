@@ -33,6 +33,17 @@ namespace GoFit.Controllers
             pageSize = PAGE_SIZE;
         }
 
+        /// <summary>
+        /// Override to allow passing of db for controller construction
+        /// </summary>
+        /// <param name="context">The db to use</param>
+        public AdminExercisesController(masterEntities context)
+            : base(context)
+        {
+            db = this.getDB();
+            pageSize = PAGE_SIZE;
+        }
+
         // GET: AdminExercises
         public ActionResult Index(string filterString, string sortBy, int? page, ExerciseSearch exerciseSearch)
         {
@@ -150,7 +161,7 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit exercise as another admin may have already update this exercise"));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit exercise as another admin may have already updated this exercise"));
             }
             catch (DbUpdateException)
             {
@@ -192,8 +203,15 @@ namespace GoFit.Controllers
                 }
                 var entry = db.Entry(oldExercise);
                 var state = entry.State;
-                entry.OriginalValues["timestamp"] = exercise.timestamp;
-                db.exercises.Remove(oldExercise);
+                if (state == EntityState.Detached)
+                {
+                    db.exercises.Remove(exercise);
+                }
+                else
+                {
+                    entry.OriginalValues["timestamp"] = exercise.timestamp;
+                    db.exercises.Remove(oldExercise);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -203,11 +221,11 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateException)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise as it may be referenced by another item."));
             }
             catch (Exception)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise as it may be referenced in the database."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise."));
             }
 
         }

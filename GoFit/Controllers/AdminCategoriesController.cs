@@ -34,6 +34,18 @@ namespace GoFit.Controllers
             
         }
 
+        /// <summary>
+        /// One param constructor for AdminCategoriesController that takes the db to use as
+        /// tha parameter
+        /// </summary>
+        /// <param name="context">The DB to use</param>
+        public AdminCategoriesController(masterEntities context)
+            : base(context)
+        {
+            db = this.getDB();
+            pageSize = PAGE_SIZE;
+        }
+
         // GET: AdminCategories
         public ActionResult Index(string filterString, string sortBy, int? page, CategorySearch categorySearch)
         {
@@ -86,9 +98,8 @@ namespace GoFit.Controllers
 
                 return View(category);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var err = new HandleErrorInfo(ex, "AdminCategories", "Create");
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the category."));
             }
 
@@ -143,7 +154,7 @@ namespace GoFit.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit category as another admin may have already update this category"));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to edit category as another admin may have already updated this category"));
             }
             catch (DbUpdateException)
             {
@@ -185,22 +196,29 @@ namespace GoFit.Controllers
                 }
                 var entry = db.Entry(oldCategory);
                 var state = entry.State;
-                entry.OriginalValues["timestamp"] = category.timestamp;
-                db.categories.Remove(oldCategory);
+                if (state == EntityState.Detached)
+                {
+                    db.categories.Remove(category);
+                }
+                else
+                {
+                    entry.OriginalValues["timestamp"] = category.timestamp;
+                    db.categories.Remove(oldCategory);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as another admin may have modified this category"));
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
             }
             catch (Exception)
             {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category as it may be referenced in the database."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the category."));
             }
             
         }

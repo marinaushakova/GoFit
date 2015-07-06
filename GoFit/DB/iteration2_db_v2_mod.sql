@@ -850,9 +850,9 @@ INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) value
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (2, 6, 6, 10);
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (2, 7, 7, 10);
 
-INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (3, 13, 1, .5);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (3, 13, 1, 1);
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (3, 12, 2, 20);
-INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (3, 13, 3, .5);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (3, 13, 3, 1);
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (3, 12, 4, 20);
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (3, 11, 5, 10);
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (3, 10, 6, 10);
@@ -866,9 +866,9 @@ INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) value
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (4, 14, 7, 20);
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (4, 15, 8, 20);
 
-INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (5, 13, 1, .25);
-INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (5, 13, 2, .25);
-INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (5, 13, 3, .25);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (5, 13, 1, 1);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (5, 13, 2, 1);
+INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (5, 13, 3, 1);
 
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (6, 3, 1, 10);
 INSERT INTO workout_exercise (workout_id, exercise_id, position, duration) values (6, 13, 2, 2);

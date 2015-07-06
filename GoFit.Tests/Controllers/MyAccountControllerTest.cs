@@ -38,6 +38,23 @@ namespace GoFit.Tests.Controllers
 
         }
 
+        [TestMethod]
+        public void TestUserDuplicate()
+        {
+            user u = new user()
+            {
+                username = "jjones",
+                password = "jjones"
+            };
+            ViewResult result = myAccountCon.Register(u) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("This username already exists. Please choose another one.", model.StatusDescription);
+        }
+
 
         /*
         /// <summary>

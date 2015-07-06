@@ -12,6 +12,7 @@ using Moq;
 using System.Data.Entity;
 using GoFit.Tests.MockContexts;
 using GoFit.Tests.MockSetupHelpers;
+using System.Data.Entity.Infrastructure;
 
 namespace GoFit.Tests.Controllers
 {
@@ -36,7 +37,7 @@ namespace GoFit.Tests.Controllers
             search = new ExerciseSearch();
 
             db = contextHelpers.getDbContext();
-            adminCon = new AdminExercisesController()
+            adminCon = new AdminExercisesController(db.Object)
             {
                 // sign in as admin
                 ControllerContext = MockContext.AuthenticationContext("admin")
@@ -146,6 +147,222 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual("Index", result.ViewName);
             var exercises = (PagedList<exercise>)result.ViewData.Model;
             Assert.IsTrue(exercises.Count > 0);
+        }
+
+
+        [TestMethod]
+        public void TestAdminExercisesDetailsWithNullId()
+        {
+            int? id = null;
+            ViewResult result = adminCon.Details(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("No exercise to view was specified", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminExercisesDetailsWithNotFoundExercise()
+        {
+            ViewResult result = adminCon.Details(6523) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("The exercise could not be found or does not exist", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminExercisesCreateThrowsException()
+        {
+            exercise t = new exercise();
+            db.Setup(c => c.SaveChanges()).Throws(new Exception());
+            ViewResult result = adminCon.Create(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to create the exercise.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminExercisesEditWithNullId()
+        {
+            int? id = null;
+            ViewResult result = adminCon.Edit(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("No exercise to edit was specified", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminExercisesGetEditWithNotFoundExercise()
+        {
+            int? id = 6042;
+            ViewResult result = adminCon.Edit(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("The exercise could not be found or does not exist", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminExercisesPostEditExerciseNotFound()
+        {
+            exercise t = new exercise();
+            ViewResult result = adminCon.Edit(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("The exercise does not exist or has already been deleted", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminExercisesPostEditWithNullExercise()
+        {
+            exercise t = null;
+            ViewResult result = adminCon.Edit(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to edit the exercise.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminExercisesPostEditWithConcurrencyException()
+        {
+            exercise t = new exercise()
+            {
+                id = 1
+            };
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateConcurrencyException());
+            ViewResult result = adminCon.Edit(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to edit exercise as another admin may have already updated this exercise", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminExercisesPostEditWithDbUpdateException()
+        {
+            exercise t = new exercise()
+            {
+                id = 1
+            };
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateException());
+            ViewResult result = adminCon.Edit(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to edit exercise.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminExercisesDeleteWithNullId()
+        {
+            int? id = null;
+            ViewResult result = adminCon.Delete(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(400, model.StatusCode);
+            Assert.AreEqual("No exercise to delete was specified", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminExercisesGetDeleteWithNotFoundExercise()
+        {
+            int? id = 6042;
+            ViewResult result = adminCon.Delete(id) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(404, model.StatusCode);
+            Assert.AreEqual("The exercise could not be found or does not exist", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminExercisesPostDeleteExerciseNotFound()
+        {
+            exercise t = new exercise();
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("The exercise does not exist or has already been deleted", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminExercisesPostDeleteWithNullExercise()
+        {
+            exercise t = null;
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to delete the exercise.", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminExercisesPostDeleteWithConcurrencyException()
+        {
+            exercise t = new exercise()
+            {
+                id = 1
+            };
+            db.Setup(c => c.exercises.Find(t.id)).Returns(t);
+            db.Setup(c => c.exercises.Remove(t)).Returns(t);
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateConcurrencyException());
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to delete the exercise as another admin may have modified it", model.StatusDescription);
+        }
+
+        [TestMethod]
+        public void TestAdminExercisesPostDeleteWithDbUpdateException()
+        {
+            exercise t = new exercise()
+            {
+                id = 1
+            };
+            db.Setup(c => c.exercises.Find(t.id)).Returns(t);
+            db.Setup(c => c.exercises.Remove(t)).Returns(t);
+            db.Setup(c => c.SaveChanges()).Throws(new DbUpdateException());
+            ViewResult result = adminCon.DeleteConfirmed(t) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("Failed to delete the exercise as it may be referenced by another item.", model.StatusDescription);
         }
 
         /* Private Test Helpers */

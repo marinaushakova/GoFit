@@ -68,7 +68,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <span>@exercise.duration</span>
+                                                    <span>@Convert.ToInt16(@exercise.duration)</span>
                                                     <span>@exercise.exercise.type.measure</span>
                                                 }
                                             </td>
@@ -79,7 +79,7 @@
                                         }
                                         else
                                         {
-                                            <td class="col-xs-6">@Html.ActionLink(exercise.exercise.name, "Index", "Exercise", new { ex_id = exercise.exercise_id }, new { @class = ""})</td>
+                                            <td class="col-xs-6">@Html.ActionLink(exercise.exercise.name, "Index", "Exercise", new { ex_id = exercise.exercise_id }, new { @class = "" })</td>
                                             <td class="col-xs-6">
                                                 @if (@exercise.exercise.type.measure == "unit")
                                                 {
@@ -88,7 +88,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <span>@exercise.duration</span>
+                                                    <span>@Convert.ToInt16(@exercise.duration)</span>
                                                     <span>@exercise.exercise.type.measure</span>
                                                 }
                                             </td>
