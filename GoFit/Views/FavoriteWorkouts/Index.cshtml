@@ -18,7 +18,7 @@
             @Html.DisplayFor(modelItem => item.workout.name)
         </td>
         <td>
-            @Html.ActionLink("Remove from Favorites", "RemoveWorkoutFromFavorites", new { workout_id = item.workout_id })
+            @Html.ActionLink("Remove from Favorites", "RemoveWorkoutFromFavorites", new { workout_id = item.workout_id }, new { @class = "btn btn-default" } )
         </td>
     </tr>
 }
