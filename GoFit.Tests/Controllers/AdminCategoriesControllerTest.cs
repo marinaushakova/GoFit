@@ -44,6 +44,53 @@ namespace GoFit.Tests.Controllers
             };
         }
 
+        #region David's Tests
+
+        /// <summary>
+        /// Test that AdminCategories Details view returns ViewData-
+        /// a record from the Category model
+        /// </summary>
+        [TestMethod]
+        public void TestAdminCategoriesDetailsViewReturnsData()
+        {
+            var result = adminCon.Details(1) as ViewResult;
+            var category = (category)result.ViewData.Model;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("endurance", category.name);
+        }
+
+        /// <summary>
+        /// Test that AdminCategories Create view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminCategoriesCreateViewReturnsData()
+        {
+            var result = adminCon.Create() as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        /// <summary>
+        /// Test that AdminCategories Edit view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminCategoriesEditViewReturnsData()
+        {
+            var result = adminCon.Edit(1) as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        /// <summary>
+        /// Test that AdminCategories Delete view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminCategoriesDeleteViewReturnsData()
+        {
+            var result = adminCon.Delete(1) as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        #endregion
+
         /// <summary>
         /// Test the categories are sorted ascending upon passing
         /// sortBy "name" to the index view
@@ -116,28 +163,6 @@ namespace GoFit.Tests.Controllers
             var categories = (PagedList<category>)result.ViewData.Model;
             Assert.IsTrue(categories.Count > 0);
         }
-
-        #region David's Tests
-
-        /// <summary>
-        /// Test that the AdminCategories Details view returns a ViewResult
-        /// </summary>
-        [TestMethod]
-        public void TestAdminCategoriesDetailsViewRender()
-        {
-            var result = adminCon.Details(1) as ViewResult;
-            Assert.IsNotNull(result);
-        }
-
-        [TestMethod]
-        public void TestAdminCategoriesDetailsViewData()
-        {
-            var result = adminCon.Details(1) as ViewResult;
-            var category = (category)result.ViewData.Model;
-            Assert.AreEqual("endurance", category.name);
-        }
-
-        #endregion
 
         [TestMethod]
         public void TestAdminCategoriesDetailsWithNullId()
