@@ -4,13 +4,13 @@
     ViewBag.Title = "Admin Workout Details";
 }
 
-<h2>Admin Workout Details</h2>
+<h2>Workout Details: @Model.name</h2>
 
 <div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.name)
+            @Html.LabelFor(model => model.name, "Workout Name", htmlAttributes: new { @class = "control-label col-md-2" })
         </dt>
 
         <dd>
@@ -18,7 +18,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.description)
+            @Html.LabelFor(model => model.description, "Description", htmlAttributes: new { @class = "control-label col-md-2" })
         </dt>
 
         <dd>
@@ -26,7 +26,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.created_at)
+            @Html.LabelFor(model => model.created_at, "Created", htmlAttributes: new { @class = "control-label col-md-2" })
         </dt>
 
         <dd>
@@ -34,7 +34,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.category.name)
+            @Html.LabelFor(model => model.category.name, "Category Name", htmlAttributes: new { @class = "control-label col-md-2" })
         </dt>
 
         <dd>
@@ -42,7 +42,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.user.username)
+            @Html.LabelFor(model => model.user.username, "Username", htmlAttributes: new { @class = "control-label col-md-2" })
         </dt>
 
         <dd>
@@ -51,6 +51,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }, htmlAttributes: new { @class = "btn btn-primary" })
+    @Html.ActionLink("Back to List", "Index", "AdminWorkouts", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
 </p>
