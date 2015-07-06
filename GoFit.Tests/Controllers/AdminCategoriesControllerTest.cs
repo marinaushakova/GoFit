@@ -117,6 +117,27 @@ namespace GoFit.Tests.Controllers
             Assert.IsTrue(categories.Count > 0);
         }
 
+        #region David's Tests
+
+        /// <summary>
+        /// Test that the AdminCategories Details view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminCategoriesDetailsViewRender()
+        {
+            var result = adminCon.Details(1) as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void TestAdminCategoriesDetailsViewData()
+        {
+            var result = adminCon.Details(1) as ViewResult;
+            var category = (category)result.ViewData.Model;
+            Assert.AreEqual("endurance", category.name);
+        }
+
+        #endregion
 
         [TestMethod]
         public void TestAdminCategoriesDetailsWithNullId()
