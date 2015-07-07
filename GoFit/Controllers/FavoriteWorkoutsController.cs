@@ -93,7 +93,8 @@ namespace GoFit.Controllers
                 {
                     db.user_favorite_workout.Add(fav_workout);
                     db.SaveChanges();
-                    return RedirectToAction("Details", "Home", new { workoutId = workout_id });
+                    string url = this.Request.UrlReferrer.PathAndQuery;
+                    return Redirect(url);
                 }
                 catch (Exception ex)
                 {
@@ -131,7 +132,8 @@ namespace GoFit.Controllers
                 }
                 db.user_favorite_workout.Remove(favWorkout);
                 db.SaveChanges();
-                return RedirectToAction("Details", "Home", new { workoutId = workout_id });
+                string url = this.Request.UrlReferrer.PathAndQuery;
+                return Redirect(url);
             }
             catch (Exception ex)
             {
