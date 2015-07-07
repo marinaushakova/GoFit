@@ -9,6 +9,7 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity;
 using System.Net;
 using System.Net.Http;
+using PagedList;
 
 namespace GoFit.Controllers
 {
@@ -47,11 +48,17 @@ namespace GoFit.Controllers
         }
         //
         // GET: /FavoriteWorkouts/
-        public ActionResult Index()
+        public ActionResult Index(string sortBy, int? page, WorkoutSearch workoutSearch)
         {
             currUserId = userAccess.getUserId(User.Identity.Name);
             var user_favorite_workouts = from w in db.user_favorite_workout where w.user_id == currUserId select w;
-            return View(user_favorite_workouts);
+
+            user_favorite_workouts = this.doSearch(user_favorite_workouts, workoutSearch, sortBy, page);
+            user_favorite_workouts = this.doSort(user_favorite_workouts, sortBy);
+
+            int pageNumber = (page ?? 1);
+            //var view = View("Index", user_favorite_workouts.ToPagedList(pageNumber, pageSize));
+            return View(user_favorite_workouts.ToPagedList(pageNumber, pageSize));
         }
 
 
@@ -131,6 +138,94 @@ namespace GoFit.Controllers
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the requested workout from favorites."));
             }
 
+        }
+
+
+        /// <summary>
+        /// Private helper method to perform a new search or maintain a previous search through 
+        /// pagination and filter changes
+        /// </summary>
+        /// <param name="workouts">The base workout query result</param>
+        /// <param name="sortBy">The passed sort string if it exists, else null</param>
+        /// <param name="page">The passed page param if it exists, else null</param>
+        /// <returns>The searched workouts</returns>
+        private IQueryable<user_favorite_workout> doSearch(IQueryable<user_favorite_workout> fav_workouts, WorkoutSearch search, string sortBy, int? page)
+        {
+            if (page != null || !String.IsNullOrEmpty(sortBy))
+            {
+                search = SessionVariableManager.setSearchFromSession(Session, search);
+            }
+            else SessionVariableManager.setSessionFromSearch(Session, search);
+
+            if (!String.IsNullOrEmpty(search.name)) fav_workouts = fav_workouts.Where(w => w.workout.name.Contains(search.name));
+            if (!String.IsNullOrEmpty(search.category)) fav_workouts = fav_workouts.Where(w => w.workout.category.name.Contains(search.category));
+            if (!String.IsNullOrEmpty(search.username)) fav_workouts = fav_workouts.Where(w => w.workout.user.username.Contains(search.username));
+            if (!String.IsNullOrEmpty(search.dateAdded))
+            {
+                string[] dateArrayString = search.dateAdded.Split('-');
+                int year = Convert.ToInt16(dateArrayString[0]);
+                int month = Convert.ToInt16(dateArrayString[1]);
+                int day = Convert.ToInt16(dateArrayString[2]);
+
+                fav_workouts = fav_workouts.Where(w =>
+                    w.workout.created_at.Year == year &&
+                    w.workout.created_at.Month == month &&
+                    w.workout.created_at.Day == day);
+            }
+            return fav_workouts;
+        }
+
+        /// <summary>
+        /// Private helper method set and return the sorted workouts
+        /// </summary>
+        /// <param name="workouts">The base workout query result</param>
+        /// <param name="sortBy">Indicates the sort order</param>
+        /// <returns>The sorted workouts</returns>
+        private IQueryable<user_favorite_workout> doSort(IQueryable<user_favorite_workout> fav_workouts, string sortBy)
+        {
+            if (!String.IsNullOrEmpty(sortBy))
+            {
+                SessionVariableManager.setSessionFromSort(Session, sortBy);
+            }
+            else
+            {
+                sortBy = SessionVariableManager.setSortFromSession(Session, sortBy);
+            }
+
+            ViewBag.NameSortParam = (sortBy == "name") ? "name_desc" : "name";
+            ViewBag.DateSortParam = (sortBy == "date") ? "date_desc" : "date";
+            ViewBag.CategorySortParam = (sortBy == "category") ? "category_desc" : "category";
+            ViewBag.UserSortParam = (sortBy == "user") ? "user_desc" : "user";
+
+            switch (sortBy)
+            {
+                case "name_desc":
+                    fav_workouts = fav_workouts.OrderByDescending(w => w.workout.name);
+                    break;
+                case "date":
+                    fav_workouts = fav_workouts.OrderBy(w => w.workout.created_at);
+                    break;
+                case "date_desc":
+                    fav_workouts = fav_workouts.OrderByDescending(w => w.workout.created_at);
+                    break;
+                case "category":
+                    fav_workouts = fav_workouts.OrderBy(w => w.workout.category.name);
+                    break;
+                case "category_desc":
+                    fav_workouts = fav_workouts.OrderByDescending(w => w.workout.category.name);
+                    break;
+                case "user":
+                    fav_workouts = fav_workouts.OrderBy(w => w.workout.user.username);
+                    break;
+                case "user_desc":
+                    fav_workouts = fav_workouts.OrderByDescending(w => w.workout.user.username);
+                    break;
+                default:
+                    fav_workouts = fav_workouts.OrderBy(w => w.workout.name);
+                    break;
+            }
+
+            return fav_workouts;
         }
 	}
 }

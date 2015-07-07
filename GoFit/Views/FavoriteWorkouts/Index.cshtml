@@ -1,26 +1,71 @@
-﻿@model IEnumerable<GoFit.Models.user_favorite_workout>
+﻿@model PagedList.IPagedList<GoFit.Models.user_favorite_workout>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "My Favorite Workouts";
 }
 
 <h2>My Favorite Workouts</h2>
+<br />
 
-<table class="table">
-    <tr>
-        <th>Workout</th>
-        <th></th>
-    </tr>
+<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="panel-title">My Favorite Workouts</h2>
+        </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.workout.name)
-        </td>
-        <td>
-            @Html.ActionLink("Remove from Favorites", "RemoveWorkoutFromFavorites", new { workout_id = item.workout_id }, new { @class = "btn btn-default" } )
-        </td>
-    </tr>
-}
+        <div class="panel-body">
+            <div class="search_bar">
+                <form action="/FavoriteWorkouts" method="post" class="form-inline">
+                    <div class="search_inputs form-group row">
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <input class="" id="NameSearch" name="Name" type="text" value="@Session["NameSearchParam"]" placeholder="Workout name..." />
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <input class="" id="CategorySearch" name="Category" type="text" value="@Session["CategorySearchParam"]" placeholder="Category..." />
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <input class="" id="DateAddedSearch" name="DateAdded" type="date" placeholder="Date Added..." />
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <input class="" id="UsernameSearch" name="Username" type="text" value="@Session["UsernameSearchParam"]" placeholder="Username..." />
+                        </div>
+                        <div class="col-lg-2 col-md-1 col-sm-12 col-xs-12">
+                            <input class="btn btn-primary" type="submit" value="Search" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <table class="workout_list table container-fluid">
+                <thead>
+                    <tr class="row">
+                        <th class="col-xs-3">@Html.ActionLink("Workout Name", "Index", new { sortBy = ViewBag.NameSortParam })</th>
+                        <th class="col-xs-2">@Html.ActionLink("Category", "Index", new { sortBy = ViewBag.CategorySortParam })</th>
+                        <th class="col-xs-3">@Html.ActionLink("Date Added", "Index", new { sortBy = ViewBag.DateSortParam })</th>
+                        <th class="col-xs-2">@Html.ActionLink("Username", "Index", new { sortBy = ViewBag.UserSortParam })</th>
+                        <th class="col-xs-3">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user_favorite_workout in Model)
+                    {
+                        <tr class="row">
+                            <td class="workout_name_cell col-xs-3">@Html.ActionLink(user_favorite_workout.workout.name, "../Home/Details", new { workout_id = user_favorite_workout.workout_id })</td>
+                            <td class="workout_category_cell col-xs-2">@Html.DisplayFor(modelItem => user_favorite_workout.workout.category.name)</td>
+                            <td class="workout_created_cell col-xs-3">@Html.DisplayFor(modelItem => user_favorite_workout.workout.created_at)</td>
+                            <td class="workout_user_cell col-xs-2">@Html.DisplayFor(modelItem => user_favorite_workout.workout.user.username)</td>
+                            <td class ="workout_user_cell col-xs-3">@Html.ActionLink("Remove from Favorites", "RemoveWorkoutFromFavorites", new { workout_id = user_favorite_workout.workout_id }, new { @class = "btn btn-default" })</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="pagination_container">
+                @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+            </div>
 
-</table>
+
+        </div>
+    </div>
+</div>
+
