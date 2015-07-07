@@ -13,44 +13,46 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4 col-xs-12 personal_info_detail well">
-            <div class="row">
-                <div class="personal_info_header">Personal Info</div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Username:</span></h4></div>
-                <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.username)</div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">First Name:</span></h4></div>
-                <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.fname)</div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Last Name:</span></h4></div>
-                <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.lname)</div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Gender:</span></h4></div>
-                @{
-                    var gender = "";
-                    if (Model.is_male != null)
-                    {
-                        gender = Model.is_male == 1 ? "Male" : "Female";
+        <div class="col-md-4 col-xs-12">
+            <div class="personal_info_detail well">
+                <div class="row">
+                    <div class="personal_info_header">Personal Info</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Username:</span></h4></div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.username)</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">First Name:</span></h4></div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.fname)</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Last Name:</span></h4></div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.lname)</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Gender:</span></h4></div>
+                    @{
+                        var gender = "";
+                        if (Model.is_male != null)
+                        {
+                            gender = Model.is_male == 1 ? "Male" : "Female";
+                        }
                     }
-                }
-                <div class="col-md-8 col-sm-12 my_profile_prop">@gender</div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@gender</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Weight:</span></h4></div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.weight)</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Height:</span></h4></div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.height)</div>
+                </div>
+                
             </div>
             <div class="row">
-                <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Weight:</span></h4></div>
-                <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.weight)</div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Height:</span></h4></div>
-                <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.height)</div>
-            </div>
-            <br />
-            <div class="row">
-                <div class="col-md-12 col-sm-12">
+                <div class="col-md-12 col-xs-12">
                     @Html.ActionLink("Edit My Profile", "Edit", new { id = Model.id }, new { @class = "btn btn-primary" })
                 </div>
             </div>

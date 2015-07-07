@@ -32,13 +32,13 @@ div.my_profile_prop {
 }
 
 div.favorites_list {
-    float: right;
     margin-top: 20px;
+    margin-left: 10px;
 }
 
 div.favorites_list table {
     display: block;
     overflow: auto;
-    max-height: 255px;
+    max-height: 205px;
 }
 
