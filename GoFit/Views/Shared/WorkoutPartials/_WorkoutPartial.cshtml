@@ -4,6 +4,9 @@
 @{
     ViewBag.Title = "Workout";
     //Layout = "~/Views/Shared/_Layout.cshtml";
+    var fav_count = "";
+    if (ViewBag.FavoritesCount == 1) { fav_count = "1 user"; }
+    else { fav_count = ViewBag.FavoritesCount + " users";};
 }
 
 <div class="container-fluid">
@@ -27,6 +30,10 @@
             <div class="row">
                 <div class="col-md-4 col-sm-12"><h4><span class="label label-default">Created At</span></h4></div>
                 <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(model => model.created_at)</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-12"><h4><span class="label label-default">Favorited by</span></h4></div>
+                <div class="col-md-8 col-sm-12 workout_prop">@fav_count</div>
             </div>
         </div>
         <div class="col-md-8 col-xs-12 exercise_list">

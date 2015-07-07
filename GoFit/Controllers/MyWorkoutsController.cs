@@ -115,6 +115,9 @@ namespace GoFit.Controllers
                                                                 m.user_id == userID).FirstOrDefault();
                 ViewBag.IsFavorite = (fav_workout == null) ? false : true;
 
+                //counts how many users marked workout as Favorite
+                ViewBag.FavoritesCount = db.user_favorite_workout.Where(m => m.workout_id.Equals((int)workout.id)).Count();
+
                 return View(workout);
             }
         }
