@@ -433,6 +433,10 @@ namespace GoFit.Tests.Controllers
         {
             user_workout u_workout = new user_workout();
             u_workout.id = 2;
+            u_workout.workout = new workout()
+            {
+                id = 2
+            };
             byte[] timestamp = new byte[8];
             for (var i = 0; i < timestamp.Length; i++)
             {
