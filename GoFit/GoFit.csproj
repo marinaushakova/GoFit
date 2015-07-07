@@ -361,6 +361,7 @@
     <Content Include="Views\Shared\_ErrorPartial.cshtml" />
     <Content Include="Views\AdminHome\Edit.cshtml" />
     <Content Include="Views\FavoriteWorkouts\Index.cshtml" />
+    <Content Include="Views\FavoriteWorkouts\FavoriteList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

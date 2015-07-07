@@ -54,6 +54,14 @@ namespace GoFit.Controllers
             return View(user_favorite_workouts);
         }
 
+
+        public PartialViewResult FavoriteList()
+        {
+            currUserId = userAccess.getUserId(User.Identity.Name);
+            var favoriteList = db.user_favorite_workout.Where(m => m.user_id.Equals(currUserId)).ToList();
+            return PartialView(favoriteList);
+        }
+
         [Authorize]
         public ActionResult AddWorkoutToFavorites(int? workout_id)
         {

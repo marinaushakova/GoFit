@@ -54,4 +54,7 @@
      <p>
          @Html.ActionLink("Edit My Profile", "Edit", new { id = Model.id }, new { @class = "btn btn-primary" })
      </p>
+
+
+    @{Html.RenderAction("FavoriteList", "FavoriteWorkouts");}
 </div>

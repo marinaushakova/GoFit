@@ -17,6 +17,7 @@ namespace GoFit.Controllers
     public class MyProfileController : GoFitBaseController
     {
         private masterEntities db;
+        private int currUserId;
         private UserAccess userAccess;
 
 
