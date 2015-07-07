@@ -1,21 +1,27 @@
 ﻿@model IEnumerable<GoFit.Models.user_favorite_workout>
 
-<table class="table">
-    <tr>
-        <th>Workout</th>
-        <th></th>
-    </tr>
+<div class="row">
+<div class="col-md-7 col-xs-12 favorites_list">
+    <div class="">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3>My Favorite Workouts</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="row">
+                                <td class="col-xs-9">@Html.DisplayFor(modelItem => item.workout.name)</td>
+                                <td class="col-xs-3">@Html.ActionLink("Unfavorite", "RemoveWorkoutFromFavorites", new { workout_id = item.workout_id }, new { @class = "btn btn-default" })</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.workout.name)
-            </td>
-            <td>
-                @Html.ActionLink("Remove from Favorites", "RemoveWorkoutFromFavorites", new { workout_id = item.workout_id }, new { @class = "btn btn-default" })
-            </td>
-        </tr>
-    }
-
-</table>

@@ -31,3 +31,14 @@ div.my_profile_prop {
     height: 25px;
 }
 
+div.favorites_list {
+    float: right;
+    margin-top: 20px;
+}
+
+div.favorites_list table {
+    display: block;
+    overflow: auto;
+    max-height: 255px;
+}
+

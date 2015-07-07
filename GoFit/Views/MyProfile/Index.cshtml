@@ -48,13 +48,14 @@
                 <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Height:</span></h4></div>
                 <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.height)</div>
             </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    @Html.ActionLink("Edit My Profile", "Edit", new { id = Model.id }, new { @class = "btn btn-primary" })
+                </div>
+            </div>
         </div>
-     </div>                        
+        @{Html.RenderAction("FavoriteList", "FavoriteWorkouts");}
+     </div>    
 
-     <p>
-         @Html.ActionLink("Edit My Profile", "Edit", new { id = Model.id }, new { @class = "btn btn-primary" })
-     </p>
-
-
-    @{Html.RenderAction("FavoriteList", "FavoriteWorkouts");}
 </div>
