@@ -86,6 +86,7 @@ namespace GoFit.Controllers
                         entry.CurrentValues.SetValues(user);
                     }
                     db.SaveChanges();
+                    FormsAuthentication.SetAuthCookie(user.username, false);
                     return RedirectToAction("Index", "MyProfile");
                 }
                 catch (DbUpdateConcurrencyException ex)
