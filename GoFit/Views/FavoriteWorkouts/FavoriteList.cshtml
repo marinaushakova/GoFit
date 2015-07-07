@@ -13,8 +13,7 @@
                         @foreach (var item in Model)
                         {
                             <tr class="row">
-                                <td class="col-xs-12">@Html.DisplayFor(modelItem => item.workout.name)</td>
-                                @*<td class="col-xs-3">@Html.ActionLink("Unfavorite", "RemoveWorkoutFromFavorites", new { workout_id = item.workout_id }, new { @class = "btn btn-default" })</td>*@
+                                <td class="col-xs-12">@Html.ActionLink(item.workout.name, "../Home/Details", new { workoutId = item.workout_id })</td>
                             </tr>
                         }
                     </tbody>
