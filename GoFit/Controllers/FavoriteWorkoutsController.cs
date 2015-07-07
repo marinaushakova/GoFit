@@ -46,8 +46,16 @@ namespace GoFit.Controllers
             userAccess = new UserAccess(db);
             pageSize = PAGE_SIZE;
         }
-        //
-        // GET: /FavoriteWorkouts/
+
+
+        /// <summary>
+        /// Returns the list of Favorite Workouts for currently logged in user
+        /// </summary>
+        /// <param name="sortBy">String parameter telling the controller how to sort the workouts</param>
+        /// <param name="page">The request page in the list of workouts</param>
+        /// <param name="workoutSearch">Search parameter</param>
+        /// <returns>A list of user favorite workouts from DB</returns>
+        [Authorize]
         public ActionResult Index(string sortBy, int? page, WorkoutSearch workoutSearch)
         {
             currUserId = userAccess.getUserId(User.Identity.Name);
@@ -57,11 +65,14 @@ namespace GoFit.Controllers
             user_favorite_workouts = this.doSort(user_favorite_workouts, sortBy);
 
             int pageNumber = (page ?? 1);
-            //var view = View("Index", user_favorite_workouts.ToPagedList(pageNumber, pageSize));
             return View(user_favorite_workouts.ToPagedList(pageNumber, pageSize));
         }
 
 
+        /// <summary>
+        /// Gets list of favorite workouts for currently logged in user
+        /// </summary>
+        /// <returns>List of favorite workouts</returns>
         public PartialViewResult FavoriteList()
         {
             currUserId = userAccess.getUserId(User.Identity.Name);
@@ -69,6 +80,11 @@ namespace GoFit.Controllers
             return PartialView(favoriteList);
         }
 
+        /// <summary>
+        /// Adds workout with passed in id to favorite list of currently logged in user
+        /// </summary>
+        /// <param name="workout_id">id of workout being added to favorites</param>
+        /// <returns>Page that called the action</returns>
         [Authorize]
         public ActionResult AddWorkoutToFavorites(int? workout_id)
         {
@@ -108,6 +124,11 @@ namespace GoFit.Controllers
 
         }
 
+        /// <summary>
+        /// Removes workout with passed in id from favorite list of currently logged in user
+        /// </summary>
+        /// <param name="workout_id">id of workout being removed from favorites</param>
+        /// <returns>Page that called the action</returns>
         [Authorize]
         public ActionResult RemoveWorkoutFromFavorites([Bind(Include = "id,timestamp")] int? workout_id)
         {
@@ -143,11 +164,15 @@ namespace GoFit.Controllers
         }
 
 
+
+        //---------------------Private methods-------------------------
+
+
         /// <summary>
         /// Private helper method to perform a new search or maintain a previous search through 
         /// pagination and filter changes
         /// </summary>
-        /// <param name="workouts">The base workout query result</param>
+        /// <param name="fav_workouts">The base user_favorite_workout query result</param>
         /// <param name="sortBy">The passed sort string if it exists, else null</param>
         /// <param name="page">The passed page param if it exists, else null</param>
         /// <returns>The searched workouts</returns>
@@ -180,7 +205,7 @@ namespace GoFit.Controllers
         /// <summary>
         /// Private helper method set and return the sorted workouts
         /// </summary>
-        /// <param name="workouts">The base workout query result</param>
+        /// <param name="fav_workouts">The base user_favorite_workout query result</param>
         /// <param name="sortBy">Indicates the sort order</param>
         /// <returns>The sorted workouts</returns>
         private IQueryable<user_favorite_workout> doSort(IQueryable<user_favorite_workout> fav_workouts, string sortBy)
