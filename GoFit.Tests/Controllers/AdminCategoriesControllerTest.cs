@@ -80,6 +80,20 @@ namespace GoFit.Tests.Controllers
         }
 
         /// <summary>
+        /// Test that AdminCategories Editing a category redirects to Index
+        /// </summary>
+        [TestMethod]
+        public void TestAdminCategoriesEditCategory()
+        {
+            var result = adminCon.Edit(1) as ViewResult;
+            Assert.IsNotNull(result);
+            var testCategory = (category)result.ViewData.Model;
+            testCategory.description = "TEST_DLJ";
+            var result2 = (RedirectToRouteResult)adminCon.Edit(testCategory);
+            Assert.AreEqual("Index", result2.RouteValues["action"]);
+        }
+
+        /// <summary>
         /// Test that AdminCategories Delete view returns a ViewResult
         /// </summary>
         [TestMethod]
