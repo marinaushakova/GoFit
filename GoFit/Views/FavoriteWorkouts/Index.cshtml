@@ -50,7 +50,7 @@
                     @foreach (var user_favorite_workout in Model)
                     {
                         <tr class="row">
-                            <td class="workout_name_cell col-xs-3">@Html.ActionLink(user_favorite_workout.workout.name, "../Home/Details", new { workout_id = user_favorite_workout.workout_id })</td>
+                            <td class="workout_name_cell col-xs-3">@Html.ActionLink(user_favorite_workout.workout.name, "../Home/Details", new { workoutId = user_favorite_workout.workout_id })</td>
                             <td class="workout_category_cell col-xs-2">@Html.DisplayFor(modelItem => user_favorite_workout.workout.category.name)</td>
                             <td class="workout_created_cell col-xs-3">@Html.DisplayFor(modelItem => user_favorite_workout.workout.created_at)</td>
                             <td class="workout_user_cell col-xs-2">@Html.DisplayFor(modelItem => user_favorite_workout.workout.user.username)</td>
