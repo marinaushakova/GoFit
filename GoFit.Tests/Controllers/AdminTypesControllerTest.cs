@@ -43,7 +43,68 @@ namespace GoFit.Tests.Controllers
                 ControllerContext = MockContext.AuthenticationContext("admin")
             };
         }
-        
+
+        #region David's Tests
+
+        /// <summary>
+        /// Test that AdminTypes Details view returns ViewData-
+        /// a record from the Type model
+        /// </summary>
+        [TestMethod]
+        public void TestAdminTypesDetailsViewReturnsData()
+        {
+            var result = adminCon.Details(1) as ViewResult;
+            var type = (type)result.ViewData.Model;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("type1", type.name);
+        }
+
+        /// <summary>
+        /// Test that AdminTypes Create view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminTypesCreateViewReturnsData()
+        {
+            var result = adminCon.Create() as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        /// <summary>
+        /// Test that AdminTypes Edit view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminTypesEditViewReturnsData()
+        {
+            var result = adminCon.Edit(1) as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        /// <summary>
+        /// Test that AdminTypes Editing a type redirects to Index
+        /// </summary>
+        [TestMethod]
+        public void TestAdminTypesEditType()
+        {
+            var result = adminCon.Edit(1) as ViewResult;
+            Assert.IsNotNull(result);
+            var testType = (type)result.ViewData.Model;
+            testType.measure = "TEST_DLJ";
+            var result2 = (RedirectToRouteResult)adminCon.Edit(testType);
+            Assert.AreEqual("Index", result2.RouteValues["action"]);
+        }
+
+        /// <summary>
+        /// Test that AdminTypes Delete view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminTypesDeleteViewReturnsData()
+        {
+            var result = adminCon.Delete(1) as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        #endregion
+
         /// <summary>
         /// Test creating a type record
         /// </summary>

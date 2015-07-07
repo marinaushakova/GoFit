@@ -28,6 +28,15 @@ namespace GoFit.Controllers
             db = new masterEntities();
         }
 
+        /// <summary>
+        /// Parameterized constructor that takes a db context as the parameter
+        /// </summary>
+        /// <param name="context">The db context to use</param>
+        public MyAccountController(masterEntities context)
+        {
+            db = context;
+        }
+
 
         public ActionResult Login()
         {

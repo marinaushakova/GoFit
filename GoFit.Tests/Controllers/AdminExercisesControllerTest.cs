@@ -44,6 +44,67 @@ namespace GoFit.Tests.Controllers
             };
         }
 
+        #region David's Tests
+
+        /// <summary>
+        /// Test that AdminExercises Details view returns ViewData-
+        /// a record from the Exercise model
+        /// </summary>
+        [TestMethod]
+        public void TestAdminExercisesDetailsViewReturnsData()
+        {
+            var result = adminCon.Details(1) as ViewResult;
+            var exercise = (exercise)result.ViewData.Model;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("ex1", exercise.name);
+        }
+
+        /// <summary>
+        /// Test that AdminExercises Create view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminExercisesCreateViewReturnsData()
+        {
+            var result = adminCon.Create() as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        /// <summary>
+        /// Test that AdminExercises Edit view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminExercisesEditViewReturnsData()
+        {
+            var result = adminCon.Edit(1) as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        /// <summary>
+        /// Test that AdminExercises Editing a exercise redirects to Index
+        /// </summary>
+        [TestMethod]
+        public void TestAdminExercisesEditExercise()
+        {
+            var result = adminCon.Edit(1) as ViewResult;
+            Assert.IsNotNull(result);
+            var testExercise = (exercise)result.ViewData.Model;
+            testExercise.description = "TEST_DLJ";
+            var result2 = (RedirectToRouteResult)adminCon.Edit(testExercise);
+            Assert.AreEqual("Index", result2.RouteValues["action"]);
+        }
+
+        /// <summary>
+        /// Test that AdminExercises Delete view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminExercisesDeleteViewReturnsData()
+        {
+            var result = adminCon.Delete(1) as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        #endregion
+
         /// <summary>
         /// Test the exercises are sorted ascending upon passing
         /// sortBy "name" to the index view

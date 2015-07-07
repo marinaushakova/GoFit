@@ -44,6 +44,67 @@ namespace GoFit.Tests.Controllers
             };
         }
 
+        #region David's Tests
+
+        /// <summary>
+        /// Test that AdminCategories Details view returns ViewData-
+        /// a record from the Category model
+        /// </summary>
+        [TestMethod]
+        public void TestAdminCategoriesDetailsViewReturnsData()
+        {
+            var result = adminCon.Details(1) as ViewResult;
+            var category = (category)result.ViewData.Model;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("endurance", category.name);
+        }
+
+        /// <summary>
+        /// Test that AdminCategories Create view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminCategoriesCreateViewReturnsData()
+        {
+            var result = adminCon.Create() as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        /// <summary>
+        /// Test that AdminCategories Edit view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminCategoriesEditViewReturnsData()
+        {
+            var result = adminCon.Edit(1) as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        /// <summary>
+        /// Test that AdminCategories Editing a category redirects to Index
+        /// </summary>
+        [TestMethod]
+        public void TestAdminCategoriesEditCategory()
+        {
+            var result = adminCon.Edit(1) as ViewResult;
+            Assert.IsNotNull(result);
+            var testCategory = (category)result.ViewData.Model;
+            testCategory.description = "TEST_DLJ";
+            var result2 = (RedirectToRouteResult)adminCon.Edit(testCategory);
+            Assert.AreEqual("Index", result2.RouteValues["action"]);
+        }
+
+        /// <summary>
+        /// Test that AdminCategories Delete view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminCategoriesDeleteViewReturnsData()
+        {
+            var result = adminCon.Delete(1) as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        #endregion
+
         /// <summary>
         /// Test the categories are sorted ascending upon passing
         /// sortBy "name" to the index view
@@ -116,7 +177,6 @@ namespace GoFit.Tests.Controllers
             var categories = (PagedList<category>)result.ViewData.Model;
             Assert.IsTrue(categories.Count > 0);
         }
-
 
         [TestMethod]
         public void TestAdminCategoriesDetailsWithNullId()

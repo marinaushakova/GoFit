@@ -44,6 +44,33 @@ namespace GoFit.Tests.Controllers
             };
         }
 
+        #region David's Tests
+
+        /// <summary>
+        /// Test that AdminComments Details view returns ViewData-
+        /// a record from the Comment model
+        /// </summary>
+        [TestMethod]
+        public void TestAdminCommentsDetailsViewReturnsData()
+        {
+            var result = adminCon.Details(1) as ViewResult;
+            var comment = (comment)result.ViewData.Model;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Comment1", comment.message);
+        }
+
+        /// <summary>
+        /// Test that AdminComments Delete view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminCommentsDeleteViewReturnsData()
+        {
+            var result = adminCon.Delete(1) as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        #endregion
+
         /// <summary>
         /// Test the comments are sorted ascending upon passing
         /// sortBy "username" to the index view

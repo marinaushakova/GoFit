@@ -45,6 +45,53 @@ namespace GoFit.Tests.Controllers
             };
         }
 
+        #region David's Tests
+
+        /// <summary>
+        /// Test that AdminWorkouts Details view returns ViewData-
+        /// a record from the Workout model
+        /// </summary>
+        [TestMethod]
+        public void TestAdminWorkoutsDetailsViewReturnsData()
+        {
+            var result = adminCon.Details(1) as ViewResult;
+            var workout = (workout)result.ViewData.Model;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("workout1", workout.name);
+        }
+
+        /// <summary>
+        /// Test that AdminWorkouts Create view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminWorkoutsCreateViewReturnsData()
+        {
+            var result = adminCon.Create() as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        /// <summary>
+        /// Test that AdminWorkouts Edit view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminWorkoutsEditViewReturnsData()
+        {
+            var result = adminCon.Edit(1) as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        /// <summary>
+        /// Test that AdminWorkouts Delete view returns a ViewResult
+        /// </summary>
+        [TestMethod]
+        public void TestAdminWorkoutsDeleteViewReturnsData()
+        {
+            var result = adminCon.Delete(1) as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        #endregion
+
         /// <summary>
         /// Test the workouts are sorted ascending upon passing
         /// sortBy "name" to the index view
