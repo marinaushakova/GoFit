@@ -9,7 +9,7 @@
         <li>
             @if (ViewBag.UserIsAdmin == true)
             {
-                @Html.ActionLink("Logged in as Admin: " + HttpContext.Current.User.Identity.Name, "Index", "AdminHome")
+                @Html.ActionLink("Logged in as Admin: " + HttpContext.Current.User.Identity.Name, "Edit", "AdminHome")
             }
             else
             {
