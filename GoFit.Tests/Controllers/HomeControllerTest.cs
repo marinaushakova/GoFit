@@ -306,8 +306,18 @@ namespace GoFit.Tests.Controllers
             workout.description = "TestWorkoutDescription";
             workout.category_id = 1;
             workout.created_by_user_id = 1;
+            workout_exercise workoutExercise = new workout_exercise();
+            workoutExercise.id = 4;
+            workoutExercise.exercise_id = 1;
+            workoutExercise.workout_id = 100;
+            workoutExercise.position = 1;
+            workoutExercise.duration = 5;
             db.Setup(c => c.workouts.Add(workout)).Returns(workout);
-            RedirectToRouteResult result = controller.Create(workout) as RedirectToRouteResult;
+            db.Setup(c => c.workout_exercise.Add(workoutExercise)).Returns(workoutExercise);
+            GoFit.Models.WorkoutExerciseViewModel model = new WorkoutExerciseViewModel();
+            model.Workout = workout;
+            model.WorkoutExercise = workoutExercise;
+            RedirectToRouteResult result = controller.Create(model) as RedirectToRouteResult;
             Assert.IsNotNull(result);
             Assert.AreEqual(100, result.RouteValues["id"], "workoutId was not 100");
             Assert.AreEqual("AddExerciseToWorkout", result.RouteValues["action"], "action was not AddExerciseToWorkout");
@@ -464,7 +474,11 @@ namespace GoFit.Tests.Controllers
                 ControllerContext = MockContext.AuthenticationContext("not_a_real_user")
             };
             var workout = new workout();
-            ViewResult result = controller.Create(workout) as ViewResult;
+            var workoutExercise = new workout_exercise();
+            GoFit.Models.WorkoutExerciseViewModel viewModel = new WorkoutExerciseViewModel();
+            viewModel.Workout = workout;
+            viewModel.WorkoutExercise = workoutExercise;
+            ViewResult result = controller.Create(viewModel) as ViewResult;
             Assert.IsNotNull(result);
             Assert.AreEqual("DetailedError", result.ViewName);
             Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
@@ -474,12 +488,16 @@ namespace GoFit.Tests.Controllers
         }
 
         [TestMethod]
-        public void TestHomeControllerCreateWorkoutWithBadWorkoutObj()
+        public void TestHomeControllerCreateWorkoutWithBadPassedObj()
         {
             var workout = new workout();
+            var workoutExercise = new workout_exercise();
             var ex = new Exception();
             db.Setup(c => c.workouts.Add(workout)).Throws(ex);
-            ViewResult result = controller.Create(workout) as ViewResult;
+            GoFit.Models.WorkoutExerciseViewModel viewModel = new WorkoutExerciseViewModel();
+            viewModel.Workout = workout;
+            viewModel.WorkoutExercise = workoutExercise;
+            ViewResult result = controller.Create(viewModel) as ViewResult;
             Assert.IsNotNull(result);
             Assert.AreEqual("DetailedError", result.ViewName);
             Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
@@ -492,8 +510,13 @@ namespace GoFit.Tests.Controllers
         public void TestHomeControllerCreateWorkoutWithValidationErrs()
         {
             var workout = new workout();
+            var workoutExercise = new workout_exercise();
             controller.ModelState.AddModelError("Fail", "Failed");
-            ViewResult result = controller.Create(workout) as ViewResult;
+            GoFit.Models.WorkoutExerciseViewModel viewModel = new WorkoutExerciseViewModel();
+            viewModel.Workout = workout;
+            viewModel.WorkoutExercise = workoutExercise;
+            ViewResult result = controller.Create(viewModel) as ViewResult;
+            //ViewResult result = controller.Create(workout) as ViewResult;
             Assert.IsNotNull(result);
             Assert.AreEqual("DetailedError", result.ViewName);
             Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));

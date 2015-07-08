@@ -233,6 +233,7 @@
     <Compile Include="Models\workout.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\WorkoutExerciseViewModel.cs" />
     <Compile Include="Models\WorkoutSearch.cs" />
     <Compile Include="Models\workout_exercise.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>

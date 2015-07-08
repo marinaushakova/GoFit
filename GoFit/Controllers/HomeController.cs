@@ -112,6 +112,9 @@ namespace GoFit.Controllers
             var query = db.categories.Select(c => new { c.id, c.name });
             ViewBag.Categories = new SelectList(query.AsEnumerable(), "id", "name");
 
+            query = db.exercises.Select(ex => new { ex.id, ex.name });
+            ViewBag.Exercises = new SelectList(query.AsEnumerable(), "id", "name");
+
             return View("Create");
         }
 
@@ -122,28 +125,32 @@ namespace GoFit.Controllers
         /// <returns>AddExerciseToWorkout view if success, create workout view if not</returns>
         [HttpPost]
         [Authorize]
-        public ActionResult Create(workout workout)
+        public ActionResult Create(WorkoutExerciseViewModel model)
         {
-            if (workout == null)
+            if (model == null || model.Workout == null || model.WorkoutExercise == null)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Workout could not be created. Please try again."));
             }
             
-            workout.created_at = DateTime.Now;
+            model.Workout.created_at = DateTime.Now;
             var user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
             if (user == null)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "No user could be associated with the workout being created"));
             }
-            else workout.created_by_user_id = user.id;
+            else model.Workout.created_by_user_id = user.id;
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    db.workouts.Add(workout);
+                    db.workouts.Add(model.Workout);
                     db.SaveChanges();
-                    return RedirectToAction("AddExerciseToWorkout", "Home", new { id = workout.id });
+                    model.WorkoutExercise.workout_id = model.Workout.id;
+                    model.WorkoutExercise.position = 1;
+                    db.workout_exercise.Add(model.WorkoutExercise);
+                    db.SaveChanges();
+                    return RedirectToAction("AddExerciseToWorkout", "Home", new { id = model.Workout.id });
                 }
                 catch (Exception ex)
                 {

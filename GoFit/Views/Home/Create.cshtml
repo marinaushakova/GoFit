@@ -1,4 +1,4 @@
-﻿@model GoFit.Models.workout
+﻿@model GoFit.Models.WorkoutExerciseViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -18,24 +18,41 @@
         <div class="form-group">
             <label class="control-label col-md-2">Workout Name:</label>
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.name, new { @class = "workout_textbox" })
-                @Html.ValidationMessageFor(model => model.name)
+                @Html.TextBoxFor(model => model.Workout.name, new { @class = "workout_textbox" })
+                @Html.ValidationMessageFor(model => model.Workout.name)
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Description:</label>
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.description, new { @class = "description_textarea" })
-                @Html.ValidationMessageFor(model => model.description)
+                @Html.TextAreaFor(model => model.Workout.description, new { @class = "description_textarea" })
+                @Html.ValidationMessageFor(model => model.Workout.description)
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Category:</label>
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.category_id, (IEnumerable<SelectListItem>)ViewBag.Categories, new { @class = "drop_down" })
-                @Html.ValidationMessageFor(model => model.category_id)
+                @Html.DropDownListFor(model => model.Workout.category_id, (IEnumerable<SelectListItem>)ViewBag.Categories, new { @class = "drop_down" })
+                @Html.ValidationMessageFor(model => model.Workout.category_id)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-4 col-sm-12">First Exercise:</label>
+            <div class="col-md-8 col-sm-12">
+                @Html.DropDownListFor(model => model.WorkoutExercise.exercise_id, (IEnumerable<SelectListItem>)ViewBag.Exercises, new { onChange = "onSelectedIndexChanged()", id = "cmbMeasure", @class = "drop_down" })
+                @Html.ValidationMessageFor(model => model.WorkoutExercise.exercise_id)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-4 col-sm-12">Duration:</label>
+            <div class="col-md-8 col-sm-12">
+                @Html.TextBoxFor(model => model.WorkoutExercise.duration, new { @id = "duration_text" })
+                @Html.ValidationMessageFor(model => model.WorkoutExercise.duration)
+                <label id="lblMeasure">unit(s)</label>
             </div>
         </div>
 
