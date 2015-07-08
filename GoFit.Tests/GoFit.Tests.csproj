@@ -98,6 +98,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ExerciseControllerTest.cs" />
     <Compile Include="Controllers\MyWorkoutsControllerTest.cs" />
     <Compile Include="Controllers\AdminWorkoutsControllerTest.cs" />
     <Compile Include="Controllers\AdminCategoriesControllerTest.cs" />

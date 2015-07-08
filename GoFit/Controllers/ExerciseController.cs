@@ -47,7 +47,7 @@ namespace GoFit.Controllers
             }
             
             var exList = db.exercises.OrderBy(m => m.name).ToList();
-            return View(exList);
+            return View("Index", exList);
         }
 
         /// <summary>
