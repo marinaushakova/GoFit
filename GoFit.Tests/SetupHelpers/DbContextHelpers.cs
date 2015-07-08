@@ -84,7 +84,7 @@ namespace GoFit.Tests.MockSetupHelpers
             commentMockset.As<IQueryable<comment>>().Setup(m => m.ElementType).Returns(commentsQ.ElementType);
             commentMockset.As<IQueryable<comment>>().Setup(m => m.GetEnumerator()).Returns(commentsQ.GetEnumerator);
 
-            var userFavMockset = new Mock<DbSet<user_favorite_workout>>() { CallBase = true };
+            var userFavMockset = new Mock<DbSetOverrideUserFavoriteWorkoutsFind<user_favorite_workout>>() { CallBase = true };
             userFavMockset.As<IQueryable<user_favorite_workout>>().Setup(m => m.Provider).Returns(userFavesQ.Provider);
             userFavMockset.As<IQueryable<user_favorite_workout>>().Setup(m => m.Expression).Returns(userFavesQ.Expression);
             userFavMockset.As<IQueryable<user_favorite_workout>>().Setup(m => m.ElementType).Returns(userFavesQ.ElementType);
@@ -563,13 +563,40 @@ namespace GoFit.Tests.MockSetupHelpers
             user_favorite_workout fav1 = new user_favorite_workout
             {
                 id = 1,
-                user_id = 2,
+                user_id = 3,
                 user = users[1],
                 workout = workouts[0],
                 workout_id = 1,
                 timestamp = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0}
             };
-            var userFavs = new List<user_favorite_workout> { fav1 };
+            user_favorite_workout fav2 = new user_favorite_workout
+            {
+                id = 2,
+                user_id = 3,
+                user = users[1],
+                workout = workouts[1],
+                workout_id = 2,
+                timestamp = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }
+            };
+            user_favorite_workout fav3 = new user_favorite_workout
+            {
+                id = 3,
+                user_id = 3,
+                user = users[1],
+                workout = workouts[10],
+                workout_id = 11,
+                timestamp = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }
+            };
+            user_favorite_workout fav4 = new user_favorite_workout
+            {
+                id = 4,
+                user_id = 3,
+                user = users[1],
+                workout = workouts[11],
+                workout_id = 12,
+                timestamp = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }
+            };
+            var userFavs = new List<user_favorite_workout> { fav1, fav2, fav3, fav4 };
             return userFavs;
         }
     }

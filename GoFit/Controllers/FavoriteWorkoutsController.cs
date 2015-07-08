@@ -65,7 +65,7 @@ namespace GoFit.Controllers
             user_favorite_workouts = this.doSort(user_favorite_workouts, sortBy);
 
             int pageNumber = (page ?? 1);
-            return View(user_favorite_workouts.ToPagedList(pageNumber, pageSize));
+            return View("Index", user_favorite_workouts.ToPagedList(pageNumber, pageSize));
         }
 
 
@@ -109,8 +109,16 @@ namespace GoFit.Controllers
                 {
                     db.user_favorite_workout.Add(fav_workout);
                     db.SaveChanges();
-                    string url = this.Request.UrlReferrer.PathAndQuery;
-                    return Redirect(url);
+                    if (this.Request.UrlReferrer != null) 
+                    {
+                        string url = this.Request.UrlReferrer.PathAndQuery;
+                        return Redirect(url);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "FavoriteWorkouts");
+                    }
+                    
                 }
                 catch (Exception ex)
                 {
@@ -130,7 +138,7 @@ namespace GoFit.Controllers
         /// <param name="workout_id">id of workout being removed from favorites</param>
         /// <returns>Page that called the action</returns>
         [Authorize]
-        public ActionResult RemoveWorkoutFromFavorites([Bind(Include = "id,timestamp")] int? workout_id)
+        public ActionResult RemoveWorkoutFromFavorites(int? workout_id)
         {
             if (workout_id == null)
             {
@@ -153,8 +161,15 @@ namespace GoFit.Controllers
                 }
                 db.user_favorite_workout.Remove(favWorkout);
                 db.SaveChanges();
-                string url = this.Request.UrlReferrer.PathAndQuery;
-                return Redirect(url);
+                if (this.Request.UrlReferrer != null)
+                {
+                    string url = this.Request.UrlReferrer.PathAndQuery;
+                    return Redirect(url);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "FavoriteWorkouts");
+                }
             }
             catch (Exception ex)
             {
