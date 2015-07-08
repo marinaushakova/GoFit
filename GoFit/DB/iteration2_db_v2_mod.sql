@@ -322,7 +322,7 @@ CREATE TABLE [dbo].[user](
 	[is_male] [smallint] NULL DEFAULT (NULL),
 	[is_admin] [smallint] NOT NULL DEFAULT ((0)),
 	[weight] [int] NULL DEFAULT (NULL),
-	[height] [decimal](3, 1) NULL DEFAULT (NULL),
+	[height] [decimal](3, 2) NULL DEFAULT (NULL),
 	[timestamp] [timestamp] NOT NULL,
  CONSTRAINT [PK_user_id] PRIMARY KEY CLUSTERED 
 (

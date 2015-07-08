@@ -59,7 +59,7 @@
           <Property Name="is_male" Type="smallint" />
           <Property Name="is_admin" Type="smallint" Nullable="false" />
           <Property Name="weight" Type="int" />
-          <Property Name="height" Type="decimal" Precision="3" Scale="1" />
+          <Property Name="height" Type="decimal" Precision="3" Scale="2" />
           <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="user_favorite_workout">
@@ -375,7 +375,7 @@
           <Property Name="is_male" Type="Int16" />
           <Property Name="is_admin" Type="Int16" Nullable="false" />
           <Property Name="weight" Type="Int32" />
-          <Property Name="height" Type="Decimal" Precision="3" Scale="1" />
+          <Property Name="height" Type="Decimal" Precision="3" Scale="2" />
           <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="comments" Relationship="Self.comment_fk_Comment_User1" FromRole="user" ToRole="comment" />
           <NavigationProperty Name="exercises" Relationship="Self.exercise_fk_Exercise_User1" FromRole="user" ToRole="exercise" />

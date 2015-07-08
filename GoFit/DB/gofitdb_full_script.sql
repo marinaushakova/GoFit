@@ -376,7 +376,7 @@ CREATE TABLE
 
    [is_admin] smallint  NOT NULL,
    [weight] int  NULL,
-   [height] decimal(3, 1)  NULL,
+   [height] decimal(3, 2)  NULL,
    [timestamp] datetime  NOT NULL
 )
 GO
