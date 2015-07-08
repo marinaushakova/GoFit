@@ -60,7 +60,7 @@
     <div>
         @if (!String.IsNullOrEmpty(@Model.link))
         {
-            <iframe class="col-md-12 col-sm-12 exercise_video" width="640" height="400" src=@Model.link.Replace("watch?v=", "embed/") frameborder="0"></iframe>
+            <iframe class="col-md-12 col-sm-12 exercise_video" width="640" height="400" src="@ViewBag.videoLink" frameborder="0"></iframe>
         }
     </div>
 </div>
