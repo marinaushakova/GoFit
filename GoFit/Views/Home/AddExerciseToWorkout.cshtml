@@ -58,6 +58,7 @@
     
 @{Html.RenderAction("ExerciseList", "Home", new { id = @ViewBag.Workout.id });}
 
+
 @Html.ActionLink("View Workout", "Details", new { workoutId = @ViewBag.Workout.id }, new { @class = "btn btn-primary" })
 
 @section Scripts {
