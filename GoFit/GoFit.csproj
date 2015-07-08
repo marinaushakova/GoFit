@@ -344,7 +344,6 @@
     <Content Include="Views\MyAccount\Register.cshtml" />
     <Content Include="Views\Home\AddExerciseToWorkout.cshtml" />
     <Content Include="Views\Home\ExerciseList.cshtml" />
-    <Content Include="Views\Home\Create.cshtml" />
     <Content Include="Views\MyWorkouts\Details.cshtml" />
     <Content Include="Views\Shared\WorkoutPartials\_WorkoutPartial.cshtml" />
     <Content Include="Views\Shared\DetailedError.cshtml" />
@@ -363,6 +362,7 @@
     <Content Include="Views\AdminHome\Edit.cshtml" />
     <Content Include="Views\FavoriteWorkouts\Index.cshtml" />
     <Content Include="Views\FavoriteWorkouts\FavoriteList.cshtml" />
+    <Content Include="Views\Home\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

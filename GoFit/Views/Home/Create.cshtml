@@ -7,10 +7,10 @@
 <h2>Create Workout</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true)
@@ -38,18 +38,19 @@
                 @Html.ValidationMessageFor(model => model.Workout.category_id)
             </div>
         </div>
+        <hr />
 
         <div class="form-group">
-            <label class="control-label col-md-4 col-sm-12">First Exercise:</label>
-            <div class="col-md-8 col-sm-12">
+            <label class="control-label col-md-2">First Exercise:</label>
+            <div class="col-md-10">
                 @Html.DropDownListFor(model => model.WorkoutExercise.exercise_id, (IEnumerable<SelectListItem>)ViewBag.Exercises, new { onChange = "onSelectedIndexChanged()", id = "cmbMeasure", @class = "drop_down" })
                 @Html.ValidationMessageFor(model => model.WorkoutExercise.exercise_id)
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-4 col-sm-12">Duration:</label>
-            <div class="col-md-8 col-sm-12">
+            <label class="control-label col-md-2">Exercise Duration:</label>
+            <div class="col-md-10">
                 @Html.TextBoxFor(model => model.WorkoutExercise.duration, new { @id = "duration_text" })
                 @Html.ValidationMessageFor(model => model.WorkoutExercise.duration)
                 <label id="lblMeasure">unit(s)</label>
@@ -64,9 +65,6 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
