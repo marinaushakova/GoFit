@@ -48,11 +48,9 @@ namespace GoFit.Tests.Controllers
             };
             ViewResult result = myAccountCon.Register(u) as ViewResult;
             Assert.IsNotNull(result);
-            Assert.AreEqual("DetailedError", result.ViewName);
-            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
-            var model = result.Model as HttpStatusCodeResult;
-            Assert.AreEqual(500, model.StatusCode);
-            Assert.AreEqual("This username already exists. Please choose another one.", model.StatusDescription);
+            Assert.AreEqual("", result.ViewName);
+            Assert.AreEqual(myAccountCon.ModelState.IsValid, false);
+            Assert.AreEqual(true, myAccountCon.ModelState.ContainsKey("username"));
         }
 
 

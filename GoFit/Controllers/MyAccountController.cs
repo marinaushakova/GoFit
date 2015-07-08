@@ -111,7 +111,7 @@ namespace GoFit.Controllers
             var isDuplicate = db.users.Where(u => u.username == user.username).FirstOrDefault();
             if (isDuplicate != null)
             {
-                ModelState.AddModelError("", "This username already exists. Please choose another one.");
+                ModelState.AddModelError("username", "This username already exists. Please choose another one.");
                 return View();
             }
 
