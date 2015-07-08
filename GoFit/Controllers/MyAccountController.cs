@@ -61,8 +61,9 @@ namespace GoFit.Controllers
                     {
                         return RedirectToAction("Index", "AdminHome");
                     }
+                    //ReturnUrl = Request.QueryString["ReturnURL"];
 
-                    if (Url.IsLocalUrl(ReturnUrl))
+                    if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
                     {
                         return Redirect(ReturnUrl);
                     }
