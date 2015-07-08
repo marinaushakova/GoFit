@@ -68,6 +68,16 @@ namespace GoFit.Controllers
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The exercise could not be found or does not exist"));
             }
+            string link = (String.IsNullOrEmpty(exercise.link)) ? " " : exercise.link;
+            if (!link.StartsWith("http://") && !link.StartsWith("https://"))
+            {
+                link = " ";
+            }
+            else
+            {
+                link = link.Replace("watch?v=", "embed/");
+            }
+            ViewBag.videoLink = link;
             return View(exercise);
         }
 

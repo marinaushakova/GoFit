@@ -68,6 +68,16 @@ namespace GoFit.Controllers
             {
                 return PartialView("_ErrorPartial", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not find the specified exercise."));
             }
+            string link = (String.IsNullOrEmpty(exercise.link)) ? " " : exercise.link;
+            if (!link.StartsWith("http://") && !link.StartsWith("https://"))
+            {
+                link = " ";
+            }
+            else
+            {
+                link = link.Replace("watch?v=", "embed/");
+            }
+            ViewBag.videoLink = link;
             return PartialView(exercise);
         }
 	}

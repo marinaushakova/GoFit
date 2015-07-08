@@ -13,7 +13,7 @@
         <div class="col-md-8 col-sm-12 exercise_prop"><a href=@Model.link target="_blank">@Model.link</a></div>
     </div>
     <div>
-        <iframe class="col-md-12 col-sm-12 exercise_video" width="640" height="400" src=@Model.link.Replace("watch?v=", "embed/") frameborder="0"></iframe>
+        <iframe class="col-md-12 col-sm-12 exercise_video" width="640" height="400" src = "@ViewBag.videoLink" frameborder="0"></iframe>
     </div>
     
 
