@@ -11,7 +11,6 @@ namespace GoFit.Models
 {
     using System;
     using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
     
     public partial class workout
     {
@@ -22,18 +21,13 @@ using System.ComponentModel.DataAnnotations;
             this.user_workout = new HashSet<user_workout>();
             this.workout_exercise = new HashSet<workout_exercise>();
         }
-
+    
         public int id { get; set; }
-        [Required(ErrorMessage = "Name reqired", AllowEmptyStrings = false)]
         public string name { get; set; }
-        [Required(ErrorMessage = "Description reqired", AllowEmptyStrings = false)]
         public string description { get; set; }
-        [Required(ErrorMessage = "Category reqired", AllowEmptyStrings = false)]
         public int category_id { get; set; }
-        [Required(ErrorMessage = "User id reqired", AllowEmptyStrings = false)]
         public int created_by_user_id { get; set; }
         public System.DateTime created_at { get; set; }
-        [ConcurrencyCheck]
         public byte[] timestamp { get; set; }
     
         public virtual category category { get; set; }
@@ -42,5 +36,6 @@ using System.ComponentModel.DataAnnotations;
         public virtual ICollection<user_favorite_workout> user_favorite_workout { get; set; }
         public virtual ICollection<user_workout> user_workout { get; set; }
         public virtual ICollection<workout_exercise> workout_exercise { get; set; }
+        public virtual workout_rating workout_rating { get; set; }
     }
 }

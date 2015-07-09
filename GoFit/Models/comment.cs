@@ -11,14 +11,11 @@ namespace GoFit.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class comment
     {
         public int id { get; set; }
-        [Required(ErrorMessage = "Comment reqired", AllowEmptyStrings = false)]
         public string message { get; set; }
-        [ConcurrencyCheck]
         public byte[] timestamp { get; set; }
         public int User_id { get; set; }
         public int Workout_id { get; set; }

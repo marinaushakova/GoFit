@@ -238,6 +238,9 @@
     <Compile Include="Models\workout_exercise.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\workout_rating.cs">
+      <DependentUpon>GoFitModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
