@@ -46,10 +46,6 @@ namespace GoFit.Controllers.ControllerHelpers
                 if (!String.IsNullOrEmpty(search.dateAdded))
                 {
                     Session["DateSearchParam"] = search.dateAdded;
-                    //string[] dateArrayString = search.dateAdded.Split('-');
-                    //int year = Convert.ToInt16(dateArrayString[0]);
-                    //int month = Convert.ToInt16(dateArrayString[1]);
-                    //int day = Convert.ToInt16(dateArrayString[2]);
                 }
                 else Session["DateSearchParam"] = "";
 
