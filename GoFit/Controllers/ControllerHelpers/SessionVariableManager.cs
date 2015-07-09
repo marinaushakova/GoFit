@@ -23,6 +23,7 @@ namespace GoFit.Controllers.ControllerHelpers
             {
                 if (!String.IsNullOrEmpty(Session["NameSearchParam"] as String)) search.name = Session["NameSearchParam"] as String;
                 if (!String.IsNullOrEmpty(Session["CategorySearchParam"] as String)) search.category = Session["CategorySearchParam"] as String;
+                if (!String.IsNullOrEmpty(Session["DateSearchParam"] as String)) search.dateAdded = Session["DateSearchParam"] as String;
                 if (!String.IsNullOrEmpty(Session["UserSearchParam"] as String)) search.username = Session["UserSearchParam"] as String;
             }
             return search;
@@ -44,11 +45,13 @@ namespace GoFit.Controllers.ControllerHelpers
 
                 if (!String.IsNullOrEmpty(search.dateAdded))
                 {
-                    string[] dateArrayString = search.dateAdded.Split('-');
-                    int year = Convert.ToInt16(dateArrayString[0]);
-                    int month = Convert.ToInt16(dateArrayString[1]);
-                    int day = Convert.ToInt16(dateArrayString[2]);
+                    Session["DateSearchParam"] = search.dateAdded;
+                    //string[] dateArrayString = search.dateAdded.Split('-');
+                    //int year = Convert.ToInt16(dateArrayString[0]);
+                    //int month = Convert.ToInt16(dateArrayString[1]);
+                    //int day = Convert.ToInt16(dateArrayString[2]);
                 }
+                else Session["DateSearchParam"] = "";
 
                 if (!String.IsNullOrEmpty(search.username)) Session["UserSearchParam"] = search.username;
                 else Session["UserSearchParam"] = "";
