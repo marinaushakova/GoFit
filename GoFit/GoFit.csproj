@@ -172,6 +172,7 @@
     <Compile Include="Controllers\AdminHomeController.cs" />
     <Compile Include="Controllers\AdminTypesController.cs" />
     <Compile Include="Controllers\AdminWorkoutsController.cs" />
+    <Compile Include="Controllers\ControllerHelpers\Recommender.cs" />
     <Compile Include="Controllers\ControllerHelpers\UserAccess.cs" />
     <Compile Include="Controllers\ControllerHelpers\Hasher.cs" />
     <Compile Include="Controllers\ControllerHelpers\WorkoutSortSearch.cs" />
