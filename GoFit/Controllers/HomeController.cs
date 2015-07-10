@@ -272,51 +272,6 @@ namespace GoFit.Controllers
             var exerciseList = db.workout_exercise.Where(m => m.workout_id == id).ToList();
             return PartialView(exerciseList);
         }
-
-        /// <summary>
-        /// Calls add comment partial view
-        /// </summary>
-        /// <returns></returns>
-        [Authorize]
-        public ActionResult AddComment()
-        {
-            return PartialView();
-        }
-
-        /// <summary>
-        /// Adds comment to workout
-        /// </summary>
-        /// <param name="comment">Comment being added</param>
-        /// <returns>AddComment pertial view</returns>
-        [HttpPost]
-        [Authorize]
-        public ActionResult AddComment(comment comment)
-        {
-            if (comment == null)
-            {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No comment to add was specified."));
-            }
-            
-            comment.date_created = DateTime.Now;
-            comment.User_id = userAccess.getUserId(User.Identity.Name);
-            if (Session["workout_id"] != null) comment.Workout_id = (int)Session["workout_id"];
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    db.comments.Add(comment);
-                    db.SaveChanges();
-                    return new PartialViewResult();
-                }
-                catch
-                {
-                    return PartialView("_ErrorPartial", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Comment could not be added."));
-                }
-            }
-            else
-            {
-                return PartialView("_ErrorPartial", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Invalid comment."));
-            }     
-        }
+        
     }
 }
