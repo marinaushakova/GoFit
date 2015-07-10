@@ -23,7 +23,7 @@ namespace GoFit.Models
             this.user_workout = new HashSet<user_workout>();
             this.workouts = new HashSet<workout>();
         }
-
+    
         public int id { get; set; }
         [Required(ErrorMessage = "Username reqired", AllowEmptyStrings = false)]
         [StringLength(25, MinimumLength = 5, ErrorMessage = "Username must be between 5 and 25 characters")]

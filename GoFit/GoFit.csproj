@@ -172,6 +172,7 @@
     <Compile Include="Controllers\AdminHomeController.cs" />
     <Compile Include="Controllers\AdminTypesController.cs" />
     <Compile Include="Controllers\AdminWorkoutsController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\ControllerHelpers\Recommender.cs" />
     <Compile Include="Controllers\ControllerHelpers\UserAccess.cs" />
     <Compile Include="Controllers\ControllerHelpers\Hasher.cs" />
@@ -237,6 +238,9 @@
     <Compile Include="Models\WorkoutExerciseViewModel.cs" />
     <Compile Include="Models\WorkoutSearch.cs" />
     <Compile Include="Models\workout_exercise.cs">
+      <DependentUpon>GoFitModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\workout_rating.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -363,6 +367,7 @@
     <Content Include="Views\FavoriteWorkouts\Index.cshtml" />
     <Content Include="Views\FavoriteWorkouts\FavoriteList.cshtml" />
     <Content Include="Views\Home\Create.cshtml" />
+    <Content Include="Views\Shared\WorkoutPartials\_AddComment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

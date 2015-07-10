@@ -28,7 +28,7 @@ namespace GoFit.Models
         public decimal duration { get; set; }
         [ConcurrencyCheck]
         public byte[] timestamp { get; set; }
-
+    
         public virtual exercise exercise { get; set; }
         public virtual workout workout { get; set; }
     }

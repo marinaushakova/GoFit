@@ -11,20 +11,13 @@ namespace GoFit.Models
 {
     using System;
     using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
     
-    public partial class comment
+    public partial class workout_rating
     {
-        public int id { get; set; }
-        [Required(ErrorMessage = "Comment reqired", AllowEmptyStrings = false)]
-        public string message { get; set; }
-        [ConcurrencyCheck]
-        public byte[] timestamp { get; set; }
-        public int User_id { get; set; }
-        public int Workout_id { get; set; }
-        public System.DateTime date_created { get; set; }
+        public int workout_id { get; set; }
+        public decimal average_rating { get; set; }
+        public int times_rated { get; set; }
     
-        public virtual user user { get; set; }
         public virtual workout workout { get; set; }
     }
 }

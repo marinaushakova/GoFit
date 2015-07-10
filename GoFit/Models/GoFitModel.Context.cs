@@ -34,5 +34,6 @@ namespace GoFit.Models
         public virtual DbSet<user_workout> user_workout { get; set; }
         public virtual DbSet<workout> workouts { get; set; }
         public virtual DbSet<workout_exercise> workout_exercise { get; set; }
+        public virtual DbSet<workout_rating> workout_rating { get; set; }
     }
 }

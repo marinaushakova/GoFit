@@ -19,7 +19,7 @@ namespace GoFit.Models
         {
             this.exercises = new HashSet<exercise>();
         }
-
+    
         public int id { get; set; }
         [Required(ErrorMessage = "Type name reqired", AllowEmptyStrings = false)]
         public string name { get; set; }
