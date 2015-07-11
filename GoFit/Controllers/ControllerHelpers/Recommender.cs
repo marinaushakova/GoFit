@@ -52,12 +52,46 @@ namespace GoFit.Controllers.ControllerHelpers
             switch (algKey)
             {
                 case 1:
-                    recommendation = getFavCategoryHighRatingWorkout(categoryCount, completedIdList);
+                    recommendation = getSimilarWorkout(categoryCount, completedIdList);
                     break;
                 default:
-
+                    recommendation = getDissimilarWorkout(categoryCount, completedIdList);
                     break;
             }
+            return recommendation;
+        }
+
+        /// <summary>
+        /// Gets a recommended workout in a category that the user uses the least, with the highest rating. 
+        /// Gets a workout the user has not completed, if possible.
+        /// </summary>
+        /// <param name="categoryCount">A dictionary of the category names with the corresponding count of workouts 
+        /// the user has completed in that category</param>
+        /// <param name="completedIdList">A list of the workout ids of the workouts the user has completed</param>
+        /// <returns>The recommended workout</returns>
+        private workout getDissimilarWorkout(Dictionary<string, int> categoryCount, List<int> completedIdList)
+        {
+            // Calculate the least common category for this user
+            string category = "";
+            int least = categoryCount.Values.Min();
+            var dictEntry = categoryCount.Where(cc => cc.Value == least).FirstOrDefault();
+            category = dictEntry.Key;
+
+            // Get a list of workouts in the fav cateogry that the user has not completed
+            List<workout> notDoneWorkoutsInCategory = db.workouts.Where(
+                w => w.category.name == category &&
+                    w.workout_rating != null &&
+                !completedIdList.Contains(w.id)
+            ).ToList();
+            if (notDoneWorkoutsInCategory.Count < 1)
+            {
+                notDoneWorkoutsInCategory = db.workouts.Where(
+                    w => w.category.name == category &&
+                    w.workout_rating != null
+                ).ToList();
+            }
+            decimal highestRating = notDoneWorkoutsInCategory.Max(w => w.workout_rating.average_rating);
+            workout recommendation = notDoneWorkoutsInCategory.Where(w => w.workout_rating.average_rating == highestRating).FirstOrDefault();
             return recommendation;
         }
 
@@ -69,7 +103,7 @@ namespace GoFit.Controllers.ControllerHelpers
         /// the user has completed in that category</param>
         /// <param name="completedIdList">A list of the workout ids of the workouts the user has completed</param>
         /// <returns>The recommended workout</returns>
-        private workout getFavCategoryHighRatingWorkout(Dictionary<string, int> categoryCount, List<int> completedIdList)
+        private workout getSimilarWorkout(Dictionary<string, int> categoryCount, List<int> completedIdList)
         {
             // Calculate the most popular category for this user
             string favCategory = "";
