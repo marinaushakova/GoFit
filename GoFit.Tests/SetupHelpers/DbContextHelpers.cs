@@ -326,10 +326,120 @@ namespace GoFit.Tests.MockSetupHelpers
                     created_at = Convert.ToDateTime("2015-06-12"),
                     category = categories[1],
                     user = users[0]
+                },
+                new workout {
+                    id = 25,
+                    name = "Ab Workout",
+                    description = "desc25",
+                    created_at = Convert.ToDateTime("2015-08-12"),
+                    category = categories[1],
+                    user = users[3]
+                },
+                new workout {
+                    id = 26,
+                    name = "Endurance Endurance Endurance",
+                    description = "desc26",
+                    created_at = Convert.ToDateTime("2015-08-12"),
+                    category = categories[0],
+                    user = users[3]
+                },
+                new workout {
+                    id = 27,
+                    name = "Leg Workout 1",
+                    description = "desc27",
+                    created_at = Convert.ToDateTime("2015-08-12"),
+                    category = categories[1],
+                    user = users[3]
+                },
+                new workout {
+                    id = 28,
+                    name = "Running Core Workout",
+                    description = "desc28",
+                    created_at = Convert.ToDateTime("2015-08-12"),
+                    category = categories[0],
+                    user = users[3]
+                },
+                new workout {
+                    id = 29,
+                    name = "Upper Body Builder 1",
+                    description = "desc29",
+                    created_at = Convert.ToDateTime("2015-08-12"),
+                    category = categories[1],
+                    user = users[3]
+                },
+                new workout {
+                    id = 30,
+                    name = "Sprints",
+                    description = "desc30",
+                    created_at = Convert.ToDateTime("2015-08-12"),
+                    category = categories[0],
+                    user = users[3]
+                },
+                new workout {
+                    id = 31,
+                    name = "Running Upper Body Workout",
+                    description = "desc31",
+                    created_at = Convert.ToDateTime("2015-08-12"),
+                    category = categories[0],
+                    user = users[3]
                 }
             };
 
             return workouts;
+        }
+
+        /// <summary>
+        /// Gets fake workout ratings
+        /// </summary>
+        /// <returns>A list of workout ratings</returns>
+        private List<workout_rating> getSeedWorkoutRatings()
+        {
+            var workoutRatings = new List<workout_rating>
+            {
+                new workout_rating
+                { 
+                    workout_id = 29,
+                    average_rating = 8.0M,
+                    times_rated = 1
+                },
+                new workout_rating
+                { 
+                    workout_id = 27,
+                    average_rating = 7.0M,
+                    times_rated = 10
+                },
+                new workout_rating
+                { 
+                    workout_id = 28,
+                    average_rating = 6.0M,
+                    times_rated = 3
+                },
+                new workout_rating
+                { 
+                    workout_id = 26,
+                    average_rating = 8.0M,
+                    times_rated = 3
+                },
+                new workout_rating
+                { 
+                    workout_id = 25,
+                    average_rating = 4.0M,
+                    times_rated = 9
+                },
+                new workout_rating
+                { 
+                    workout_id = 30,
+                    average_rating = 9.0M,
+                    times_rated = 16
+                },
+                new workout_rating
+                { 
+                    workout_id = 31,
+                    average_rating = 10.0M,
+                    times_rated = 2
+                }
+            };
+            return workoutRatings;
         }
 
         /// <summary>
@@ -381,6 +491,11 @@ namespace GoFit.Tests.MockSetupHelpers
             {
                 id = 3,
                 username = "jjones"
+            };
+            user user4 = new user
+            {
+                id = 4,
+                username = "RobMcElhenney"
             };
             var users = new List<user> { user1, user2, user3 };
             return users;
@@ -513,6 +628,103 @@ namespace GoFit.Tests.MockSetupHelpers
                     workout_id = 1,
                     id = 11,
                     workout = workouts[0]
+                },
+                // User workouts for Recommend tests
+                new user_workout { 
+                    user_id = 4,
+                    workout_id = 25,
+                    id = 12,
+                    workout = workouts[24],
+                    date_started = DateTime.Now,
+                    date_finished = DateTime.Now
+                },
+                new user_workout { 
+                    user_id = 4,
+                    workout_id = 25,
+                    id = 13,
+                    workout = workouts[24],
+                    date_started = DateTime.Now,
+                    date_finished = DateTime.Now
+                },
+                new user_workout { 
+                    user_id = 4,
+                    workout_id = 26,
+                    id = 14,
+                    workout = workouts[25],
+                    date_started = DateTime.Now,
+                    date_finished = DateTime.Now
+                },
+                new user_workout { 
+                    user_id = 4,
+                    workout_id = 26,
+                    id = 15,
+                    workout = workouts[25],
+                    date_started = DateTime.Now,
+                    date_finished = DateTime.Now
+                },
+                new user_workout { 
+                    user_id = 4,
+                    workout_id = 27,
+                    id = 16,
+                    workout = workouts[26],
+                    date_started = DateTime.Now,
+                    date_finished = DateTime.Now
+                },
+                new user_workout { 
+                    user_id = 4,
+                    workout_id = 27,
+                    id = 17,
+                    workout = workouts[26],
+                    date_started = DateTime.Now,
+                    date_finished = DateTime.Now
+                },
+                new user_workout { 
+                    user_id = 4,
+                    workout_id = 27,
+                    id = 18,
+                    workout = workouts[26],
+                    date_started = DateTime.Now,
+                    date_finished = DateTime.Now
+                },
+                new user_workout { 
+                    user_id = 4,
+                    workout_id = 28,
+                    id = 19,
+                    workout = workouts[27],
+                    date_started = DateTime.Now,
+                    date_finished = DateTime.Now
+                },
+                new user_workout { 
+                    user_id = 4,
+                    workout_id = 29,
+                    id = 20,
+                    workout = workouts[28],
+                    date_started = DateTime.Now,
+                    date_finished = DateTime.Now
+                },
+                new user_workout { 
+                    user_id = 4,
+                    workout_id = 29,
+                    id = 21,
+                    workout = workouts[28],
+                    date_started = DateTime.Now,
+                    date_finished = DateTime.Now
+                },
+                new user_workout { 
+                    user_id = 4,
+                    workout_id = 29,
+                    id = 22,
+                    workout = workouts[28],
+                    date_started = DateTime.Now,
+                    date_finished = DateTime.Now
+                },
+                new user_workout { 
+                    user_id = 4,
+                    workout_id = 29,
+                    id = 23,
+                    workout = workouts[28],
+                    date_started = DateTime.Now,
+                    date_finished = DateTime.Now
                 }
             };
 
