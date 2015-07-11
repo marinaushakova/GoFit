@@ -43,6 +43,8 @@ namespace GoFit.Controllers
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user profile."));
             }
+            var recommend = new Recommender(this.getDB());
+            recommend.Recommend(3);
             return view;
         }
 

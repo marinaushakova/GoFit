@@ -61,6 +61,7 @@ namespace GoFit.Controllers.ControllerHelpers
             // Generate a random number to determin the algorithm to use
             Random random = new Random();
             int algKey = random.Next(1, 3);
+            algKey = 1;
 
             workout recommendation = null;
             switch (algKey)
@@ -76,9 +77,16 @@ namespace GoFit.Controllers.ControllerHelpers
                     // Get a list of workouts in the fav cateogry that the user has not completed
                     List<workout> notDoneWorkoutsInCategory = db.workouts.Where(
                         w => w.category.name == favCategory &&
+                            w.workout_rating != null &&
                         !completedIdList.Contains(w.id)
                     ).ToList();
-                    if (notDoneWorkoutsInCategory.Count < 1) return null;
+                    if (notDoneWorkoutsInCategory.Count < 1)
+                    {
+                        notDoneWorkoutsInCategory = db.workouts.Where(
+                            w => w.category.name == favCategory &&
+                            w.workout_rating != null
+                        ).ToList();
+                    }
                     decimal highestRating = notDoneWorkoutsInCategory.Max(w => w.workout_rating.average_rating);
                     recommendation = notDoneWorkoutsInCategory.Where(w => w.workout_rating.average_rating == highestRating).FirstOrDefault();
                     break;
