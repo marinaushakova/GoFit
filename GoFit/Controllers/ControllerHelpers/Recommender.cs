@@ -77,21 +77,7 @@ namespace GoFit.Controllers.ControllerHelpers
             var dictEntry = categoryCount.Where(cc => cc.Value == least).FirstOrDefault();
             category = dictEntry.Key;
 
-            // Get a list of workouts in the fav cateogry that the user has not completed
-            List<workout> notDoneWorkoutsInCategory = db.workouts.Where(
-                w => w.category.name == category &&
-                    w.workout_rating != null &&
-                !completedIdList.Contains(w.id)
-            ).ToList();
-            if (notDoneWorkoutsInCategory.Count < 1)
-            {
-                notDoneWorkoutsInCategory = db.workouts.Where(
-                    w => w.category.name == category &&
-                    w.workout_rating != null
-                ).ToList();
-            }
-            decimal highestRating = notDoneWorkoutsInCategory.Max(w => w.workout_rating.average_rating);
-            workout recommendation = notDoneWorkoutsInCategory.Where(w => w.workout_rating.average_rating == highestRating).FirstOrDefault();
+            workout recommendation = getMatch(category, completedIdList);
             return recommendation;
         }
 
@@ -111,21 +97,27 @@ namespace GoFit.Controllers.ControllerHelpers
             var dictEntry = categoryCount.Where(cc => cc.Value == greatest).FirstOrDefault();
             favCategory = dictEntry.Key;
 
-            // Get a list of workouts in the fav cateogry that the user has not completed
-            List<workout> notDoneWorkoutsInCategory = db.workouts.Where(
-                w => w.category.name == favCategory &&
-                    w.workout_rating != null &&
-                !completedIdList.Contains(w.id)
-            ).ToList();
-            if (notDoneWorkoutsInCategory.Count < 1)
-            {
-                notDoneWorkoutsInCategory = db.workouts.Where(
-                    w => w.category.name == favCategory &&
-                    w.workout_rating != null
-                ).ToList();
-            }
-            decimal highestRating = notDoneWorkoutsInCategory.Max(w => w.workout_rating.average_rating);
-            workout recommendation = notDoneWorkoutsInCategory.Where(w => w.workout_rating.average_rating == highestRating).FirstOrDefault();
+            workout recommendation = getMatch(favCategory, completedIdList); 
+            return recommendation;
+        }
+
+        /// <summary>
+        /// Finds a workout in the given category with the highest rating. Tries to find one whose id is not in the completedIdList, if possible.
+        /// </summary>
+        /// <param name="category">The category of the workout to get</param>
+        /// <param name="completedIdList">The list of ids of workouts that the user has completed</param>
+        /// <returns>The list of workouts meeting the criteria</returns>
+        private workout getMatch(string category, List<int> completedIdList)
+        {
+            IQueryable<workout> potentialMatches = db.workouts.Where(
+                w => w.category.name == category &&
+                w.workout_rating != null
+            );
+            List<workout> potentialMatchesNotDoneByUser = potentialMatches.Where(w => !completedIdList.Contains(w.id)).ToList();
+            List<workout> matches = (potentialMatchesNotDoneByUser.Count < 1) ? potentialMatches.ToList() : potentialMatchesNotDoneByUser;
+
+            decimal highestRating = matches.Max(w => w.workout_rating.average_rating);
+            workout recommendation = matches.Where(w => w.workout_rating.average_rating == highestRating).FirstOrDefault();
             return recommendation;
         }
 
