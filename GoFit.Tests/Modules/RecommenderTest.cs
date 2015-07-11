@@ -24,7 +24,13 @@ namespace GoFit.Tests.Modules
         [TestMethod]
         public void TestRecommendReturnsCorrectWorkouts()
         {
-
+            for (var i = 0; i < 5; i++)
+            {
+                var workout = recommender.Recommend(4);
+                Assert.IsNotNull(workout);
+                bool isWorkout29or31 = (workout.id == 29 || workout.id == 31) ? true : false;
+                Assert.AreEqual(true, isWorkout29or31, "Workout id was not 29 or 31");
+            }
         }
     }
 }

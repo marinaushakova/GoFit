@@ -39,7 +39,8 @@ namespace GoFit.Controllers
         public ActionResult Index()
         {
             var user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
-
+            var rec = new Recommender(this.getDB());
+            rec.Recommend(3);
             var view = View(user);
             if (view == null)
             {

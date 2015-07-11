@@ -132,6 +132,7 @@ namespace GoFit.Tests.MockSetupHelpers
         {
             List<category> categories = getSeedCategories();
             List<user> users = getSeedUsers();
+            List<workout_rating> ratings = getSeedWorkoutRatings();
 
             var workouts = new List<workout>
             {
@@ -333,7 +334,8 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc25",
                     created_at = Convert.ToDateTime("2015-08-12"),
                     category = categories[1],
-                    user = users[3]
+                    user = users[3],
+                    workout_rating = ratings[4]
                 },
                 new workout {
                     id = 26,
@@ -341,7 +343,8 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc26",
                     created_at = Convert.ToDateTime("2015-08-12"),
                     category = categories[0],
-                    user = users[3]
+                    user = users[3],
+                    workout_rating = ratings[3]
                 },
                 new workout {
                     id = 27,
@@ -349,7 +352,8 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc27",
                     created_at = Convert.ToDateTime("2015-08-12"),
                     category = categories[1],
-                    user = users[3]
+                    user = users[3],
+                    workout_rating = ratings[1]
                 },
                 new workout {
                     id = 28,
@@ -357,7 +361,8 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc28",
                     created_at = Convert.ToDateTime("2015-08-12"),
                     category = categories[0],
-                    user = users[3]
+                    user = users[3],
+                    workout_rating = ratings[2]
                 },
                 new workout {
                     id = 29,
@@ -365,7 +370,8 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc29",
                     created_at = Convert.ToDateTime("2015-08-12"),
                     category = categories[1],
-                    user = users[3]
+                    user = users[3],
+                    workout_rating = ratings[0]
                 },
                 new workout {
                     id = 30,
@@ -373,7 +379,8 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc30",
                     created_at = Convert.ToDateTime("2015-08-12"),
                     category = categories[0],
-                    user = users[3]
+                    user = users[3],
+                    workout_rating = ratings[5]
                 },
                 new workout {
                     id = 31,
@@ -381,7 +388,8 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc31",
                     created_at = Convert.ToDateTime("2015-08-12"),
                     category = categories[0],
-                    user = users[3]
+                    user = users[3],
+                    workout_rating = ratings[6]
                 }
             };
 

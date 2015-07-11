@@ -63,6 +63,7 @@ namespace GoFit.Controllers.ControllerHelpers
         /// <summary>
         /// Gets a recommended workout in a category that the user uses the least, with the highest rating. 
         /// Gets a workout the user has not completed, if possible.
+        /// NOTE: categories for which the user has completed no exercises are excluded
         /// </summary>
         /// <param name="categoryCount">A dictionary of the category names with the corresponding count of workouts 
         /// the user has completed in that category</param>
@@ -72,7 +73,7 @@ namespace GoFit.Controllers.ControllerHelpers
         {
             // Calculate the least common category for this user
             string category = "";
-            int least = categoryCount.Values.Min();
+            int least = categoryCount.Values.Where(c => c > 0).Min();
             var dictEntry = categoryCount.Where(cc => cc.Value == least).FirstOrDefault();
             category = dictEntry.Key;
 
@@ -114,7 +115,7 @@ namespace GoFit.Controllers.ControllerHelpers
             );
             List<workout> potentialMatchesNotDoneByUser = potentialMatches.Where(w => !completedIdList.Contains(w.id)).ToList();
             List<workout> matches = (potentialMatchesNotDoneByUser.Count < 1) ? potentialMatches.ToList() : potentialMatchesNotDoneByUser;
-
+            if (matches.Count < 1) return null;
             decimal highestRating = matches.Max(w => w.workout_rating.average_rating);
             workout recommendation = matches.Where(w => w.workout_rating.average_rating == highestRating).FirstOrDefault();
             return recommendation;
