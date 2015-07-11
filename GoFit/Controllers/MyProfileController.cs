@@ -38,13 +38,13 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            var view = View(db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault());
+            var user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
+
+            var view = View(user);
             if (view == null)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user profile."));
             }
-            var recommend = new Recommender(this.getDB());
-            recommend.Recommend(3);
             return view;
         }
 

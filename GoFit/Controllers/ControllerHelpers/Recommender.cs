@@ -46,7 +46,6 @@ namespace GoFit.Controllers.ControllerHelpers
 
             // Generate a random number to determin the algorithm to use
             int algKey = getRandomNum(1, 2);
-            algKey = 1;
 
             workout recommendation = null;
             switch (algKey)
