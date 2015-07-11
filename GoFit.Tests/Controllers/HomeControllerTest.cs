@@ -185,7 +185,7 @@ namespace GoFit.Tests.Controllers
             ViewResult result = controller.Index("", null, search) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;
-            Assert.IsTrue(workouts.Count == 12);
+            Assert.IsTrue(workouts.Count == 14);
             search.name = "2";
             result = controller.Index("", null, search) as ViewResult;
             Assert.IsNotNull(result);
@@ -201,12 +201,12 @@ namespace GoFit.Tests.Controllers
             ViewResult result = controller.Index("", null, search) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;
-            Assert.AreEqual(9, workouts.Count);
+            Assert.AreEqual(12, workouts.Count);
             search.category = "endurance";
             result = controller.Index("", null, search) as ViewResult;
             Assert.IsNotNull(result);
             workouts = (PagedList<workout>)result.ViewData.Model;
-            Assert.AreEqual(15, workouts.Count);
+            Assert.AreEqual(19, workouts.Count);
         }
 
         [TestMethod]
@@ -249,7 +249,7 @@ namespace GoFit.Tests.Controllers
             ViewResult result = controller.Index("user_desc", null, search) as ViewResult;
             Assert.IsNotNull(result);
             var workouts = (PagedList<workout>)result.ViewData.Model;
-            Assert.AreEqual(9, workouts.Count);
+            Assert.AreEqual(12, workouts.Count);
             var isSortedDesc = CheckSort.isSorted(workouts, "username", "desc");
             Assert.IsTrue(isSortedDesc);
         }

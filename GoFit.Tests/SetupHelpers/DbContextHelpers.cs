@@ -497,7 +497,7 @@ namespace GoFit.Tests.MockSetupHelpers
                 id = 4,
                 username = "RobMcElhenney"
             };
-            var users = new List<user> { user1, user2, user3 };
+            var users = new List<user> { user1, user2, user3, user4 };
             return users;
         }
 
