@@ -51,36 +51,47 @@ namespace GoFit.Controllers.ControllerHelpers
             workout recommendation = null;
             switch (algKey)
             {
-                // Return a workout that has the same category as the users most popular category and highest rating of the workouts the user hasn't done
                 case 1:
-                    // Calculate the most popular category for this user
-                    string favCategory = "";
-                    int greatest = categoryCount.Values.Max();
-                    var dictEntry = categoryCount.Where(cc => cc.Value == greatest).FirstOrDefault();
-                    favCategory = dictEntry.Key;
-
-                    // Get a list of workouts in the fav cateogry that the user has not completed
-                    List<workout> notDoneWorkoutsInCategory = db.workouts.Where(
-                        w => w.category.name == favCategory &&
-                            w.workout_rating != null &&
-                        !completedIdList.Contains(w.id)
-                    ).ToList();
-                    if (notDoneWorkoutsInCategory.Count < 1)
-                    {
-                        notDoneWorkoutsInCategory = db.workouts.Where(
-                            w => w.category.name == favCategory &&
-                            w.workout_rating != null
-                        ).ToList();
-                    }
-                    decimal highestRating = notDoneWorkoutsInCategory.Max(w => w.workout_rating.average_rating);
-                    recommendation = notDoneWorkoutsInCategory.Where(w => w.workout_rating.average_rating == highestRating).FirstOrDefault();
-                    break;
-                case 2:
+                    recommendation = getFavCategoryHighRatingWorkout(categoryCount, completedIdList);
                     break;
                 default:
+
                     break;
             }
+            return recommendation;
+        }
 
+        /// <summary>
+        /// Gets a recommended workout in the category that the given user completes the most, with the highest rating. 
+        /// Gets a workout the user has not completed, if possible. 
+        /// </summary>
+        /// <param name="categoryCount">A dictionary of the category names with the corresponding count of workouts 
+        /// the user has completed in that category</param>
+        /// <param name="completedIdList">A list of the workout ids of the workouts the user has completed</param>
+        /// <returns>The recommended workout</returns>
+        private workout getFavCategoryHighRatingWorkout(Dictionary<string, int> categoryCount, List<int> completedIdList)
+        {
+            // Calculate the most popular category for this user
+            string favCategory = "";
+            int greatest = categoryCount.Values.Max();
+            var dictEntry = categoryCount.Where(cc => cc.Value == greatest).FirstOrDefault();
+            favCategory = dictEntry.Key;
+
+            // Get a list of workouts in the fav cateogry that the user has not completed
+            List<workout> notDoneWorkoutsInCategory = db.workouts.Where(
+                w => w.category.name == favCategory &&
+                    w.workout_rating != null &&
+                !completedIdList.Contains(w.id)
+            ).ToList();
+            if (notDoneWorkoutsInCategory.Count < 1)
+            {
+                notDoneWorkoutsInCategory = db.workouts.Where(
+                    w => w.category.name == favCategory &&
+                    w.workout_rating != null
+                ).ToList();
+            }
+            decimal highestRating = notDoneWorkoutsInCategory.Max(w => w.workout_rating.average_rating);
+            workout recommendation = notDoneWorkoutsInCategory.Where(w => w.workout_rating.average_rating == highestRating).FirstOrDefault();
             return recommendation;
         }
 
