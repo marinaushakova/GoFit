@@ -114,6 +114,7 @@
     <Compile Include="Controllers\CommentsControllerTest.cs" />
     <Compile Include="MockContexts\DbSetOverrideFind.cs" />
     <Compile Include="MockContexts\MockContext.cs" />
+    <Compile Include="Modules\RecommenderTest.cs" />
     <Compile Include="SetupHelpers\DbContextHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
