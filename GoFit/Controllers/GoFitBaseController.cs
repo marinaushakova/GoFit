@@ -128,7 +128,7 @@ namespace GoFit.Controllers
                 {
                     var recommender = new Recommender(this.db);
                     recWorkout = recommender.Recommend(id);
-                    Session["recommendedId"] = recWorkout.id;
+                    if (recWorkout != null) Session["recommendedId"] = recWorkout.id;
                 }
                 ViewBag.recommended = recWorkout;
             }
