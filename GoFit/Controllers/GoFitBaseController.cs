@@ -99,9 +99,27 @@ namespace GoFit.Controllers
             }
             else
             {
+                setRecommendedWorkout();
+
                 ViewBag.UserIsAdmin = false;
                 var isUserController = USER_CONTROLLERS.Contains(destinationController);
                 if (!isUserController) filterContext.Result = new RedirectResult("/Home/Index");
+            }
+        }
+
+        /// <summary>
+        /// Gets the recommended workout id from the session if it exists
+        /// </summary>
+        private void setRecommendedWorkout()
+        {
+            if (Session != null)
+            {
+                var recommendedId = Session["recommendedId"];
+                if (recommendedId != null)
+                {
+                    workout workout = db.workouts.Find(recommendedId);
+                    ViewBag.recommendedId = workout;
+                }
             }
         }
     }
