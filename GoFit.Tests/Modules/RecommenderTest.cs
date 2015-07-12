@@ -32,5 +32,12 @@ namespace GoFit.Tests.Modules
                 Assert.AreEqual(true, isWorkout29or31, "Workout id was not 29 or 31");
             }
         }
+
+        [TestMethod]
+        public void TestRecommendReturnsRandomWorkout() 
+        {
+            var workout = recommender.Recommend(1);
+            Assert.IsNotNull(workout);
+        }
     }
 }
