@@ -57,6 +57,10 @@ namespace GoFit.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(user.username, login.RememberMe);
 
+                    var recommender = new Recommender(this.db);
+                    workout recommendation = recommender.Recommend(user.id);
+                    if (Session != null && recommendation != null) Session["recommendedId"] = recommendation.id; 
+
                     if (user.is_admin == 1)
                     {
                         return RedirectToAction("Index", "AdminHome");
