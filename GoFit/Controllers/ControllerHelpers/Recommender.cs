@@ -57,6 +57,12 @@ namespace GoFit.Controllers.ControllerHelpers
                     recommendation = getDissimilarWorkout(categoryCount, completedIdList);
                     break;
             }
+            if (recommendation == null)
+            {
+                int count = db.workouts.Count();
+                int random = getRandomNum(1, count);
+                recommendation = db.workouts.Find(random);
+            }
             return recommendation;
         }
 
