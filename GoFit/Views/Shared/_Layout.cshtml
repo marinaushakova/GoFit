@@ -50,8 +50,8 @@
         </div>
         @if (ViewBag.recommended != null)
         {
-        <div class="gofit-recommendation">
-            Try this workout!
+        <div class="gofit-recommendation well">
+            Try this workout! 
             <a href="/Home/Details?workoutId=@ViewBag.recommended.id">@ViewBag.recommended.name</a>
         </div>
         }
