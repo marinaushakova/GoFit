@@ -37,7 +37,7 @@ namespace GoFit.Controllers.ControllerHelpers
 
             // get the users completed workouts
             var completed = getCompletedWorkoutsForUser(userID);
-            if (completed.Count() < 1) return null;
+            if (completed.Count() < 1) return getRandomWorkout();
             List<user_workout> completedList = completed.ToList();
             List<int> completedIdList = completed.Select(c => c.workout_id).ToList();
 
@@ -57,13 +57,21 @@ namespace GoFit.Controllers.ControllerHelpers
                     recommendation = getDissimilarWorkout(categoryCount, completedIdList);
                     break;
             }
-            if (recommendation == null)
-            {
-                int count = db.workouts.Count();
-                int random = getRandomNum(1, count);
-                recommendation = db.workouts.Find(random);
-            }
+
+            if (recommendation == null) recommendation = getRandomWorkout();
             return recommendation;
+        }
+
+        /// <summary>
+        /// Gets a random workout
+        /// </summary>
+        /// <returns>A randomly selected workout</returns>
+        private workout getRandomWorkout()
+        {
+            int count = db.workouts.Count();
+            int random = getRandomNum(1, count);
+            var workout = db.workouts.Find(random);
+            return workout;
         }
 
         /// <summary>
