@@ -89,6 +89,7 @@ namespace GoFit.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            if (Session != null) Session["recommendedId"] = null;
             return RedirectToAction("Index", "Home");
         }
 
