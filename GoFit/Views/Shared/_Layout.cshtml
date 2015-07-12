@@ -48,6 +48,13 @@
         <div class="gofit-header">
             <a href="/" class="gofit-invis-link"></a>
         </div>
+        @if (ViewBag.recommended != null)
+        {
+        <div class="gofit-recommendation">
+            Try this workout!
+            <a href="/Home/Details?workoutId=@ViewBag.recommended.id">@ViewBag.recommended.name</a>
+        </div>
+        }
         @RenderBody()
         <hr />
         <footer class="gofit-footer">

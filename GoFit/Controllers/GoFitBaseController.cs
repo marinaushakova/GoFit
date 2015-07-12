@@ -118,7 +118,7 @@ namespace GoFit.Controllers
                 if (recommendedId != null)
                 {
                     workout workout = db.workouts.Find(recommendedId);
-                    ViewBag.recommendedId = workout;
+                    ViewBag.recommended = workout;
                 }
             }
         }
