@@ -1,4 +1,5 @@
-﻿using GoFit.Models;
+﻿using GoFit.Controllers.ControllerHelpers;
+using GoFit.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,10 +84,11 @@ namespace GoFit.Controllers
         {
             base.OnAuthorization(filterContext);
 
+            user user = null;
             var isAdmin = 0;
             if (User.Identity.IsAuthenticated)
             {
-                var user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
+                user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
                 if (user != null) isAdmin = user.is_admin;
             }
 
@@ -99,7 +101,8 @@ namespace GoFit.Controllers
             }
             else
             {
-                setRecommendedWorkout();
+                int id = (user != null) ? user.id : 0;
+                setRecommendedWorkout(id);
 
                 ViewBag.UserIsAdmin = false;
                 var isUserController = USER_CONTROLLERS.Contains(destinationController);
@@ -110,16 +113,24 @@ namespace GoFit.Controllers
         /// <summary>
         /// Gets the recommended workout id from the session if it exists
         /// </summary>
-        private void setRecommendedWorkout()
+        private void setRecommendedWorkout(int id)
         {
             if (Session != null)
             {
+                workout recWorkout = null;
                 var recommendedId = Session["recommendedId"];
                 if (recommendedId != null)
                 {
-                    workout workout = db.workouts.Find(recommendedId);
-                    ViewBag.recommended = workout;
+                    recWorkout = db.workouts.Find(recommendedId);
+                    Session["recommendedId"] = recWorkout.id;
                 }
+                else if (id > 0)
+                {
+                    var recommender = new Recommender(this.db);
+                    recWorkout = recommender.Recommend(id);
+                    Session["recommendedId"] = recWorkout.id;
+                }
+                ViewBag.recommended = recWorkout;
             }
         }
     }
