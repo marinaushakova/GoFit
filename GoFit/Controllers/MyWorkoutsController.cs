@@ -271,6 +271,10 @@ namespace GoFit.Controllers
                 {
                     return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The workout does not exist or has already been deleted"));
                 }
+                if (oldUserWorkout.date_finished != null)
+                {
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "The workout has been completed and can't be removed"));
+                }
                 var entry = db.Entry(oldUserWorkout);
                 var state = entry.State;
                 if (state == EntityState.Detached)
