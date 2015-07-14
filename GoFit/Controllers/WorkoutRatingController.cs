@@ -19,7 +19,8 @@ namespace GoFit.Controllers
         /// <summary>
         /// Constructor to create the default db context
         /// </summary>
-        public WorkoutRatingController() : base ()
+        public WorkoutRatingController()
+            : base()
         {
             db = this.getDB();
             userAccess = new UserAccess(db);
@@ -29,7 +30,8 @@ namespace GoFit.Controllers
         /// Constructor to allow a passed in db context
         /// </summary>
         /// <param name="context">The context to use</param>
-        public WorkoutRatingController(masterEntities context) : base(context)
+        public WorkoutRatingController(masterEntities context)
+            : base(context)
         {
             db = this.getDB();
             userAccess = new UserAccess(db);
@@ -91,5 +93,5 @@ namespace GoFit.Controllers
             }
 
         }
-	}
+    }
 }
