@@ -36,6 +36,7 @@ namespace GoFit.Controllers
             "GoFit.Controllers.FavoriteWorkoutsController",
             "GoFit.Controllers.CommentsController",
             "GoFit.Controllers.ExerciseController",
+            "GoFit.Controllers.WorkoutRatingController",
             "GoFit.Controllers.ErrorController"
         };
 

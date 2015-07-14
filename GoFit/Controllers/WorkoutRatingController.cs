@@ -61,15 +61,37 @@ namespace GoFit.Controllers
                 return View();
             }
 
+            bool isFirstRating = false;
+
             workout_rating w_rating = db.workout_rating.Where(m => m.workout_id == (int)workout_id).FirstOrDefault();
-            w_rating.average_rating = (w_rating.average_rating * w_rating.times_rated + (int)rating) / (w_rating.times_rated + 1);
-            w_rating.times_rated++;
+            if (w_rating != null)
+            {
+                w_rating.average_rating = (w_rating.average_rating * w_rating.times_rated + (int)rating) / (w_rating.times_rated + 1);
+                w_rating.times_rated++;
+            }
+            else
+            {
+                w_rating = new workout_rating();
+                w_rating.workout_id = (int)workout_id;
+                w_rating.average_rating = (int)rating;
+                w_rating.times_rated = 1;
+                isFirstRating = true;
+            }
+            
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    db.Entry(w_rating).State = EntityState.Modified;
+                    if (isFirstRating)
+                    {
+                        db.workout_rating.Add(w_rating);
+                    }
+                    else
+                    {
+                        db.Entry(w_rating).State = EntityState.Modified;
+                    }
+                    
                     db.SaveChanges();
                     if (this.Request.UrlReferrer != null)
                     {

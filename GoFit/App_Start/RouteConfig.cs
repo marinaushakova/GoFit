@@ -17,7 +17,7 @@ namespace GoFit
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                constraints: new { controller = "Home|MyWorkouts|MyProfile|MyAccount|Exercise|FavoriteWorkouts|Comments|Error|AdminWorkouts|AdminTypes|AdminHome|AdminExercises|AdminCategories|AdminComments"}
+                constraints: new { controller = "Home|MyWorkouts|MyProfile|MyAccount|Exercise|FavoriteWorkouts|Comments|WorkoutRating|Error|AdminWorkouts|AdminTypes|AdminHome|AdminExercises|AdminCategories|AdminComments"}
             );
             routes.MapRoute(
                 name: "ControllerCatchall",
