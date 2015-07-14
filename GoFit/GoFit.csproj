@@ -186,6 +186,7 @@
     <Compile Include="Controllers\MyProfileController.cs" />
     <Compile Include="Controllers\MyWorkoutsController.cs" />
     <Compile Include="Controllers\ControllerHelpers\SessionVariableManager.cs" />
+    <Compile Include="Controllers\WorkoutRatingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -373,6 +374,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
     <Folder Include="Views\Error\" />
+    <Folder Include="Views\WorkoutRating\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
