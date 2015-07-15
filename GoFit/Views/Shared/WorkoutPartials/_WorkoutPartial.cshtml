@@ -6,7 +6,9 @@
     //Layout = "~/Views/Shared/_Layout.cshtml";
     var fav_count = "";
     if (ViewBag.FavoritesCount == 1) { fav_count = "1 user"; }
-    else { fav_count = ViewBag.FavoritesCount + " users";};
+    else { fav_count = ViewBag.FavoritesCount + " users"; };
+    var average_rating = "No rating yet";
+    if (ViewBag.average_rating != null) { average_rating = ViewBag.average_rating + "/10.0"; }
 }
 
 <div class="container-fluid">
@@ -34,6 +36,10 @@
             <div class="row">
                 <div class="col-md-4 col-sm-12"><h4><span class="label label-default">Favorited by</span></h4></div>
                 <div class="col-md-8 col-sm-12 workout_prop">@fav_count</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-12"><h4><span class="label label-default">Rating</span></h4></div>
+                <div class="col-md-8 col-sm-12 workout_prop">@average_rating</div>
             </div>
         </div>
         <div class="col-md-8 col-xs-12 exercise_list">

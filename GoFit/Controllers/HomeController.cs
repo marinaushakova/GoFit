@@ -98,7 +98,17 @@ namespace GoFit.Controllers
 
             //counts how many users marked workout as Favorite
             ViewBag.FavoritesCount = db.user_favorite_workout.Where(m => m.workout_id.Equals((int)workoutId)).Count();
-            
+
+            var workout_rating = db.workout_rating.Where(m => m.workout_id == workout.id).FirstOrDefault();
+            if (workout_rating != null)
+            {
+                ViewBag.average_rating = workout_rating.average_rating;
+            }
+            else
+            {
+                ViewBag.average_rating = null;
+            }
+
             return View(workout);
         }
 
