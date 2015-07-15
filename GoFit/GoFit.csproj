@@ -369,6 +369,7 @@
     <Content Include="Views\FavoriteWorkouts\FavoriteList.cshtml" />
     <Content Include="Views\Home\Create.cshtml" />
     <Content Include="Views\Shared\WorkoutPartials\_AddComment.cshtml" />
+    <Content Include="Views\Shared\_BragFeedPartial.cshtml" />
     <Content Include="Views\Shared\WorkoutPartials\_RateWorkoutPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
