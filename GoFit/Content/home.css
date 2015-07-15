@@ -138,7 +138,7 @@ iframe.exercise_video {
 }
 
 #rateButton {
-    visibility: hidden;
+    display: none;
 }
 .modal-content {
         width: 390px !important;
