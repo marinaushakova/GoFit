@@ -37,6 +37,12 @@ namespace GoFit.Controllers
             userAccess = new UserAccess(db);
         }
 
+        public ActionResult AddWorkoutRating()
+        {
+            return PartialView("_RateWorkoutPartial");
+        }
+
+
         /// <summary>
         /// Culculates workout average rating based on newly added one
         /// </summary>
@@ -44,6 +50,7 @@ namespace GoFit.Controllers
         /// <param name="rating">value of newly added rating</param>
         /// <returns>Page that called the action</returns>
         [Authorize]
+        [HttpPost]
         public ActionResult AddWorkoutRating(int? workout_id, int? rating)
         {
             if (workout_id == null)

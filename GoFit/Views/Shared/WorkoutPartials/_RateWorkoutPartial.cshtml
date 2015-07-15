@@ -1,23 +1,39 @@
-﻿@model GoFit.Models.workout     
-@using (Html.BeginForm("AddWorkoutRating", "WorkoutRating"))
+﻿<div class="modal-body">
+
+    @using (Html.BeginForm("AddWorkoutRating", "WorkoutRating", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal well">
+            <label class="control-label col-md-8 col-md-offset-2">Please, rate this workout:</label>
             <div class="form-group">
-                <label class="control-label col-md-2">Please, rate this workout:</label>
-                @Html.TextBox("rating")
+                <input id="rating" name="rating" class="col-md-8 col-md-offset-2" type="text" />
                 <input id="workout_id" name="workout_id" type="hidden" value="@Model.id" />
             </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Rate" class="btn btn-primary"  />
+        </div>
+        <div class="row">
+            &nbsp;
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-md-offset-4">
+                <div class="row">
+                    <button type="submit" id="approve-btn"
+                            class="btn btn-primary">
+                        Rate
+                    </button>
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">
+                        No, thanks
+                    </button>
                 </div>
             </div>
         </div>
     }
-
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('#approve-btn').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+</script>

@@ -28,39 +28,54 @@
                 new { workout_id = @Model.id },
                 new { @class = "btn btn-primary" })
     }
+    @Html.ActionLink(
+                "Rate Workout", 
+                "AddWorkoutRating", 
+                "WorkoutRating",
+                null,
+                new { @class = "modal-link btn btn-primary", @id = "rateButton" })
 </div>
+
+<div id="modal-container" class="modal fade"
+     tabindex="-1" role="dialog">
+    <div class="modal-content">
+        @Html.Partial("WorkoutPartials/_RateWorkoutPartial")
+    </div>
+</div>
+
 
 @Html.Partial("WorkoutPartials/_CommentsPartial")
 
 @section Scripts {
     <script type="text/javascript">
-        function onCheck(position) {
-            if (position == null) return;
-            var id = "chkbx" + id;
-            var checkbox = document.getElementById(id);
-            var url = "@Url.Action("MarkExercise", "MyWorkouts")";
-            var params = {}
-            params.my_workout_id = @ViewBag.myWorkoutId
-            params.position = position;
-            params.timestampString = $('#timestampString').val();
-            $.post(url, params, function (result) {
-                //alert(JSON.stringify(result))
-                if (result.success == "true") {
-                    for (var i = 1; i <= position; i++) {
-                        var id = "chkbx" + i;
-                        checkbox = document.getElementById(id);
-                        checkbox.checked = true;
-                        checkbox.disabled = true;
-                    }
-                    $(".timestampString").val(result.timestampString);
-                } else {
-                    alert(result.message);
-                    var id = "chkbx" + result.position;
+    function onCheck(position) {
+        if (position == null) return;
+        var id = "chkbx" + id;
+        var checkbox = document.getElementById(id);
+        var url = "@Url.Action("MarkExercise", "MyWorkouts")";
+        var params = {}
+        params.my_workout_id = @ViewBag.myWorkoutId
+        params.position = position;
+        params.timestampString = $('#timestampString').val();
+        $.post(url, params, function (result) {
+            //alert(JSON.stringify(result))
+            if (result.success == "true") {
+                for (var i = 1; i <= position; i++) {
+                    var id = "chkbx" + i;
                     checkbox = document.getElementById(id);
-                    checkbox.checked = false;
+                    checkbox.checked = true;
+                    checkbox.disabled = true;
                 }
-            });
-        };
+                $(".timestampString").val(result.timestampString);
+            } else {
+                alert(result.message);
+                var id = "chkbx" + result.position;
+                checkbox = document.getElementById(id);
+                checkbox.checked = false;
+            }
+            if (result.isCompleted == "true") document.getElementById("rateButton").style.visibility = "visible";
+        });
+    };
 
     (function () {
         for (var i = 1; i <= @ViewBag.numExercisesCompleted; i++) {
@@ -70,6 +85,28 @@
             checkbox.disabled = true;
         }
     })();
-    </script>
-}
 
+    $(function rating() {
+        // Initialize modal dialog
+        // attach modal-container bootstrap attributes to links with .modal-link class.
+        // when a link is clicked with these attributes, bootstrap will display the href content in a modal dialog.
+        $('body').on('click', '.modal-link', function (e) {
+            e.preventDefault();
+            $(this).attr('data-target', '#modal-container');
+            $(this).attr('data-toggle', 'modal');
+        });
+        // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
+        $('body').on('click', '.modal-close-btn', function () {
+            $('#modal-container').modal('hide');
+        });
+        //clear modal cache, so that new content can be loaded
+        $('#modal-container').on('hidden.bs.modal', function () {
+            $(this).removeData('bs.modal');
+        });
+        $('#CancelModal').on('click', function () {
+            return false;
+        });
+    });
+</script>
+
+}

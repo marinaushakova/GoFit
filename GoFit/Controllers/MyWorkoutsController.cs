@@ -103,6 +103,7 @@ namespace GoFit.Controllers
                 ViewBag.myWorkoutId = myworkout.id;
                 ViewBag.numExercisesCompleted = myworkout.number_of_ex_completed;
                 ViewBag.isMyWorkout = true;
+                ViewBag.completed = false;
 
                 ViewBag.timestampString = timestampByteArrToString(myworkout.timestamp);
 
@@ -156,7 +157,10 @@ namespace GoFit.Controllers
                 if (position == 1 || oldMyWorkout.date_started == null)
                 {
                     userWorkout.date_started = DateTime.Now;
-                    if (position == totalNumExercises) userWorkout.date_finished = DateTime.Now;
+                    if (position == totalNumExercises)
+                    {
+                        userWorkout.date_finished = DateTime.Now;
+                    }
                 }
                 else if (position == totalNumExercises)
                 {
@@ -183,6 +187,8 @@ namespace GoFit.Controllers
                 result.Add("success", "true");
                 result.Add("timestampString", newTimestamp);
                 result.Add("error", "false");
+                var isCompleted = (userWorkout.date_finished != null) ? "true" : "false";
+                result.Add("isCompleted", isCompleted); 
                 return Json(result);
             }
             catch (DbUpdateConcurrencyException ex)
