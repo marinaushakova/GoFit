@@ -6,8 +6,22 @@
 
         <div class="form-horizontal well">
             <label class="control-label col-md-8 col-md-offset-2">Please, rate this workout:</label>
-            <div class="form-group">
-                <input id="rating" name="rating" class="col-md-8 col-md-offset-2" type="text" />
+            <div class="form-group">                
+                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem { Text = "1", Value = "1" });
+                    listItems.Add(new SelectListItem { Text = "2", Value = "2" });
+                    listItems.Add(new SelectListItem { Text = "3", Value = "3" });
+                    listItems.Add(new SelectListItem { Text = "4", Value = "4" });
+                    listItems.Add(new SelectListItem { Text = "5", Value = "5" });
+                    listItems.Add(new SelectListItem { Text = "6", Value = "6" });
+                    listItems.Add(new SelectListItem { Text = "7", Value = "7" });
+                    listItems.Add(new SelectListItem { Text = "8", Value = "8" });
+                    listItems.Add(new SelectListItem { Text = "9", Value = "9" });
+                    listItems.Add(new SelectListItem { Text = "10", Value = "10", Selected = true });
+                }
+                @Html.DropDownList("rating", listItems, null, 
+                                    new { @class = "rating_drop_down col-md-4 col-md-offset-4" })
                 <input id="workout_id" name="workout_id" type="hidden" value="@Model.id" />
             </div>
         </div>

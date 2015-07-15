@@ -101,6 +101,12 @@ textarea.comment_textarea {
     height: 25px;
 }
 
+.rating_drop_down {
+    width: 120px;
+    height: 25px;
+    margin-top: 20px;
+}
+
 #duration_text {
     min-width: 100px;
     width: 100px;
@@ -135,6 +141,6 @@ iframe.exercise_video {
     visibility: hidden;
 }
 .modal-content {
-        width: 400px !important;
+        width: 390px !important;
         margin: 40px auto !important;
 }
