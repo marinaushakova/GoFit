@@ -84,4 +84,13 @@ namespace GoFit.Tests.MockContexts
             return this.SingleOrDefault(w => w.id == id);
         }
     }
+
+    public class DbSetOverrideWorkoutRatingFind<TEntity> : DbSet<workout_rating>
+    {
+        public override workout_rating Find(params object[] keyValues)
+        {
+            var id = (int)keyValues.Single();
+            return this.SingleOrDefault(w => w.workout_id == id);
+        }
+    }
 }

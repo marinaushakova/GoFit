@@ -30,6 +30,7 @@ namespace GoFit.Tests.MockSetupHelpers
             List<user_workout> userWorkouts = getSeedUserWorkouts();
             List<comment> comments = getSeedComments();
             List<user_favorite_workout> userFaves = getSeedUserFavWorkouts();
+            List<workout_rating> workoutRating = getSeedWorkoutRating();
             List<type> types = getSeedTypes();
 
             IQueryable<category> categoriesQ = categories.AsQueryable();
@@ -40,6 +41,7 @@ namespace GoFit.Tests.MockSetupHelpers
             IQueryable<user_workout> userWorkoutsQ = userWorkouts.AsQueryable();
             IQueryable<comment> commentsQ = comments.AsQueryable();
             IQueryable<user_favorite_workout> userFavesQ = userFaves.AsQueryable();
+            IQueryable<workout_rating> workoutRatingQ = workoutRating.AsQueryable();
             IQueryable<type> typesQ = types.AsQueryable();
 
             var workoutMockset = new Mock<DbSetOverrideWorkoutsFind<workout>>() { CallBase = true };
@@ -90,6 +92,12 @@ namespace GoFit.Tests.MockSetupHelpers
             userFavMockset.As<IQueryable<user_favorite_workout>>().Setup(m => m.ElementType).Returns(userFavesQ.ElementType);
             userFavMockset.As<IQueryable<user_favorite_workout>>().Setup(m => m.GetEnumerator()).Returns(userFavesQ.GetEnumerator);
 
+            var workoutRatingMockset = new Mock<DbSetOverrideWorkoutRatingFind<workout_rating>>() { CallBase = true };
+            workoutRatingMockset.As<IQueryable<workout_rating>>().Setup(m => m.Provider).Returns(workoutRatingQ.Provider);
+            workoutRatingMockset.As<IQueryable<workout_rating>>().Setup(m => m.Expression).Returns(workoutRatingQ.Expression);
+            workoutRatingMockset.As<IQueryable<workout_rating>>().Setup(m => m.ElementType).Returns(workoutRatingQ.ElementType);
+            workoutRatingMockset.As<IQueryable<workout_rating>>().Setup(m => m.GetEnumerator()).Returns(workoutRatingQ.GetEnumerator);
+
             var typesMockset = new Mock<DbSetOverrideTypeFind<type>>() { CallBase = true };
             typesMockset.As<IQueryable<type>>().Setup(m => m.Provider).Returns(typesQ.Provider);
             typesMockset.As<IQueryable<type>>().Setup(m => m.Expression).Returns(typesQ.Expression);
@@ -105,6 +113,7 @@ namespace GoFit.Tests.MockSetupHelpers
             mockContext.Setup(c => c.exercises).Returns(exerciseMockset.Object);
             mockContext.Setup(c => c.comments).Returns(commentMockset.Object);
             mockContext.Setup(c => c.user_favorite_workout).Returns(userFavMockset.Object);
+            mockContext.Setup(c => c.workout_rating).Returns(workoutRatingMockset.Object);
             mockContext.Setup(c => c.types).Returns(typesMockset.Object);
             return mockContext;
         }
@@ -142,7 +151,8 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc1",
                     created_at = Convert.ToDateTime("2015-06-15"),
                     category = categories[0],
-                    user = users[2]
+                    user = users[2],
+                    workout_rating = ratings[0]
                 },
                 new workout { 
                     id = 2,
@@ -150,7 +160,8 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc2",
                     created_at = Convert.ToDateTime("2015-06-14"),
                     category = categories[0],
-                    user = users[2]
+                    user = users[2],
+                    workout_rating = ratings[1]
                 },
                 new workout { 
                     id = 3,
@@ -818,6 +829,34 @@ namespace GoFit.Tests.MockSetupHelpers
             };
             var userFavs = new List<user_favorite_workout> { fav1, fav2, fav3, fav4 };
             return userFavs;
+        }
+
+        private List<workout_rating> getSeedWorkoutRating()
+        {
+            var workouts = getSeedWorkouts();
+            workout_rating rating1 = new workout_rating
+            {
+                workout_id = 1,
+                workout = workouts[0],
+                average_rating = 10.0M,
+                times_rated = 1
+            };
+            workout_rating rating2 = new workout_rating
+            {
+                workout_id = 2,
+                workout = workouts[1],
+                average_rating = 9.0M,
+                times_rated = 3
+            };
+            workout_rating rating3 = new workout_rating
+            {
+                workout_id = 1,
+                workout = workouts[0],
+                average_rating = 10.0M,
+                times_rated = 1
+            };
+            var workoutRating = new List<workout_rating> { rating1, rating2, rating3 };
+            return workoutRating;
         }
     }
 }
