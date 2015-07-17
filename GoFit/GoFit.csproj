@@ -227,6 +227,7 @@
     <Compile Include="Models\user.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserWorkoutViewModel.cs" />
     <Compile Include="Models\user_favorite_workout.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
