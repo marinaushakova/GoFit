@@ -1,5 +1,38 @@
 ﻿@model GoFit.Models.user_workout
 
-<div class="container-fluid">
-
+<div id="bragFeed" class="scroll-text">
+    <ul>
+        <li>exInfo 1</li>
+        <li>exInfo 2</li>
+        <li>exInfo 3</li>
+        <li>exInfo 1</li>
+        <li>exInfo 2</li>
+        <li>exInfo 3</li>
+        <li>exInfo 1</li>
+        <li>exInfo 2</li>
+        <li>exInfo 3</li>
+        <li>exInfo 1</li>
+        <li>exInfo 2</li>
+        <li>exInfo 3</li>
+        <li>exInfo 1</li>
+        <li>exInfo 2</li>
+        <li>exInfo 3</li>
+    </ul>
 </div>
+<div id="bragFeed-btn">
+    <button id="bragFeed-backward"></button>
+    <button id="bragFeed-forward"></button>
+</div>
+
+<script type="text/javascript">
+    $('#bragFeed').scrollbox({
+        direction: 'h',
+        distance: 140
+    });
+    $('#bragFeed-backward').click(function () {
+        $('#bragFeed').trigger('backward');
+    });
+    $('#bragFeed-forward').click(function () {
+        $('#bragFeed').trigger('forward');
+    });
+</script>
