@@ -44,5 +44,14 @@ namespace GoFit.Models
         public virtual ICollection<user_workout> user_workout { get; set; }
         public virtual ICollection<workout_exercise> workout_exercise { get; set; }
         public virtual workout_rating workout_rating { get; set; }
+
+
+        internal void CreateWorkoutExercise(int count = 1)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                workout_exercise.Add(new workout_exercise());
+            }
+        }
     }
 }

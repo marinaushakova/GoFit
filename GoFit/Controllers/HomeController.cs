@@ -112,6 +112,7 @@ namespace GoFit.Controllers
             return View(workout);
         }
 
+        /*
         /// <summary>
         /// Passes a list of categories to populate combobox on Create new workout page to the view 
         /// </summary>
@@ -127,6 +128,8 @@ namespace GoFit.Controllers
 
             return View("Create");
         }
+
+
 
         /// <summary>
         /// Adds new workout to the database
@@ -269,7 +272,7 @@ namespace GoFit.Controllers
             var measure = exercise.type.measure;
             return Json(measure, JsonRequestBehavior.AllowGet);
         }
-
+        */
 
         /// <summary>
         /// Gets list of exercises that are in given workout
@@ -281,6 +284,69 @@ namespace GoFit.Controllers
         {
             var exerciseList = db.workout_exercise.Where(m => m.workout_id == id).ToList();
             return PartialView(exerciseList);
+        }
+
+        /// <summary>
+        /// Passes a list of categories and list of exercises 
+        /// to populate comboboxes on New workout page 
+        /// </summary>
+        /// <returns>New workout view</returns>
+        [Authorize]
+        public ActionResult New()
+        {
+            var workout = new workout();
+            workout.CreateWorkoutExercise();
+
+            //var query = db.exercises.Select(ex => new { ex.id, ex.name });
+            var query = from ex in db.exercises select new { id = ex.id, name = ex.name + " - " + ex.type.measure };
+            ViewBag.Exercises = new SelectList(query.AsEnumerable(), "id", "name");
+
+            query = db.categories.Select(c => new { c.id, c.name });
+            ViewBag.Categories = new SelectList(query.AsEnumerable(), "id", "name");
+
+            return View(workout);
+        }
+
+        /// <summary>
+        /// Adds new workout with workout_exercises to the database
+        /// </summary>
+        /// <param name="workout">Workout being added to the database with list of workout_exercises</param>
+        /// <returns>Workout Details view if success, error view if not</returns>
+        [Authorize]
+        [HttpPost]
+        public ActionResult New(workout workout)
+        {
+            workout.created_at = DateTime.Now;
+            var user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
+            if (user == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "No user could be associated with the workout being created"));
+            }
+            else workout.created_by_user_id = user.id;
+            var position = 1;
+            
+            if (ModelState.IsValid)
+            {
+                try 
+                { 
+                    foreach (workout_exercise w_ex in workout.workout_exercise.ToList())
+                    {
+                        w_ex.position = position;
+                        position++;
+                    }
+                    db.workouts.Add(workout);
+                    db.SaveChanges();
+                    return RedirectToAction("Details", "Home", new { workoutId = workout.id });
+                }
+                catch (Exception ex)
+                {
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the requested workout."));
+                }
+            }
+            else
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not create the workout with the given values."));
+            }
         }
         
     }
