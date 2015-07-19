@@ -255,6 +255,7 @@
     <Content Include="Content\home.css" />
     <Content Include="Content\MyProfile.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="DB\full_final_script.sql" />
     <Content Include="DB\iteration2_db_v2_mod.sql" />
     <Content Include="DB\iteration3_db_script_v1.sql" />
     <Content Include="favicon.ico" />
