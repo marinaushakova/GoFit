@@ -227,6 +227,7 @@
     <Compile Include="Models\user.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserWorkoutViewModel.cs" />
     <Compile Include="Models\user_favorite_workout.cs">
       <DependentUpon>GoFitModel.tt</DependentUpon>
     </Compile>
@@ -279,6 +280,8 @@
       <DependentUpon>GoFitModel.edmx</DependentUpon>
       <LastGenOutput>GoFitModel.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\gofit-mdk - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\gofit-mdk - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\gofitMDK - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\gofitMDK - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\gofitMDKdebug - FTP %282%29.pubxml" />
