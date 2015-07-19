@@ -250,7 +250,7 @@ namespace GoFit.Controllers
             }
 
         }
-
+        
         /// <summ/ary>
         /// Gets measure for given exercise
         /// </summary>

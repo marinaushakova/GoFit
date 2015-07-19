@@ -47,7 +47,7 @@
                     </tbody>
                 </table>
                 <p>
-                    @Html.AddLink("Add Exercise", "#workoutExercise tbody", ".workoutExercise", "workout_exercise", typeof(GoFit.Models.workout_exercise))
+                    @Html.LinkToAddNestedForm(m => m.workout_exercise, "Add Exercise", "#workoutExercise tbody", ".workoutExercise", "workout_exercise")
                 </p>
             </div>
         </div>
