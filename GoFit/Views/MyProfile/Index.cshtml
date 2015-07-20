@@ -1,4 +1,4 @@
-﻿@model GoFit.Models.user
+﻿@model GoFit.Models.UserWorkoutViewModel
 @section Styles {
     <link href="@Url.Content("~/Content/MyProfile.css")" rel="stylesheet" type="text/css" />
 }
@@ -11,6 +11,10 @@
 
 <h3>Welcome @(Request.IsAuthenticated ? HttpContext.Current.User.Identity.Name : "Guest")! </h3>
 
+<div>
+   @Html.Partial("~/Views/Shared/_BragFeedPartial.cshtml")
+</div>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4 col-xs-12">
@@ -20,40 +24,40 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Username:</span></h4></div>
-                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.username)</div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.Encode(Model.TheUser.username)</div>
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">First Name:</span></h4></div>
-                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.fname)</div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.Encode(Model.TheUser.fname)</div>
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Last Name:</span></h4></div>
-                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.lname)</div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.Encode(Model.TheUser.lname)</div>
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Gender:</span></h4></div>
                     @{
                         var gender = "";
-                        if (Model.is_male != null)
+                        if (Model.TheUser.is_male != null)
                         {
-                            gender = Model.is_male == 1 ? "Male" : "Female";
+                            gender = Model.TheUser.is_male == 1 ? "Male" : "Female";
                         }
                     }
                     <div class="col-md-8 col-sm-12 my_profile_prop">@gender</div>
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Weight:</span></h4></div>
-                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.weight) lb</div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.Encode(Model.TheUser.weight) lbs</div>
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Height:</span></h4></div>
-                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.DisplayFor(model => model.height) ft</div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.Encode(Model.TheUser.height) ft</div>
                 </div>
                 
             </div>
             <div class="row">
                 <div class="col-md-12 col-xs-12">
-                    @Html.ActionLink("Edit My Profile", "Edit", new { id = Model.id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Edit My Profile", "Edit", new { id = Model.TheUser.id }, new { @class = "btn btn-primary" })
                 </div>
             </div>
         </div>

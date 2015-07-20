@@ -38,23 +38,20 @@ namespace GoFit.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            //var userWorkoutViewModel = new UserWorkoutViewModel();
-            //userWorkoutViewModel.User = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
-            //userWorkoutViewModel.UserWorkoutList = (List<user_workout>)db.user_workout.Where(w => w.date_finished.HasValue);
-            //var view = View("Index", userWorkoutViewModel);
+            UserWorkoutViewModel vm = new UserWorkoutViewModel();
+            vm.BragFeedWorkoutList = this.db.user_workout.ToList();
+            vm.TheUser = db.users.Where(u => u.username.Equals(User.Identity.Name)).FirstOrDefault();
+            
+            return View(vm);
+            
+
+            //var user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
+            //var view = View(user);
             //if (view == null)
             //{
             //    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user profile."));
             //}
             //return view;
-
-            var user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
-            var view = View(user);
-            if (view == null)
-            {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user profile."));
-            }
-            return view;
         }
 
         [Authorize]
