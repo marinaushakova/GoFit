@@ -30,7 +30,7 @@ namespace GoFit.Tests.MockSetupHelpers
             List<user_workout> userWorkouts = getSeedUserWorkouts();
             List<comment> comments = getSeedComments();
             List<user_favorite_workout> userFaves = getSeedUserFavWorkouts();
-            List<workout_rating> workoutRating = getSeedWorkoutRating();
+            List<workout_rating> workoutRating = getSeedWorkoutRatings();
             List<type> types = getSeedTypes();
 
             IQueryable<category> categoriesQ = categories.AsQueryable();
@@ -151,8 +151,7 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc1",
                     created_at = Convert.ToDateTime("2015-06-15"),
                     category = categories[0],
-                    user = users[2],
-                    workout_rating = ratings[0]
+                    user = users[2]
                 },
                 new workout { 
                     id = 2,
@@ -160,8 +159,7 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc2",
                     created_at = Convert.ToDateTime("2015-06-14"),
                     category = categories[0],
-                    user = users[2],
-                    workout_rating = ratings[1]
+                    user = users[2]
                 },
                 new workout { 
                     id = 3,
@@ -345,7 +343,7 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc25",
                     created_at = Convert.ToDateTime("2015-08-12"),
                     category = categories[1],
-                    user = users[3],
+                    user = users[3], 
                     workout_rating = ratings[4]
                 },
                 new workout {
@@ -354,7 +352,7 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc26",
                     created_at = Convert.ToDateTime("2015-08-12"),
                     category = categories[0],
-                    user = users[3],
+                    user = users[3], 
                     workout_rating = ratings[3]
                 },
                 new workout {
@@ -363,7 +361,7 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc27",
                     created_at = Convert.ToDateTime("2015-08-12"),
                     category = categories[1],
-                    user = users[3],
+                    user = users[3], 
                     workout_rating = ratings[1]
                 },
                 new workout {
@@ -372,7 +370,7 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc28",
                     created_at = Convert.ToDateTime("2015-08-12"),
                     category = categories[0],
-                    user = users[3],
+                    user = users[3], 
                     workout_rating = ratings[2]
                 },
                 new workout {
@@ -381,7 +379,7 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc29",
                     created_at = Convert.ToDateTime("2015-08-12"),
                     category = categories[1],
-                    user = users[3],
+                    user = users[3], 
                     workout_rating = ratings[0]
                 },
                 new workout {
@@ -390,7 +388,7 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc30",
                     created_at = Convert.ToDateTime("2015-08-12"),
                     category = categories[0],
-                    user = users[3],
+                    user = users[3], 
                     workout_rating = ratings[5]
                 },
                 new workout {
@@ -399,7 +397,7 @@ namespace GoFit.Tests.MockSetupHelpers
                     description = "desc31",
                     created_at = Convert.ToDateTime("2015-08-12"),
                     category = categories[0],
-                    user = users[3],
+                    user = users[3], 
                     workout_rating = ratings[6]
                 }
             };
@@ -850,10 +848,10 @@ namespace GoFit.Tests.MockSetupHelpers
             };
             workout_rating rating3 = new workout_rating
             {
-                workout_id = 1,
-                workout = workouts[0],
+                workout_id = 3,
+                workout = workouts[2],
                 average_rating = 10.0M,
-                times_rated = 1
+                times_rated = 2
             };
             var workoutRating = new List<workout_rating> { rating1, rating2, rating3 };
             return workoutRating;

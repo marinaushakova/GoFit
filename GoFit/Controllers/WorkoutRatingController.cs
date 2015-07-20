@@ -65,12 +65,12 @@ namespace GoFit.Controllers
             int userID = userAccess.getUserId(User.Identity.Name);
             if (userID == -1)
             {
-                return View();
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "No user could be associated with the rating being added"));
             }
 
             bool isFirstRating = false;
-
-            workout_rating w_rating = db.workout_rating.Where(m => m.workout_id == (int)workout_id).FirstOrDefault();
+            workout_rating w_rating = db.workout_rating.Find(workout_id);
+            //workout_rating w_rating = db.workout_rating.Where(m => m.workout_id == (int)workout_id).FirstOrDefault();
             if (w_rating != null)
             {
                 w_rating.average_rating = (w_rating.average_rating * w_rating.times_rated + (int)rating) / (w_rating.times_rated + 1);
