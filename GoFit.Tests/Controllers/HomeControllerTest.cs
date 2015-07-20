@@ -291,7 +291,7 @@ namespace GoFit.Tests.Controllers
         {
             ViewResult result = controller.New() as ViewResult;
             Assert.IsNotNull(result);
-            Assert.AreEqual("New", result.ViewName);
+            Assert.AreEqual("", result.ViewName);
         }
         
         /// <summary>

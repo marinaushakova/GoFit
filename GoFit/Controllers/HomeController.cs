@@ -304,7 +304,7 @@ namespace GoFit.Controllers
             query = db.categories.Select(c => new { c.id, c.name });
             ViewBag.Categories = new SelectList(query.AsEnumerable(), "id", "name");
 
-            return View("New", "Home", workout);
+            return View(workout);
         }
 
         /// <summary>

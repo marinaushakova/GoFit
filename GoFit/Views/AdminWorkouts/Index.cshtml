@@ -7,7 +7,7 @@
 
 <h2 class="h2">Admin Workouts</h2>
 <p>
-    <input class="btn btn-primary" type="button" value="Create New Workout" onclick="location.href='@Url.Action("Create", "AdminWorkouts" )'" />
+    <input class="btn btn-primary" type="button" value="Create New Workout" onclick="location.href='@Url.Action("New", "AdminWorkouts" )'" />
 </p>
 <br>
 <div class="row">
@@ -60,7 +60,6 @@
                             <td class="col-xs-2">@Html.DisplayFor(modelItem => item.category.name)</td>
                             <td class="col-xs-1">@Html.DisplayFor(modelItem => item.user.username)</td>
                             <td class="col-xs-3">
-                                @Html.ActionLink("Add Exercise", "AddExerciseToWorkout", new { id = item.id }) |
                                 @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
                                 @Html.ActionLink("Details", "Details", new { id = item.id }) |
                                 @Html.ActionLink("Delete", "Delete", new { id = item.id })

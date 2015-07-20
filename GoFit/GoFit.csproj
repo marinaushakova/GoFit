@@ -377,8 +377,9 @@
     <Content Include="Views\Shared\_BragFeedPartial.cshtml" />
     <Content Include="Views\Shared\WorkoutPartials\_RateWorkoutPartial.cshtml" />
     <Content Include="Views\Home\New.cshtml" />
-    <Content Include="Views\Home\EditorTemplates\workout.cshtml" />
-    <Content Include="Views\Home\EditorTemplates\workout_exercise.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\workout.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\workout_exercise.cshtml" />
+    <Content Include="Views\AdminWorkouts\New.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

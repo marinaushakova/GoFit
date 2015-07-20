@@ -1,55 +1,8 @@
-﻿@model GoFit.Models.workout
+﻿@*model GoFit.Models.workout*@
 
-@{
-    ViewBag.Title = "Admin Workout Details";
-}
+@Html.Partial("WorkoutPartials/_WorkoutPartial")
 
-<h2>Workout Details: @Model.name</h2>
 
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.LabelFor(model => model.name, "Workout Name", htmlAttributes: new { @class = "control-label col-md-2" })
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.name)
-        </dd>
-
-        <dt>
-            @Html.LabelFor(model => model.description, "Description", htmlAttributes: new { @class = "control-label col-md-2" })
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.description)
-        </dd>
-
-        <dt>
-            @Html.LabelFor(model => model.created_at, "Created", htmlAttributes: new { @class = "control-label col-md-2" })
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.created_at)
-        </dd>
-
-        <dt>
-            @Html.LabelFor(model => model.category.name, "Category Name", htmlAttributes: new { @class = "control-label col-md-2" })
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.category.name)
-        </dd>
-
-        <dt>
-            @Html.LabelFor(model => model.user.username, "Username", htmlAttributes: new { @class = "control-label col-md-2" })
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.user.username)
-        </dd>
-    </dl>
-</div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.id }, htmlAttributes: new { @class = "btn btn-primary" })
     @Html.ActionLink("Back to List", "Index", "AdminWorkouts", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })

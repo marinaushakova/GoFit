@@ -64,9 +64,9 @@ namespace GoFit.Tests.Controllers
         /// Test that AdminWorkouts Create view returns a ViewResult
         /// </summary>
         [TestMethod]
-        public void TestAdminWorkoutsCreateViewReturnsData()
+        public void TestAdminWorkoutsNewViewReturnsData()
         {
-            var result = adminCon.Create() as ViewResult;
+            var result = adminCon.New() as ViewResult;
             Assert.IsNotNull(result);
         }
 
@@ -248,7 +248,7 @@ namespace GoFit.Tests.Controllers
             var workouts = (PagedList<workout>)result.ViewData.Model;
             Assert.IsTrue(workouts.Count > 0);
         }
-
+        /*
         [TestMethod]
         public void TestAdminWorkoutsAddExNoId()
         {
@@ -341,7 +341,7 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual(404, model.StatusCode);
             Assert.AreEqual("Exercise could not be found.", model.StatusDescription);
         }
-
+        */
         [TestMethod]
         public void TestAdminWorkoutsDetailsWithNullId()
         {
@@ -366,7 +366,7 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual(404, model.StatusCode);
             Assert.AreEqual("That workout could not be found or does not exist", model.StatusDescription);
         }
-
+        /*
         [TestMethod]
         public void TestAdminWorkoutsCreateThrowsException()
         {
@@ -380,7 +380,7 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual(500, model.StatusCode);
             Assert.AreEqual("Failed to create the workout.", model.StatusDescription);
         }
-
+        */
         [TestMethod]
         public void TestAdminWorkoutsEditWithNullId()
         {

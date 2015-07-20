@@ -5,10 +5,10 @@
     ViewBag.Title = "Workout";
     //Layout = "~/Views/Shared/_Layout.cshtml";
     var fav_count = "";
-    if (ViewBag.FavoritesCount == 1) { fav_count = "1 user"; }
-    else { fav_count = ViewBag.FavoritesCount + " users"; };
-    var average_rating = "No rating yet";
-    if (ViewBag.average_rating != null) { average_rating = ViewBag.average_rating + "/10.0"; }
+    if (Model.user_favorite_workout.Count == 1) { fav_count = "1 user"; }
+    else { fav_count = Model.user_favorite_workout.Count + " users"; };
+    var average_rating = "Not rated yet";
+    if (Model.workout_rating != null) { average_rating = Model.workout_rating.average_rating + "/10.0"; }
 }
 
 <div class="container-fluid">
