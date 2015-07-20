@@ -1,0 +1,16 @@
+﻿@model GoFit.Models.workout_exercise
+
+<tr class="workoutExercise">
+    <td >
+    </td>
+    <td class="col-md-6 col-xs-6" >
+        @Html.DropDownListFor(model => model.exercise_id, (IEnumerable<SelectListItem>)ViewBag.Exercises, new {  id = "cmbMeasure", @class = "drop_down" })
+        @Html.ValidationMessageFor(model => model.exercise_id)
+    </td>
+    <td class="col-md-6 col-xs-6">
+        @Html.TextBoxFor(model => model.duration, new { @id = "duration_text" })
+        @Html.ValidationMessageFor(model => model.duration)
+    </td>
+</tr>
+
+     

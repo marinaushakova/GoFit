@@ -218,6 +218,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GoFitModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\HtmlHelpers.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\type.cs">
@@ -255,6 +256,7 @@
     <Content Include="Content\jquery.simplyscroll.css" />
     <Content Include="Content\MyProfile.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="DB\full_final_script.sql" />
     <Content Include="DB\iteration2_db_v2_mod.sql" />
     <Content Include="DB\iteration3_db_script_v1.sql" />
     <Content Include="favicon.ico" />
@@ -288,6 +290,7 @@
     <None Include="Properties\PublishProfiles\gofitMDKdebug - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\gofitMDKdebug - Web Deploy %282%29.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\CustomJs.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -327,7 +330,6 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\MyAccount\Login.cshtml" />
-    <Content Include="Views\MyWorkouts\MyWorkouts.cshtml" />
     <Content Include="Views\MyProfile\Index.cshtml" />
     <Content Include="Views\MyProfile\Edit.cshtml" />
     <Content Include="Views\MyWorkouts\Index.cshtml" />
@@ -378,6 +380,10 @@
     <Content Include="Views\Shared\WorkoutPartials\_AddComment.cshtml" />
     <Content Include="Views\Shared\_BragFeedPartial.cshtml" />
     <Content Include="Views\Shared\WorkoutPartials\_RateWorkoutPartial.cshtml" />
+    <Content Include="Views\Home\New.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\workout.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\workout_exercise.cshtml" />
+    <Content Include="Views\AdminWorkouts\New.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -396,6 +402,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Scripts\CustomJs.js</ApplicationManifest>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

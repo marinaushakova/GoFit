@@ -1,0 +1,25 @@
+﻿@model GoFit.Models.workout
+
+@{
+    ViewBag.Title = "New";
+}
+<script src="~/Scripts/CustomJs.js"></script>
+<h2>Create Workout</h2>
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="form-horizontal col-md-12 col-xs-12 ">
+        @Html.EditorForModel()
+        <div>
+            <button type="submit" class="btn btn-primary">Create Workout</button>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

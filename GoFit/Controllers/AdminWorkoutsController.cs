@@ -44,109 +44,7 @@ namespace GoFit.Controllers
             db = this.getDB();
             pageSize = PAGE_SIZE;
         }
-
-        /// <summary>
-        /// Returns an add exercise to current workout view
-        /// </summary>
-        /// <param name="id">workout id</param>
-        /// <returns>AddExerciseToWorkout view </returns>
-        [HttpGet]
-        public ActionResult AddExerciseToWorkout(int? id)
-        {
-            if (id == null)
-            {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No workout to add an exercise to was specified"));
-            }
-            else
-            {
-                ViewBag.Workout = db.workouts.Find(id);
-                if (ViewBag.Workout == null)
-                {
-                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "The workout could not be found."));
-                }
-                // Workout id is stored in session to be accessed from AddExerciseToWorkout post method
-                Session["workout_id"] = id;
-                // ViewBag.Exercises stores a list of exercises to populate combobox
-                var exerciseList = db.exercises.Select(ex => new { ex.id, ex.name });
-                ViewBag.Exercises = new SelectList(exerciseList.AsEnumerable(), "id", "name");
-            }
-
-            return View();
-        }
-
-        /// <summary>
-        /// Adds exercise to current workout
-        /// </summary>
-        /// <param name="w_ex">workout_exercise object being added to db</param>
-        /// <returns>AddExerciseToWorkout</returns>
-        [HttpPost]
-        public ActionResult AddExerciseToWorkout(workout_exercise w_ex)
-        {
-            if (w_ex == null)
-            {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to add was specified."));
-            }
-
-            if (Session["workout_id"] != null) w_ex.workout_id = (int)Session["workout_id"];
-
-            if (w_ex.position == 0)
-            {
-                var exercisesInWorkout = db.workout_exercise.Where(m => m.workout_id == w_ex.workout_id);
-                int exerciseCount = exercisesInWorkout.Count();
-                w_ex.position = exerciseCount + 1;
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    db.workout_exercise.Add(w_ex);
-                    db.SaveChanges();
-                    return RedirectToAction("AddExerciseToWorkout", "AdminWorkouts", new { id = w_ex.workout_id });
-                }
-                catch
-                {
-                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Exercise could not be added to the workout."));
-                }
-            }
-            else
-            {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Invalid exercise."));
-            }
-
-        }
-
-        /// <summary>
-        /// Gets list of exercises that are in given workout
-        /// </summary>
-        /// <param name="id">workout id</param>
-        /// <returns>List of exercises of workout with passed id</returns>
-        public PartialViewResult ExerciseList(int? id)
-        {
-            var exerciseList = db.workout_exercise.Where(m => m.workout_id == id).ToList();
-            return PartialView(exerciseList);
-        }
-
-        /// <summ/ary>
-        /// Gets measure for given exercise
-        /// </summary>
-        /// <param name="ex_id">Exercise id</param>
-        /// <returns>Measure name to be used in javascript on AddExerciseToWorkout page</returns>
-        [HttpGet]
-        public ActionResult GetMeasure(int? ex_id)
-        {
-            if (ex_id == null)
-            {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "No exercise to get a measure for was specified."));
-            }
-            var exercise = db.exercises.Find(ex_id);
-            if (exercise == null)
-            {
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, "Exercise could not be found."));
-            }
-            var measure = exercise.type.measure;
-            return Json(measure, JsonRequestBehavior.AllowGet);
-        }
+        
 
         // GET: AdminWorkouts
         public ActionResult Index(string filterString, string sortBy, int? page, WorkoutSearch workoutSearch)
@@ -175,44 +73,76 @@ namespace GoFit.Controllers
             }
             return View(workout);
         }
+       
 
-        // GET: AdminWorkouts/Create
-        public ActionResult Create()
+        /// <summary>
+        /// Passes a list of categories and list of exercises 
+        /// to populate comboboxes on New workout page 
+        /// </summary>
+        /// <returns>New workout view</returns>
+        [Authorize]
+        public ActionResult New()
         {
-            ViewBag.category_id = new SelectList(db.categories, "id", "name");
-            ViewBag.created_by_user_id = new SelectList(db.users, "id", "username");
-            return View();
+            var workout = new workout();
+            workout.CreateWorkoutExercise();
+
+            //var query = db.exercises.Select(ex => new { ex.id, ex.name });
+            var query = from ex in db.exercises select new { id = ex.id, name = ex.name + " - " + ex.type.measure };
+            ViewBag.Exercises = new SelectList(query.AsEnumerable(), "id", "name");
+
+            query = db.categories.Select(c => new { c.id, c.name });
+            ViewBag.Categories = new SelectList(query.AsEnumerable(), "id", "name");
+
+            return View(workout);
         }
 
-        // POST: AdminWorkouts/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Adds new workout with workout_exercises to the database
+        /// </summary>
+        /// <param name="workout">Workout being added to the database with list of workout_exercises</param>
+        /// <returns>Workout Details view if success, error view if not</returns>
+        [Authorize]
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,name,description,category_id,created_by_user_id,created_at,timestamp")] workout workout)
+        public ActionResult New([Bind(Include = "id,name,description,category_id,created_by_user_id,created_at,timestamp,workout_exercise")] workout workout)
         {
-            try
+            if (workout == null)
             {
-                if (ModelState.IsValid)
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Workout could not be created with given parameters."));
+            }
+
+            workout.created_at = DateTime.Now;
+            var user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
+            if (user == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "No user could be associated with the workout being created"));
+            }
+            else workout.created_by_user_id = user.id;
+            var position = 1;
+
+            if (ModelState.IsValid)
+            {
+                try
                 {
-                    workout.created_at = DateTime.Now;
-                    workout.created_by_user_id = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault().id;
+                    foreach (workout_exercise w_ex in workout.workout_exercise.ToList())
+                    {
+                        w_ex.position = position;
+                        position++;
+                    }
                     db.workouts.Add(workout);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Details", "AdminWorkouts", new { id = workout.id });
                 }
-
-                ViewBag.category_id = new SelectList(db.categories, "id", "name", workout.category_id);
-                ViewBag.created_by_user_id = new SelectList(db.users, "id", "username", workout.created_by_user_id);
-                return View(workout);
+                catch (Exception ex)
+                {
+                    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the requested workout."));
+                }
             }
-            catch (Exception ex)
+            else
             {
-                var err = new HandleErrorInfo(ex, "AdminWorkouts", "Create");
-                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to create the workout."));
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not create the workout with the given values."));
             }
-
         }
+
 
         // GET: AdminWorkouts/Edit/5
         public ActionResult Edit(int? id)

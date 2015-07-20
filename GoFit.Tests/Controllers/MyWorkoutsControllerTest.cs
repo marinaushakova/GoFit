@@ -454,6 +454,33 @@ namespace GoFit.Tests.Controllers
         }
 
         [TestMethod]
+        public void TestMyWorkoutsDeleteCompletedMyWorkout()
+        {
+            user_workout u_workout = new user_workout();
+            u_workout.id = 2;
+            u_workout.workout = new workout()
+            {
+                id = 2
+            };
+            u_workout.date_finished = Convert.ToDateTime("2015-06-30");
+            byte[] timestamp = new byte[8];
+            for (var i = 0; i < timestamp.Length; i++)
+            {
+                timestamp[i] = 0;
+            }
+            u_workout.timestamp = timestamp;
+            db.Setup(c => c.user_workout.Find(u_workout.id)).Returns(u_workout);
+            db.Setup(c => c.user_workout.Remove(u_workout)).Returns(u_workout);
+            ViewResult result = myWorkoutsCon.DeleteFromMyWorkouts(u_workout) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DetailedError", result.ViewName);
+            Assert.IsInstanceOfType(result.Model, typeof(HttpStatusCodeResult));
+            var model = result.Model as HttpStatusCodeResult;
+            Assert.AreEqual(500, model.StatusCode);
+            Assert.AreEqual("The workout has been completed and can't be removed", model.StatusDescription);
+        }
+
+        [TestMethod]
         public void TestMyWorkoutsDetailsNoIdPassed()
         {
             ViewResult result = myWorkoutsCon.Details(null) as ViewResult;
