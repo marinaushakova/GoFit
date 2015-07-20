@@ -57,33 +57,6 @@
     text-align: center;
 }
 
-.scroll-img {
-  border: 1px solid red;
-  width: 680px;
-  height: 142px;
-  overflow: hidden;
-  font-size: 0;
-}
-
-.scroll-img ul {
-  width: 700px;
-  height: 600px;
-  margin: 0;
-}
-.scroll-img ul li {
-  display: inline-block;
-  margin: 10px 0 10px 10px;
-}
-
-#bragFeed.scroll-img ul {
-  width: 1500px;
-}
-
-#bragFeed-btn {
-  width: 680px;
-  padding-top: 10px;
-}
-
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,

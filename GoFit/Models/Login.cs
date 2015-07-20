@@ -8,10 +8,10 @@ namespace GoFit.Models
 {
     public class Login
     {
-        [Required(ErrorMessage = "Username reqired", AllowEmptyStrings = false)]
+        [Required(ErrorMessage = "Username required", AllowEmptyStrings = false)]
         public string Username { get; set; }
 
-        [Required(ErrorMessage = "Password reqired", AllowEmptyStrings = false)]
+        [Required(ErrorMessage = "Password required", AllowEmptyStrings = false)]
         [DataType(System.ComponentModel.DataAnnotations.DataType.Password)]
         public string Password { get; set; }
         
