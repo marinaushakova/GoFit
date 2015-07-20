@@ -272,7 +272,7 @@ namespace GoFit.Controllers
             var measure = exercise.type.measure;
             return Json(measure, JsonRequestBehavior.AllowGet);
         }
-        */
+        
 
         /// <summary>
         /// Gets list of exercises that are in given workout
@@ -285,7 +285,7 @@ namespace GoFit.Controllers
             var exerciseList = db.workout_exercise.Where(m => m.workout_id == id).ToList();
             return PartialView(exerciseList);
         }
-
+*/
         /// <summary>
         /// Passes a list of categories and list of exercises 
         /// to populate comboboxes on New workout page 
@@ -304,7 +304,7 @@ namespace GoFit.Controllers
             query = db.categories.Select(c => new { c.id, c.name });
             ViewBag.Categories = new SelectList(query.AsEnumerable(), "id", "name");
 
-            return View(workout);
+            return View("New", "Home", workout);
         }
 
         /// <summary>
@@ -316,6 +316,11 @@ namespace GoFit.Controllers
         [HttpPost]
         public ActionResult New(workout workout)
         {
+            if (workout == null)
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Workout could not be created with given parameters."));
+            }
+
             workout.created_at = DateTime.Now;
             var user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
             if (user == null)
