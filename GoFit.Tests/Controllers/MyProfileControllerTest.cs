@@ -38,8 +38,8 @@ namespace GoFit.Tests.Controllers
         {
             ViewResult result = myProfileCon.Index() as ViewResult;
             Assert.IsNotNull(result);
-            user user = (user)result.ViewData.Model;
-            Assert.AreEqual("jjones", user.username, "Userame was not 'jjones'");
+            UserWorkoutViewModel user = (UserWorkoutViewModel)result.ViewData.Model;
+            Assert.AreEqual("jjones", user.TheUser.username, "Userame was not 'jjones'");
         }
 
 
