@@ -319,15 +319,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\_RemoveAccountPartial.cshtml" />
-    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Manage.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\MyAccount\Login.cshtml" />
     <Content Include="Views\MyProfile\Index.cshtml" />
@@ -356,8 +347,6 @@
     <Content Include="Views\AdminWorkouts\Index.cshtml" />
     <Content Include="Views\AdminHome\Index.cshtml" />
     <Content Include="Views\MyAccount\Register.cshtml" />
-    <Content Include="Views\Home\AddExerciseToWorkout.cshtml" />
-    <Content Include="Views\Home\ExerciseList.cshtml" />
     <Content Include="Views\MyWorkouts\Details.cshtml" />
     <Content Include="Views\Shared\WorkoutPartials\_WorkoutPartial.cshtml" />
     <Content Include="Views\Shared\DetailedError.cshtml" />
@@ -376,7 +365,6 @@
     <Content Include="Views\AdminHome\Edit.cshtml" />
     <Content Include="Views\FavoriteWorkouts\Index.cshtml" />
     <Content Include="Views\FavoriteWorkouts\FavoriteList.cshtml" />
-    <Content Include="Views\Home\Create.cshtml" />
     <Content Include="Views\Shared\WorkoutPartials\_AddComment.cshtml" />
     <Content Include="Views\Shared\_BragFeedPartial.cshtml" />
     <Content Include="Views\Shared\WorkoutPartials\_RateWorkoutPartial.cshtml" />
