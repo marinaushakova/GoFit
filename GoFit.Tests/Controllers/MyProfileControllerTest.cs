@@ -28,20 +28,20 @@ namespace GoFit.Tests.Controllers
             {
                 ControllerContext = MockContext.AuthenticationContext("jjones")
             };
-        }
+        }   
 
         /// <summary>
-        /// Tests the MyProfile controller Index method
+        /// Test MyProfile Index method returns a view with
+        /// the appropriate viewModel as the associated model object
         /// </summary>
         [TestMethod]
-        public void TestMyProfileIndexViewRetrieval()
+        public void TestMyProfileIndexViewRender()
         {
             ViewResult result = myProfileCon.Index() as ViewResult;
             Assert.IsNotNull(result);
-            user user = (user)result.ViewData.Model;
-            Assert.AreEqual("jjones", user.username, "Userame was not 'jjones'");
+            UserWorkoutViewModel testVM = (UserWorkoutViewModel)result.ViewData.Model;
+            Assert.AreEqual("jjones", testVM.TheUser.username);
         }
-
 
         /// <summary>
         /// Tests the MyProfile controller Edit method

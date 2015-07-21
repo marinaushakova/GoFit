@@ -10,7 +10,7 @@
 @*<h3>Welcome @(Request.IsAuthenticated ? HttpContext.Current.User.Identity.Name : "Guest")! </h3>*@
 
 <div>
-   @Html.Partial("~/Views/Shared/_BragFeedPartial.cshtml")
+   @Html.Partial("~/Views/Shared/_BragFeedPartial.cshtml", Model.BragFeedWorkoutList)
 </div>
 
 <div class="container-fluid">

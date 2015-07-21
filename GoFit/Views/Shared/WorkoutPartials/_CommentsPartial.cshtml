@@ -14,7 +14,14 @@
             </div>
         </div>
         <p>@Html.DisplayFor(modelItem => item.message)</p>
-        @Html.ActionLink("Back To Top", "Details", new { workoutId = Model.id })
+        @if (@ViewBag.myWorkoutId != null)
+        {
+            @Html.ActionLink("Back To Top", "Details", new { user_workout_id = @ViewBag.myWorkoutId })
+        }
+        else
+        {
+            @Html.ActionLink("Back To Top", "Details", new { workoutId = Model.id })
+        }
     </div>
     }
 } else {
