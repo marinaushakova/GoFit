@@ -1,32 +1,49 @@
 ﻿@model IList<GoFit.Models.user_workout>
 
-<h3>Brag Feed</h3>
-<ul id="scroller">
-@foreach (var item in Model)
-{
-    <li>
-        <div class="container">
-            <div class="row">
-                <div class="workout_detail_header">@item.user.username</div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-sm-12"><h4><span class="label label-default">Completed</span></h4></div>
-                <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(modelItem => item.workout.name)</div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-sm-12"><h4><span class="label label-default">On</span></h4></div>
-                <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(modelItem => item.date_finished)</div>
-            </div>
-        </div>
-    </li>
-}
-</ul>
-
-
+<div class="bragFeed col-md-4">
+    <div class="feedheader">Bragging Rights</div>
+    <ul id="scroller">
+        @foreach (var item in Model)
+        {
+            <li>
+                <div class="container">
+                    <div class="row">
+                        <div class="workout_detail_header">@item.user.username</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12"><h4><span class="label label-default">Completed</span></h4></div>
+                        <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(modelItem => item.workout.name)</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12"><h4><span class="label label-default">On</span></h4></div>
+                        <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(modelItem => item.date_finished)</div>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>
+@*
 <script type="text/javascript">
     (function ($) {
         $(function () {
             $("#scroller").simplyScroll({ frameRate: 50 });
+        });
+    })(jQuery);
+</script>
+*@
+
+<script type="text/javascript">
+    (function ($) {
+        $(function () { //on DOM ready
+            $("#scroller").simplyScroll({
+                customClass: 'vert',
+                orientation: 'vertical',
+                auto: true,
+                manualMode: 'loop',
+                frameRate: 25,
+                speed: 3
+            });
         });
     })(jQuery);
 </script>

@@ -30,6 +30,35 @@ Note all DIVs are generated and should not be hard-coded
 
 */
 
+.bragFeed {
+    display: block;
+    border: 1px solid #f2670a;
+    border-radius: 4px;
+
+    margin-top: 20px;
+    background-color: #fff;
+    max-height: 375px;
+}
+
+.feedheader {
+    margin: 10px;
+    margin-top: 15px;
+    padding: 5px;
+    font-size: 1.4em;
+    font-weight: bold;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: #f2670a;
+    color: #FFF;
+    border-radius: 4px;
+
+}
+
+.testborder {
+    border: 1px solid red;
+}
+
 .simply-scroll-container { /* Container DIV - automatically generated */
 	position: relative;
 }
@@ -138,13 +167,13 @@ Note all DIVs are generated and should not be hard-coded
 
 .simply-scroll { /* Customisable base class for style override DIV */
 	width: 576px;
-	height: 200px;
+	/*height: 200px;*/
 	margin-bottom: 1em;
 }
 
 	.simply-scroll .simply-scroll-clip {
 		width: 576px;
-		height: 200px;
+		/*height: 200px;*/
 	}
 	
 		.simply-scroll .simply-scroll-list {}
@@ -152,7 +181,7 @@ Note all DIVs are generated and should not be hard-coded
 		.simply-scroll .simply-scroll-list li {
 			float: left;
 			width: 290px;
-			height: 200px;
+			/*height: 200px;*/
 		}
 		.simply-scroll .simply-scroll-list li img {}
 	
@@ -180,13 +209,13 @@ Note all DIVs are generated and should not be hard-coded
 
 .vert { /* wider than clip to position buttons to side */
 	width: 340px;
-	height: 400px;
+	height: 240px;
 	margin-bottom: 1.5em;
 }
 
 	.vert .simply-scroll-clip {
 		width: 290px;
-		height: 400px;
+		height: 240px;
 	}
 	
 		.vert .simply-scroll-list {}
