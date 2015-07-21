@@ -34,7 +34,6 @@ Note all DIVs are generated and should not be hard-coded
     display: block;
     border: 1px solid #f2670a;
     border-radius: 4px;
-
     margin-top: 20px;
     background-color: #fff;
     max-height: 375px;
@@ -52,7 +51,6 @@ Note all DIVs are generated and should not be hard-coded
     background-color: #f2670a;
     color: #FFF;
     border-radius: 4px;
-
 }
 
 .testborder {
