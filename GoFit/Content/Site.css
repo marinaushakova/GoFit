@@ -1,6 +1,8 @@
 ﻿body {
     padding-top: 50px;
-    padding-bottom: 20px;
+    padding-bottom: 20px; 
+    background-color: #eee;
+    background-image: url(../Images/bg.jpg);
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -87,4 +89,48 @@ input[type="checkbox"].input-validation-error {
 
 .validation-summary-valid {
     display: none;
+}
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus,
+.btn-primary, .panel-primary > .panel-heading {
+    background-color: #f2670a;
+    border-color: #f22d0a;
+}
+
+.btn-link, a
+ {
+    color: #f2670a;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+  color: #f2670a;
+  background-color: white;
+  border-color: #f2670a;
+}
+
+.panel-primary {
+  border-color: #f2670a;
+}
+
+a:hover,
+a:focus {
+  color: #f22d0a;
+  text-decoration: underline;
+}
+
+.label-default {
+  background-color: #f7b338;
+}
+
+.panel {
+  background-color: #f9f9f9;
 }
