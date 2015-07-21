@@ -43,15 +43,6 @@ namespace GoFit.Controllers
             vm.TheUser = db.users.Where(u => u.username.Equals(User.Identity.Name)).FirstOrDefault();
             
             return View(vm);
-            
-
-            //var user = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
-            //var view = View(user);
-            //if (view == null)
-            //{
-            //    return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user profile."));
-            //}
-            //return view;
         }
 
         [Authorize]
