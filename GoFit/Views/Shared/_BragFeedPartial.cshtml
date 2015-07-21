@@ -1,20 +1,27 @@
 ﻿@model IList<GoFit.Models.user_workout>
 
-<h5>Brag Feed</h5>
+<h3>Brag Feed</h3>
 <ul id="scroller">
-    @foreach (var item in Model)
-    {
-        <li>
-            <div style="width:290px;height:100px;border:1px solid red;">
-                <p style="text-align:center;">
-                    @Html.Encode(item.user.username) completed
-                    @Html.Encode(item.workout.name) at
-                    @Html.Encode(item.date_finished)
-                </p>
+@foreach (var item in Model)
+{
+    <li>
+        <div class="container">
+            <div class="row">
+                <div class="workout_detail_header">@item.user.username</div>
             </div>
-        </li>
-    }
+            <div class="row">
+                <div class="col-md-4 col-sm-12"><h4><span class="label label-default">Completed</span></h4></div>
+                <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(modelItem => item.workout.name)</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-12"><h4><span class="label label-default">On</span></h4></div>
+                <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(modelItem => item.date_finished)</div>
+            </div>
+        </div>
+    </li>
+}
 </ul>
+
 
 <script type="text/javascript">
     (function ($) {
