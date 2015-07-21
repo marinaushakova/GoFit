@@ -1,17 +1,25 @@
-﻿<ul id="scroller">
-    <li><div style="width:290px;height:200px;">TESTING</div></li>
-    <li><img src="http://logicbox.net/jquery/simplyscroll/assets/20080608_9N3H5GYL_tb.jpg" width="290" height="200" alt="Firehouse"></li>
-    <li><img src="http://logicbox.net/jquery/simplyscroll/assets/20080513_4D3SD1BQ_tb.jpg" width="290" height="200" alt="Chloe nightclub"></li>
-    <li><img src="http://logicbox.net/jquery/simplyscroll/assets/20080513_VPJWVQRW_tb.jpg" width="290" height="200" alt="Firehouse bar"></li>
-    <li><img src="http://logicbox.net/jquery/simplyscroll/assets/20080514_B1YJ08B6_tb.jpg" width="290" height="200" alt="Firehouse chloe club fishtank"></li>
-    <li><img src="http://logicbox.net/jquery/simplyscroll/assets/20080514_JYW68XPT_tb.jpg" width="290" height="200" alt="Firehouse restaurant"></li>
-    <li><img src="http://logicbox.net/jquery/simplyscroll/assets/20080608_38CG51J2_tb.jpg" width="290" height="200" alt="Firehouse"></li>
+﻿@model IList<GoFit.Models.user_workout>
+
+<h5>Brag Feed</h5>
+<ul id="scroller">
+    @foreach (var item in Model)
+    {
+        <li>
+            <div style="width:290px;height:100px;border:1px solid red;">
+                <p style="text-align:center;">
+                    @Html.Encode(item.user.username) completed
+                    @Html.Encode(item.workout.name) at
+                    @Html.Encode(item.date_finished)
+                </p>
+            </div>
+        </li>
+    }
 </ul>
 
 <script type="text/javascript">
     (function ($) {
         $(function () {
-            $("#scroller").simplyScroll();
+            $("#scroller").simplyScroll({ frameRate: 50 });
         });
     })(jQuery);
 </script>
