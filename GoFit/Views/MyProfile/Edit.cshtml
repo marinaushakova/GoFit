@@ -7,132 +7,132 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit My Profile</h2>
-
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.id)
-        @Html.HiddenFor(model => model.timestamp)
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Username</label>
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.username )
-                @Html.ValidationMessageFor(model => model.username)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Password</label>
-            <div class="col-md-10">
-                @Html.PasswordFor(model => model.password, new { @Value = "" })
-                @Html.ValidationMessageFor(model => model.password)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">First Name</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.fname)
-                @Html.ValidationMessageFor(model => model.fname)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Last Name</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.lname)
-                @Html.ValidationMessageFor(model => model.lname)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Gender</label>
-            <div class="col-md-10">
-                @{
-                    List<SelectListItem> listItems = new List<SelectListItem>();
-                    listItems.Add(new SelectListItem
-                         {
-                             Text = "Female",
-                             Value = "0"
-                         });
-                    listItems.Add(new SelectListItem
-                         {
-                             Text = "Male",
-                             Value = "1"
-                         });
-                }
-
-                @Html.DropDownListFor(model => model.is_male, listItems, "--Select gender--", new { @class = "drop_down" })
-                @Html.ValidationMessageFor(model => model.is_male)
-            </div>
-        </div>
-
-
-        @{
-    if (Model.is_admin == 1)
+<div class="row">
+    @using (Html.BeginForm())
     {
-        <div class="form-group">
-            <label class="control-label col-md-2">Role</label>
-            <div class="col-md-10">
-                @{
-                    List<SelectListItem> roleListItems = new List<SelectListItem>();
-                    roleListItems.Add(new SelectListItem
-                         {
-                             Text = "Regular User",
-                             Value = "0"
-                         });
-                    roleListItems.Add(new SelectListItem
-                         {
-                             Text = "Admin",
-                             Value = "1",
-                             Selected = true
-                         });
-                }
+        @Html.AntiForgeryToken()
 
-                @Html.DropDownListFor(model => model.is_admin, roleListItems, new { @class = "drop_down" })
-                @Html.ValidationMessageFor(model => model.is_admin)
+        <div class="form-horizontal well col-md-4">
+            <div class="row">
+                <div class="gofit_well_header">Edit My Profile</div>
+            </div>
+
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.id)
+            @Html.HiddenFor(model => model.timestamp)
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Username</label>
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.username)
+                    @Html.ValidationMessageFor(model => model.username)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Password</label>
+                <div class="col-md-8">
+                    @Html.PasswordFor(model => model.password, new { @Value = "" })
+                    @Html.ValidationMessageFor(model => model.password)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">First Name</label>
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.fname)
+                    @Html.ValidationMessageFor(model => model.fname)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Last Name</label>
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.lname)
+                    @Html.ValidationMessageFor(model => model.lname)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Gender</label>
+                <div class="col-md-8">
+                    @{
+        List<SelectListItem> listItems = new List<SelectListItem>();
+        listItems.Add(new SelectListItem
+             {
+                 Text = "Female",
+                 Value = "0"
+             });
+        listItems.Add(new SelectListItem
+             {
+                 Text = "Male",
+                 Value = "1"
+             });
+                    }
+
+                    @Html.DropDownListFor(model => model.is_male, listItems, "--Select gender--", new { @class = "drop_down" })
+                    @Html.ValidationMessageFor(model => model.is_male)
+                </div>
+            </div>
+
+
+            @{
+        if (Model.is_admin == 1)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-4">Role</label>
+                <div class="col-md-8">
+                    @{
+            List<SelectListItem> roleListItems = new List<SelectListItem>();
+            roleListItems.Add(new SelectListItem
+                 {
+                     Text = "Regular User",
+                     Value = "0"
+                 });
+            roleListItems.Add(new SelectListItem
+                 {
+                     Text = "Admin",
+                     Value = "1",
+                     Selected = true
+                 });
+                    }
+
+                    @Html.DropDownListFor(model => model.is_admin, roleListItems, new { @class = "drop_down" })
+                    @Html.ValidationMessageFor(model => model.is_admin)
+                </div>
+            </div>
+        }
+            }
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Weight</label>
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.weight)
+                    @Html.ValidationMessageFor(model => model.weight)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Height</label>
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.height)
+                    @Html.ValidationMessageFor(model => model.height)
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="col-md-offset-4 col-md-8">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    @Html.ActionLink("Cancel", "Index", new { }, new { @class = "btn btn-primary" })
+                </div>
             </div>
         </div>
     }
-        }
+</div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2">Weight</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.weight)
-                @Html.ValidationMessageFor(model => model.weight)
-            </div>
-        </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2">Height</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.height)
-                @Html.ValidationMessageFor(model => model.height)
-            </div>
-        </div>
-
-        
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </div>
-    </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }
-
-            <div>
-                @Html.ActionLink("Back to My Profile", "Index")
-            </div>
-
-            @section Scripts {
-                @Scripts.Render("~/bundles/jqueryval")
-            }

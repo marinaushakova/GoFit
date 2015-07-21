@@ -5,6 +5,10 @@
 
 @{
     ViewBag.Title = "Index";
+    var weight = "";
+    if (Model.TheUser.weight != null) { weight = Model.TheUser.weight.ToString() + " lbs"; };
+    var height = "";
+    if (Model.TheUser.height != null) { height = Model.TheUser.height.ToString() + " ft"; };
 }
 
 @*<h3>Welcome @(Request.IsAuthenticated ? HttpContext.Current.User.Identity.Name : "Guest")! </h3>*@
@@ -45,11 +49,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Weight:</span></h4></div>
-                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.Encode(Model.TheUser.weight) lbs</div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@weight</div>
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Height:</span></h4></div>
-                    <div class="col-md-8 col-sm-12 my_profile_prop">@Html.Encode(Model.TheUser.height) ft</div>
+                    <div class="col-md-8 col-sm-12 my_profile_prop">@height</div>
                 </div>
                 
             </div>

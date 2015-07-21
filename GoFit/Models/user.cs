@@ -41,8 +41,8 @@ namespace GoFit.Models
         [Range(0, 1000, ErrorMessage = "Invalid weight")]
         [RegularExpression(@"\d+$", ErrorMessage = "Weight must be whole number")]
         public Nullable<int> weight { get; set; }
-        [Range(2.00, 9.00, ErrorMessage = "Height must be in range from 2.00 to 9.00")]
-        [RegularExpression(@"\d+(\.\d{0,2})?", ErrorMessage = "Invalid height")]
+        [Range(2.0, 9.0, ErrorMessage = "Height must be in range from 2.0 to 9.0")]
+        [RegularExpression(@"\d+(\.\d{0,1})?", ErrorMessage = "Invalid height")]
         public Nullable<decimal> height { get; set; }
         [ConcurrencyCheck]
         public byte[] timestamp { get; set; }
