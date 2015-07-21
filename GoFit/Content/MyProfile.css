@@ -39,6 +39,6 @@ div.favorites_list {
 div.favorites_list table {
     display: block;
     overflow: auto;
-    max-height: 205px;
+    max-height: 240px;
 }
 

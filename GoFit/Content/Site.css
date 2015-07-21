@@ -134,3 +134,8 @@ a:focus {
 .panel {
   background-color: #f9f9f9;
 }
+
+.gofit-form {
+    margin: 15px;
+    padding: 15px;
+}

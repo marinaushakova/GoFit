@@ -35,7 +35,8 @@ div.exercise_detail {
 }
 
 div.workout_detail_header,
-div.exercise_detail_header {
+div.exercise_detail_header,
+div.gofit_well_header {
     margin: 10px;
     margin-top: 5px;
     padding: 5px;
@@ -108,7 +109,8 @@ textarea.comment_textarea {
 
 div.add_exercise_list table {
     height: 100%;
-    max-height: 400px
+    min-height: 172px;
+    max-height: 350px
 }
 
 .rating_drop_down {
