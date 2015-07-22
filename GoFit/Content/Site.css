@@ -168,13 +168,15 @@ div.admin_detail {
 }
 
 @media (min-width: 992px) {
-    div.admin_detail {
+    div.admin_detail, 
+    div.admin-form {
         margin-top: 20px;
         margin-left: 15px;
     }
 }
 
-div.admin_detail_header {
+div.admin_detail_header,
+div.admin_well_header {
     margin: 10px;
     margin-top: 5px;
     padding: 5px;
@@ -187,4 +189,9 @@ div.admin_detail_header {
     color: #FFF;
     border-radius: 4px;
     max-width: 100%;
+}
+
+.admin_textbox {
+    max-width: 460px;
+    width: 100%;
 }
