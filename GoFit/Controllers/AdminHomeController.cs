@@ -25,23 +25,35 @@ namespace GoFit.Controllers
         }
 
 
-        // GET: AdminHome
+        /// <summary>
+        /// GET: AdminHome retrieve the user logged in from the
+        /// database and pass it to the Index view. Set a greeting in
+        /// ViewBag
+        /// </summary>
+        /// <returns>Returns an ActionResult</returns>
         public ActionResult Index()
         {
-            var view = View(db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault());
-            if (view == null)
+            try
+            {
+                var theUser = db.users.Where(a => a.username.Equals(User.Identity.Name)).FirstOrDefault();
+                string adminName = theUser.fname;
+                
+                int hour = DateTime.Now.Hour;
+                string time = "Evening";
+                if (hour < 12)
+                    time = "Morning";
+                else if (hour >= 12 && hour < 18)
+                    time = "Afternoon";
+
+                ViewBag.greeting = "Good " + time + ", " + adminName + "!";
+                var view = View(theUser);
+                return view;
+            }
+            catch (Exception)
             {
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user profile."));
             }
-            
-            int hour = DateTime.Now.Hour;
-            string time = "Evening";
-            if (hour < 12)
-                time = "Morning";
-            else if (hour >= 12 && hour < 18)
-                time = "Afternoon";
-            ViewBag.greeting = "Good " + time + ", " + User.Identity.Name + "!";
-            return view;
+
         }
 
         public ActionResult Edit()

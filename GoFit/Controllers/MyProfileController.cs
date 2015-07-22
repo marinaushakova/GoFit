@@ -32,8 +32,12 @@ namespace GoFit.Controllers
             userAccess = new UserAccess(db);
         }
 
-        //
-        // GET: /MyProfile/
+        /// <summary>
+        /// Gets an instance of the UserWorkoutViewModel
+        /// which contains information for a user and a list
+        /// of workouts for the brag feed partial view.
+        /// </summary>
+        /// <returns>An ActionResult instance</returns>
         [Authorize]
         public ActionResult Index()
         {
