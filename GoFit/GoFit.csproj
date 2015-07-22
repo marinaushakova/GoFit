@@ -342,7 +342,6 @@
     <Content Include="Views\AdminTypes\Details.cshtml" />
     <Content Include="Views\AdminTypes\Edit.cshtml" />
     <Content Include="Views\AdminTypes\Index.cshtml" />
-    <Content Include="Views\AdminWorkouts\Create.cshtml" />
     <Content Include="Views\AdminWorkouts\Delete.cshtml" />
     <Content Include="Views\AdminWorkouts\Details.cshtml" />
     <Content Include="Views\AdminWorkouts\Edit.cshtml" />
@@ -357,12 +356,10 @@
     <Content Include="Views\AdminComments\Details.cshtml" />
     <Content Include="Views\AdminComments\Index.cshtml" />
     <Content Include="Views\Shared\_DeleteUserWorkoutPartial.cshtml" />
-    <Content Include="Views\AdminWorkouts\AddExerciseToWorkout.cshtml" />
     <Content Include="Views\Shared\WorkoutPartials\_CommentsPartial.cshtml" />
     <Content Include="Views\Home\AddComment.cshtml" />
     <Content Include="Views\Exercise\Index.cshtml" />
     <Content Include="Views\Exercise\ExerciseDetails.cshtml" />
-    <Content Include="Views\AdminWorkouts\ExerciseList.cshtml" />
     <Content Include="Views\Shared\_ErrorPartial.cshtml" />
     <Content Include="Views\AdminHome\Edit.cshtml" />
     <Content Include="Views\FavoriteWorkouts\Index.cshtml" />
