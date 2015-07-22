@@ -3,37 +3,35 @@
 @{
     ViewBag.Title = "Admin Delete Category";
 }
+<div class="well warning">
+    <h3>Are you sure you want to delete the category: @Model.name?</h3>
+    <h4>All workouts in this category will be deleted as well</h4>
+</div>
+<div class="row">
+    <div class="col-md-4 col-xs-12 admin_detail well">
+        <div class="row">
+            <div class="admin_detail_header">Category @Model.name</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-12 admin_label"><h4><span class="label label-default">Name</span></h4></div>
+            <div class="col-md-8 col-sm-12 admin_prop">@Html.DisplayFor(model => model.name)</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-12 admin_label"><h4><span class="label label-default">Description</span></h4></div>
+            <div class="col-md-8 col-sm-12 admin_prop">@Html.DisplayFor(model => model.description)</div>
+        </div>
 
-<h2>Admin Delete Category</h2>
 
-<h3>Are you sure you want to delete the category: @Model.name?</h3>
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.LabelFor(model => model.name, "Category Name", htmlAttributes: new { @class = "control-label col-md-2" })
-        </dt>
+    </div>
+</div>
 
-        <dd>
-            @Html.DisplayFor(model => model.name)
-        </dd>
-
-        <dt>
-            @Html.LabelFor(model => model.description, "Description", htmlAttributes: new { @class = "control-label col-md-2" })
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.description)
-        </dd>
-    </dl>
-
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.timestamp)
 
         <div class="form-actions no-color">
+            @Html.ActionLink("Back to List", "Index", "AdminCategories", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
             <input type="submit" value="Delete" class="btn btn-primary" />
-            @Html.ActionLink("Back to List", "Index", "AdminCategories", routeValues: null, htmlAttributes: new { @class="btn btn-primary" })
         </div>
     }
-</div>

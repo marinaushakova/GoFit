@@ -195,3 +195,9 @@ div.admin_well_header {
     max-width: 460px;
     width: 100%;
 }
+
+div.warning {
+    margin-top: 20px;
+    margin-bottom: 0;
+    color: red;
+}
