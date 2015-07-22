@@ -263,7 +263,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\bg.jpg" />
     <Content Include="Images\buttons.png" />
+    <Content Include="Images\footer.png" />
+    <Content Include="Images\goFit_med.png" />
+    <Content Include="Images\goFit_med_lit.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\GoFitModel.edmx">

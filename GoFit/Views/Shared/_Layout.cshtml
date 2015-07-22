@@ -65,7 +65,10 @@
         @RenderBody()
         <hr />
         <footer class="gofit-footer">
-            <p>&copy; @DateTime.Now.Year - GoFit &nbsp; | &nbsp; <a href="#top" style="text-decoration:none;">Back to Top</a></p>
+            <div class="footerBanner">
+                <a href="#top" class="gofit-invis-link" title="Back to top"></a>
+            </div>
+            <p>&copy; @DateTime.Now.Year - GoFit</p>
         </footer>
     </div>
 
