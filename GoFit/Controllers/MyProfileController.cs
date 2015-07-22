@@ -40,7 +40,12 @@ namespace GoFit.Controllers
             UserWorkoutViewModel vm = new UserWorkoutViewModel();
             vm.BragFeedWorkoutList = db.user_workout.OrderByDescending(w => w.date_finished).Where(w => w.date_finished.HasValue).Take(50).ToList();
             vm.TheUser = db.users.Where(u => u.username.Equals(User.Identity.Name)).FirstOrDefault();
-            
+
+            if (vm.TheUser == null || vm.TheUser.id != userAccess.getUserId(User.Identity.Name))
+            {
+                return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user."));
+            }
+
             return View(vm);
         }
 
