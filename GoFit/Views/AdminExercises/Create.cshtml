@@ -3,61 +3,59 @@
 @{
     ViewBag.Title = "Admin Create Exercise";
 }
+<div class="row">
+    @using (Html.BeginForm()) 
+    {
+        @Html.AntiForgeryToken()
 
-<h2>Admin Create Exercise</h2>
+        <div class="form-horizontal admin-form well col-md-6">
+            <div class="row">
+                <div class="admin_well_header">Create Exercise</div>
+            </div>
 
+            @Html.ValidationSummary(true)
+            <div class="form-group">
+                @Html.LabelFor(model => model.name, "Exercise Name", htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">                
+                    @Html.TextBoxFor(model => model.name, new { @class = "admin_textbox" })
+                    @Html.ValidationMessageFor(model => model.name, "Exercise Name required")
+                </div>
+            </div>
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.description, "Description", htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">                
+                    @Html.TextAreaFor(model => model.description, new { @class = "description_textarea" })
+                    @Html.ValidationMessageFor(model => model.description, "Description required")
+                </div>
+            </div>
 
-        <hr />
-        @Html.ValidationSummary(true)
-        <div class="form-group">
-            @Html.LabelFor(model => model.name, "Exercise Name", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.name)
-                @Html.ValidationMessageFor(model => model.name, "Exercise Name required")
+            <div class="form-group">
+                @Html.LabelFor(model => model.type_id, "Measured In", htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">                
+                    @Html.DropDownList("type_id", null, String.Empty, new { @class = "drop_down" })
+                    @Html.ValidationMessageFor(model => model.type_id, "Measure required")
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.link, "Link", htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">                                
+                    @Html.TextBoxFor(model => model.link, new { @class = "admin_textbox" })
+                    @Html.ValidationMessageFor(model => model.link)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-9">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                    @Html.ActionLink("Cancel", "Index", "AdminExercises", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.description, "Description", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.description)
-                @Html.ValidationMessageFor(model => model.description, "Description required")
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.type_id, "Measured In", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("type_id", String.Empty)
-                @Html.ValidationMessageFor(model => model.type_id, "Measure required")
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.link, "Link", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.link)
-                @Html.ValidationMessageFor(model => model.link)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index", "AdminExercises", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+    }
 </div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
