@@ -13,10 +13,6 @@
     max-width: 100%;
 }
 
-div.personal_info_detail {
-    margin-top: 20px;
-}
-
 div.my_profile_label > h4 > span {
     margin-right: 20px;
 }
@@ -33,9 +29,26 @@ div.my_profile_prop {
 
 div.favorites_list {
     margin-top: 20px;
-    margin-left: 5px;
+    padding-right: 0px;
+    padding-left: 10px;
 }
 
+div.user-info {
+    margin-top: 20px;
+    padding-bottom: 10px;
+    padding-right: 0px;
+    padding-left: 10px;
+}
+
+div.panel-primary {
+    height: 100%;
+}
+
+.user-info .well {
+    margin-bottom: 0;
+    padding-bottom: 30px;
+}
+ 
 div.favorites_list table {
     display: block;
     overflow: auto;

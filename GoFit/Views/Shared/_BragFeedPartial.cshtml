@@ -1,27 +1,33 @@
 ﻿@model IList<GoFit.Models.user_workout>
 
-<div class="bragFeed col-md-4">
-    <div class="feedheader">Bragging Rights</div>
-    <ul id="scroller">
-        @foreach (var item in Model)
-        {
-            <li>
-                <div class="container">
-                    <div class="row">
-                        <div class="workout_detail_header">@item.user.username</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-sm-12"><h4><span class="label label-default">Completed</span></h4></div>
-                        <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(modelItem => item.workout.name)</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-sm-12"><h4><span class="label label-default">On</span></h4></div>
-                        <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(modelItem => item.date_finished)</div>
-                    </div>
-                </div>
-            </li>
-        }
-    </ul>
+<div class="brag-feed col-md-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="panel-title">Bragging Rights</h2>
+        </div>
+        <div class="well">
+            <ul id="scroller">
+                @foreach (var item in Model)
+                {
+                    <li>
+                        <div class="container">
+                            <div class="row">
+                                <div class="workout_detail_header">@item.user.username</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12"><h4><span class="label label-default">Completed</span></h4></div>
+                                <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(modelItem => item.workout.name)</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12"><h4><span class="label label-default">On</span></h4></div>
+                                <div class="col-md-8 col-sm-12 workout_prop">@Html.DisplayFor(modelItem => item.date_finished)</div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
 </div>
 
 @*Vertical scroller for the brag feed*@
