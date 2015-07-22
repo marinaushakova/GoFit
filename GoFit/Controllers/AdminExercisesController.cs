@@ -183,7 +183,7 @@ namespace GoFit.Controllers
             }
 
         }
-
+        /*
         // GET: AdminExercises/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -238,7 +238,7 @@ namespace GoFit.Controllers
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the exercise."));
             }
 
-        }
+        }*/
 
         protected override void Dispose(bool disposing)
         {

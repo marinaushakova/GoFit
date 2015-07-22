@@ -335,12 +335,10 @@
     <Content Include="Views\AdminCategories\Edit.cshtml" />
     <Content Include="Views\AdminCategories\Index.cshtml" />
     <Content Include="Views\AdminExercises\Create.cshtml" />
-    <Content Include="Views\AdminExercises\Delete.cshtml" />
     <Content Include="Views\AdminExercises\Details.cshtml" />
     <Content Include="Views\AdminExercises\Edit.cshtml" />
     <Content Include="Views\AdminExercises\Index.cshtml" />
     <Content Include="Views\AdminTypes\Create.cshtml" />
-    <Content Include="Views\AdminTypes\Delete.cshtml" />
     <Content Include="Views\AdminTypes\Details.cshtml" />
     <Content Include="Views\AdminTypes\Edit.cshtml" />
     <Content Include="Views\AdminTypes\Index.cshtml" />

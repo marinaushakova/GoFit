@@ -167,7 +167,7 @@ namespace GoFit.Controllers
             }
 
         }
-
+        /*
         // GET: AdminTypes/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -222,7 +222,7 @@ namespace GoFit.Controllers
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Failed to delete the type."));
             }
             
-        }
+        }*/
 
         protected override void Dispose(bool disposing)
         {
