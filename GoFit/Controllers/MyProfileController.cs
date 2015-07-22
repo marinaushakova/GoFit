@@ -17,7 +17,6 @@ namespace GoFit.Controllers
     public class MyProfileController : GoFitBaseController
     {
         private masterEntities db;
-        private int currUserId;
         private UserAccess userAccess;
 
 
@@ -39,7 +38,7 @@ namespace GoFit.Controllers
         public ActionResult Index()
         {
             UserWorkoutViewModel vm = new UserWorkoutViewModel();
-            vm.BragFeedWorkoutList = this.db.user_workout.ToList();
+            vm.BragFeedWorkoutList = db.user_workout.OrderByDescending(w => w.date_finished).Where(w => w.date_finished.HasValue).Take(50).ToList();
             vm.TheUser = db.users.Where(u => u.username.Equals(User.Identity.Name)).FirstOrDefault();
             
             return View(vm);
