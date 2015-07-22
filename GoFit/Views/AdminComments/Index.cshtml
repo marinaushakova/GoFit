@@ -5,7 +5,6 @@
     ViewBag.Title = "Admin Comments";
 }
 
-<h2>Admin Comments</h2>
 
 <br>
 <div class="row">
@@ -45,12 +44,11 @@
                     {
                         <tr class="row">
 
-                            <td class="col-xs-4">@Html.DisplayFor(modelItem => item.message)</td>
+                            <td class="col-xs-4">@Html.ActionLink(item.message, "Details", new { id = item.id })</td>
                             <td class="col-xs-2">@Html.DisplayFor(modelItem => item.date_created)</td>
                             <td class="col-xs-2">@Html.DisplayFor(modelItem => item.user.username)</td>
                             <td class="col-xs-2">@Html.DisplayFor(modelItem => item.workout.name)</td>
                             <td class="col-xs-2">
-                                @Html.ActionLink("Details", "Details", new { id = item.id }) |
                                 @Html.ActionLink("Delete", "Delete", new { id = item.id })
                             </td>
                         </tr>

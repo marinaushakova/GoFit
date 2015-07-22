@@ -5,9 +5,8 @@
     ViewBag.Title = "Admin Types";
 }
 
-<h2>Admin Types</h2>
-
 <p>
+    <br />
     <input class="btn btn-primary" type="button" value="Create New Type" onclick="location.href='@Url.Action("Create", "AdminTypes" )'" />
 </p>
 <br>
@@ -45,11 +44,10 @@
                     @foreach (var item in Model)
                     {
                         <tr class="row">
-                            <td class="col-xs-4">@Html.DisplayFor(modelItem => item.name)</td>
+                            <td class="col-xs-4">@Html.ActionLink(item.name, "Details", new { id = item.id })</td>
                             <td class="col-xs-4">@Html.DisplayFor(modelItem => item.measure)</td>
                             <td class="col-xs-4">
-                                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                                @Html.ActionLink("Details", "Details", new { id = item.id }) 
+                                @Html.ActionLink("Edit", "Edit", new { id = item.id })
                             </td>
                         </tr>
                     }
