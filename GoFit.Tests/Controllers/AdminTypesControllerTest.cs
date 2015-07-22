@@ -92,7 +92,7 @@ namespace GoFit.Tests.Controllers
             var result2 = (RedirectToRouteResult)adminCon.Edit(testType);
             Assert.AreEqual("Index", result2.RouteValues["action"]);
         }
-
+        /*
         /// <summary>
         /// Test that AdminTypes Delete view returns a ViewResult
         /// </summary>
@@ -101,7 +101,7 @@ namespace GoFit.Tests.Controllers
         {
             var result = adminCon.Delete(1) as ViewResult;
             Assert.IsNotNull(result);
-        }
+        }*/
 
         #endregion
 
@@ -326,7 +326,7 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual(500, model.StatusCode);
             Assert.AreEqual("Failed to edit type.", model.StatusDescription);
         }
-
+        /*
         [TestMethod]
         public void TestAdminTypesDeleteWithNullId()
         {
@@ -338,8 +338,8 @@ namespace GoFit.Tests.Controllers
             var model = result.Model as HttpStatusCodeResult;
             Assert.AreEqual(400, model.StatusCode);
             Assert.AreEqual("No type to delete was specified", model.StatusDescription);
-        }
-
+        }*/
+        /*
         [TestMethod]
         public void TestAdminTypesGetDeleteWithNotFoundType()
         {
@@ -352,7 +352,7 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual(404, model.StatusCode);
             Assert.AreEqual("The type could not be found or does not exist", model.StatusDescription);
         }
-
+        
         [TestMethod]
         public void TestAdminTypesPostDeleteTypeNotFound()
         {
@@ -364,8 +364,8 @@ namespace GoFit.Tests.Controllers
             var model = result.Model as HttpStatusCodeResult;
             Assert.AreEqual(500, model.StatusCode);
             Assert.AreEqual("The type does not exist or has already been deleted", model.StatusDescription);
-        }
-
+        }*/
+        /*
         [TestMethod]
         public void TestAdminTypesPostDeleteWithNullType()
         {
@@ -417,7 +417,7 @@ namespace GoFit.Tests.Controllers
             var model = result.Model as HttpStatusCodeResult;
             Assert.AreEqual(500, model.StatusCode);
             Assert.AreEqual("Failed to delete the type as it may be referenced by another item.", model.StatusDescription);
-        }
+        }*/
 
         /* Private Test Helpers */
 

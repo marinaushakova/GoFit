@@ -92,7 +92,7 @@ namespace GoFit.Tests.Controllers
             var result2 = (RedirectToRouteResult)adminCon.Edit(testExercise);
             Assert.AreEqual("Index", result2.RouteValues["action"]);
         }
-
+        /*
         /// <summary>
         /// Test that AdminExercises Delete view returns a ViewResult
         /// </summary>
@@ -101,7 +101,7 @@ namespace GoFit.Tests.Controllers
         {
             var result = adminCon.Delete(1) as ViewResult;
             Assert.IsNotNull(result);
-        }
+        }*/
 
         #endregion
 
@@ -335,7 +335,7 @@ namespace GoFit.Tests.Controllers
             Assert.AreEqual(500, model.StatusCode);
             Assert.AreEqual("Failed to edit exercise.", model.StatusDescription);
         }
-
+        /*
         [TestMethod]
         public void TestAdminExercisesDeleteWithNullId()
         {
@@ -347,8 +347,8 @@ namespace GoFit.Tests.Controllers
             var model = result.Model as HttpStatusCodeResult;
             Assert.AreEqual(400, model.StatusCode);
             Assert.AreEqual("No exercise to delete was specified", model.StatusDescription);
-        }
-
+        }*/
+        /*
         [TestMethod]
         public void TestAdminExercisesGetDeleteWithNotFoundExercise()
         {
@@ -424,7 +424,7 @@ namespace GoFit.Tests.Controllers
             var model = result.Model as HttpStatusCodeResult;
             Assert.AreEqual(500, model.StatusCode);
             Assert.AreEqual("Failed to delete the exercise as it may be referenced by another item.", model.StatusDescription);
-        }
+        }*/
 
         /* Private Test Helpers */
 
