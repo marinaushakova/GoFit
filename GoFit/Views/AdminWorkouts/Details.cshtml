@@ -3,7 +3,8 @@
 @Html.Partial("WorkoutPartials/_WorkoutPartial")
 
 
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }, htmlAttributes: new { @class = "btn btn-primary" })
+<p>    
     @Html.ActionLink("Back to List", "Index", "AdminWorkouts", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }, htmlAttributes: new { @class = "btn btn-primary" })
+    @Html.ActionLink("Delete", "Delete", new { id = Model.id }, htmlAttributes: new { @class = "btn btn-primary" })
 </p>

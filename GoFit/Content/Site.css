@@ -153,3 +153,38 @@ a:focus {
     margin: 15px;
     padding: 15px;
 }
+
+div.admin_prop {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+div.admin_label > h4 > span {
+    margin-right: 20px;
+}
+
+div.admin_detail {
+    margin-top: 20px;
+}
+
+@media (min-width: 992px) {
+    div.admin_detail {
+        margin-top: 20px;
+        margin-left: 15px;
+    }
+}
+
+div.admin_detail_header {
+    margin: 10px;
+    margin-top: 5px;
+    padding: 5px;
+    font-size: 1.4em;
+    font-weight: bold;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: #f2670a;
+    color: #FFF;
+    border-radius: 4px;
+    max-width: 100%;
+}

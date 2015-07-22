@@ -4,67 +4,42 @@
     ViewBag.Title = "Admin Exercise Details";
 }
 
-<h2>Exercise Details: @Model.name</h2>
-
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.LabelFor(model => model.created_at, "Created", htmlAttributes: new { @class = "control-label col-md-2" })
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.created_at)
-        </dd>
-
-        <dt>
-            @Html.LabelFor(model => model.link, "Link", htmlAttributes: new { @class = "control-label col-md-2" })
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.link)
-        </dd>
-
-        <dt>
-            @Html.LabelFor(model => model.description, "Description", htmlAttributes: new { @class = "control-label col-md-2" })
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.description)
-        </dd>
-
-        <dt>
-            @Html.LabelFor(model => model.name, "Exercise Name", htmlAttributes: new { @class = "control-label col-md-2" })
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.name)
-        </dd>
-
-        <dt>
-            @Html.LabelFor(model => model.type.name, "Type", htmlAttributes: new { @class = "control-label col-md-2" })
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.type.name)
-        </dd>
-
-        <dt>
-            @Html.LabelFor(model => model.user.username, "Username", htmlAttributes: new { @class = "control-label col-md-2" })
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.user.username)
-        </dd>
-    </dl>
-    <div>
-        @if (!String.IsNullOrEmpty(@Model.link))
-        {
+<div class="row">
+    <div class="col-md-8 col-xs-12 admin_detail well">
+        <div class="row">
+            <div class="admin_detail_header">Exercise @Model.name</div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-12 admin_label"><h4><span class="label label-default">Name</span></h4></div>
+            <div class="col-md-8 col-sm-12 admin_prop">@Html.DisplayFor(model => model.name)</div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-12 admin_label"><h4><span class="label label-default">Description</span></h4></div>
+            <div class="col-md-8 col-sm-12 admin_prop">@Html.DisplayFor(model => model.description)</div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-12 admin_label"><h4><span class="label label-default">Type</span></h4></div>
+            <div class="col-md-8 col-sm-12 admin_prop">@Html.DisplayFor(model => model.type.name)</div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-12 admin_label"><h4><span class="label label-default">YouTube link</span></h4></div>
+            <div class="col-md-8 col-sm-12 admin_prop"><a href=@Model.link target="_blank">@Model.link</a></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-12 admin_label"><h4><span class="label label-default">Created by</span></h4></div>
+            <div class="col-md-8 col-sm-12 admin_prop">@Html.DisplayFor(model => model.user.username)</div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-12 admin_label"><h4><span class="label label-default">Created Date</span></h4></div>
+            <div class="col-md-8 col-sm-12 admin_prop">@Html.DisplayFor(model => model.created_at)</div>
+        </div>
+        <div>
             <iframe class="col-md-12 col-sm-12 exercise_video" width="640" height="400" src="@ViewBag.videoLink" frameborder="0"></iframe>
-        }
+        </div>
     </div>
 </div>
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }, htmlAttributes: new { @class = "btn btn-primary" })
     @Html.ActionLink("Back to List", "Index", "AdminExercises", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }, htmlAttributes: new { @class = "btn btn-primary" })
 </p>

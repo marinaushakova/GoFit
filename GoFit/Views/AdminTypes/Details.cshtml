@@ -4,29 +4,23 @@
     ViewBag.Title = "Admin Type Details";
 }
 
-<h2>Type Details: @Model.measure</h2>
-
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.LabelFor(model => model.name, "Type Name", htmlAttributes: new { @class = "control-label col-md-2" })
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.name)
-        </dd>
-
-        <dt>
-            @Html.LabelFor(model => model.measure, "Measure", htmlAttributes: new { @class = "control-label col-md-2" })
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.measure)
-        </dd>
-    </dl>
+<div class="row">
+    <div class="col-md-4 col-xs-12 admin_detail well">
+        <div class="row">
+            <div class="admin_detail_header">Type @Model.name</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-12 admin_label"><h4><span class="label label-default">Name</span></h4></div>
+            <div class="col-md-8 col-sm-12 admin_prop">@Html.DisplayFor(model => model.name)</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-12 admin_label"><h4><span class="label label-default">Measure</span></h4></div>
+            <div class="col-md-8 col-sm-12 admin_prop">@Html.DisplayFor(model => model.measure)</div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }, htmlAttributes: new { @class = "btn btn-primary" })
+
+<p>    
     @Html.ActionLink("Back to List", "Index", "AdminTypes", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }, htmlAttributes: new { @class = "btn btn-primary" })
 </p>
