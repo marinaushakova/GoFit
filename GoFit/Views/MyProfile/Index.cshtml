@@ -11,7 +11,7 @@
     if (Model.TheUser.height != null) { height = Model.TheUser.height.ToString() + " ft"; };
 }
 
-<h3>Welcome @(Request.IsAuthenticated ? HttpContext.Current.User.Identity.Name : "Guest")! </h3>
+<h3>@ViewBag.greeting</h3>
 
 <div class="container-fluid">
     <div class="row">

@@ -50,6 +50,18 @@ namespace GoFit.Controllers
                 return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not get user."));
             }
 
+            string userName = vm.TheUser.username;
+            if (vm.TheUser.fname != null) userName = vm.TheUser.fname;
+                
+            int hour = DateTime.Now.Hour;
+            string time = "Evening";
+            if (hour < 12)
+                time = "Morning";
+            else if (hour >= 12 && hour < 18)
+                time = "Afternoon";
+
+            ViewBag.greeting = "Good " + time + ", " + userName + "!";
+            
             return View(vm);
         }
 
