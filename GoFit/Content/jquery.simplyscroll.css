@@ -29,6 +29,16 @@ Note all DIVs are generated and should not be hard-coded
 
 
 */
+.brag-feed {
+    margin-top: 20px;
+    padding-right: 0px;
+    padding-left: 10px;
+}
+
+.brag-feed .well {
+    margin-bottom: 0;
+    padding-bottom: 8px;
+}
 
 .bragFeed {
     display: block;
@@ -36,7 +46,6 @@ Note all DIVs are generated and should not be hard-coded
     border-radius: 4px;
     margin-top: 20px;
     background-color: #fff;
-    max-height: 375px;
 }
 
 .feedheader {

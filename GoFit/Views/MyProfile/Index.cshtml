@@ -15,11 +15,12 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4">
-            <div class="personal_info_detail well">
-                <div class="row">
-                    <div class="personal_info_header">My Profile Info</div>
+        <div class="col-md-4 user-info">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h2 class="panel-title">My Profile Info</h2>
                 </div>
+                <div class="well">
                 <div class="row">
                     <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Username:</span></h4></div>
                     <div class="col-md-8 col-sm-12 my_profile_prop">@Html.Encode(Model.TheUser.username)</div>
@@ -51,7 +52,7 @@
                     <div class="col-md-4 col-sm-12 my_profile_label"><h4><span class="label label-default">Height:</span></h4></div>
                     <div class="col-md-8 col-sm-12 my_profile_prop">@height</div>
                 </div>
-                
+            </div>
             </div>
             <div class="row">
                 <div class="col-md-12 col-xs-12">
