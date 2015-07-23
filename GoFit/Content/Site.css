@@ -5,12 +5,6 @@
     background-image: url(../Images/bg.jpg);
 }
 
-.catch-all-err-container {
-    margin-left: auto;
-    margin-right: auto;
-    width: 90%;
-}
-
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -206,4 +200,11 @@ div.warning {
     margin-top: 20px;
     margin-bottom: 0;
     color: red;
+}
+
+.catch-all-err-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    background-color: #FFF !important;
 }

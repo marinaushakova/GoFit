@@ -50,14 +50,5 @@ namespace GoFit.Controllers
         {
             return View("DetailedError", new HttpStatusCodeResult(HttpStatusCode.NotFound, message)); 
         }
-
-        /// <summary>
-        /// Displays a generic catch all error page
-        /// </summary>
-        /// <returns>The generic catch all error view</returns>
-        public ActionResult CatchAllError()
-        {
-            return View("CatchAllError"); 
-        }
 	}
 }

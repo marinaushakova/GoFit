@@ -371,7 +371,6 @@
     <Content Include="Views\Shared\EditorTemplates\workout.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\workout_exercise.cshtml" />
     <Content Include="Views\AdminWorkouts\New.cshtml" />
-    <Content Include="Views\Shared\CatchAllError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
