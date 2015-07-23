@@ -14,6 +14,7 @@ namespace GoFit.Controllers
 {
     /// <summary>
     /// Defines the home page functionality
+    /// 
     /// </summary>
     public class HomeController : GoFitBaseController
     {
